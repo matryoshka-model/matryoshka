@@ -11,6 +11,4 @@ namespace Matryoshka\Model\Criteria;
 interface CriteriaInterface
 {
 
-    public function apply($dataGateway);
-
 }

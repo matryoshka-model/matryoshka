@@ -10,15 +10,9 @@ namespace Matryoshka\Model;
 
 use Matryoshka\Model\Criteria\CriteriaInterface;
 use Matryoshka\Model\ResultSet\ResultSetInterface;
-use Zend\Paginator\AdapterAggregateInterface as PaginatorAdapterAggregate;
 
-interface ModelInterface extends PaginatorAdapterAggregate
+interface ModelInterface
 {
-
-    /**
-     * @return ResultSetInterface
-     */
-    public function getResultSetPrototype();
 
     /**
      * @param CriteriaInterface $criteria
