@@ -58,7 +58,7 @@ abstract class AbstractModel implements ModelInterface
         return $this->defaultCriteria;
     }
 
-    protected function processCriteria($criteria)
+    protected function processCriteria($criteria = null)
     {
         if (null === $criteria) {
             $criteria = $this->getDefaultCriteria();
