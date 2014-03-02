@@ -10,12 +10,15 @@ namespace Matryoshka\Model;
 
 use Matryoshka\Model\ResultSet\ResultSetInterface;
 use Matryoshka\Model\Exception;
+use Matryoshka\Model\Criteria\CriteriaInterface;
 
 class Model extends AbstractModel
 {
-    public function __construct($dataGataway, ResultSetInterface $resultSetPrototype = null)
+    public function __construct($dataGataway, CriteriaInterface $defaultCriteria, ResultSetInterface $resultSetPrototype = null)
     {
-        $this->dataGateway = $dataGataway;
+        $this->dataGateway      = $dataGataway;
+        $this->defaultCriteria  = $defaultCriteria;
+
         if (null === $resultSetPrototype) {
             if (method_exists($dataGataway, 'getResultSetPrototype')) {
                 $resultSetPrototype = $dataGataway->getResultSetPrototype();
