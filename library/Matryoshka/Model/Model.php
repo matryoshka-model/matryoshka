@@ -14,10 +14,13 @@ use Matryoshka\Model\Criteria\CriteriaInterface;
 
 class Model extends AbstractModel
 {
-    public function __construct($dataGataway, CriteriaInterface $defaultCriteria, ResultSetInterface $resultSetPrototype = null)
+    /**
+     * @param $dataGataway
+     * @param ResultSetInterface $resultSetPrototype
+     */
+    public function __construct($dataGataway, ResultSetInterface $resultSetPrototype = null)
     {
         $this->dataGateway      = $dataGataway;
-        $this->defaultCriteria  = $defaultCriteria;
 
         if (null === $resultSetPrototype) {
             if (method_exists($dataGataway, 'getResultSetPrototype')) {

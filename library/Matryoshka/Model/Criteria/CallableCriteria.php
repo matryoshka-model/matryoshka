@@ -8,13 +8,31 @@
  */
 namespace Matryoshka\Model\Criteria;
 
+use Matryoshka\Model\Exception;
 use Matryoshka\Model\ModelInterface;
+use Zend\Stdlib\Hydrator\HydratorAwareTrait;
 
-interface CriteriaInterface
+class CallableCriteria implements CriteriaInterface
 {
+    /**
+     * @var mixed
+     */
+    protected $callable;
+
+    /**
+     * @param $callable
+     */
+    function __construct($callable)
+    {
+        $this->callable = $callable;
+    }
+
     /**
      * @param ModelInterface $model
      * @return mixed
      */
-    public function apply(ModelInterface $model);
+    public function apply( ModelInterface $model )
+    {
+        return call_user_func($this->callable, $model);
+    }
 }

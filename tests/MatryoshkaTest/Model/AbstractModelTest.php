@@ -8,12 +8,15 @@
  */
 namespace MatryoshkaTest\Model;
 
-
 use Matryoshka\Model\Model;
 use Matryoshka\Model\ResultSet\ResultSet;
+use Matryoshka\Model\Criteria\Mongo\DefaultCriteria;
+
 class AbstractModelTest extends \PHPUnit_Framework_TestCase
 {
-
+    /**
+     * @var Matryoshka\Model\Model
+     */
     protected $model;
 
     protected $mockDataGateway;
@@ -26,11 +29,9 @@ class AbstractModelTest extends \PHPUnit_Framework_TestCase
     {
         $this->mockDataGateway = $this->getMock('stdClass');
 
-        $this->mockCriteria = $this->getMock('Matryoshka\Model\Criteria\CriteriaInterface');
-
         $this->resultSet = new ResultSet();
 
-        $this->model = new Model($this->mockDataGateway, $this->mockCriteria, $this->resultSet);
+        $this->model = new Model($this->mockDataGateway, $this->resultSet);
     }
 
     public function testGetDataGateway()
@@ -40,19 +41,22 @@ class AbstractModelTest extends \PHPUnit_Framework_TestCase
 
     public function testGetDefaultCriteria()
     {
-        $this->assertSame($this->mockCriteria, $this->model->getDefaultCriteria());
+        $this->assertSame(null, $this->model->getDefaultCriteria());
+
+        $this->model->setDefaultCriteria(new \Matryoshka\Model\Criteria\Mongo\DefaultCriteria());
+        $this->assertInstanceOf('\Matryoshka\Model\Criteria\CriteriaInterface', $this->model->getDefaultCriteria());
     }
 
     public function testGetResultSetPrototype()
     {
         $this->assertSame($this->resultSet, $this->model->getResultSetPrototype());
     }
-    
-    public function testProcessCriteria()
+
+    public function testFindDataGateway()
     {
-        
+        $criteria = new DefaultCriteria();
+
+        $resurlset = $this->model->find($criteria);
+        $this->assertInstanceOf('\Matryoshka\Model\ResultSet\ResultSetInterface', $resurlset,  sprintf("Class %s not instance of \Matryoshka\Model\ResultSet\ResultSetInterface", get_class($resurlset) ) );
     }
-
-
-
 }

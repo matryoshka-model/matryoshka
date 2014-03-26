@@ -58,22 +58,21 @@ abstract class AbstractModel implements ModelInterface
         return $this->defaultCriteria;
     }
 
+    public function setDefaultCriteria(CriteriaInterface $defaultCriteria)
+    {
+        $this->defaultCriteria = $defaultCriteria;
+    }
+
     protected function processCriteria($criteria = null)
     {
         if (null === $criteria) {
             $criteria = $this->getDefaultCriteria();
         }
 
-        if ($criteria instanceof \Closure) {
-            $closure = $criteria;
-            $criteria = clone $this->getDefaultCriteria();
-            $closure = $closure($criteria);
-        }
+        // Controll criteria
+        $this->checkCriteria($criteria);
 
-        if (! $criteria instanceof CriteriaInterface) {
-            throw new Exception\UnexpectedValueException('$criteria must be an instance of Matryoshka\Model\Criteria\CriteriaInterface');
-        }
-
+        // Bind and excecute persistence
         return $criteria->apply($this);
     }
 
@@ -96,5 +95,17 @@ abstract class AbstractModel implements ModelInterface
     public function getPaginatorAdapter($criteria = null)
     {
         //TODO
+    }
+
+    /**
+     * @param $criteria
+     * @return bool
+     * @throws Exception\UnexpectedValueException
+     */
+    protected function checkCriteria($criteria){
+        if (! $criteria instanceof CriteriaInterface) {
+            throw new Exception\UnexpectedValueException('$criteria must be an instance of Matryoshka\Model\Criteria\CriteriaInterface');
+        }
+        return true;
     }
 }
