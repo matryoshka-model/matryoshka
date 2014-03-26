@@ -13,6 +13,8 @@ use Matryoshka\Model\ResultSet\ResultSetInterface;
 use Matryoshka\Model\Criteria\CriteriaInterface;
 use Zend\Stdlib\Hydrator\HydratorAwareTrait;
 use Zend\Paginator\Adapter\AdapterInterface as PaginatorAdapterInterface;
+use Matryoshka\Model\ResultSet\ResultSet;
+use Zend\Stdlib\Hydrator\HydratorAwareInterface;
 
 abstract class AbstractModel implements ModelInterface
 {
@@ -51,6 +53,19 @@ abstract class AbstractModel implements ModelInterface
     }
 
     /**
+     * @param ResultSet $resultSet
+     * @return $this
+     */
+    protected function setResultSetPrototype(ResultSet $resultSet)
+    {
+        if ($resultSet instanceof HydratorAwareInterface && $this->getHydrator()) {
+            $resultSet->setHydrator($this->getHydrator());
+        }
+        $this->resultSetPrototype = $resultSet;
+        return $this;
+    }
+
+    /**
      * @return CriteriaInterface
      */
     public function getDefaultCriteria()
@@ -58,20 +73,25 @@ abstract class AbstractModel implements ModelInterface
         return $this->defaultCriteria;
     }
 
+    /**
+     * @param CriteriaInterface $defaultCriteria
+     * @return $this
+     */
     public function setDefaultCriteria(CriteriaInterface $defaultCriteria)
     {
         $this->defaultCriteria = $defaultCriteria;
         return $this;
     }
 
-    protected function processCriteria($criteria = null)
+    /**
+     * @param CriteriaInterface $criteria
+     * @return mixed
+     */
+    protected function processCriteria(CriteriaInterface $criteria = null)
     {
         if (null === $criteria) {
             $criteria = $this->getDefaultCriteria();
         }
-
-        // Controll criteria
-        $this->checkCriteria($criteria);
 
         // Bind and excecute persistence
         return $criteria->apply($this);
@@ -81,7 +101,7 @@ abstract class AbstractModel implements ModelInterface
      * @param CriteriaInterface $criteria
      * @return ResultSetInterface
      */
-    public function find($criteria = null)
+    public function find(CriteriaInterface $criteria = null)
     {
         $result = $this->processCriteria($criteria);
         $resultSet = clone $this->getResultSetPrototype();
@@ -93,20 +113,9 @@ abstract class AbstractModel implements ModelInterface
      * @param CriteriaInterface $criteria
      * @return PaginatorAdapterInterface
      */
-    public function getPaginatorAdapter($criteria = null)
+    public function getPaginatorAdapter(CriteriaInterface $criteria = null)
     {
         //TODO
     }
 
-    /**
-     * @param $criteria
-     * @return bool
-     * @throws Exception\UnexpectedValueException
-     */
-    protected function checkCriteria($criteria){
-        if (! $criteria instanceof CriteriaInterface) {
-            throw new Exception\UnexpectedValueException('$criteria must be an instance of Matryoshka\Model\Criteria\CriteriaInterface');
-        }
-        return true;
-    }
 }

@@ -36,12 +36,12 @@ interface ModelInterface extends HydratorAwareInterface, PaginatorAdapterAggrega
      * @param CriteriaInterface|Closure $criteria
      * @return ResultSetInterface
      */
-    public function find($criteria = null);
+    public function find(CriteriaInterface $criteria = null);
 
     /**
      * @param CriteriaInterface $criteria
      * @return PaginatorAdapterInterface
      */
-    public function getPaginatorAdapter($criteria = null);
+    public function getPaginatorAdapter(CriteriaInterface $criteria = null);
 
 }

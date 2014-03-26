@@ -28,7 +28,7 @@ class Model extends AbstractModel
             }
         }
         if ($resultSetPrototype instanceof ResultSetInterface) {
-            $this->resultSetPrototype = $resultSetPrototype;
+            $this->setResultSetPrototype($resultSetPrototype);
         } else {
             throw new Exception\UnexpectedValueException('$resultSetPrototype must be an instace of Matryoshka\Model\ResultSet\ResultSetInterface');
         }
