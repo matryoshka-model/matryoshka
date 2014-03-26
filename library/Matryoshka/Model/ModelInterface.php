@@ -13,8 +13,9 @@ use Matryoshka\Model\ResultSet\ResultSetInterface;
 
 use Zend\Paginator\AdapterAggregateInterface as PaginatorAdapterAggregateInterface;
 use Zend\Stdlib\Hydrator\HydratorAwareInterface;
+use Zend\InputFilter\InputFilterAwareInterface;
 
-interface ModelInterface extends HydratorAwareInterface, PaginatorAdapterAggregateInterface
+interface ModelInterface extends HydratorAwareInterface, InputFilterAwareInterface, PaginatorAdapterAggregateInterface
 {
 
     /**

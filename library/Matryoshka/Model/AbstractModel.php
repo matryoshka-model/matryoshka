@@ -11,15 +11,17 @@ namespace Matryoshka\Model;
 use Matryoshka\Model\Exception;
 use Matryoshka\Model\ResultSet\ResultSetInterface;
 use Matryoshka\Model\Criteria\CriteriaInterface;
-use Zend\Stdlib\Hydrator\HydratorAwareTrait;
 use Zend\Paginator\Adapter\AdapterInterface as PaginatorAdapterInterface;
 use Matryoshka\Model\ResultSet\ResultSet;
 use Zend\Stdlib\Hydrator\HydratorAwareInterface;
+use Zend\Stdlib\Hydrator\HydratorAwareTrait;
+use Zend\InputFilter\InputFilterAwareTrait;
 
 abstract class AbstractModel implements ModelInterface
 {
 
     use HydratorAwareTrait;
+    use InputFilterAwareTrait;
 
     /**
      * @var mixed
