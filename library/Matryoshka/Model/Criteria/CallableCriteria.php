@@ -12,7 +12,7 @@ use Matryoshka\Model\Exception;
 use Matryoshka\Model\ModelInterface;
 use Zend\Stdlib\Hydrator\HydratorAwareTrait;
 
-class CallableCriteria implements CriteriaInterface
+class CallableCriteria extends AbstractCriteria implements CriteriaInterface
 {
     /**
      * @var mixed

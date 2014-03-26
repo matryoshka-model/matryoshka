@@ -26,6 +26,26 @@ abstract class AbstractCriteria implements CriteriaInterface
     protected $offset;
 
     /**
+     * @param int $limit
+     * @return $this
+     */
+    public function limit($limit)
+    {
+        $this->limit = (int) $limit;
+        return $this;
+    }
+
+    /**
+     * @param int $offset
+     * @return $this
+     */
+    public function offset($offset)
+    {
+        $this->limit = (int) $offset;
+        return $this;
+    }
+
+    /**
      * @param ModelInterface $model
      * @return mixed
      */
