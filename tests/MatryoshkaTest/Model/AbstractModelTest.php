@@ -10,7 +10,7 @@ namespace MatryoshkaTest\Model;
 
 use Matryoshka\Model\Model;
 use Matryoshka\Model\ResultSet\ResultSet;
-use Matryoshka\Model\Criteria\Mongo\DefaultCriteria;
+use Zend\Db\TableGateway\TableGateway;
 
 class AbstractModelTest extends \PHPUnit_Framework_TestCase
 {
@@ -42,9 +42,18 @@ class AbstractModelTest extends \PHPUnit_Framework_TestCase
     public function testGetDefaultCriteria()
     {
         $this->assertSame(null, $this->model->getDefaultCriteria());
+    }
 
-        $this->model->setDefaultCriteria(new \Matryoshka\Model\Criteria\Mongo\DefaultCriteria());
+    public function testSetDefaultCriteria()
+    {
+        $returnModel = $this->model->setDefaultCriteria(new \MatryoshkaTest\Model\Criteria\MockCriteria());
+        $this->assertSame($this->model, $returnModel);
+
         $this->assertInstanceOf('\Matryoshka\Model\Criteria\CriteriaInterface', $this->model->getDefaultCriteria());
+    }
+
+    public function testGetDefaultResultSet(){
+        $this->assertInstanceOf('\Matryoshka\Model\ResultSet\ResultSetInterface', $this->model->getResultSetPrototype());
     }
 
     public function testGetResultSetPrototype()
@@ -52,11 +61,32 @@ class AbstractModelTest extends \PHPUnit_Framework_TestCase
         $this->assertSame($this->resultSet, $this->model->getResultSetPrototype());
     }
 
-    public function testFindDataGateway()
+    public function testFindAbstractCriteria()
     {
-        $criteria = new DefaultCriteria();
+        $criteria = new \MatryoshkaTest\Model\Criteria\MockCriteria();
 
         $resurlset = $this->model->find($criteria);
         $this->assertInstanceOf('\Matryoshka\Model\ResultSet\ResultSetInterface', $resurlset,  sprintf("Class %s not instance of \Matryoshka\Model\ResultSet\ResultSetInterface", get_class($resurlset) ) );
+    }
+
+    public function testFindClosureCriteria()
+    {
+        $criteria = new \Matryoshka\Model\Criteria\CallableCriteria('MatryoshkaTest\Model\Criteria\MockCallable::applyTest');
+
+        $resurlset = $this->model->find($criteria);
+        $this->assertInstanceOf('\Matryoshka\Model\ResultSet\ResultSetInterface', $resurlset,  sprintf("Class %s not instance of \Matryoshka\Model\ResultSet\ResultSetInterface", get_class($resurlset) ) );
+    }
+
+    public function testSingleConstruct()
+    {
+        $model = new Model(new \MatryoshkaTest\Model\MockDataGataway());
+    }
+
+    /**
+     * @expectedException \Matryoshka\Model\Exception\UnexpectedValueException
+     */
+    public function testExceptionConstruct()
+    {
+        $model = new Model($this->mockDataGateway);
     }
 }

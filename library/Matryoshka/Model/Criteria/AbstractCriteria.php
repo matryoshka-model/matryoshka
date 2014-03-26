@@ -29,8 +29,5 @@ abstract class AbstractCriteria implements CriteriaInterface
      * @param ModelInterface $model
      * @return mixed
      */
-    public function apply( ModelInterface $model )
-    {
-        return array();
-    }
+    abstract public function apply( ModelInterface $model );
 }

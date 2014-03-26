@@ -61,6 +61,7 @@ abstract class AbstractModel implements ModelInterface
     public function setDefaultCriteria(CriteriaInterface $defaultCriteria)
     {
         $this->defaultCriteria = $defaultCriteria;
+        return $this;
     }
 
     protected function processCriteria($criteria = null)

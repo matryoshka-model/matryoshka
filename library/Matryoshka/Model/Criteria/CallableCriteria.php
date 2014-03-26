@@ -31,7 +31,7 @@ class CallableCriteria implements CriteriaInterface
      * @param ModelInterface $model
      * @return mixed
      */
-    public function apply( ModelInterface $model )
+    public function apply(ModelInterface $model)
     {
         return call_user_func($this->callable, $model);
     }
