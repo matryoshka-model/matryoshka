@@ -47,7 +47,6 @@ class ResultSet implements Iterator, ResultSetInterface
             $this->count = count($dataSource);
             $this->fieldCount = count($first);
             $this->dataSource = new ArrayIterator($dataSource);
-            $this->buffer = -1; // array's are a natural buffer
         } elseif ($dataSource instanceof IteratorAggregate) {
             $this->dataSource = $dataSource->getIterator();
         } elseif ($dataSource instanceof Iterator) {
@@ -102,9 +101,6 @@ class ResultSet implements Iterator, ResultSetInterface
     public function current()
     {
         $data = $this->dataSource->current();
-        if (is_array($this->buffer)) {
-            $this->buffer[$this->position] = $data;
-        }
         return $data;
     }
 
