@@ -44,19 +44,6 @@ class AbstractModelTest extends \PHPUnit_Framework_TestCase
         $this->assertSame($this->mockDataGateway, $this->model->getDataGateway());
     }
 
-    public function testGetDefaultCriteria()
-    {
-        $this->assertSame(null, $this->model->getDefaultCriteria());
-    }
-
-    public function testSetDefaultCriteria()
-    {
-        $returnModel = $this->model->setDefaultCriteria(new \MatryoshkaTest\Model\Mock\Criteria\MockCriteria());
-        $this->assertSame($this->model, $returnModel);
-
-        $this->assertInstanceOf('\Matryoshka\Model\Criteria\CriteriaInterface', $this->model->getDefaultCriteria());
-    }
-
     public function testGetDefaultResultSet(){
         $this->assertInstanceOf('\Matryoshka\Model\ResultSet\ResultSetInterface', $this->model->getResultSetPrototype());
     }

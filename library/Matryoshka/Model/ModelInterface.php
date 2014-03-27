@@ -11,13 +11,11 @@ namespace Matryoshka\Model;
 use Matryoshka\Model\Criteria\CriteriaInterface;
 use Matryoshka\Model\ResultSet\ResultSetInterface;
 
-use Zend\Paginator\AdapterAggregateInterface as PaginatorAdapterAggregateInterface;
 use Zend\Stdlib\Hydrator\HydratorAwareInterface;
 use Zend\InputFilter\InputFilterAwareInterface;
 
-interface ModelInterface extends HydratorAwareInterface, InputFilterAwareInterface, PaginatorAdapterAggregateInterface
+interface ModelInterface extends HydratorAwareInterface, InputFilterAwareInterface
 {
-
     /**
      * @return mixed
      */
@@ -29,20 +27,8 @@ interface ModelInterface extends HydratorAwareInterface, InputFilterAwareInterfa
     public function getResultSetPrototype();
 
     /**
-     * @return CriteriaInterface
-     */
-    public function getDefaultCriteria();
-
-    /**
      * @param CriteriaInterface|Closure $criteria
      * @return ResultSetInterface
      */
-    public function find(CriteriaInterface $criteria = null);
-
-    /**
-     * @param CriteriaInterface $criteria
-     * @return PaginatorAdapterInterface
-     */
-    public function getPaginatorAdapter(CriteriaInterface $criteria = null);
-
+    public function find(CriteriaInterface $criteria);
 }

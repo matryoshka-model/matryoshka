@@ -11,11 +11,10 @@ namespace Matryoshka\Model;
 use Matryoshka\Model\Exception;
 use Matryoshka\Model\ResultSet\ResultSetInterface;
 use Matryoshka\Model\Criteria\CriteriaInterface;
-use Zend\Paginator\Adapter\AdapterInterface as PaginatorAdapterInterface;
-use Matryoshka\Model\ResultSet\ResultSet;
+
+use Zend\InputFilter\InputFilterAwareTrait;
 use Zend\Stdlib\Hydrator\HydratorAwareInterface;
 use Zend\Stdlib\Hydrator\HydratorAwareTrait;
-use Zend\InputFilter\InputFilterAwareTrait;
 
 abstract class AbstractModel implements ModelInterface
 {
@@ -34,11 +33,6 @@ abstract class AbstractModel implements ModelInterface
     protected $resultSetPrototype;
 
     /**
-     * @var CriteriaInterface
-     */
-    protected $defaultCriteria;
-
-    /**
      * @return mixed
      */
     public function getDataGateway()
@@ -55,7 +49,7 @@ abstract class AbstractModel implements ModelInterface
     }
 
     /**
-     * @param ResultSet $resultSet
+     * @param ResultSetInterface $resultSet
      * @return $this
      */
     protected function setResultSetPrototype(ResultSetInterface $resultSet)
@@ -68,33 +62,11 @@ abstract class AbstractModel implements ModelInterface
     }
 
     /**
-     * @return CriteriaInterface
-     */
-    public function getDefaultCriteria()
-    {
-        return $this->defaultCriteria;
-    }
-
-    /**
-     * @param CriteriaInterface $defaultCriteria
-     * @return $this
-     */
-    public function setDefaultCriteria(CriteriaInterface $defaultCriteria)
-    {
-        $this->defaultCriteria = $defaultCriteria;
-        return $this;
-    }
-
-    /**
      * @param CriteriaInterface $criteria
      * @return mixed
      */
-    protected function processCriteria(CriteriaInterface $criteria = null)
+    protected function processCriteria(CriteriaInterface $criteria)
     {
-        if (null === $criteria) {
-            $criteria = $this->getDefaultCriteria();
-        }
-
         // Bind and excecute persistence
         return $criteria->apply($this);
     }
@@ -110,14 +82,4 @@ abstract class AbstractModel implements ModelInterface
         $resultSet->initialize($result);
         return $resultSet;
     }
-
-    /**
-     * @param CriteriaInterface $criteria
-     * @return PaginatorAdapterInterface
-     */
-    public function getPaginatorAdapter(CriteriaInterface $criteria = null)
-    {
-        //TODO
-    }
-
 }
