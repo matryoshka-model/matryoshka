@@ -58,7 +58,7 @@ abstract class AbstractModel implements ModelInterface
      * @param ResultSet $resultSet
      * @return $this
      */
-    protected function setResultSetPrototype(ResultSet $resultSet)
+    protected function setResultSetPrototype(ResultSetInterface $resultSet)
     {
         if ($resultSet instanceof HydratorAwareInterface && $this->getHydrator()) {
             $resultSet->setHydrator($this->getHydrator());

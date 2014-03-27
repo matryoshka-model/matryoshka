@@ -6,7 +6,7 @@
  * Time: 16.27
  */
 
-namespace MatryoshkaTest\Model\Criteria;
+namespace MatryoshkaTest\Model\Mock\Criteria;
 
 
 class MockCallable {

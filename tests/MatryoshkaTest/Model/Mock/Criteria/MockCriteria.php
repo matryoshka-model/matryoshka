@@ -6,7 +6,7 @@
  * Time: 16.14
  */
 
-namespace MatryoshkaTest\Model\Criteria;
+namespace MatryoshkaTest\Model\Mock\Criteria;
 
 use Matryoshka\Model\Criteria\AbstractCriteria;
 use Matryoshka\Model\ModelInterface;

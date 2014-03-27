@@ -11,6 +11,8 @@ namespace Matryoshka\Model;
 use Matryoshka\Model\ResultSet\ResultSetInterface;
 use Matryoshka\Model\Exception;
 use Matryoshka\Model\Criteria\CriteriaInterface;
+use Zend\Stdlib\Hydrator\HydratorInterface;
+
 
 class Model extends AbstractModel
 {
@@ -18,19 +20,13 @@ class Model extends AbstractModel
      * @param $dataGataway
      * @param ResultSetInterface $resultSetPrototype
      */
-    public function __construct($dataGataway, ResultSetInterface $resultSetPrototype = null)
+    public function __construct($dataGataway, ResultSetInterface $resultSetPrototype, HydratorInterface $hydrator = null)
     {
         $this->dataGateway      = $dataGataway;
+        if($hydrator) {
+            $this->setHydrator($hydrator);
+        }
 
-        if (null === $resultSetPrototype) {
-            if (method_exists($dataGataway, 'getResultSetPrototype')) {
-                $resultSetPrototype = $dataGataway->getResultSetPrototype();
-            }
-        }
-        if ($resultSetPrototype instanceof ResultSetInterface) {
-            $this->setResultSetPrototype($resultSetPrototype);
-        } else {
-            throw new Exception\UnexpectedValueException('$resultSetPrototype must be an instace of Matryoshka\Model\ResultSet\ResultSetInterface');
-        }
+        $this->setResultSetPrototype($resultSetPrototype);
     }
 }

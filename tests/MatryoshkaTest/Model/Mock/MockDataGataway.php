@@ -6,7 +6,7 @@
  * Time: 18.35
  */
 
-namespace MatryoshkaTest\Model;
+namespace MatryoshkaTest\Model\Mock;
 
 
 class MockDataGataway {

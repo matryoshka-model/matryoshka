@@ -9,8 +9,13 @@
 namespace MatryoshkaTest\Model;
 
 use Matryoshka\Model\Model;
+use MatryoshkaTest\Model\Mock\MockDataGataway;
+use MatryoshkaTest\Model\Mock\MockModel;
 use Matryoshka\Model\ResultSet\ResultSet;
-use Zend\Db\TableGateway\TableGateway;
+
+use MatryoshkaTest\Model\Mock\ResultSet\MockResultsetHydrator;
+use Zend\Stdlib\Hydrator\ClassMethods;
+
 
 class AbstractModelTest extends \PHPUnit_Framework_TestCase
 {
@@ -46,7 +51,7 @@ class AbstractModelTest extends \PHPUnit_Framework_TestCase
 
     public function testSetDefaultCriteria()
     {
-        $returnModel = $this->model->setDefaultCriteria(new \MatryoshkaTest\Model\Criteria\MockCriteria());
+        $returnModel = $this->model->setDefaultCriteria(new \MatryoshkaTest\Model\Mock\Criteria\MockCriteria());
         $this->assertSame($this->model, $returnModel);
 
         $this->assertInstanceOf('\Matryoshka\Model\Criteria\CriteriaInterface', $this->model->getDefaultCriteria());
@@ -63,7 +68,7 @@ class AbstractModelTest extends \PHPUnit_Framework_TestCase
 
     public function testFindAbstractCriteria()
     {
-        $criteria = new \MatryoshkaTest\Model\Criteria\MockCriteria();
+        $criteria = new \MatryoshkaTest\Model\Mock\Criteria\MockCriteria();
 
         $resurlset = $this->model->find($criteria);
         $this->assertInstanceOf('\Matryoshka\Model\ResultSet\ResultSetInterface', $resurlset,  sprintf("Class %s not instance of \Matryoshka\Model\ResultSet\ResultSetInterface", get_class($resurlset) ) );
@@ -71,22 +76,17 @@ class AbstractModelTest extends \PHPUnit_Framework_TestCase
 
     public function testFindClosureCriteria()
     {
-        $criteria = new \Matryoshka\Model\Criteria\CallableCriteria('MatryoshkaTest\Model\Criteria\MockCallable::applyTest');
+        $criteria = new \Matryoshka\Model\Criteria\CallableCriteria('MatryoshkaTest\Model\Mock\Criteria\MockCallable::applyTest');
 
         $resurlset = $this->model->find($criteria);
         $this->assertInstanceOf('\Matryoshka\Model\ResultSet\ResultSetInterface', $resurlset,  sprintf("Class %s not instance of \Matryoshka\Model\ResultSet\ResultSetInterface", get_class($resurlset) ) );
     }
 
-    public function testSingleConstruct()
+    public function testConstructHydrator()
     {
-        $model = new Model(new \MatryoshkaTest\Model\MockDataGataway());
-    }
+        $hydrator = new ClassMethods();
+        $model    = new Model(new MockDataGataway(), new MockResultsetHydrator(), $hydrator );
 
-    /**
-     * @expectedException \Matryoshka\Model\Exception\UnexpectedValueException
-     */
-    public function testExceptionConstruct()
-    {
-        $model = new Model($this->mockDataGateway);
+        $this->assertSame($hydrator, $model->getHydrator());
     }
 }
