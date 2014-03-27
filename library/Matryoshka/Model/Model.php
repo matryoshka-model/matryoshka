@@ -3,7 +3,7 @@
  * Matryoshka
  *
  * @link        https://github.com/ripaclub/matryoshka
- * @copyright   Copyright (c) 2014, Leonardo Di Donato <leodidonato at gmail dot com>, Leonardo Grasso <me at leonardograsso dot com>
+ * @copyright   Copyright (c) 2014, Ripa Club
  * @license     http://opensource.org/licenses/BSD-2-Clause Simplified BSD License
  */
 namespace Matryoshka\Model;
@@ -12,10 +12,13 @@ use Matryoshka\Model\ResultSet\ResultSetInterface;
 use Matryoshka\Model\Exception;
 use Matryoshka\Model\Criteria\CriteriaInterface;
 use Zend\Stdlib\Hydrator\HydratorInterface;
+use Zend\ServiceManager\ServiceLocatorAwareInterface;
+use Zend\ServiceManager\ServiceLocatorAwareTrait;
 
-
-class Model extends AbstractModel
+class Model extends AbstractModel implements ServiceLocatorAwareInterface
 {
+    use ServiceLocatorAwareTrait;
+
     /**
      * @param $dataGataway
      * @param ResultSetInterface $resultSetPrototype

@@ -54,6 +54,16 @@ class HydratingResultSet extends AbstractResultSet implements HydratorAwareInter
     }
 
     /**
+     * Get the item object prototype
+     *
+     * @return object
+     */
+    public function getObjectPrototype()
+    {
+        return $this->objectPrototype;
+    }
+
+    /**
      * Iterator: get current item
      *
      * @return object

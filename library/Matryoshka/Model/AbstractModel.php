@@ -3,7 +3,7 @@
  * Matryoshka
  *
  * @link        https://github.com/ripaclub/matryoshka
- * @copyright   Copyright (c) 2014, Leonardo Di Donato <leodidonato at gmail dot com>, Leonardo Grasso <me at leonardograsso dot com>
+ * @copyright   Copyright (c) 2014, Ripa Club
  * @license     http://opensource.org/licenses/BSD-2-Clause Simplified BSD License
  */
 namespace Matryoshka\Model;
@@ -62,6 +62,18 @@ abstract class AbstractModel implements ModelInterface
     }
 
     /**
+     * @return object
+     */
+    public function getObjectPrototype()
+    {
+        $resultSetPrototype = $this->getResultSetPrototype();
+        if ($resultSetPrototype) {
+            return $resultSetPrototype->getObjectPrototype();
+        }
+        return null;
+    }
+
+    /**
      * @param CriteriaInterface $criteria
      * @return mixed
      */
@@ -69,6 +81,14 @@ abstract class AbstractModel implements ModelInterface
     {
         // Bind and excecute persistence
         return $criteria->apply($this);
+    }
+
+    /**
+     * @return object
+     */
+    public function create()
+    {
+        return clone $this->getObjectPrototype();
     }
 
     /**

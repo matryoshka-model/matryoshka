@@ -3,7 +3,7 @@
  * Matryoshka
  *
  * @link        https://github.com/ripaclub/matryoshka
- * @copyright   Copyright (c) 2014, Leonardo Di Donato <leodidonato at gmail dot com>, Leonardo Grasso <me at leonardograsso dot com>
+ * @copyright   Copyright (c) 2014, Ripa Club
  * @license     http://opensource.org/licenses/BSD-2-Clause Simplified BSD License
  */
 namespace Matryoshka\Model\ResultSet;
@@ -22,7 +22,6 @@ interface ResultSetInterface extends Traversable, Countable
      */
     public function initialize($dataSource);
 
-
     /**
      * Set the item object prototype
      *
@@ -32,6 +31,12 @@ interface ResultSetInterface extends Traversable, Countable
      */
     public function setObjectPrototype($objectPrototype);
 
+    /**
+     * Get the item object prototype
+     *
+     * @return mixed
+     */
+    public function getObjectPrototype();
 
     /**
      * Cast result set to array of arrays
