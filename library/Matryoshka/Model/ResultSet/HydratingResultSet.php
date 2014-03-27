@@ -12,6 +12,7 @@ use ArrayObject;
 use Zend\Stdlib\Hydrator\ArraySerializable;
 use Zend\Stdlib\Hydrator\HydratorInterface;
 use Zend\Stdlib\Hydrator\HydratorAwareInterface;
+use Zend\Stdlib\Hydrator\HydratorAwareTrait;
 
 class HydratingResultSet extends AbstractResultSet implements HydratorAwareInterface
 {
