@@ -22,4 +22,22 @@ interface ResultSetInterface extends Traversable, Countable
      */
     public function initialize($dataSource);
 
+
+    /**
+     * Set the item object prototype
+     *
+     * @param  object $objectPrototype
+     * @throws Exception\InvalidArgumentException
+     * @return ResultSetInterface
+     */
+    public function setObjectPrototype($objectPrototype);
+
+
+    /**
+     * Cast result set to array of arrays
+     *
+     * @return array
+     */
+    public function toArray();
+
 }

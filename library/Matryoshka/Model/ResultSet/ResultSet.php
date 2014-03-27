@@ -8,169 +8,118 @@
  */
 namespace Matryoshka\Model\ResultSet;
 
-use ArrayIterator;
-use Countable;
-use Iterator;
-use IteratorAggregate;
-use Matryoshka\Model\Exception;
+use ArrayObject;
 
-class ResultSet implements Iterator, ResultSetInterface
+class ResultSet extends AbstractResultSet
 {
-    /**
-     * @var null|int
-     */
-    protected $count = null;
+
+    const TYPE_ARRAYOBJECT = 'arrayobject';
+    const TYPE_ARRAY  = 'array';
 
     /**
-     * @var Iterator|IteratorAggregate
-     */
-    protected $dataSource = null;
-
-    /**
-     * @var int
-     */
-    protected $position = 0;
-
-    /**
-     * Set the data source for the result set
+     * Allowed return types
      *
-     * @param  Iterator|IteratorAggregate $dataSource
-     * @return ResultSet
-     * @throws Exception\InvalidArgumentException
+     * @var array
      */
-    public function initialize($dataSource)
+    protected $allowedReturnTypes = array(
+        self::TYPE_ARRAYOBJECT,
+        self::TYPE_ARRAY,
+    );
+
+    /**
+     * @var ArrayObject
+     */
+    protected $arrayObjectPrototype = null;
+
+    /**
+     * Return type to use when returning an object from the set
+     *
+     * @var ResultSet::TYPE_ARRAYOBJECT|ResultSet::TYPE_ARRAY
+     */
+    protected $returnType = self::TYPE_ARRAYOBJECT;
+
+    /**
+     * Constructor
+     *
+     * @param string           $returnType
+     * @param null|ArrayObject $arrayObjectPrototype
+     */
+    public function __construct($returnType = self::TYPE_ARRAYOBJECT, $arrayObjectPrototype = null)
     {
-        if (is_array($dataSource)) {
-            // its safe to get numbers from an array
-            $first = current($dataSource);
-            reset($dataSource);
-            $this->count = count($dataSource);
-            $this->fieldCount = count($first);
-            $this->dataSource = new ArrayIterator($dataSource);
-        } elseif ($dataSource instanceof IteratorAggregate) {
-            $this->dataSource = $dataSource->getIterator();
-        } elseif ($dataSource instanceof Iterator) {
-            $this->dataSource = $dataSource;
-        } else {
-            throw new Exception\InvalidArgumentException('DataSource provided is not an array, nor does it implement Iterator or IteratorAggregate');
+        $this->returnType = (in_array($returnType, array(self::TYPE_ARRAY, self::TYPE_ARRAYOBJECT))) ? $returnType : self::TYPE_ARRAYOBJECT;
+        if ($this->returnType === self::TYPE_ARRAYOBJECT) {
+            $this->setArrayObjectPrototype(($arrayObjectPrototype) ?: new ArrayObject(array(), ArrayObject::ARRAY_AS_PROPS));
         }
+    }
 
-        if ($this->count == null && $this->dataSource instanceof Countable) {
-            $this->count = $this->dataSource->count();
-        }
-
+    /**
+     * Set the item object prototype
+     *
+     * @param  object $objectPrototype
+     * @throws Exception\InvalidArgumentException
+     * @return ResultSetInterface
+     */
+    public function setObjectPrototype($objectPrototype)
+    {
+        $this->setArrayObjectPrototype($arrayObjectPrototype);
         return $this;
     }
 
     /**
-     * Get the data source used to create the result set
+     * Set the row object prototype
      *
-     * @return null|Iterator
+     * @param  ArrayObject $arrayObjectPrototype
+     * @throws Exception\InvalidArgumentException
+     * @return ResultSet
      */
-    public function getDataSource()
+    public function setArrayObjectPrototype($arrayObjectPrototype)
     {
-        return $this->dataSource;
+        if (!is_object($arrayObjectPrototype)
+            || (!$arrayObjectPrototype instanceof ArrayObject && !method_exists($arrayObjectPrototype, 'exchangeArray'))
+
+        ) {
+            throw new Exception\InvalidArgumentException('Object must be of type ArrayObject, or at least implement exchangeArray');
+        }
+        $this->arrayObjectPrototype = $arrayObjectPrototype;
+        return $this;
     }
 
     /**
-     * Iterator: move pointer to next item
+     * Get the row object prototype
      *
-     * @return void
+     * @return ArrayObject
      */
-    public function next()
+    public function getArrayObjectPrototype()
     {
-        $this->dataSource->next();
-        $this->position++;
+        return $this->arrayObjectPrototype;
     }
 
     /**
-     * Iterator: retrieve current key
+     * Get the return type to use when returning objects from the set
      *
-     * @return mixed
+     * @return string
      */
-    public function key()
+    public function getReturnType()
     {
-        return $this->position;
+        return $this->returnType;
     }
 
     /**
-     * Iterator: get current item
-     *
-     * @return array
+     * @return array|\ArrayObject|null
      */
     public function current()
     {
-        $data = $this->dataSource->current();
-        return $data;
-    }
+        $data = parent::current();
 
-    /**
-     * Iterator: is pointer valid?
-     *
-     * @return bool
-     */
-    public function valid()
-    {
-        if ($this->dataSource instanceof Iterator) {
-            return $this->dataSource->valid();
-        } else {
-            $key = key($this->dataSource);
-            return ($key !== null);
-        }
-    }
-
-    /**
-     * Iterator: rewind
-     *
-     * @return void
-     */
-    public function rewind()
-    {
-        if ($this->dataSource instanceof Iterator) {
-            $this->dataSource->rewind();
-        } else {
-            reset($this->dataSource);
-        }
-
-        $this->position = 0;
-    }
-
-    /**
-     * Countable: return count of rows
-     *
-     * @return int
-     */
-    public function count()
-    {
-        if ($this->count !== null) {
-            return $this->count;
-        }
-        $this->count = count($this->dataSource);
-        return $this->count;
-    }
-
-    /**
-     * Cast result set to array of arrays
-     *
-     * @return array
-     * @throws Exception\RuntimeException if any row is not castable to an array
-     */
-    public function toArray()
-    {
-        $return = array();
-        foreach ($this as $row) {
-            if (is_array($row)) {
-                $return[] = $row;
-            } elseif (method_exists($row, 'toArray')) {
-                $return[] = $row->toArray();
-            } elseif (method_exists($row, 'getArrayCopy')) {
-                $return[] = $row->getArrayCopy();
-            } else {
-                throw new Exception\RuntimeException(
-                    'Rows as part of this DataSource, with type ' . gettype($row) . ' cannot be cast to an array'
-                );
+        if ($this->returnType === self::TYPE_ARRAYOBJECT && is_array($data)) {
+            /** @var $ao ArrayObject */
+            $ao = clone $this->arrayObjectPrototype;
+            if ($ao instanceof ArrayObject || method_exists($ao, 'exchangeArray')) {
+                $ao->exchangeArray($data);
             }
+            return $ao;
         }
-        return $return;
+
+        return $data;
     }
 }
