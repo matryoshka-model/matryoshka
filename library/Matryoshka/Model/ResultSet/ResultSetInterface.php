@@ -22,7 +22,6 @@ interface ResultSetInterface extends Traversable, Countable
      */
     public function initialize($dataSource);
 
-
     /**
      * Set the item object prototype
      *
@@ -32,6 +31,12 @@ interface ResultSetInterface extends Traversable, Countable
      */
     public function setObjectPrototype($objectPrototype);
 
+    /**
+     * Get the item object prototype
+     *
+     * @return mixed
+     */
+    public function getObjectPrototype();
 
     /**
      * Cast result set to array of arrays

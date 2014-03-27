@@ -62,6 +62,18 @@ abstract class AbstractModel implements ModelInterface
     }
 
     /**
+     * @return object
+     */
+    public function getObjectPrototype()
+    {
+        $resultSetPrototype = $this->getResultSetPrototype();
+        if ($resultSetPrototype) {
+            return $resultSetPrototype->getObjectPrototype();
+        }
+        return null;
+    }
+
+    /**
      * @param CriteriaInterface $criteria
      * @return mixed
      */
@@ -69,6 +81,14 @@ abstract class AbstractModel implements ModelInterface
     {
         // Bind and excecute persistence
         return $criteria->apply($this);
+    }
+
+    /**
+     * @return object
+     */
+    public function create()
+    {
+        return clone $this->getObjectPrototype();
     }
 
     /**

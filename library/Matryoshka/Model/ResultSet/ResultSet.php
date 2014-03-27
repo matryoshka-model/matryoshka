@@ -66,6 +66,16 @@ class ResultSet extends AbstractResultSet
     }
 
     /**
+     * Get the item object prototype
+     *
+     * @return ArrayObject
+     */
+    public function getObjectPrototype()
+    {
+        return $this->getArrayObjectPrototype();
+    }
+
+    /**
      * Set the row object prototype
      *
      * @param  ArrayObject $arrayObjectPrototype
