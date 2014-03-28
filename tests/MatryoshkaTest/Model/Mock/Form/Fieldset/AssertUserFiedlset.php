@@ -78,8 +78,6 @@ class AssertUserFiedlset extends Fieldset implements InputFilterProviderInterfac
         else{
             $this->setObject($entity);
         }
-        var_dump($this->extract());
-        die('fdfdfd');
         return $this;
     }
 
