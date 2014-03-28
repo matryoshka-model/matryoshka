@@ -12,19 +12,16 @@ use MatryoshkaTest\Model\Mock\AssertRoleCommunity;
 
 use Zend\Form\Element;
 use Zend\Form\Fieldset;
-use Zend\InputFilter\InputFilterProviderInterface;
-use Zend\Stdlib\Hydrator\ClassMethods as ClassMethodsHydrator;
 
-class AssertRoleCommunityFiedlset extends Fieldset implements InputFilterProviderInterface
+class AssertRoleCommunityFiedlset extends Fieldset
 {
     const NAME = 'roleCommunity';
 
     public function __construct(AssertRoleCommunity $roleCommunity = null)
     {
-        parent::__construct(UserFiedlset::NAME);
+        parent::__construct(AssertRoleCommunityFiedlset::NAME);
 
-        $this->setHydrator(new ClassMethodsHydrator(false))
-             ->injectionEntity($roleCommunity);
+        $this->injectionEntity($roleCommunity);
 
         $this->addName();
     }
@@ -55,20 +52,5 @@ class AssertRoleCommunityFiedlset extends Fieldset implements InputFilterProvide
             // TODO populate
         }
         return $this;
-    }
-
-    /**
-     * Should return an array specification compatible with
-     * {@link Zend\InputFilter\Factory::createInputFilter()}.
-     *
-     * @return array
-     */
-    public function getInputFilterSpecification()
-    {
-        return array(
-            'name' => array(
-                'required' => true,
-            )
-        );
     }
 }

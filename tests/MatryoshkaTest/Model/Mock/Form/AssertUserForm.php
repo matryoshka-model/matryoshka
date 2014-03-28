@@ -23,9 +23,7 @@ class AssertUserForm extends Form
     {
         parent::__construct(AssertUserForm::NAME);
 
-        $this->setAttribute('method', 'post')
-             ->setHydrator(new ClassMethodsHydrator(false))
-             ->setInputFilter(new InputFilter());
+        $this->setAttribute('method', 'post');
 
         $this->addUserFieldset($user);
         $this->addSubmit();

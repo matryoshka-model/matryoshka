@@ -14,26 +14,32 @@ use MatryoshkaTest\Model\Mock\AssertRoleCommunity;
 
 class FormTest extends \PHPUnit_Framework_TestCase
 {
-    protected $roleCommunity;
+    protected $roleCommunity2;
+
+    protected $roleCommunity1;
 
     protected $user;
 
     public function setUp()
     {
-      //$this->form = new AssertUserForm();
-      $this->roleCommunity = new AssertRoleCommunity();
-      $this->roleCommunity->setName('mangionissimo');
+        //$this->form = new AssertUserForm();
+        $this->roleCommunity1 = new AssertRoleCommunity();
+        $this->roleCommunity1->setName('mangionissimo');
 
-      $this->user = new AssertUser();
-      $this->user->setFirstName('antonio');
-      $this->user->setSurname('dmlab');
-      $this->user->setAge(3);
-      $this->user->setRoleCommunity($this->roleCommunity);
+        $this->roleCommunity2 = new AssertRoleCommunity();
+        $this->roleCommunity2->setName('mangionissimo 22222222222222');
+
+
+        $this->user = new AssertUser();
+        $this->user->setFirstName('antonio');
+        $this->user->setSurname('dmlab');
+        $this->user->setAge(3);
+        $this->user->setRoles(array( $this->roleCommunity1,  $this->roleCommunity2));
     }
 
    public function testMock()
    {
-       $form = new AssertUserForm($this->user);
+       $form = new AssertUserForm();
 
        var_dump($form->get('user')->get('surname')->getValue());
        die();

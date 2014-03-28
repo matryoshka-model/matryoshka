@@ -8,9 +8,19 @@
 
 namespace MatryoshkaTest\Model\Mock;
 
+use Zend\InputFilter\InputFilter;
+use Zend\InputFilter\InputFilterAwareInterface;
+use Zend\InputFilter\InputFilterAwareTrait;
+use Zend\Stdlib\Hydrator\HydratorAwareInterface;
+use Zend\Stdlib\Hydrator\HydratorAwareTrait;
+use Zend\Stdlib\Hydrator\ClassMethods;
+use Zend\Stdlib\hydrator\HydratorInterface;
 
-class AssertUser
+class AssertUser implements HydratorAwareInterface, InputFilterAwareInterface
 {
+    use HydratorAwareTrait;
+    use InputFilterAwareTrait;
+
     /**
      * @var
      */
@@ -34,7 +44,7 @@ class AssertUser
     /**
      * @var RoleCommunity
      */
-    protected $roleCommunity;
+    protected $roles;
 
     /**
      * @param mixed $id
@@ -70,10 +80,12 @@ class AssertUser
 
     /**
      * @param String $firstName
+     * @return $this
      */
     public function setFirstName($firstName)
     {
         $this->firstName = $firstName;
+        return $this;
     }
 
     /**
@@ -85,27 +97,31 @@ class AssertUser
     }
 
     /**
-     * @param \MatryoshkaTest\Model\Mock\AssertRoleCommunity $roleCommunity
+     * @param array $roles
+     * @return $this
      */
-    public function setRoleCommunity(AssertRoleCommunity $roleCommunity)
+    public function setRoles(array $roles)
     {
-        $this->roleCommunity = $roleCommunity;
+        $this->roles = $roles;
+        return $this;
     }
 
     /**
-     * @return \MatryoshkaTest\Model\Mock\AssertRoleCommunity
+     * @return array
      */
-    public function getRoleCommunity()
+    public function getRoles()
     {
-        return $this->roleCommunity;
+        return $this->roles;
     }
 
     /**
-     * @param String $surname
+     * @param $surname
+     * @return $this
      */
     public function setSurname($surname)
     {
         $this->surname = $surname;
+        return $this;
     }
 
     /**
@@ -116,5 +132,39 @@ class AssertUser
         return $this->surname;
     }
 
+    /**
+     * @return HydratorInterface
+     */
+    public function getHydrator()
+    {
+        if(!$this->hydrator){
+            $this->setHydrator(new ClassMethods(false));
+        }
+        return $this->hydrator;
+    }
 
+    /**
+     * @return InputFilterInterface
+     */
+    public function getInputFilter()
+    {
+        $inputFilter = new InputFilter();
+
+        $inputFilter->add(
+            array(
+                'name' => 'firstName',
+                'required' => true,
+            )
+        );
+
+
+        $inputFilter->add(
+            array(
+                'name' => 'surname',
+                'required' => true,
+            )
+        );
+
+        return $inputFilter;
+    }
 } 

@@ -17,18 +17,19 @@ use Zend\InputFilter\InputFilterProviderInterface;
 use Zend\Stdlib\Hydrator\ClassMethods as ClassMethodsHydrator;
 use Zend\Stdlib\PriorityQueue;
 
-class AssertUserFiedlset extends Fieldset implements InputFilterProviderInterface
+class AssertUserFiedlset extends Fieldset
 {
     const NAME = 'user';
 
     public function __construct(AssertUser $user = null)
     {
         parent::__construct(AssertUserFiedlset::NAME);
-        $this->setHydrator(new ClassMethodsHydrator(false))
-            ->injectionEntity($user);
+        $this->injectionEntity($user);
 
+        $this->setUseAsBaseFieldset(true);
         $this->addFirstName();
         $this->addSurname();
+        $this->addRoleCommunity();
     }
 
     /**
@@ -60,9 +61,13 @@ class AssertUserFiedlset extends Fieldset implements InputFilterProviderInterfac
      */
     public function addRoleCommunity()
     {
-        $fieldSetRoleCommunity = new AssertRoleCommunityFiedlset();
+        $collectionRole = new Element\Collection('roles');
+        $collectionRole->setCount(2)
+            ->setAllowAdd(true)
+            ->setShouldCreateTemplate(true)
+            ->setTargetElement(new AssertRoleCommunityFiedlset());
 
-        $this->add($fieldSetRoleCommunity);
+        $this->add($collectionRole);
         return $this;
     }
 
@@ -79,23 +84,5 @@ class AssertUserFiedlset extends Fieldset implements InputFilterProviderInterfac
             $this->setObject($entity);
         }
         return $this;
-    }
-
-    /**
-     * Should return an array specification compatible with
-     * {@link Zend\InputFilter\Factory::createInputFilter()}.
-     *
-     * @return array
-     */
-    public function getInputFilterSpecification()
-    {
-        return array(
-            'firstName' => array(
-                'required' => true,
-            ),
-            'surname' => array(
-                'required' => true,
-            ),
-        );
     }
 }
