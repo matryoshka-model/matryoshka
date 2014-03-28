@@ -95,7 +95,7 @@ abstract class AbstractModel implements ModelInterface
      * @param CriteriaInterface $criteria
      * @return ResultSetInterface
      */
-    public function find(CriteriaInterface $criteria = null)
+    public function find(CriteriaInterface $criteria)
     {
         $result = $this->processCriteria($criteria);
         $resultSet = clone $this->getResultSetPrototype();
