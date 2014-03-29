@@ -17,12 +17,11 @@ class AssertRoleCommunityFiedlset extends Fieldset
 {
     const NAME = 'roleCommunity';
 
-    public function __construct(AssertRoleCommunity $roleCommunity = null)
+    public function __construct()
     {
         parent::__construct(AssertRoleCommunityFiedlset::NAME);
 
-        $this->injectionEntity($roleCommunity);
-
+        $this->setObject(new AssertRoleCommunity());
         $this->addName();
     }
 
@@ -34,23 +33,7 @@ class AssertRoleCommunityFiedlset extends Fieldset
         $elementTextSurName = new Element\Text('name');
         $elementTextSurName->setLabel('Name');
 
-        $this->addSurName($elementTextSurName);
-        return $this;
-    }
-
-    /**
-     * @param null AssertRoleCommunity
-     * @return $this
-     */
-    protected function injectionEntity($entity = null)
-    {
-        if($entity){
-            $this->setObject(new AssertRoleCommunity());
-        }
-        else{
-            $this->setObject($entity);
-            // TODO populate
-        }
+        $this->add($elementTextSurName);
         return $this;
     }
 }

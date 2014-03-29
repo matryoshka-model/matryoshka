@@ -12,30 +12,27 @@ use MatryoshkaTest\Model\Mock\AssertUser;
 
 use Zend\Form\Element;
 use Zend\Form\Form;
-use Zend\InputFilter\InputFilter;
-use Zend\Stdlib\Hydrator\ClassMethods as ClassMethodsHydrator;
 
 class AssertUserForm extends Form
 {
     const NAME = 'form_user';
 
-    public function __construct(AssertUser $user = null)
+    public function __construct()
     {
         parent::__construct(AssertUserForm::NAME);
 
         $this->setAttribute('method', 'post');
 
-        $this->addUserFieldset($user);
+        $this->addUserFieldset();
         $this->addSubmit();
     }
 
     /**
-     * @param AssertUser $user
-     * @return AssertUserForm
+     * @return $this
      */
-    public function addUserFieldset(AssertUser $user = null)
+    public function addUserFieldset()
     {
-        $fieldsetUser = new Fieldset\AssertUserFiedlset($user);
+        $fieldsetUser = new Fieldset\AssertUserFiedlset();
 
         $this->add($fieldsetUser);
         return $this;

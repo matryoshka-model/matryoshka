@@ -21,10 +21,10 @@ class AssertUserFiedlset extends Fieldset
 {
     const NAME = 'user';
 
-    public function __construct(AssertUser $user = null)
+    public function __construct()
     {
         parent::__construct(AssertUserFiedlset::NAME);
-        $this->injectionEntity($user);
+        $this->setObject(new AssertUser());
 
         $this->setUseAsBaseFieldset(true);
         $this->addFirstName();
@@ -68,21 +68,6 @@ class AssertUserFiedlset extends Fieldset
             ->setTargetElement(new AssertRoleCommunityFiedlset());
 
         $this->add($collectionRole);
-        return $this;
-    }
-
-    /**
-     * @param null AssertRoleCommunity
-     * @return $this
-     */
-    protected function injectionEntity($entity = null)
-    {
-        if(!$entity){
-            $this->setObject(new AssertUser());
-        }
-        else{
-            $this->setObject($entity);
-        }
         return $this;
     }
 }
