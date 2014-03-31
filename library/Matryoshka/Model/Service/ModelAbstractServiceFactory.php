@@ -92,8 +92,8 @@ class ModelAbstractServiceFactory implements AbstractFactoryInterface
             && is_string($config['type'])
             && !empty($config['type'])) {
 
-            if (!is_subclass_of($class . 'Interface', $config['type'])) {
-                throw new Exception\UnexpectedValueException('type must be a subclass of ' . $class . 'Interface');
+            if (!is_subclass_of($config['type'], $class)) {
+                throw new Exception\UnexpectedValueException('type must be a subclass of ' . $class);
             }
 
             $class = $config['type'];

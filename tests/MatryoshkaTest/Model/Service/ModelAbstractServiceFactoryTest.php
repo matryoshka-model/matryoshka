@@ -40,7 +40,15 @@ class ModelAbstractServiceFactoryTest extends \PHPUnit_Framework_TestCase
                 ),
                 'MyModel\B' => array(
                     'datagateway' => 'MatryoshkaTest\Model\Service\TestAsset\FakeDataGateway',
+                    'resultset'   => 'Matryoshka\Model\ResultSet\HydratingResultSet',
+                    'object'      => 'ArrayObject',
+                    'hydrator'    => 'Zend\Stdlib\Hydrator\ArraySerializable',
+                    'type'        => 'MatryoshkaTest\Model\Service\TestAsset\MyModel',
+                ),
+                'MyModel\InvalidTypeModel' => array(
+                    'datagateway' => 'MatryoshkaTest\Model\Service\TestAsset\FakeDataGateway',
                     'resultset'   => 'Matryoshka\Model\ResultSet\ResultSet',
+                    'type'        => '\stdClass',
                 ),
             ),
         );
@@ -54,8 +62,11 @@ class ModelAbstractServiceFactoryTest extends \PHPUnit_Framework_TestCase
         );
 
         $sm->setService('Config', $config);
-        $sm->setService('MatryoshkaTest\Model\Service\TestAsset\FakeDataGateway', $dataGateway);
-        $sm->setService('Matryoshka\Model\ResultSet\ResultSet', $resultSet);
+        $sm->setService('MatryoshkaTest\Model\Service\TestAsset\FakeDataGateway', new \MatryoshkaTest\Model\Service\TestAsset\FakeDataGateway);
+        $sm->setService('Matryoshka\Model\ResultSet\ResultSet', new \Matryoshka\Model\ResultSet\ResultSet);
+        $sm->setService('Matryoshka\Model\ResultSet\HydratingResultSet', new \Matryoshka\Model\ResultSet\HydratingResultSet);
+        $sm->setService('Zend\Stdlib\Hydrator\ArraySerializable', new \Zend\Stdlib\Hydrator\ArraySerializable);
+        $sm->setService('ArrayObject', new \ArrayObject);
     }
 
 
@@ -79,7 +90,27 @@ class ModelAbstractServiceFactoryTest extends \PHPUnit_Framework_TestCase
     {
         $serviceLocator = $this->serviceManager;
 
-        $this->assertInstanceOf('Matryoshka\Model\Model', $serviceLocator->get('MyModel\A'));
         $modelA = $serviceLocator->get('MyModel\A');
+        $this->assertInstanceOf('\Matryoshka\Model\Model', $modelA);
+
+
+        $modelB = $serviceLocator->get('MyModel\B');
+        $this->assertInstanceOf('\MatryoshkaTest\Model\Service\TestAsset\MyModel', $modelB);
     }
+
+    /**
+     * @depends testCreateService
+     * @return void
+     */
+    public function testCreateServiceShouldThrowExceptionOnInvalidType()
+    {
+        $factory = new ModelAbstractServiceFactory();
+        $serviceLocator = $this->serviceManager;
+        $this->setExpectedException('\Matryoshka\Model\Exception\UnexpectedValueException');
+
+        $factory->createServiceWithName($serviceLocator, 'mymodelinvalidtypemodel', 'MyModel\InvalidTypeModel');
+    }
+
+
+
 }
