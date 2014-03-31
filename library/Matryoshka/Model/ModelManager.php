@@ -9,9 +9,16 @@
 namespace Matryoshka\Model;
 
 use Zend\ServiceManager\AbstractPluginManager;
+use Zend\ServiceManager\AbstractFactoryInterface;
 
 class ModelManager extends AbstractPluginManager
 {
+
+    /**
+     * @var AbstractFactoryInterface[]
+     */
+    protected $abstractFactories = array('Matryoshka\Model\Service\ModelAbstractServiceFactory');
+
     /**
      * Share by default
      *
@@ -36,7 +43,7 @@ class ModelManager extends AbstractPluginManager
         }
 
         throw new Exception\RuntimeException(sprintf(
-            'Plugin of type %s is invalid; must implement %s\ModelInterface',
+            'Model of type %s is invalid; must implement %s\ModelInterface',
             (is_object($plugin) ? get_class($plugin) : gettype($plugin)),
             __NAMESPACE__
         ));

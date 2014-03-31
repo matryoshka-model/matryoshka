@@ -20,12 +20,13 @@ class Model extends AbstractModel implements ServiceLocatorAwareInterface
     use ServiceLocatorAwareTrait;
 
     /**
-     * @param $dataGataway
+     * @param $dataGateway
      * @param ResultSetInterface $resultSetPrototype
      */
-    public function __construct($dataGataway, ResultSetInterface $resultSetPrototype, HydratorInterface $hydrator = null)
+    public function __construct($dataGateway, ResultSetInterface $resultSetPrototype, HydratorInterface $hydrator = null)
     {
-        $this->dataGateway      = $dataGataway;
+        $this->setDataGateway($dataGateway);
+
         if($hydrator) {
             $this->setHydrator($hydrator);
         }
