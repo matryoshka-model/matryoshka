@@ -70,4 +70,22 @@ class FormTest extends \PHPUnit_Framework_TestCase
         $this->assertSame($this->form->get('user')->get('roles')->get('0')->get('name')->getValue(),  $this->roleCommunity1->getName());
         $this->assertSame($this->form->get('user')->get('roles')->get('1')->get('name')->getValue(),  $this->roleCommunity2->getName());
     }
+
+    public function testValidationForm()
+    {
+        $user = new AssertUser();
+        $user->setFirstName('avisalli');
+        $user->setSurname('bigolo');
+        $user->setAge(3);
+
+        $form = new AssertUserForm();
+        $form->bind($user);
+
+        // TODO with parameter in setdata
+        //  $form->setData(array());
+        $bb = $form->isValid();
+
+
+        $this->assertFalse($form->isValid(), 'fdfff');
+    }
 }
