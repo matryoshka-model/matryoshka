@@ -21,24 +21,12 @@ abstract class AbstractModel implements ModelInterface
 
     use HydratorAwareTrait;
     use InputFilterAwareTrait;
-
-    /**
-     * @var mixed
-     */
-    protected $dataGateway;
+    use DataGatewayAwareTrait;
 
     /**
      * @var ResultSetInterface
      */
     protected $resultSetPrototype;
-
-    /**
-     * @return mixed
-     */
-    public function getDataGateway()
-    {
-        return $this->dataGateway;
-    }
 
     /**
      * @return ResultSetInterface
