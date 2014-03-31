@@ -110,7 +110,4 @@ class ModelAbstractServiceFactoryTest extends \PHPUnit_Framework_TestCase
 
         $factory->createServiceWithName($serviceLocator, 'mymodelinvalidtypemodel', 'MyModel\InvalidTypeModel');
     }
-
-
-
 }

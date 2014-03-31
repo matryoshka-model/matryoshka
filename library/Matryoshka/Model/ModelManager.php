@@ -10,21 +10,33 @@ namespace Matryoshka\Model;
 
 use Zend\ServiceManager\AbstractPluginManager;
 use Zend\ServiceManager\AbstractFactoryInterface;
+use Zend\ServiceManager\ConfigInterface;
+use Matryoshka\Model\Service\ModelAbstractServiceFactory;
 
 class ModelManager extends AbstractPluginManager
 {
-
-    /**
-     * @var AbstractFactoryInterface[]
-     */
-    protected $abstractFactories = array('Matryoshka\Model\Service\ModelAbstractServiceFactory');
-
     /**
      * Share by default
      *
      * @var bool
     */
     protected $shareByDefault = true;
+
+
+    /**
+     * Constructor
+     *
+     * Add a default initializer to ensure the plugin is valid after instance
+     * creation.
+     *
+     * @param  null|ConfigInterface $configuration
+     */
+    public function __construct(ConfigInterface $configuration = null)
+    {
+        parent::__construct($configuration);
+        $this->addAbstractFactory(new ModelAbstractServiceFactory());
+    }
+
 
     /**
      * Validate the plugin
@@ -42,7 +54,7 @@ class ModelManager extends AbstractPluginManager
             return;
         }
 
-        throw new Exception\RuntimeException(sprintf(
+        throw new Exception\InvalidPluginException(sprintf(
             'Model of type %s is invalid; must implement %s\ModelInterface',
             (is_object($plugin) ? get_class($plugin) : gettype($plugin)),
             __NAMESPACE__

@@ -10,9 +10,9 @@ namespace Matryoshka\Model\Service;
 
 use Zend\ServiceManager\AbstractFactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
-use Zend\Stdlib\ArrayObject;
 use Matryoshka\Model\Model;
 use Matryoshka\Model\Exception;
+use Zend\ServiceManager\AbstractPluginManager;
 
 class ModelAbstractServiceFactory implements AbstractFactoryInterface
 {
@@ -37,6 +37,10 @@ class ModelAbstractServiceFactory implements AbstractFactoryInterface
      */
     public function canCreateServiceWithName(ServiceLocatorInterface $serviceLocator, $name, $requestedName)
     {
+        if ($serviceLocator instanceof AbstractPluginManager) {
+            $serviceLocator = $serviceLocator->getServiceLocator();
+        }
+
         $config = $this->getConfig($serviceLocator);
         if (empty($config)) {
             return false;
@@ -63,10 +67,14 @@ class ModelAbstractServiceFactory implements AbstractFactoryInterface
      * @param ServiceLocatorInterface $serviceLocator
      * @param string $name
      * @param string $requestedName
-     * @return \MongoCollection
+     * @return Model
      */
     public function createServiceWithName(ServiceLocatorInterface $serviceLocator, $name, $requestedName)
     {
+        if ($serviceLocator instanceof AbstractPluginManager) {
+            $serviceLocator = $serviceLocator->getServiceLocator();
+        }
+
         $config = $this->getConfig($serviceLocator)[$requestedName];
 
         $dataGataway = $serviceLocator->get($config['datagateway']);
@@ -103,7 +111,7 @@ class ModelAbstractServiceFactory implements AbstractFactoryInterface
     }
 
     /**
-     * Get mongo configuration, if any
+     * Get model configuration, if any
      *
      * @param  ServiceLocatorInterface $serviceLocator
      * @return array
