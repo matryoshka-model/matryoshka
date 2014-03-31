@@ -13,6 +13,7 @@ interface IdentityAwareInterface
 
     /**
      * @param mixed $id
+     * @return $this
      */
     public function setId($id);
 
