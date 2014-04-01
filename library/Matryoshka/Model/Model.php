@@ -23,7 +23,7 @@ class Model extends AbstractModel implements ServiceLocatorAwareInterface
 
     /**
      * Ctor
-     * @param                    $dataGateway
+     * @param mixed              $dataGateway
      * @param ResultSetInterface $resultSetPrototype
      * @param HydratorInterface  $hydrator
      * @param ResultSetInterface $resultSetPrototype
