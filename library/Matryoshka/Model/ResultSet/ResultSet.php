@@ -9,6 +9,7 @@
 namespace Matryoshka\Model\ResultSet;
 
 use ArrayObject;
+use Matryoshka\Model\Exception;
 
 /**
  * Class ResultSet
@@ -51,7 +52,7 @@ class ResultSet extends AbstractResultSet
     {
         $this->returnType = (in_array($returnType, array(self::TYPE_ARRAY, self::TYPE_ARRAYOBJECT))) ? $returnType : self::TYPE_ARRAYOBJECT;
         if ($this->returnType === self::TYPE_ARRAYOBJECT) {
-            $this->setArrayObjectPrototype(($arrayObjectPrototype) ?: new ArrayObject(array(), ArrayObject::ARRAY_AS_PROPS));
+            $this->setObjectPrototype(($arrayObjectPrototype) ?: new ArrayObject(array(), ArrayObject::ARRAY_AS_PROPS));
         }
     }
 
@@ -64,7 +65,13 @@ class ResultSet extends AbstractResultSet
      */
     public function setObjectPrototype($objectPrototype)
     {
-        $this->setArrayObjectPrototype($arrayObjectPrototype);
+        if (!is_object($objectPrototype)
+            || (!$objectPrototype instanceof ArrayObject && !method_exists($objectPrototype, 'exchangeArray'))
+
+        ) {
+            throw new Exception\InvalidArgumentException('Object must be of type ArrayObject, or at least implement exchangeArray');
+        }
+        $this->arrayObjectPrototype = $objectPrototype;
         return $this;
     }
 
@@ -74,35 +81,6 @@ class ResultSet extends AbstractResultSet
      * @return ArrayObject
      */
     public function getObjectPrototype()
-    {
-        return $this->getArrayObjectPrototype();
-    }
-
-    /**
-     * Set the row object prototype
-     *
-     * @param  ArrayObject $arrayObjectPrototype
-     * @throws Exception\InvalidArgumentException
-     * @return ResultSet
-     */
-    public function setArrayObjectPrototype($arrayObjectPrototype)
-    {
-        if (!is_object($arrayObjectPrototype)
-            || (!$arrayObjectPrototype instanceof ArrayObject && !method_exists($arrayObjectPrototype, 'exchangeArray'))
-
-        ) {
-            throw new Exception\InvalidArgumentException('Object must be of type ArrayObject, or at least implement exchangeArray');
-        }
-        $this->arrayObjectPrototype = $arrayObjectPrototype;
-        return $this;
-    }
-
-    /**
-     * Get the row object prototype
-     *
-     * @return ArrayObject
-     */
-    public function getArrayObjectPrototype()
     {
         return $this->arrayObjectPrototype;
     }

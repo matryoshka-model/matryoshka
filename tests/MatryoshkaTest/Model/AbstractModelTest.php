@@ -16,6 +16,10 @@ use Matryoshka\Model\ResultSet\ResultSet;
 use MatryoshkaTest\Model\Mock\ResultSet\MockResultsetHydrator;
 use Zend\Stdlib\Hydrator\ClassMethods;
 use MatryoshkaTest\Model\TestAsset\ConcreteAbstractModel;
+use Zend\Stdlib\Hydrator\ArraySerializable;
+use MatryoshkaTest\Model\TestAsset\HydratorAwareObject;
+use Zend\Form\Annotation\InputFilter;
+use MatryoshkaTest\Model\TestAsset\InputFilterAwareObject;
 
 
 class AbstractModelTest extends \PHPUnit_Framework_TestCase
@@ -47,13 +51,6 @@ class AbstractModelTest extends \PHPUnit_Framework_TestCase
         $this->assertNull($model->getDataGateway());
     }
 
-    public function testShouldThrowExceptionWhenNoInputFilter()
-    {
-        $model = new ConcreteAbstractModel();
-        $this->setExpectedException('\Matryoshka\Model\Exception\RuntimeException');
-        $model->getInputFilter();
-    }
-
     public function testShouldThrowExceptionWhenNoObjectPrototype()
     {
         $model = new ConcreteAbstractModel();
@@ -61,11 +58,56 @@ class AbstractModelTest extends \PHPUnit_Framework_TestCase
         $model->getObjectPrototype();
     }
 
-    public function testShouldThrowExceptionWhenNoHydrator()
+    public function testGetHydratorShouldThrowExceptionWhenNoHydratorAndNoObjectPrototype()
     {
         $model = new ConcreteAbstractModel();
         $this->setExpectedException('\Matryoshka\Model\Exception\RuntimeException');
         $model->getHydrator();
+    }
+
+    public function testShouldThrowExceptionWhenNoInputFilterAndNoObjectPrototype()
+    {
+        $model = new ConcreteAbstractModel();
+        $this->setExpectedException('\Matryoshka\Model\Exception\RuntimeException');
+        $model->getInputFilter();
+    }
+
+    public function testShouldThrowExceptionWhenNoInputFilter()
+    {
+        $model = new ConcreteAbstractModel();
+        $model->setResultSetPrototype(new ResultSet());
+        $model->getResultSetPrototype()->setObjectPrototype(new \ArrayObject);
+
+        $this->setExpectedException('\Matryoshka\Model\Exception\RuntimeException');
+
+        $model->getInputFilter();
+    }
+
+    public function testGetSetHydrator()
+    {
+        $model = clone $this->model;
+
+        //Assume no hydrator set (hydrator can be null)
+        $this->assertNull($model->getHydrator());
+
+        $hydratableObject = new HydratorAwareObject();
+        $model->getResultSetPrototype()->setObjectPrototype($hydratableObject);
+        $this->assertSame($hydratableObject->getHydrator(), $model->getHydrator());
+
+        $this->assertInstanceOf('\Matryoshka\Model\Model', $model->setHydrator(new ArraySerializable()));
+        $this->assertInstanceOf('\Zend\Stdlib\Hydrator\HydratorInterface', $model->getHydrator());
+    }
+
+    public function testGetSetInputFilter()
+    {
+        $model = clone $this->model;
+
+        $filterableObject = new InputFilterAwareObject();
+        $model->getResultSetPrototype()->setObjectPrototype($filterableObject);
+        $this->assertSame($filterableObject->getInputFilter(), $model->getInputFilter());
+
+        $this->assertInstanceOf('\Matryoshka\Model\Model', $model->setInputFilter(new \Zend\InputFilter\InputFilter()));
+        $this->assertInstanceOf('\Zend\InputFilter\InputFilterInterface', $model->getInputFilter());
     }
 
     public function testGetDataGateway()
@@ -73,7 +115,8 @@ class AbstractModelTest extends \PHPUnit_Framework_TestCase
         $this->assertSame($this->mockDataGateway, $this->model->getDataGateway());
     }
 
-    public function testGetDefaultResultSet(){
+    public function testGetDefaultResultSet()
+    {
         $this->assertInstanceOf('\Matryoshka\Model\ResultSet\ResultSetInterface', $this->model->getResultSetPrototype());
     }
 
@@ -110,5 +153,57 @@ class AbstractModelTest extends \PHPUnit_Framework_TestCase
 
         $resurlset = $this->model->find($criteria);
         $this->assertInstanceOf('\Matryoshka\Model\ResultSet\ResultSetInterface', $resurlset,  sprintf("Class %s not instance of \Matryoshka\Model\ResultSet\ResultSetInterface", get_class($resurlset) ) );
+    }
+
+    public function testSave()
+    {
+        // testing Mysqli driver
+        $mockCriteria = $this->getMock(
+            '\Matryoshka\Model\Criteria\WritableCriteriaInterface',
+            array('applyWrite')
+        );
+
+        $data = array(
+            'foo' => 'bar'
+        );
+
+        //Test simple array
+        $mockCriteria->expects($this->at(0))->method('applyWrite')->with(
+            $this->equalTo($this->model),
+            $this->equalTo($data)
+        )->will($this->returnValue(true));
+
+        $this->assertTrue($this->model->save($mockCriteria, $data));
+
+        //Test with ArrayObject
+        $mockCriteria->expects($this->at(0))->method('applyWrite')->with(
+            $this->equalTo($this->model),
+            $this->equalTo($data)
+        )->will($this->returnValue(true));
+
+        $this->assertTrue($this->model->save($mockCriteria, new \ArrayObject($data)));
+
+        //Test hydratable object
+        $hydratableObject = new HydratorAwareObject($data);
+        $mockCriteria->expects($this->at(0))->method('applyWrite')->with(
+            $this->equalTo($this->model),
+            $data
+        )->will($this->returnValue(true));
+
+        $this->assertTrue($this->model->save($mockCriteria, $hydratableObject));
+    }
+
+    public function testDelete()
+    {
+        // testing Mysqli driver
+        $mockCriteria = $this->getMock(
+            '\Matryoshka\Model\Criteria\DeletableCriteriaInterface',
+            array('applyDelete')
+        );
+        $mockCriteria->expects($this->at(0))->method('applyDelete')->with(
+            $this->equalTo($this->model)
+        )->will($this->returnValue(true));
+
+        $this->assertTrue($this->model->delete($mockCriteria));
     }
 }

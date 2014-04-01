@@ -52,12 +52,12 @@ abstract class AbstractModel implements ModelInterface
         if (!$this->inputFilter) {
             if ($this->getObjectPrototype() instanceof InputFilterAwareInterface) {
                 $this->inputFilter = $this->getObjectPrototype()->getInputFilter();
+            } else {
+                throw new Exception\RuntimeException(
+                    'InputFilter must be set or the object prototype must be an instance of InputFilterAwareInterface'
+                );
             }
-            throw new Exception\RuntimeException(
-                'InputFilter must be set or the object prototype must be an instance of InputFilterAwareInterface'
-            );
         }
-
         return $this->inputFilter;
     }
 
@@ -150,15 +150,16 @@ abstract class AbstractModel implements ModelInterface
             }
 
             $hydrator = $this->getHydrator();
-            if ($hydrator instanceof AbstractHydrator) {
+            if ($hydrator) {
+                if (!$hydrator instanceof AbstractHydrator) {
+                    throw new Exception\RuntimeException(
+                        'Hydrator must be an instance of AbstractHydrator in order to extract single value with extractValue method'
+                    );
+                }
                 $data = array();
                 foreach ($dataOrObject as $key => $value) {
                     $data[$key] = $hydrator->extractValue($key, $value, $dataOrObject);
                 }
-            } else {
-                throw new Exception\RuntimeException(
-                    'Hydrator must be an instance of AbstractHydrator in order to extract single value with extractValue method'
-                );
             }
         }
 
