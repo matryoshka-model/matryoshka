@@ -8,6 +8,9 @@
  */
 namespace Matryoshka\Model\Exception;
 
+/**
+ * Class ErrorException
+ */
 class ErrorException extends \Exception implements ExceptionInterface
 {
 }

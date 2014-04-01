@@ -8,16 +8,19 @@
  */
 namespace Matryoshka\Model\Object;
 
+/**
+ * Interface ObjectGatewayInterface
+ */
 interface ObjectGatewayInterface
 {
 
     /**
-     * @return mixed
+     * Save
      */
     public function save();
 
     /**
-     * @return mixed
+     * Delete
      */
     public function delete();
 }

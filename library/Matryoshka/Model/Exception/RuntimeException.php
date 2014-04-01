@@ -8,6 +8,9 @@
  */
 namespace Matryoshka\Model\Exception;
 
+/**
+ * Class RuntimeException
+ */
 class RuntimeException extends \RuntimeException implements ExceptionInterface
 {
 }

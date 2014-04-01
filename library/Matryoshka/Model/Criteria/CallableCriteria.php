@@ -11,24 +11,28 @@ namespace Matryoshka\Model\Criteria;
 use Matryoshka\Model\Exception;
 use Matryoshka\Model\ModelInterface;
 
+/**
+ * Class CallableCriteria
+ */
 class CallableCriteria extends AbstractCriteria implements CriteriaInterface
 {
     /**
+     * Callable
      * @var mixed
      */
     protected $callable;
 
     /**
+     * Ctor
      * @param $callable
      */
-    function __construct($callable)
+    public function __construct($callable)
     {
         $this->callable = $callable;
     }
 
     /**
-     * @param ModelInterface $model
-     * @return mixed
+     * {@inheritdoc}
      */
     public function apply(ModelInterface $model)
     {

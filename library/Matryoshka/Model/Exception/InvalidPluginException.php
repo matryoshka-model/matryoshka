@@ -8,6 +8,9 @@
  */
 namespace Matryoshka\Model\Exception;
 
+/**
+ * Class InvalidPluginException
+ */
 class InvalidPluginException extends \Exception implements ExceptionInterface
 {
 }

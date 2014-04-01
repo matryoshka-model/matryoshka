@@ -14,25 +14,29 @@ use Matryoshka\Model\Model;
 use Matryoshka\Model\Exception;
 use Zend\ServiceManager\AbstractPluginManager;
 
+/**
+ * Class ModelAbstractServiceFactory
+ */
 class ModelAbstractServiceFactory implements AbstractFactoryInterface
 {
 
     /**
+     * Config Key
      * @var string
      */
     protected $configKey = 'model';
 
     /**
+     * Config
      * @var array
      */
     protected $config;
 
     /**
      * Determine if we can create a service with name
-     *
      * @param ServiceLocatorInterface $serviceLocator
-     * @param string $name
-     * @param string $requestedName
+     * @param string                  $name
+     * @param string                  $requestedName
      * @return boolean
      */
     public function canCreateServiceWithName(ServiceLocatorInterface $serviceLocator, $name, $requestedName)
@@ -61,13 +65,14 @@ class ModelAbstractServiceFactory implements AbstractFactoryInterface
         );
     }
 
+
     /**
      * Create service with name
-     *
      * @param ServiceLocatorInterface $serviceLocator
-     * @param string $name
-     * @param string $requestedName
-     * @return Model
+     * @param                         $name
+     * @param                         $requestedName
+     * @return mixed
+     * @throws \Matryoshka\Model\Exception\UnexpectedValueException
      */
     public function createServiceWithName(ServiceLocatorInterface $serviceLocator, $name, $requestedName)
     {
@@ -78,12 +83,13 @@ class ModelAbstractServiceFactory implements AbstractFactoryInterface
         $config = $this->getConfig($serviceLocator)[$requestedName];
 
         $dataGataway = $serviceLocator->get($config['datagateway']);
-        $resultSetPrototype   = $serviceLocator->get($config['resultset']);
+        $resultSetPrototype = $serviceLocator->get($config['resultset']);
 
         if (isset($config['object'])
             && is_string($config['object'])
             && !empty($config['object'])
-            && $serviceLocator->has($config['object'])) {
+            && $serviceLocator->has($config['object'])
+        ) {
             $resultSetPrototype->setObjectPrototype($serviceLocator->get($config['object']));
         }
 
@@ -91,14 +97,16 @@ class ModelAbstractServiceFactory implements AbstractFactoryInterface
         if (isset($config['hydrator'])
             && is_string($config['hydrator'])
             && !empty($config['hydrator'])
-            && $serviceLocator->has($config['hydrator'])) {
+            && $serviceLocator->has($config['hydrator'])
+        ) {
             $hydrator = $serviceLocator->get($config['hydrator']);
         }
 
         $class = '\Matryoshka\Model\Model';
         if (isset($config['type'])
             && is_string($config['type'])
-            && !empty($config['type'])) {
+            && !empty($config['type'])
+        ) {
 
             if (!is_subclass_of($config['type'], $class)) {
                 throw new Exception\UnexpectedValueException('type must be a subclass of ' . $class);
@@ -129,7 +137,7 @@ class ModelAbstractServiceFactory implements AbstractFactoryInterface
 
         $config = $serviceLocator->get('Config');
         if (!isset($config[$this->configKey])
-        || !is_array($config[$this->configKey])
+            || !is_array($config[$this->configKey])
         ) {
             $this->config = array();
             return $this->config;

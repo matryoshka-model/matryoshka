@@ -14,6 +14,9 @@ use Zend\Stdlib\Hydrator\HydratorInterface;
 use Zend\Stdlib\Hydrator\HydratorAwareInterface;
 use Zend\Stdlib\Hydrator\HydratorAwareTrait;
 
+/**
+ * Class HydratingResultSet
+ */
 class HydratingResultSet extends AbstractResultSet implements HydratorAwareInterface
 {
     use HydratorAwareTrait;
