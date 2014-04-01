@@ -43,11 +43,29 @@ class AbstractModelTest extends \PHPUnit_Framework_TestCase
     public function testWithoutConstructor()
     {
         $model = new ConcreteAbstractModel();
-        $this->assertNull($model->getObjectPrototype());
         $this->assertNull($model->getResultSetPrototype());
-        $this->assertNull($model->getHydrator());
-        $this->assertNull($model->getInputFilter());
         $this->assertNull($model->getDataGateway());
+    }
+
+    public function testShouldThrowExceptionWhenNoInputFilter()
+    {
+        $model = new ConcreteAbstractModel();
+        $this->setExpectedException('\Matryoshka\Model\Exception\RuntimeException');
+        $model->getInputFilter();
+    }
+
+    public function testShouldThrowExceptionWhenNoObjectPrototype()
+    {
+        $model = new ConcreteAbstractModel();
+        $this->setExpectedException('\Matryoshka\Model\Exception\RuntimeException');
+        $model->getObjectPrototype();
+    }
+
+    public function testShouldThrowExceptionWhenNoHydrator()
+    {
+        $model = new ConcreteAbstractModel();
+        $this->setExpectedException('\Matryoshka\Model\Exception\RuntimeException');
+        $model->getHydrator();
     }
 
     public function testGetDataGateway()

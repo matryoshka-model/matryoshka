@@ -16,6 +16,7 @@ use Zend\Stdlib\Hydrator\HydratorAwareTrait;
 use Matryoshka\Model\Criteria\WritableCriteriaInterface;
 use Matryoshka\Model\Criteria\DeletableCriteriaInterface;
 use Zend\Stdlib\Hydrator\AbstractHydrator;
+use Zend\InputFilter\InputFilterAwareInterface;
 
 /**
  * Class AbstractModel
@@ -43,6 +44,22 @@ abstract class AbstractModel implements ModelInterface
         return $this->hydrator;
     }
 
+    /**
+     * {@inheritdoc}
+     */
+    public function getInputFilter()
+    {
+        if (!$this->inputFilter) {
+            if ($this->getObjectPrototype() instanceof InputFilterAwareInterface) {
+                $this->inputFilter = $this->getObjectPrototype()->getInputFilter();
+            }
+            throw new Exception\RuntimeException(
+                'InputFilter must be set or the object prototype must be an instance of InputFilterAwareInterface'
+            );
+        }
+
+        return $this->inputFilter;
+    }
 
     /**
      * {@inheritdoc}
@@ -59,9 +76,6 @@ abstract class AbstractModel implements ModelInterface
      */
     protected function setResultSetPrototype(ResultSetInterface $resultSet)
     {
-        if ($resultSet instanceof HydratorAwareInterface && $this->getHydrator()) {
-            $resultSet->setHydrator($this->getHydrator());
-        }
         $this->resultSetPrototype = $resultSet;
         return $this;
     }
@@ -76,7 +90,10 @@ abstract class AbstractModel implements ModelInterface
         if ($resultSetPrototype) {
             return $resultSetPrototype->getObjectPrototype();
         }
-        return null;
+
+        throw new Exception\RuntimeException(
+            'ResultSet must be set and must have an object prototype'
+        );
     }
 
     /**
