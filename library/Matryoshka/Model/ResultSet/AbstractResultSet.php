@@ -13,6 +13,9 @@ use Countable;
 use Iterator;
 use IteratorAggregate;
 
+/**
+ * Class AbstractResultSet
+ */
 abstract class AbstractResultSet implements Iterator, ResultSetInterface
 {
 

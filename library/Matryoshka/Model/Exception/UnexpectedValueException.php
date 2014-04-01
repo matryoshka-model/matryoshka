@@ -8,6 +8,9 @@
  */
 namespace Matryoshka\Model\Exception;
 
+/**
+ * Class UnexpectedValueException
+ */
 class UnexpectedValueException extends \UnexpectedValueException implements ExceptionInterface
 {
 }

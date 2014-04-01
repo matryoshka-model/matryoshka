@@ -8,16 +8,22 @@
  */
 namespace Matryoshka\Model;
 
+/**
+ * Trait DataGatewayAwareTrait
+ */
 trait DataGatewayAwareTrait
 {
 
     /**
+     * Data Gateway
      * @var mixed
      */
     protected $dataGateway;
 
     /**
+     * Set Data Gateway
      * @param mixed $dataGateway
+     * @return $this
      */
     public function setDataGateway($dataGateway)
     {
@@ -26,6 +32,7 @@ trait DataGatewayAwareTrait
     }
 
     /**
+     * Get Data Gateway
      * @return mixed
      */
     public function getDataGateway()

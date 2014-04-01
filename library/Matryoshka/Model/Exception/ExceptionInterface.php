@@ -8,6 +8,9 @@
  */
 namespace Matryoshka\Model\Exception;
 
+/**
+ * Interface ExceptionInterface
+ */
 interface ExceptionInterface
 {
 }

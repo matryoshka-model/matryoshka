@@ -10,24 +10,32 @@ namespace Matryoshka\Model;
 
 use Matryoshka\Model\ResultSet\ResultSetInterface;
 use Matryoshka\Model\Exception;
-use Matryoshka\Model\Criteria\CriteriaInterface;
 use Zend\Stdlib\Hydrator\HydratorInterface;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use Zend\ServiceManager\ServiceLocatorAwareTrait;
 
+/**
+ * Class Model
+ */
 class Model extends AbstractModel implements ServiceLocatorAwareInterface
 {
     use ServiceLocatorAwareTrait;
 
     /**
-     * @param $dataGateway
+     * Ctor
+     * @param                    $dataGateway
+     * @param ResultSetInterface $resultSetPrototype
+     * @param HydratorInterface  $hydrator
      * @param ResultSetInterface $resultSetPrototype
      */
-    public function __construct($dataGateway, ResultSetInterface $resultSetPrototype, HydratorInterface $hydrator = null)
-    {
+    public function __construct(
+        $dataGateway,
+        ResultSetInterface $resultSetPrototype,
+        HydratorInterface $hydrator = null
+    ) {
         $this->setDataGateway($dataGateway);
 
-        if($hydrator) {
+        if ($hydrator) {
             $this->setHydrator($hydrator);
         }
 

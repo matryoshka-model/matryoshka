@@ -10,24 +10,29 @@ namespace Matryoshka\Model;
 
 use Matryoshka\Model\Criteria\CriteriaInterface;
 use Matryoshka\Model\ResultSet\ResultSetInterface;
-
 use Zend\Stdlib\Hydrator\HydratorAwareInterface;
 use Zend\InputFilter\InputFilterAwareInterface;
 
+/**
+ * Interface ModelInterface
+ */
 interface ModelInterface extends HydratorAwareInterface, InputFilterAwareInterface
 {
     /**
+     * Get Data Gateway
      * @return mixed
      */
     public function getDataGateway();
 
     /**
+     * Get ResultSet Prototype
      * @return ResultSetInterface
      */
     public function getResultSetPrototype();
 
     /**
-     * @param CriteriaInterface|Closure $criteria
+     * Find
+     * @param CriteriaInterface|\Closure $criteria
      * @return ResultSetInterface
      */
     public function find(CriteriaInterface $criteria);

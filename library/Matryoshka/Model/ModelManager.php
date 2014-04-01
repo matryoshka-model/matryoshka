@@ -9,26 +9,25 @@
 namespace Matryoshka\Model;
 
 use Zend\ServiceManager\AbstractPluginManager;
-use Zend\ServiceManager\AbstractFactoryInterface;
 use Zend\ServiceManager\ConfigInterface;
 use Matryoshka\Model\Service\ModelAbstractServiceFactory;
 
+/**
+ * Class ModelManager
+ */
 class ModelManager extends AbstractPluginManager
 {
     /**
      * Share by default
-     *
      * @var bool
-    */
+     */
     protected $shareByDefault = true;
 
 
     /**
      * Constructor
-     *
      * Add a default initializer to ensure the plugin is valid after instance
      * creation.
-     *
      * @param  null|ConfigInterface $configuration
      */
     public function __construct(ConfigInterface $configuration = null)
@@ -40,24 +39,18 @@ class ModelManager extends AbstractPluginManager
 
     /**
      * Validate the plugin
-     *
      * Checks that the model loaded is an instance of ModelInterface.
-     *
-     * @param  mixed $plugin
-     * @return void
-     * @throws Exception\RuntimeException if invalid
+     * @param mixed $plugin
+     * @throws Exception\InvalidPluginException
      */
     public function validatePlugin($plugin)
     {
-        if ($plugin instanceof ModelInterface) {
-            // we're okay
-            return;
+        if (!$plugin instanceof ModelInterface) {
+            throw new Exception\InvalidPluginException(sprintf(
+                'Model of type %s is invalid; must implement %s\ModelInterface',
+                (is_object($plugin) ? get_class($plugin) : gettype($plugin)),
+                __NAMESPACE__
+            ));
         }
-
-        throw new Exception\InvalidPluginException(sprintf(
-            'Model of type %s is invalid; must implement %s\ModelInterface',
-            (is_object($plugin) ? get_class($plugin) : gettype($plugin)),
-            __NAMESPACE__
-        ));
     }
 }

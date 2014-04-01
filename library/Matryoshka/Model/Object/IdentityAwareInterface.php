@@ -8,10 +8,14 @@
  */
 namespace Matryoshka\Model\Object;
 
+/**
+ * Interface IdentityAwareInterface
+ */
 interface IdentityAwareInterface
 {
 
     /**
+     * Set Id
      * @param mixed $id
      * @return $this
      */
@@ -19,6 +23,7 @@ interface IdentityAwareInterface
 
 
     /**
+     * Get Id
      * @return mixed
      */
     public function getId();

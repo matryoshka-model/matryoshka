@@ -8,6 +8,9 @@
  */
 namespace Matryoshka\Model\Exception;
 
+/**
+ * Class InvalidArgumentException
+ */
 class InvalidArgumentException extends \InvalidArgumentException implements ExceptionInterface
 {
 }
