@@ -13,6 +13,8 @@ use Zend\ServiceManager\ServiceLocatorInterface;
 use Matryoshka\Model\Model;
 use Matryoshka\Model\Exception;
 use Zend\ServiceManager\AbstractPluginManager;
+use Zend\Stdlib\Hydrator\HydratorAwareInterface;
+use Zend\InputFilter\InputFilterAwareInterface;
 
 /**
  * Class ModelAbstractServiceFactory
@@ -25,6 +27,13 @@ class ModelAbstractServiceFactory implements AbstractFactoryInterface
      * @var string
      */
     protected $configKey = 'model';
+
+    /**
+     * Default model class name
+     *
+     * @var string
+     */
+    protected $modelClass = '\Matryoshka\Model\Model';
 
     /**
      * Config
@@ -81,28 +90,11 @@ class ModelAbstractServiceFactory implements AbstractFactoryInterface
         }
 
         $config = $this->getConfig($serviceLocator)[$requestedName];
-
         $dataGataway = $serviceLocator->get($config['datagateway']);
         $resultSetPrototype = $serviceLocator->get($config['resultset']);
 
-        if (isset($config['object'])
-            && is_string($config['object'])
-            && !empty($config['object'])
-            && $serviceLocator->has($config['object'])
-        ) {
-            $resultSetPrototype->setObjectPrototype($serviceLocator->get($config['object']));
-        }
-
-        $hydrator = null;
-        if (isset($config['hydrator'])
-            && is_string($config['hydrator'])
-            && !empty($config['hydrator'])
-            && $serviceLocator->has($config['hydrator'])
-        ) {
-            $hydrator = $serviceLocator->get($config['hydrator']);
-        }
-
-        $class = '\Matryoshka\Model\Model';
+        //Create a model instance
+        $class = $this->modelClass;
         if (isset($config['type'])
             && is_string($config['type'])
             && !empty($config['type'])
@@ -115,7 +107,51 @@ class ModelAbstractServiceFactory implements AbstractFactoryInterface
             $class = $config['type'];
         }
 
-        return new $class($dataGataway, $resultSetPrototype, $hydrator);
+        $model =  new $class($dataGataway, $resultSetPrototype);
+
+        //Setup Hydrator
+        $hydrator = null;
+        if (isset($config['hydrator'])
+            && is_string($config['hydrator'])
+            && !empty($config['hydrator'])
+            && $serviceLocator->has($config['hydrator'])
+        ) {
+            $hydrator = $serviceLocator->get($config['hydrator']);
+            $model->setHydrator($hydrator);
+        }
+
+        if ($hydrator && $resultSetPrototype instanceof HydratorAwareInterface) {
+            $resultSetPrototype->setHydrator($hydrator);
+        }
+
+        //Setup InputFilter
+        $inputFilter = null;
+        if (isset($config['input_filter'])
+            && is_string($config['input_filter'])
+            && !empty($config['input_filter'])
+            && $serviceLocator->has($config['input_filter'])
+        ) {
+            $inputFilter = $serviceLocator->get($config['input_filter']);
+            $model->setInputFilter($inputFilter);
+        }
+
+        //Setup Object Prototype
+        if (isset($config['object'])
+            && is_string($config['object'])
+            && !empty($config['object'])
+            && $serviceLocator->has($config['object'])
+        ) {
+            $object = $serviceLocator->get($config['object']);
+            $resultSetPrototype->setObjectPrototype($object);
+            if ($hydrator && $object instanceof HydratorAwareInterface) {
+                $object->setHydrator($hydrator);
+            }
+            if ($inputFilter && $object instanceof InputFilterAwareInterface) {
+                $object->setInputFilter($inputFilter);
+            }
+        }
+
+        return $model;
     }
 
     /**
