@@ -93,12 +93,4 @@ class AbstractModelTest extends \PHPUnit_Framework_TestCase
         $resurlset = $this->model->find($criteria);
         $this->assertInstanceOf('\Matryoshka\Model\ResultSet\ResultSetInterface', $resurlset,  sprintf("Class %s not instance of \Matryoshka\Model\ResultSet\ResultSetInterface", get_class($resurlset) ) );
     }
-
-    public function testConstructHydrator()
-    {
-        $hydrator = new ClassMethods();
-        $model    = new Model(new MockDataGataway(), new MockResultsetHydrator(), $hydrator );
-
-        $this->assertSame($hydrator, $model->getHydrator());
-    }
 }

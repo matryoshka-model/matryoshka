@@ -15,6 +15,7 @@ use Zend\Stdlib\Hydrator\HydratorAwareInterface;
 use Zend\Stdlib\Hydrator\HydratorAwareTrait;
 use Matryoshka\Model\Criteria\WritableCriteriaInterface;
 use Matryoshka\Model\Criteria\DeletableCriteriaInterface;
+use Zend\Stdlib\Hydrator\AbstractHydrator;
 
 /**
  * Class AbstractModel
@@ -30,6 +31,18 @@ abstract class AbstractModel implements ModelInterface
      * @var ResultSetInterface
      */
     protected $resultSetPrototype;
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getHydrator()
+    {
+        if (!$this->hydrator && $this->getObjectPrototype() instanceof HydratorAwareInterface) {
+            $this->hydrator = $this->getObjectPrototype()->getHydrator();
+        }
+        return $this->hydrator;
+    }
+
 
     /**
      * {@inheritdoc}
@@ -106,16 +119,30 @@ abstract class AbstractModel implements ModelInterface
     {
         if ($dataOrObject instanceof HydratorAwareInterface) {
             $data = $dataOrObject->getHydrator()->extract($dataOrObject);
-        } elseif (is_array($dataOrObject)) {
-            $data = $dataOrObject;
-        } elseif (method_exists($dataOrObject, 'toArray')) {
-            $data = $dataOrObject->toArray();
-        } elseif (method_exists($dataOrObject, 'getArrayCopy')) {
-            $data = $dataOrObject->getArrayCopy();
         } else {
-            throw new Exception\RuntimeException(
-                '$dataOrObject must be an HydratorAwareInterface or and array, with type ' . gettype($dataOrObject) . ' cannot be cast to an array'
-            );
+            if (is_array($dataOrObject)) {
+                $data = $dataOrObject;
+            } elseif (method_exists($dataOrObject, 'toArray')) {
+                $data = $dataOrObject->toArray();
+            } elseif (method_exists($dataOrObject, 'getArrayCopy')) {
+                $data = $dataOrObject->getArrayCopy();
+            } else {
+                throw new Exception\RuntimeException(
+                    '$dataOrObject must be an HydratorAwareInterface or an array, with type ' . gettype($dataOrObject) . ' cannot be cast to an array'
+                );
+            }
+
+            $hydrator = $this->getHydrator();
+            if ($hydrator instanceof AbstractHydrator) {
+                $data = array();
+                foreach ($dataOrObject as $key => $value) {
+                    $data[$key] = $hydrator->extractValue($key, $value, $dataOrObject);
+                }
+            } else {
+                throw new Exception\RuntimeException(
+                    'Hydrator must be an instance of AbstractHydrator in order to extract single value with extractValue method'
+                );
+            }
         }
 
         return (bool) $criteria->applyWrite($this, $data);

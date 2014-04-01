@@ -25,20 +25,10 @@ class Model extends AbstractModel implements ServiceLocatorAwareInterface
      * Ctor
      * @param mixed              $dataGateway
      * @param ResultSetInterface $resultSetPrototype
-     * @param HydratorInterface  $hydrator
-     * @param ResultSetInterface $resultSetPrototype
      */
-    public function __construct(
-        $dataGateway,
-        ResultSetInterface $resultSetPrototype,
-        HydratorInterface $hydrator = null
-    ) {
+    public function __construct($dataGateway, ResultSetInterface $resultSetPrototype)
+    {
         $this->setDataGateway($dataGateway);
-
-        if ($hydrator) {
-            $this->setHydrator($hydrator);
-        }
-
         $this->setResultSetPrototype($resultSetPrototype);
     }
 }
