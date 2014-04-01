@@ -84,6 +84,6 @@ class FormTest extends \PHPUnit_Framework_TestCase
         // TODO with parameter in setdata
         $form->setData(array());
 
-        $this->assertFalse($form->isValid(), 'fdfff');
+        $this->assertFalse($form->isValid());
     }
 }
