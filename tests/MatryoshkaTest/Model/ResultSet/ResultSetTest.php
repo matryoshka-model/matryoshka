@@ -6,17 +6,16 @@
  * @copyright   Copyright (c) 2014, Leonardo Di Donato <leodidonato at gmail dot com>, Leonardo Grasso <me at leonardograsso dot com>
  * @license     http://opensource.org/licenses/BSD-2-Clause Simplified BSD License
  */
-namespace MatryoshkaTest\Model;
+namespace MatryoshkaTest\Model\ResultSet;
 
 use Matryoshka\Model\Model;
 use Matryoshka\Model\ResultSet\ResultSet;
 use Zend\Db\TableGateway\TableGateway;
 
-class CriteriaTest extends \PHPUnit_Framework_TestCase
+class ResultSetTest extends \PHPUnit_Framework_TestCase
 {
+   public function testMock()
+   {
 
-    public function testMock()
-    {
-
-    }
+   }
 }

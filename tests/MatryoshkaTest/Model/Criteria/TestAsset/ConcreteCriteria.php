@@ -6,16 +6,15 @@
  * @copyright   Copyright (c) 2014, Leonardo Di Donato <leodidonato at gmail dot com>, Leonardo Grasso <me at leonardograsso dot com>
  * @license     http://opensource.org/licenses/BSD-2-Clause Simplified BSD License
  */
-namespace MatryoshkaTest\Model;
+namespace MatryoshkaTest\Model\Criteria\TestAsset;
 
-use Matryoshka\Model\Model;
-use Matryoshka\Model\ResultSet\ResultSet;
-use Zend\Db\TableGateway\TableGateway;
+use Matryoshka\Model\Criteria\AbstractCriteria;
+use Matryoshka\Model\ModelInterface;
 
-class ResultSetTest extends \PHPUnit_Framework_TestCase
+class ConcreteCriteria extends AbstractCriteria
 {
-   public function testMock()
-   {
-
-   }
+    public function apply(ModelInterface $model)
+    {
+        return array();
+    }
 }

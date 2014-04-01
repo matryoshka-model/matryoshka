@@ -47,7 +47,7 @@ abstract class AbstractCriteria implements CriteriaInterface
      */
     public function offset($offset)
     {
-        $this->limit = (int)$offset;
+        $this->offset = (int)$offset;
         return $this;
     }
 
