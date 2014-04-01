@@ -10,9 +10,13 @@ namespace Matryoshka\Model\Criteria;
 
 use Matryoshka\Model\ModelInterface;
 
+/**
+ * Interface CriteriaInterface
+ */
 interface CriteriaInterface
 {
     /**
+     * Apply
      * @param ModelInterface $model
      * @return mixed
      */

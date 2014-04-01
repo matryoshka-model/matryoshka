@@ -8,15 +8,20 @@
  */
 namespace Matryoshka\Model;
 
+/**
+ * Interface DataGatewayAwareInterface
+ */
 interface DataGatewayAwareInterface
 {
 
     /**
+     * Set Data Gateway
      * @param mixed $dataGateway
      */
     public function setDataGateway($dataGateway);
 
     /**
+     * Get Data Gateway
      * @return mixed
      */
     public function getDataGateway();

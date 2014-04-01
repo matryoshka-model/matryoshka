@@ -10,6 +10,9 @@ namespace Matryoshka\Model\ResultSet;
 
 use ArrayObject;
 
+/**
+ * Class ResultSet
+ */
 class ResultSet extends AbstractResultSet
 {
 

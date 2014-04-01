@@ -6,11 +6,9 @@
  * @copyright   Copyright (c) 2014, Ripa Club
  * @license     http://opensource.org/licenses/BSD-2-Clause Simplified BSD License
  */
-namespace Matryoshka\Model\Exception;
+namespace MatryoshkaTest\Model\Service\TestAsset;
 
-/**
- * Class ErrorException
- */
-class ErrorException extends \Exception implements ExceptionInterface
+class FakeDataGateway
 {
+
 }

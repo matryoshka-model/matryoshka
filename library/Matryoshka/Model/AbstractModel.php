@@ -7,29 +7,30 @@
  * @license     http://opensource.org/licenses/BSD-2-Clause Simplified BSD License
  */
 namespace Matryoshka\Model;
-
 use Matryoshka\Model\Exception;
 use Matryoshka\Model\ResultSet\ResultSetInterface;
 use Matryoshka\Model\Criteria\CriteriaInterface;
-
 use Zend\InputFilter\InputFilterAwareTrait;
 use Zend\Stdlib\Hydrator\HydratorAwareInterface;
 use Zend\Stdlib\Hydrator\HydratorAwareTrait;
 
+/**
+ * Class AbstractModel
+ */
 abstract class AbstractModel implements ModelInterface
 {
-
     use HydratorAwareTrait;
     use InputFilterAwareTrait;
     use DataGatewayAwareTrait;
 
     /**
+     * ResultSet Prototype
      * @var ResultSetInterface
      */
     protected $resultSetPrototype;
 
     /**
-     * @return ResultSetInterface
+     * {@inheritdoc}
      */
     public function getResultSetPrototype()
     {
@@ -37,6 +38,7 @@ abstract class AbstractModel implements ModelInterface
     }
 
     /**
+     * Set ResultSet Prototype
      * @param ResultSetInterface $resultSet
      * @return $this
      */
@@ -50,6 +52,7 @@ abstract class AbstractModel implements ModelInterface
     }
 
     /**
+     * Get Object prototype
      * @return object
      */
     public function getObjectPrototype()
@@ -62,16 +65,17 @@ abstract class AbstractModel implements ModelInterface
     }
 
     /**
+     * Process Criteria
      * @param CriteriaInterface $criteria
      * @return mixed
      */
     protected function processCriteria(CriteriaInterface $criteria)
     {
-        // Bind and excecute persistence
         return $criteria->apply($this);
     }
 
     /**
+     * Create
      * @return object
      */
     public function create()
@@ -80,8 +84,7 @@ abstract class AbstractModel implements ModelInterface
     }
 
     /**
-     * @param CriteriaInterface $criteria
-     * @return ResultSetInterface
+     * {@inheritdoc}
      */
     public function find(CriteriaInterface $criteria)
     {
