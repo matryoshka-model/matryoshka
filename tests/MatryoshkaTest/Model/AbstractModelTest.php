@@ -3,7 +3,7 @@
  * Matryoshka
  *
  * @link        https://github.com/ripaclub/matryoshka
- * @copyright   Copyright (c) 2014, Leonardo Di Donato <leodidonato at gmail dot com>, Leonardo Grasso <me at leonardograsso dot com>
+ * @copyright   Copyright (c) 2014, Ripa Club
  * @license     http://opensource.org/licenses/BSD-2-Clause Simplified BSD License
  */
 namespace MatryoshkaTest\Model;
@@ -15,6 +15,7 @@ use Matryoshka\Model\ResultSet\ResultSet;
 
 use MatryoshkaTest\Model\Mock\ResultSet\MockResultsetHydrator;
 use Zend\Stdlib\Hydrator\ClassMethods;
+use MatryoshkaTest\Model\TestAsset\ConcreteAbstractModel;
 
 
 class AbstractModelTest extends \PHPUnit_Framework_TestCase
@@ -39,6 +40,16 @@ class AbstractModelTest extends \PHPUnit_Framework_TestCase
         $this->model = new Model($this->mockDataGateway, $this->resultSet);
     }
 
+    public function testWithoutConstructor()
+    {
+        $model = new ConcreteAbstractModel();
+        $this->assertNull($model->getObjectPrototype());
+        $this->assertNull($model->getResultSetPrototype());
+        $this->assertNull($model->getHydrator());
+        $this->assertNull($model->getInputFilter());
+        $this->assertNull($model->getDataGateway());
+    }
+
     public function testGetDataGateway()
     {
         $this->assertSame($this->mockDataGateway, $this->model->getDataGateway());
@@ -51,6 +62,20 @@ class AbstractModelTest extends \PHPUnit_Framework_TestCase
     public function testGetResultSetPrototype()
     {
         $this->assertSame($this->resultSet, $this->model->getResultSetPrototype());
+    }
+
+    public function testGetObjectPrototype()
+    {
+        $this->assertSame($this->resultSet->getObjectPrototype(), $this->model->getObjectPrototype());
+    }
+
+    public function testCreate()
+    {
+        $prototype = $this->model->getObjectPrototype();
+        $newObj    = $this->model->create();
+
+        $this->assertEquals($prototype, $newObj);
+        $this->assertNotSame($prototype, $newObj);
     }
 
     public function testFindAbstractCriteria()
