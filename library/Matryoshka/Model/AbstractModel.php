@@ -13,6 +13,8 @@ use Matryoshka\Model\Criteria\CriteriaInterface;
 use Zend\InputFilter\InputFilterAwareTrait;
 use Zend\Stdlib\Hydrator\HydratorAwareInterface;
 use Zend\Stdlib\Hydrator\HydratorAwareTrait;
+use Matryoshka\Model\Criteria\WritableCriteriaInterface;
+use Matryoshka\Model\Criteria\DeletableCriteriaInterface;
 
 /**
  * Class AbstractModel
@@ -92,5 +94,39 @@ abstract class AbstractModel implements ModelInterface
         $resultSet = clone $this->getResultSetPrototype();
         $resultSet->initialize($result);
         return $resultSet;
+    }
+
+    /**
+     * @param WriteCriteriaInterface $criteria
+     * @param unknown $dataOrObject
+     * @throws Exception\RuntimeException
+     * @return boolean
+     */
+    public function save(WritableCriteriaInterface $criteria, $dataOrObject)
+    {
+        if ($dataOrObject instanceof HydratorAwareInterface) {
+            $data = $dataOrObject->getHydrator()->extract($dataOrObject);
+        } elseif (is_array($dataOrObject)) {
+            $data = $dataOrObject;
+        } elseif (method_exists($dataOrObject, 'toArray')) {
+            $data = $dataOrObject->toArray();
+        } elseif (method_exists($dataOrObject, 'getArrayCopy')) {
+            $data = $dataOrObject->getArrayCopy();
+        } else {
+            throw new Exception\RuntimeException(
+                '$dataOrObject must be an HydratorAwareInterface or and array, with type ' . gettype($dataOrObject) . ' cannot be cast to an array'
+            );
+        }
+
+        return (bool) $criteria->applyWrite($this, $data);
+    }
+
+    /**
+     * @param DeleteCriteriaInterface $criteria
+     * @return boolean
+     */
+    public function delete(DeletableCriteriaInterface $criteria)
+    {
+        return (bool) $criteria->applyDelete($this);
     }
 }
