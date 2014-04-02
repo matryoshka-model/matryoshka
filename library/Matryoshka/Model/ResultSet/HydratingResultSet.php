@@ -9,6 +9,7 @@
 namespace Matryoshka\Model\ResultSet;
 
 use ArrayObject;
+use Matryoshka\Model\Exception;
 use Zend\Stdlib\Hydrator\ArraySerializable;
 use Zend\Stdlib\Hydrator\HydratorInterface;
 use Zend\Stdlib\Hydrator\HydratorAwareInterface;
@@ -35,7 +36,7 @@ class HydratingResultSet extends AbstractResultSet implements HydratorAwareInter
     public function __construct(HydratorInterface $hydrator = null, $objectPrototype = null)
     {
         $this->setHydrator(($hydrator) ?: new ArraySerializable);
-        $this->setObjectPrototype(($objectPrototype) ?: new ArrayObject);
+        $this->setObjectPrototype(($objectPrototype) ?: new ArrayObject(array(), ArrayObject::ARRAY_AS_PROPS));
     }
 
     /**
@@ -69,12 +70,12 @@ class HydratingResultSet extends AbstractResultSet implements HydratorAwareInter
     /**
      * Iterator: get current item
      *
-     * @return object
+     * @return object|null
      */
     public function current()
     {
         $data = $this->dataSource->current();
-        $object = is_array($data) ? $this->hydrator->hydrate($data, clone $this->objectPrototype) : false;
+        $object = is_array($data) ? $this->hydrator->hydrate($data, clone $this->objectPrototype) : null;
         return $object;
     }
 
@@ -82,13 +83,12 @@ class HydratingResultSet extends AbstractResultSet implements HydratorAwareInter
      * Cast result set to array of arrays
      *
      * @return array
-     * @throws Exception\RuntimeException if any row is not castable to an array
      */
     public function toArray()
     {
         $return = array();
-        foreach ($this as $row) {
-            $return[] = $this->getHydrator()->extract($row);
+        foreach ($this as $item) {
+            $return[] = $this->getHydrator()->extract($item);
         }
         return $return;
     }

@@ -30,4 +30,12 @@ class ArrayObjectResultSetTest extends \PHPUnit_Framework_TestCase
         $resultSet->setObjectPrototype(new \stdClass);
     }
 
+    public function testGetSetObjectPrototype()
+    {
+        $prototype = new \ArrayObject(array());
+        $resultSet = $this->getMockForAbstractClass('\Matryoshka\Model\ResultSet\ArrayObjectResultSet');
+        $this->assertSame($resultSet, $resultSet->setObjectPrototype($prototype));
+        $this->assertSame($prototype, $resultSet->getObjectPrototype());
+    }
+
 }
