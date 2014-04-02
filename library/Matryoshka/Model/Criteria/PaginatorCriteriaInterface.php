@@ -8,11 +8,16 @@
  */
 namespace Matryoshka\Model\Criteria;
 
-use Zend\Paginator\AdapterAggregateInterface;
+use Matryoshka\Model\ModelInterface;
 
 /**
- * Class AbstractPaginatorCriteria
+ * Interface PaginatorCriteriaInterface
  */
-abstract class AbstractPaginatorCriteria extends AbstractCriteria implements AdapterAggregateInterface
+interface PaginatorCriteriaInterface
 {
+
+    /**
+     * @param ModelInterface $model
+     */
+    public function getPaginatorAdapter(ModelInterface $model);
 }
