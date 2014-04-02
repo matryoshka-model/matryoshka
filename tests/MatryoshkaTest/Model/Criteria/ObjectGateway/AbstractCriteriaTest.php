@@ -1,0 +1,44 @@
+<?php
+/**
+ * Matryoshka
+ *
+ * @link        https://github.com/ripaclub/matryoshka
+ * @copyright   Copyright (c) 2014, Leonardo Di Donato <leodidonato at gmail dot com>, Leonardo Grasso <me at leonardograsso dot com>
+ * @license     http://opensource.org/licenses/BSD-2-Clause Simplified BSD License
+ */
+namespace MatryoshkaTest\Model\Criteria\ObjectGateway;
+
+
+use MatryoshkaTest\Model\Criteria\ObjectGateway\TestAsset\ConcreteCriteria;
+
+class AbstractCriteriaTest extends \PHPUnit_Framework_TestCase
+{
+
+    public function setUp()
+    {
+        $this->criteria = new ConcreteCriteria();
+    }
+
+
+    public function testShouldThrowExceptionWhenNoId()
+    {
+        $this->setExpectedException('\Matryoshka\Model\Exception\RuntimeException');
+        $this->criteria->getId();
+    }
+
+    /**
+     * @depends testShouldThrowExceptionWhenNoId
+     */
+    public function testGetSetId()
+    {
+        $id = 'foo';
+        $this->assertInstanceOf(
+            '\MatryoshkaTest\Model\Criteria\ObjectGateway\TestAsset\ConcreteCriteria',
+            $this->criteria->setId($id)
+        );
+        $this->assertSame($id, $this->criteria->getId());
+    }
+
+
+
+}

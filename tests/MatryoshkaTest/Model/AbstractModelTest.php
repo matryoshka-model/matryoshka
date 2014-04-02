@@ -157,7 +157,6 @@ class AbstractModelTest extends \PHPUnit_Framework_TestCase
 
     public function testSave()
     {
-        // testing Mysqli driver
         $mockCriteria = $this->getMock(
             '\Matryoshka\Model\Criteria\WritableCriteriaInterface',
             array('applyWrite')
@@ -195,7 +194,6 @@ class AbstractModelTest extends \PHPUnit_Framework_TestCase
 
     public function testDelete()
     {
-        // testing Mysqli driver
         $mockCriteria = $this->getMock(
             '\Matryoshka\Model\Criteria\DeletableCriteriaInterface',
             array('applyDelete')

@@ -40,7 +40,7 @@ abstract class AbstractCriteria implements CriteriaInterface, WritableCriteriaIn
     public function getId()
     {
         if (!$this->id) {
-            throw Exception\RuntimeException('In order to work with ObjectGateway criteria the id must be set');
+            throw new Exception\RuntimeException('In order to work with ObjectGateway criteria the id must be set');
         }
         return $this->id;
     }

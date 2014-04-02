@@ -11,7 +11,7 @@ namespace MatryoshkaTest\Model\Criteria;
 
 use MatryoshkaTest\Model\Criteria\TestAsset\ConcreteCriteria;
 
-class CriteriaTest extends \PHPUnit_Framework_TestCase
+class AbstractCriteriaTest extends \PHPUnit_Framework_TestCase
 {
 
     public function setUp()
