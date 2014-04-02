@@ -11,7 +11,7 @@ namespace Matryoshka\Model\Object;
 /**
  * Interface ObjectGatewayInterface
  */
-interface ObjectGatewayInterface
+interface ObjectGatewayInterface extends IdentityAwareInterface
 {
 
     /**
