@@ -12,6 +12,7 @@ use ArrayIterator;
 use Countable;
 use Iterator;
 use IteratorAggregate;
+use Matryoshka\Model\Exception;
 
 /**
  * Class AbstractResultSet
@@ -111,12 +112,7 @@ abstract class AbstractResultSet implements Iterator, ResultSetInterface
      */
     public function valid()
     {
-        if ($this->dataSource instanceof Iterator) {
-            return $this->dataSource->valid();
-        } else {
-            $key = key($this->dataSource);
-            return ($key !== null);
-        }
+        return $this->dataSource->valid();
     }
 
     /**
@@ -126,26 +122,20 @@ abstract class AbstractResultSet implements Iterator, ResultSetInterface
      */
     public function rewind()
     {
-        if ($this->dataSource instanceof Iterator) {
-            $this->dataSource->rewind();
-        } else {
-            reset($this->dataSource);
-        }
-
+        $this->dataSource->rewind();
         $this->position = 0;
     }
 
     /**
-     * Countable: return count of rows
+     * Countable: return count of items
      *
      * @return int
      */
     public function count()
     {
-        if ($this->count !== null) {
-            return $this->count;
+        if ($this->count === null) {
+            $this->count = count($this->dataSource);
         }
-        $this->count = count($this->dataSource);
         return $this->count;
     }
 
@@ -153,21 +143,21 @@ abstract class AbstractResultSet implements Iterator, ResultSetInterface
      * Cast result set to array of arrays
      *
      * @return array
-     * @throws Exception\RuntimeException if any row is not castable to an array
+     * @throws Exception\RuntimeException if any item is not castable to an array
      */
     public function toArray()
     {
         $return = array();
-        foreach ($this as $row) {
-            if (is_array($row)) {
-                $return[] = $row;
-            } elseif (method_exists($row, 'toArray')) {
-                $return[] = $row->toArray();
-            } elseif (method_exists($row, 'getArrayCopy')) {
-                $return[] = $row->getArrayCopy();
+        foreach ($this as $item) {
+            if (is_array($item)) {
+                $return[] = $item;
+            } elseif (method_exists($item, 'toArray')) {
+                $return[] = $item->toArray();
+            } elseif (method_exists($item, 'getArrayCopy')) {
+                $return[] = $item->getArrayCopy();
             } else {
                 throw new Exception\RuntimeException(
-                    'Rows as part of this DataSource, with type ' . gettype($row) . ' cannot be cast to an array'
+                    'Items as part of this DataSource, with type ' . gettype($item) . ' cannot be cast to an array'
                 );
             }
         }

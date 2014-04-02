@@ -11,8 +11,7 @@ namespace MatryoshkaTest\Model;
 use Matryoshka\Model\Model;
 use MatryoshkaTest\Model\Mock\MockDataGataway;
 use MatryoshkaTest\Model\Mock\MockModel;
-use Matryoshka\Model\ResultSet\ResultSet;
-
+use Matryoshka\Model\ResultSet\ArrayObjectResultSet as ResultSet;
 use MatryoshkaTest\Model\Mock\ResultSet\MockResultsetHydrator;
 use Zend\Stdlib\Hydrator\ClassMethods;
 use MatryoshkaTest\Model\TestAsset\ConcreteAbstractModel;

@@ -11,6 +11,7 @@ namespace MatryoshkaTest\Model;
 
 use Matryoshka\Model\ModelManager;
 use Zend\ServiceManager\ServiceManager;
+use Matryoshka\Model\ResultSet\ArrayObjectResultSet as ResultSet;
 
 
 class ModelManagerTest extends \PHPUnit_Framework_TestCase
@@ -28,7 +29,7 @@ class ModelManagerTest extends \PHPUnit_Framework_TestCase
     public function testCanCreateByModelAbstractServiceFactory()
     {
         $dataGateway = new \MatryoshkaTest\Model\Service\TestAsset\FakeDataGateway;
-        $resultSet   = new \Matryoshka\Model\ResultSet\ResultSet;
+        $resultSet   = new ResultSet;
 
         $config = array(
             'model' => array(
@@ -42,7 +43,7 @@ class ModelManagerTest extends \PHPUnit_Framework_TestCase
         $services = new ServiceManager();
         $services->setService('Config', $config);
         $services->setService('MatryoshkaTest\Model\Service\TestAsset\FakeDataGateway', new \MatryoshkaTest\Model\Service\TestAsset\FakeDataGateway);
-        $services->setService('Matryoshka\Model\ResultSet\ResultSet', new \Matryoshka\Model\ResultSet\ResultSet);
+        $services->setService('Matryoshka\Model\ResultSet\ResultSet', new ResultSet);
 
 
         $pluginManager = new ModelManager();

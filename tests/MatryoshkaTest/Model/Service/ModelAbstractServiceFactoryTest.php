@@ -11,6 +11,7 @@ namespace MatryoshkaTest\Model\Service;
 use Matryoshka\Model\Service\ModelAbstractServiceFactory;
 use Zend\ServiceManager;
 use Zend\Mvc\Service\ServiceManagerConfig;
+use Matryoshka\Model\ResultSet\ArrayObjectResultSet as ResultSet;
 
 /**
  * Class ModelAbstractServiceFactoryTest
@@ -30,7 +31,7 @@ class ModelAbstractServiceFactoryTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $dataGateway = new \MatryoshkaTest\Model\Service\TestAsset\FakeDataGateway;
-        $resultSet   = new \Matryoshka\Model\ResultSet\ResultSet;
+        $resultSet   = new ResultSet;
 
         $config = array(
             'model' => array(
@@ -63,7 +64,7 @@ class ModelAbstractServiceFactoryTest extends \PHPUnit_Framework_TestCase
 
         $sm->setService('Config', $config);
         $sm->setService('MatryoshkaTest\Model\Service\TestAsset\FakeDataGateway', new \MatryoshkaTest\Model\Service\TestAsset\FakeDataGateway);
-        $sm->setService('Matryoshka\Model\ResultSet\ResultSet', new \Matryoshka\Model\ResultSet\ResultSet);
+        $sm->setService('Matryoshka\Model\ResultSet\ResultSet', new ResultSet);
         $sm->setService('Matryoshka\Model\ResultSet\HydratingResultSet', new \Matryoshka\Model\ResultSet\HydratingResultSet);
         $sm->setService('Zend\Stdlib\Hydrator\ArraySerializable', new \Zend\Stdlib\Hydrator\ArraySerializable);
         $sm->setService('ArrayObject', new \ArrayObject);

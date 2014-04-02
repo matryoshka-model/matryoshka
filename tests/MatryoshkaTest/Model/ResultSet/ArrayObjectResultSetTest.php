@@ -1,0 +1,33 @@
+<?php
+/**
+ * Matryoshka
+ *
+ * @link        https://github.com/ripaclub/matryoshka
+ * @copyright   Copyright (c) 2014, Ripa Club
+ * @license     http://opensource.org/licenses/BSD-2-Clause Simplified BSD License
+ */
+namespace MatryoshkaTest\Model\ResultSet;
+
+class ArrayObjectResultSetTest extends \PHPUnit_Framework_TestCase
+{
+
+    public function testCurrent()
+    {
+        $resultSet = $this->getMockForAbstractClass('\Matryoshka\Model\ResultSet\ArrayObjectResultSet');
+        $resultSet->initialize(new \ArrayIterator(array(
+            array('id' => 1, 'name' => 'one'),
+        )));
+        $this->assertEquals(new \ArrayObject(array('id' => 1, 'name' => 'one')), $resultSet->current());
+        $resultSet->next();
+        $this->assertNull($resultSet->current());
+
+    }
+
+    public function testSetObjectPrototypeShouldThrowExceptionWhenInvalidType()
+    {
+        $this->setExpectedException('\Matryoshka\Model\Exception\InvalidArgumentException');
+        $resultSet = $this->getMockForAbstractClass('\Matryoshka\Model\ResultSet\ArrayObjectResultSet');
+        $resultSet->setObjectPrototype(new \stdClass);
+    }
+
+}

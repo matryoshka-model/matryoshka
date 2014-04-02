@@ -14,46 +14,23 @@ use Matryoshka\Model\Exception;
 /**
  * Class ResultSet
  */
-class ResultSet extends AbstractResultSet
+class ArrayObjectResultSet extends AbstractResultSet
 {
 
-    const TYPE_ARRAYOBJECT = 'arrayobject';
-    const TYPE_ARRAY  = 'array';
-
     /**
-     * Allowed return types
-     *
-     * @var array
-     */
-    protected $allowedReturnTypes = array(
-        self::TYPE_ARRAYOBJECT,
-        self::TYPE_ARRAY,
-    );
-
-    /**
-     * @var ArrayObject
+     * @var ArrayObject|object
      */
     protected $arrayObjectPrototype = null;
 
-    /**
-     * Return type to use when returning an object from the set
-     *
-     * @var ResultSet::TYPE_ARRAYOBJECT|ResultSet::TYPE_ARRAY
-     */
-    protected $returnType = self::TYPE_ARRAYOBJECT;
 
     /**
      * Constructor
      *
-     * @param string           $returnType
-     * @param null|ArrayObject $arrayObjectPrototype
+     * @param ArrayObject $arrayObjectPrototype
      */
-    public function __construct($returnType = self::TYPE_ARRAYOBJECT, $arrayObjectPrototype = null)
+    public function __construct($arrayObjectPrototype = null)
     {
-        $this->returnType = (in_array($returnType, array(self::TYPE_ARRAY, self::TYPE_ARRAYOBJECT))) ? $returnType : self::TYPE_ARRAYOBJECT;
-        if ($this->returnType === self::TYPE_ARRAYOBJECT) {
-            $this->setObjectPrototype(($arrayObjectPrototype) ?: new ArrayObject(array(), ArrayObject::ARRAY_AS_PROPS));
-        }
+        $this->setObjectPrototype(($arrayObjectPrototype) ?: new ArrayObject(array(), ArrayObject::ARRAY_AS_PROPS));
     }
 
     /**
@@ -78,7 +55,7 @@ class ResultSet extends AbstractResultSet
     /**
      * Get the item object prototype
      *
-     * @return ArrayObject
+     * @return ArrayObject|object
      */
     public function getObjectPrototype()
     {
@@ -86,23 +63,13 @@ class ResultSet extends AbstractResultSet
     }
 
     /**
-     * Get the return type to use when returning objects from the set
-     *
-     * @return string
-     */
-    public function getReturnType()
-    {
-        return $this->returnType;
-    }
-
-    /**
-     * @return array|\ArrayObject|null
+     * @return ArrayObject|object|null
      */
     public function current()
     {
         $data = parent::current();
 
-        if ($this->returnType === self::TYPE_ARRAYOBJECT && is_array($data)) {
+        if (is_array($data)) {
             /** @var $ao ArrayObject */
             $ao = clone $this->arrayObjectPrototype;
             if ($ao instanceof ArrayObject || method_exists($ao, 'exchangeArray')) {
