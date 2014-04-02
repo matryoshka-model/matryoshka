@@ -128,14 +128,16 @@ abstract class AbstractModel implements ModelInterface
 
     /**
      * @param WriteCriteriaInterface $criteria
-     * @param unknown $dataOrObject
+     * @param HydratorAwareInterface|object|array $dataOrObject
      * @throws Exception\RuntimeException
      * @return boolean
      */
     public function save(WritableCriteriaInterface $criteria, $dataOrObject)
     {
-        if ($dataOrObject instanceof HydratorAwareInterface) {
+        if ($dataOrObject instanceof HydratorAwareInterface && $dataOrObject->getHydrator()) {
+            $hydrator = $dataOrObject->getHydrator();
             $data = $dataOrObject->getHydrator()->extract($dataOrObject);
+
         } else {
             if (is_array($dataOrObject)) {
                 $data = $dataOrObject;
@@ -163,7 +165,15 @@ abstract class AbstractModel implements ModelInterface
             }
         }
 
-        return (bool) $criteria->applyWrite($this, $data);
+        $result = (bool) $criteria->applyWrite($this, $data);
+
+        if ($result) {
+            if ($dataOrObject instanceof HydratorAwareInterface && $hydrator) {
+                $hydrator->hydrate($data, $dataOrObject);
+            }
+        }
+
+        return $result;
     }
 
     /**

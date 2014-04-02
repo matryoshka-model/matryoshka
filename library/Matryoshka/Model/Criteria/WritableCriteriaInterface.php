@@ -21,5 +21,5 @@ interface WritableCriteriaInterface
      * @param ModelInterface $model
      * @param array $data
      */
-    public function applyWrite(ModelInterface $model, array $data);
+    public function applyWrite(ModelInterface $model, array &$data);
 }

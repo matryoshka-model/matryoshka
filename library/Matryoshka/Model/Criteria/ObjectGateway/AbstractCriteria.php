@@ -12,11 +12,12 @@ use Matryoshka\Model\Exception;
 use Matryoshka\Model\Criteria\AbstractCriteria as BaseCriteria;
 use Matryoshka\Model\Criteria\DeletableCriteriaInterface;
 use Matryoshka\Model\Criteria\WritableCriteriaInterface;
+use Matryoshka\Model\Criteria\CriteriaInterface;
 
 /**
  * Class AbstractPaginatorCriteria
  */
-abstract class AbstractCriteria extends BaseCriteria implements WritableCriteriaInterface, DeletableCriteriaInterface
+abstract class AbstractCriteria implements CriteriaInterface, WritableCriteriaInterface, DeletableCriteriaInterface
 {
 
     protected $id;
