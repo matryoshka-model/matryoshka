@@ -12,6 +12,8 @@ use Matryoshka\Model\Criteria\CriteriaInterface;
 use Matryoshka\Model\ResultSet\ResultSetInterface;
 use Zend\Stdlib\Hydrator\HydratorAwareInterface;
 use Zend\InputFilter\InputFilterAwareInterface;
+use Matryoshka\Model\Criteria\WritableCriteriaInterface;
+use Matryoshka\Model\Criteria\DeletableCriteriaInterface;
 
 /**
  * Interface ModelInterface
@@ -36,4 +38,18 @@ interface ModelInterface extends HydratorAwareInterface, InputFilterAwareInterfa
      * @return ResultSetInterface
      */
     public function find(CriteriaInterface $criteria);
+
+    /**
+     * @param WriteCriteriaInterface $criteria
+     * @param HydratorAwareInterface|object|array $dataOrObject
+     * @throws Exception\RuntimeException
+     * @return boolean
+     */
+    public function save(WritableCriteriaInterface $criteria, $dataOrObject);
+
+    /**
+     * @param DeleteCriteriaInterface $criteria
+     * @return boolean
+     */
+    public function delete(DeletableCriteriaInterface $criteria);
 }
