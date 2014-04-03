@@ -21,6 +21,14 @@
         {
             "name": "Leonardo Di Donato",
             "email": "leodidonato@gmail.com"
+        },
+        {
+            "name": "Antonio Visalli",
+            "email": "antonino.visalli@gmail.com"
+        },
+        {
+            "name": "Lorenzo Fontana",
+            "email": "fontanalorenzo@me.com"
         }
     ],
     "autoload": {
