@@ -9,22 +9,22 @@
 namespace MatryoshkaTest\Model;
 
 use Matryoshka\Model\Model;
-use MatryoshkaTest\Model\Mock\MockDataGataway;
-use MatryoshkaTest\Model\Mock\MockModel;
+use MatryoshkaTest\Model\Mock\Criteria\MockCriteria;
 use Matryoshka\Model\ResultSet\ArrayObjectResultSet as ResultSet;
-use MatryoshkaTest\Model\Mock\ResultSet\MockResultsetHydrator;
-use Zend\Stdlib\Hydrator\ClassMethods;
 use MatryoshkaTest\Model\TestAsset\ConcreteAbstractModel;
+use MatryoshkaTest\Model\TestAsset\HydratorObject;
+use MatryoshkaTest\Model\TestAsset\ToArrayObject;
 use Zend\Stdlib\Hydrator\ArraySerializable;
 use MatryoshkaTest\Model\TestAsset\HydratorAwareObject;
-use Zend\Form\Annotation\InputFilter;
 use MatryoshkaTest\Model\TestAsset\InputFilterAwareObject;
 
-
+/**
+ * Class AbstractModelTest
+ */
 class AbstractModelTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Matryoshka\Model\Model
+     * @var \Matryoshka\Model\Model
      */
     protected $model;
 
@@ -116,7 +116,10 @@ class AbstractModelTest extends \PHPUnit_Framework_TestCase
 
     public function testGetDefaultResultSet()
     {
-        $this->assertInstanceOf('\Matryoshka\Model\ResultSet\ResultSetInterface', $this->model->getResultSetPrototype());
+        $this->assertInstanceOf(
+            '\Matryoshka\Model\ResultSet\ResultSetInterface',
+            $this->model->getResultSetPrototype()
+        );
     }
 
     public function testGetResultSetPrototype()
@@ -132,7 +135,7 @@ class AbstractModelTest extends \PHPUnit_Framework_TestCase
     public function testCreate()
     {
         $prototype = $this->model->getObjectPrototype();
-        $newObj    = $this->model->create();
+        $newObj = $this->model->create();
 
         $this->assertEquals($prototype, $newObj);
         $this->assertNotSame($prototype, $newObj);
@@ -140,56 +143,74 @@ class AbstractModelTest extends \PHPUnit_Framework_TestCase
 
     public function testFindAbstractCriteria()
     {
-        $criteria = new \MatryoshkaTest\Model\Mock\Criteria\MockCriteria();
+        $criteria = new MockCriteria();
 
         $resurlset = $this->model->find($criteria);
-        $this->assertInstanceOf('\Matryoshka\Model\ResultSet\ResultSetInterface', $resurlset,  sprintf("Class %s not instance of \Matryoshka\Model\ResultSet\ResultSetInterface", get_class($resurlset) ) );
+        $this->assertInstanceOf(
+            '\Matryoshka\Model\ResultSet\ResultSetInterface',
+            $resurlset,
+            sprintf(
+                'Class %s not instance of \Matryoshka\Model\ResultSet\ResultSetInterface',
+                get_class($resurlset)
+            )
+        );
     }
 
     public function testFindClosureCriteria()
     {
-        $criteria = new \Matryoshka\Model\Criteria\CallableCriteria('MatryoshkaTest\Model\Mock\Criteria\MockCallable::applyTest');
+        $criteria = new \Matryoshka\Model\Criteria\CallableCriteria(
+            'MatryoshkaTest\Model\Mock\Criteria\MockCallable::applyTest'
+        );
 
         $resurlset = $this->model->find($criteria);
-        $this->assertInstanceOf('\Matryoshka\Model\ResultSet\ResultSetInterface', $resurlset,  sprintf("Class %s not instance of \Matryoshka\Model\ResultSet\ResultSetInterface", get_class($resurlset) ) );
+        $this->assertInstanceOf(
+            '\Matryoshka\Model\ResultSet\ResultSetInterface',
+            $resurlset,
+            sprintf(
+                'Class %s not instance of \Matryoshka\Model\ResultSet\ResultSetInterface',
+                get_class($resurlset)
+            )
+        );
     }
 
-    public function testSave()
+    /**
+     * @dataProvider saveDataProvider
+     */
+    public function testSave($data, $expected, $hydrator = null)
     {
         $mockCriteria = $this->getMock(
             '\Matryoshka\Model\Criteria\WritableCriteriaInterface',
             array('applyWrite')
         );
 
-        $data = array(
-            'foo' => 'bar'
-        );
+        if ($hydrator) {
+            $this->model->setHydrator($hydrator);
+        }
 
-        //Test simple array
         $mockCriteria->expects($this->at(0))->method('applyWrite')->with(
             $this->equalTo($this->model),
-            $this->equalTo($data)
+            $this->equalTo($expected)
         )->will($this->returnValue(true));
 
         $this->assertTrue($this->model->save($mockCriteria, $data));
-
-        //Test with ArrayObject
-        $mockCriteria->expects($this->at(0))->method('applyWrite')->with(
-            $this->equalTo($this->model),
-            $this->equalTo($data)
-        )->will($this->returnValue(true));
-
-        $this->assertTrue($this->model->save($mockCriteria, new \ArrayObject($data)));
-
-        //Test hydratable object
-        $hydratableObject = new HydratorAwareObject($data);
-        $mockCriteria->expects($this->at(0))->method('applyWrite')->with(
-            $this->equalTo($this->model),
-            $data
-        )->will($this->returnValue(true));
-
-        $this->assertTrue($this->model->save($mockCriteria, $hydratableObject));
     }
+
+
+    /**
+     * @dataProvider saveExceptionDataProvider
+     * @expectedException \Matryoshka\Model\Exception\RuntimeException
+     */
+    public function testSaveRuntimeException($data, $hydrator = null)
+    {
+        $mockCriteria = $this->getMock('\Matryoshka\Model\Criteria\WritableCriteriaInterface');
+
+        if ($hydrator) {
+            $this->model->setHydrator($hydrator);
+        }
+
+        $this->model->save($mockCriteria, $data);
+    }
+
 
     public function testDelete()
     {
@@ -202,5 +223,36 @@ class AbstractModelTest extends \PHPUnit_Framework_TestCase
         )->will($this->returnValue(true));
 
         $this->assertTrue($this->model->delete($mockCriteria));
+    }
+
+
+    /**
+     * Save Data Provider
+     *
+     * @return array
+     */
+    public function saveDataProvider()
+    {
+        return array(
+            array(array('foo' => 'bar'), array('foo' => 'bar')),
+            array(new ToArrayObject(array('foo' => 'bar')), array('foo' => 'bar')),
+            array(new \ArrayObject(array('foo' => 'bar')), array('foo' => 'bar')),
+            array(new HydratorAwareObject(array('foo' => 'bar')), array('foo' => 'bar')),
+            array(new \ArrayObject(array('foo' => 'bar')), array('foo' => 'bar'), new ArraySerializable()),
+        );
+    }
+
+
+    /**
+     * Save Exception Data Provider
+     *
+     * @return array
+     */
+    public function saveExceptionDataProvider()
+    {
+        return array(
+            array('Yak'),
+            array(array('Yak'), new HydratorObject())
+        );
     }
 }
