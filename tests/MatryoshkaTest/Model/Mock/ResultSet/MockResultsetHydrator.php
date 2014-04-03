@@ -1,14 +1,6 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: antonio
- * Date: 26/03/14
- * Time: 16.14
- */
 
 namespace MatryoshkaTest\Model\Mock\ResultSet;
-
-use Matryoshka\Model\ResultSet\ResultSet;
 
 use Zend\Stdlib\Hydrator\ClassMethods;
 use Zend\Stdlib\Hydrator\HydratorAwareInterface;

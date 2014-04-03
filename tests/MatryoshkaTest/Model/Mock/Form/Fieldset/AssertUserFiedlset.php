@@ -1,21 +1,11 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: antonio
- * Date: 27/03/14
- * Time: 15.41
- */
 
 namespace MatryoshkaTest\Model\Mock\Form\Fieldset;
 
-use MatryoshkaTest\Model\Mock\AssertRoleCommunity;
 use MatryoshkaTest\Model\Mock\AssertUser;
 
 use Zend\Form\Element;
 use Zend\Form\Fieldset;
-use Zend\InputFilter\InputFilterProviderInterface;
-use Zend\Stdlib\Hydrator\ClassMethods as ClassMethodsHydrator;
-use Zend\Stdlib\PriorityQueue;
 
 class AssertUserFiedlset extends Fieldset
 {

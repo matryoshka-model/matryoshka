@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: antonio
- * Date: 27/03/14
- * Time: 15.35
- */
 
 namespace MatryoshkaTest\Model\Mock;
 
@@ -90,4 +84,4 @@ class AssertRoleCommunity implements HydratorAwareInterface, InputFilterAwareInt
 
         return $inputFilter;
     }
-} 
+}

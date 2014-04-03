@@ -1,14 +1,6 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: antonio
- * Date: 27/03/14
- * Time: 17.01
- */
 
 namespace MatryoshkaTest\Model\Mock\Form;
-
-use MatryoshkaTest\Model\Mock\AssertUser;
 
 use Zend\Form\Element;
 use Zend\Form\Form;
