@@ -81,8 +81,9 @@ abstract class AbstractModel implements ModelInterface
     }
 
     /**
-     * Get Object prototype
-     * @return object
+     * Get Object Prototype
+     * @return mixed
+     * @throws Exception\RuntimeException
      */
     public function getObjectPrototype()
     {
@@ -127,10 +128,7 @@ abstract class AbstractModel implements ModelInterface
     }
 
     /**
-     * @param WriteCriteriaInterface $criteria
-     * @param HydratorAwareInterface|object|array $dataOrObject
-     * @throws Exception\RuntimeException
-     * @return boolean
+     * {@inheritdoc}
      */
     public function save(WritableCriteriaInterface $criteria, $dataOrObject)
     {
@@ -147,7 +145,9 @@ abstract class AbstractModel implements ModelInterface
                 $data = $dataOrObject->getArrayCopy();
             } else {
                 throw new Exception\RuntimeException(
-                    '$dataOrObject must be an HydratorAwareInterface or an array, with type ' . gettype($dataOrObject) . ' cannot be cast to an array'
+                    '$dataOrObject must be an HydratorAwareInterface or an array, with type ' .
+                    gettype($dataOrObject) .
+                    ' cannot be cast to an array'
                 );
             }
 
@@ -155,7 +155,8 @@ abstract class AbstractModel implements ModelInterface
             if ($hydrator) {
                 if (!$hydrator instanceof AbstractHydrator) {
                     throw new Exception\RuntimeException(
-                        'Hydrator must be an instance of AbstractHydrator in order to extract single value with extractValue method'
+                        'Hydrator must be an instance of AbstractHydrator' .
+                        'in order to extract single value with extractValue method'
                     );
                 }
                 $data = array();
@@ -177,8 +178,7 @@ abstract class AbstractModel implements ModelInterface
     }
 
     /**
-     * @param DeleteCriteriaInterface $criteria
-     * @return boolean
+     * {@inheritdoc}
      */
     public function delete(DeletableCriteriaInterface $criteria)
     {
