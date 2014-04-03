@@ -8,7 +8,9 @@
  */
 namespace MatryoshkaTest\Model\Service\TestAsset;
 
+/**
+ * Class FakeDataGateway
+ */
 class FakeDataGateway
 {
-
 }
