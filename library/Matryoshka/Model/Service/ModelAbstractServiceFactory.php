@@ -10,7 +10,6 @@ namespace Matryoshka\Model\Service;
 
 use Zend\ServiceManager\AbstractFactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
-use Matryoshka\Model\Model;
 use Matryoshka\Model\Exception;
 use Zend\ServiceManager\AbstractPluginManager;
 use Zend\Stdlib\Hydrator\HydratorAwareInterface;
