@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: antonio
- * Date: 27/03/14
- * Time: 15.41
- */
 
 namespace MatryoshkaTest\Model\Mock\Form\Fieldset;
 

@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: antonio
- * Date: 26/03/14
- * Time: 18.35
- */
 
 namespace MatryoshkaTest\Model\Mock;
 
