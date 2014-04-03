@@ -15,6 +15,7 @@ use Matryoshka\Model\Exception;
 use Zend\ServiceManager\AbstractPluginManager;
 use Zend\Stdlib\Hydrator\HydratorAwareInterface;
 use Zend\InputFilter\InputFilterAwareInterface;
+use Matryoshka\Model\ModelAwareInterface;
 
 /**
  * Class ModelAbstractServiceFactory
@@ -148,6 +149,9 @@ class ModelAbstractServiceFactory implements AbstractFactoryInterface
             }
             if ($inputFilter && $object instanceof InputFilterAwareInterface) {
                 $object->setInputFilter($inputFilter);
+            }
+            if ($object instanceof ModelAwareInterface) {
+                $object->setModel($model);
             }
         }
 

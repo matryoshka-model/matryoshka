@@ -12,6 +12,7 @@ use Matryoshka\Model\Service\ModelAbstractServiceFactory;
 use Zend\ServiceManager;
 use Zend\Mvc\Service\ServiceManagerConfig;
 use Matryoshka\Model\ResultSet\ArrayObjectResultSet as ResultSet;
+use MatryoshkaTest\Model\Service\TestAsset\DomainObject;
 
 /**
  * Class ModelAbstractServiceFactoryTest
@@ -32,6 +33,9 @@ class ModelAbstractServiceFactoryTest extends \PHPUnit_Framework_TestCase
     {
         $dataGateway = new \MatryoshkaTest\Model\Service\TestAsset\FakeDataGateway;
         $resultSet   = new ResultSet;
+        $objectPrototype = new DomainObject();
+
+
 
         $config = array(
             'model' => array(
@@ -51,6 +55,15 @@ class ModelAbstractServiceFactoryTest extends \PHPUnit_Framework_TestCase
                     'resultset'   => 'Matryoshka\Model\ResultSet\ResultSet',
                     'type'        => '\stdClass',
                 ),
+                'MyModel\Full' => array(
+                    'datagateway' => 'MatryoshkaTest\Model\Service\TestAsset\FakeDataGateway',
+                    'resultset'   => 'Matryoshka\Model\ResultSet\HydratingResultSet',
+                    'object'      => 'DomainObject',
+                    'hydrator'    => 'Zend\Stdlib\Hydrator\ObjectProperty',
+                    'input_filter'=> 'Zend\InputFilter\InputFilter',
+                    'type'        => 'MatryoshkaTest\Model\Service\TestAsset\MyModel',
+
+                ),
             ),
         );
 
@@ -67,7 +80,10 @@ class ModelAbstractServiceFactoryTest extends \PHPUnit_Framework_TestCase
         $sm->setService('Matryoshka\Model\ResultSet\ResultSet', new ResultSet);
         $sm->setService('Matryoshka\Model\ResultSet\HydratingResultSet', new \Matryoshka\Model\ResultSet\HydratingResultSet);
         $sm->setService('Zend\Stdlib\Hydrator\ArraySerializable', new \Zend\Stdlib\Hydrator\ArraySerializable);
+        $sm->setService('Zend\Stdlib\Hydrator\ObjectProperty', new \Zend\Stdlib\Hydrator\ObjectProperty);
+        $sm->setService('Zend\InputFilter\InputFilter', new \Zend\InputFilter\InputFilter);
         $sm->setService('ArrayObject', new \ArrayObject);
+        $sm->setService('DomainObject', $objectPrototype);
     }
 
 
@@ -81,6 +97,22 @@ class ModelAbstractServiceFactoryTest extends \PHPUnit_Framework_TestCase
 
         $this->assertFalse($factory->canCreateServiceWithName($serviceLocator, 'mymodelnonexistingmodel', 'MyModel\NonExistingModel'));
         $this->assertTrue($factory->canCreateServiceWithName($serviceLocator, 'mymodela', 'MyModel\A'));
+        $this->assertTrue($factory->canCreateServiceWithName($serviceLocator, 'mymodela', 'MyModel\B'));
+        $this->assertTrue($factory->canCreateServiceWithName($serviceLocator, 'mymodela', 'MyModel\Full'));
+
+        //test without config
+        $factory = new ModelAbstractServiceFactory();
+        $serviceLocator = new ServiceManager\ServiceManager(
+            new ServiceManagerConfig()
+        );
+
+        $this->assertFalse($factory->canCreateServiceWithName($serviceLocator, 'mymodelnonexistingmodel', 'MyModel\NonExistingModel'));
+
+        //test with empty config
+        $factory = new ModelAbstractServiceFactory();
+        $serviceLocator->setService('Config', array());
+
+        $this->assertFalse($factory->canCreateServiceWithName($serviceLocator, 'mymodelnonexistingmodel', 'MyModel\NonExistingModel'));
     }
 
     /**
@@ -97,6 +129,9 @@ class ModelAbstractServiceFactoryTest extends \PHPUnit_Framework_TestCase
 
         $modelB = $serviceLocator->get('MyModel\B');
         $this->assertInstanceOf('\MatryoshkaTest\Model\Service\TestAsset\MyModel', $modelB);
+
+        $modelFull = $serviceLocator->get('MyModel\Full');
+        $this->assertInstanceOf('\MatryoshkaTest\Model\Service\TestAsset\MyModel', $modelFull);
     }
 
     /**
