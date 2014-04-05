@@ -6,10 +6,10 @@
  * @copyright   Copyright (c) 2014, Leonardo Di Donato <leodidonato at gmail dot com>, Leonardo Grasso <me at leonardograsso dot com>
  * @license     http://opensource.org/licenses/BSD-2-Clause Simplified BSD License
  */
-namespace MatryoshkaTest\Model\Criteria\ObjectGateway;
+namespace MatryoshkaTest\Model\Criteria\ActiveRecord;
 
 
-use MatryoshkaTest\Model\Criteria\ObjectGateway\TestAsset\ConcreteCriteria;
+use MatryoshkaTest\Model\Criteria\ActiveRecord\TestAsset\ConcreteCriteria;
 
 class AbstractCriteriaTest extends \PHPUnit_Framework_TestCase
 {
@@ -33,7 +33,7 @@ class AbstractCriteriaTest extends \PHPUnit_Framework_TestCase
     {
         $id = 'foo';
         $this->assertInstanceOf(
-            '\MatryoshkaTest\Model\Criteria\ObjectGateway\TestAsset\ConcreteCriteria',
+            '\MatryoshkaTest\Model\Criteria\ActiveRecord\TestAsset\ConcreteCriteria',
             $this->criteria->setId($id)
         );
         $this->assertSame($id, $this->criteria->getId());

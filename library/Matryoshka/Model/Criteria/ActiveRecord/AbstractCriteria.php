@@ -42,7 +42,7 @@ abstract class AbstractCriteria implements
     public function getId()
     {
         if (!$this->id) {
-            throw new Exception\RuntimeException('In order to work with ObjectGateway criteria the id must be set');
+            throw new Exception\RuntimeException('In order to work with ActiveRecord criteria the id must be set');
         }
         return $this->id;
     }
