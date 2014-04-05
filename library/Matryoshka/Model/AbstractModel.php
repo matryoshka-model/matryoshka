@@ -22,7 +22,10 @@ use Zend\InputFilter\InputFilterAwareInterface;
 /**
  * Class AbstractModel
  */
-abstract class AbstractModel implements ModelInterface
+abstract class AbstractModel implements
+    ModelInterface,
+    HydratorAwareInterface,
+    InputFilterAwareInterface
 {
     use HydratorAwareTrait;
     use InputFilterAwareTrait;
@@ -82,9 +85,7 @@ abstract class AbstractModel implements ModelInterface
     }
 
     /**
-     * Get Object Prototype
-     * @return mixed
-     * @throws Exception\RuntimeException
+     * {@inheritdoc}
      */
     public function getObjectPrototype()
     {
@@ -99,16 +100,6 @@ abstract class AbstractModel implements ModelInterface
     }
 
     /**
-     * Process Criteria
-     * @param CriteriaInterface $criteria
-     * @return mixed
-     */
-    protected function processCriteria(CriteriaInterface $criteria)
-    {
-        return $criteria->apply($this);
-    }
-
-    /**
      * Create
      * @return object
      */
@@ -118,18 +109,23 @@ abstract class AbstractModel implements ModelInterface
     }
 
     /**
-     * {@inheritdoc}
+     * Find
+     * @param CriteriaInterface|\Closure $criteria
+     * @return ResultSetInterface
      */
     public function find(CriteriaInterface $criteria)
     {
-        $result = $this->processCriteria($criteria);
+        $result = $criteria->apply($this);
         $resultSet = clone $this->getResultSetPrototype();
         $resultSet->initialize($result);
         return $resultSet;
     }
 
     /**
-     * {@inheritdoc}
+     * @param WriteCriteriaInterface $criteria
+     * @param HydratorAwareInterface|object|array $dataOrObject
+     * @throws Exception\RuntimeException
+     * @return boolean
      */
     public function save(WritableCriteriaInterface $criteria, $dataOrObject)
     {
@@ -179,7 +175,8 @@ abstract class AbstractModel implements ModelInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @param DeleteCriteriaInterface $criteria
+     * @return boolean
      */
     public function delete(DeletableCriteriaInterface $criteria)
     {

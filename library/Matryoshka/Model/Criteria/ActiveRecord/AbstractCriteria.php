@@ -6,18 +6,20 @@
  * @copyright   Copyright (c) 2014, Ripa Club
  * @license     http://opensource.org/licenses/BSD-2-Clause Simplified BSD License
  */
-namespace Matryoshka\Model\Criteria\ObjectGateway;
+namespace Matryoshka\Model\Criteria\ActiveRecord;
 
 use Matryoshka\Model\Exception;
-use Matryoshka\Model\Criteria\AbstractCriteria as BaseCriteria;
 use Matryoshka\Model\Criteria\DeletableCriteriaInterface;
 use Matryoshka\Model\Criteria\WritableCriteriaInterface;
 use Matryoshka\Model\Criteria\CriteriaInterface;
 
 /**
- * Class AbstractPaginatorCriteria
+ * Class AbstractCriteria
  */
-abstract class AbstractCriteria implements CriteriaInterface, WritableCriteriaInterface, DeletableCriteriaInterface
+abstract class AbstractCriteria implements
+    CriteriaInterface,
+    WritableCriteriaInterface,
+    DeletableCriteriaInterface
 {
 
     protected $id;

@@ -8,48 +8,51 @@
  */
 namespace Matryoshka\Model;
 
-use Matryoshka\Model\Criteria\CriteriaInterface;
+use Zend\Stdlib\Hydrator\HydratorInterface;
+use Zend\InputFilter\InputFilterInterface;
 use Matryoshka\Model\ResultSet\ResultSetInterface;
-use Zend\Stdlib\Hydrator\HydratorAwareInterface;
-use Zend\InputFilter\InputFilterAwareInterface;
-use Matryoshka\Model\Criteria\WritableCriteriaInterface;
-use Matryoshka\Model\Criteria\DeletableCriteriaInterface;
 
 /**
  * Interface ModelInterface
  */
-interface ModelInterface extends HydratorAwareInterface, InputFilterAwareInterface
+interface ModelInterface
 {
+
     /**
-     * Get Data Gateway
+     * Retrieve hydrator
+     *
+     * @param void
+     * @return null|HydratorInterface
+     */
+    public function getHydrator();
+
+    /**
+     * Retrieve input filter
+     *
+     * @return InputFilterInterface
+     */
+    public function getInputFilter();
+
+    /**
+     * Retrive data fateway
+     *
      * @return mixed
      */
     public function getDataGateway();
 
     /**
-     * Get ResultSet Prototype
+     * Retrieve Object prototype
+     *
+     * @return mixed
+     * @throws Exception\RuntimeException
+     */
+    public function getObjectPrototype();
+
+    /**
+     * Retrive ResultSet prototype
+     *
      * @return ResultSetInterface
      */
     public function getResultSetPrototype();
 
-    /**
-     * Find
-     * @param CriteriaInterface|\Closure $criteria
-     * @return ResultSetInterface
-     */
-    public function find(CriteriaInterface $criteria);
-
-    /**
-     * @param WriteCriteriaInterface $criteria
-     * @param HydratorAwareInterface|object|array $dataOrObject
-     * @throws Exception\RuntimeException
-     * @return boolean
-     */
-    public function save(WritableCriteriaInterface $criteria, $dataOrObject);
-
-    /**
-     * @param DeleteCriteriaInterface $criteria
-     * @return boolean
-     */
-    public function delete(DeletableCriteriaInterface $criteria);
 }

@@ -9,9 +9,9 @@
 namespace Matryoshka\Model\Object;
 
 /**
- * Interface ObjectGatewayInterface
+ * Interface ActiveRecordInterface
  */
-interface ObjectGatewayInterface extends IdentityAwareInterface
+interface ActiveRecordInterface extends IdentityAwareInterface
 {
 
     /**
