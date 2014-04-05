@@ -15,6 +15,8 @@ use Matryoshka\Model\Criteria\CriteriaInterface;
 
 /**
  * Class AbstractCriteria
+ * 
+ * A particular kind of CriteriaInterface in order to work with an Active Record object.
  */
 abstract class AbstractCriteria implements
     CriteriaInterface,

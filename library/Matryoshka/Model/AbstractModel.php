@@ -33,6 +33,7 @@ abstract class AbstractModel implements
 
     /**
      * ResultSet Prototype
+     *
      * @var ResultSetInterface
      */
     protected $resultSetPrototype;
@@ -75,6 +76,7 @@ abstract class AbstractModel implements
 
     /**
      * Set ResultSet Prototype
+     *
      * @param ResultSetInterface $resultSet
      * @return $this
      */
@@ -101,6 +103,7 @@ abstract class AbstractModel implements
 
     /**
      * Create
+     *
      * @return object
      */
     public function create()
@@ -110,7 +113,8 @@ abstract class AbstractModel implements
 
     /**
      * Find
-     * @param CriteriaInterface|\Closure $criteria
+     *
+     * @param CriteriaInterface $criteria
      * @return ResultSetInterface
      */
     public function find(CriteriaInterface $criteria)
@@ -122,6 +126,10 @@ abstract class AbstractModel implements
     }
 
     /**
+     * Save
+     *
+     * Inserts or updates data
+     *
      * @param WriteCriteriaInterface $criteria
      * @param HydratorAwareInterface|object|array $dataOrObject
      * @throws Exception\RuntimeException
@@ -175,6 +183,8 @@ abstract class AbstractModel implements
     }
 
     /**
+     * Delete
+     *
      * @param DeleteCriteriaInterface $criteria
      * @return boolean
      */

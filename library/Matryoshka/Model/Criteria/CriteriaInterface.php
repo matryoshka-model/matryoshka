@@ -12,6 +12,9 @@ use Matryoshka\Model\ModelInterface;
 
 /**
  * Interface CriteriaInterface
+ *
+ * Criteria is an "user query intefarce" from an API point of view,
+ * acting as mediator between model and datagateway.
  */
 interface CriteriaInterface
 {
