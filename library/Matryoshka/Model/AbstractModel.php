@@ -18,6 +18,8 @@ use Matryoshka\Model\Criteria\WritableCriteriaInterface;
 use Matryoshka\Model\Criteria\DeletableCriteriaInterface;
 use Zend\Stdlib\Hydrator\AbstractHydrator;
 use Zend\InputFilter\InputFilterAwareInterface;
+use Zend\Paginator\AdapterAggregateInterface as PaginatorAdapterAggregateInterface;
+use Matryoshka\Model\Criteria\PaginatorCriteriaInterface;
 
 /**
  * Class AbstractModel
@@ -25,11 +27,17 @@ use Zend\InputFilter\InputFilterAwareInterface;
 abstract class AbstractModel implements
     ModelInterface,
     HydratorAwareInterface,
-    InputFilterAwareInterface
+    InputFilterAwareInterface,
+    PaginatorAdapterAggregateInterface
 {
     use HydratorAwareTrait;
     use InputFilterAwareTrait;
     use DataGatewayAwareTrait;
+
+    /**
+     * @var PaginatorCriteriaInterface
+     */
+    protected $paginatorCriteria;
 
     /**
      * ResultSet Prototype
@@ -191,5 +199,46 @@ abstract class AbstractModel implements
     public function delete(DeletableCriteriaInterface $criteria)
     {
         return (bool) $criteria->applyDelete($this);
+    }
+
+
+    /**
+     * Set the default paginator criteria
+     *
+     * @param PaginatorCriteriaInterface $criteria
+     * @return $this
+     */
+    public function setPaginatorCriteria(PaginatorCriteriaInterface $criteria)
+    {
+        $this->paginatorCriteria = $criteria;
+        return $this;
+    }
+
+    /**
+     * Retrive the default paginator criteria
+     *
+     * @throws Exception\RuntimeException
+     * @return PaginatorCriteriaInterface
+     */
+    public function getPaginatorCriteria()
+    {
+        if (!$this->paginatorCriteria) {
+            throw new Exception\RuntimeException('PaginatorCriteria must be set before use');
+        }
+
+        return $this->paginatorCriteria;
+    }
+
+    /**
+     * {@inheritdoc}
+     * @throws Exception\RuntimeException
+     */
+    public function getPaginatorAdapter(PaginatorCriteriaInterface $criteria = null)
+    {
+        if (null === $criteria) {
+            $criteria = $this->getPaginatorCriteria();
+        }
+
+        return $criteria->getPaginatorAdapter($this);
     }
 }

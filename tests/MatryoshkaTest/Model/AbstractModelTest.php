@@ -255,4 +255,49 @@ class AbstractModelTest extends \PHPUnit_Framework_TestCase
             array(array('Yak'), new HydratorObject())
         );
     }
+
+    public function testGetSetPaginatorCriteria()
+    {
+        $mockCriteria = $this->getMock(
+            '\Matryoshka\Model\Criteria\PaginatorCriteriaInterface',
+            array('getPaginatorAdapter')
+        );
+
+        $this->assertInstanceOf('\Matryoshka\Model\Model', $this->model->setPaginatorCriteria($mockCriteria));
+        $this->assertSame($mockCriteria, $this->model->getPaginatorCriteria());
+    }
+
+    public function testGetPaginatorCriteriaShouldThrowExceptionWhenNoCriteria()
+    {
+        $this->setExpectedException('\Matryoshka\Model\Exception\RuntimeException');
+        $this->model->getPaginatorCriteria();
+    }
+
+    public function testGetPaginatorAdapter()
+    {
+        $mockCriteria = $this->getMock(
+            '\Matryoshka\Model\Criteria\PaginatorCriteriaInterface',
+            array('getPaginatorAdapter')
+        );
+
+        $mockPaginatorAdapter = $this->getMock(
+            '\Zend\Paginator\Adapter\AdapterInterface'
+        );
+
+        $mockCriteria->expects($this->at(0))->method('getPaginatorAdapter')->with(
+            $this->equalTo($this->model)
+        )->will($this->returnValue($mockPaginatorAdapter));
+
+        //Test passing criteria
+        $this->assertSame($mockPaginatorAdapter, $this->model->getPaginatorAdapter($mockCriteria));
+
+        //Test with default criteria
+        $mockCriteria->expects($this->at(0))->method('getPaginatorAdapter')->with(
+            $this->equalTo($this->model)
+        )->will($this->returnValue($mockPaginatorAdapter));
+
+        $this->model->setPaginatorCriteria($mockCriteria);
+        $this->assertSame($mockPaginatorAdapter, $this->model->getPaginatorAdapter());
+    }
+
 }
