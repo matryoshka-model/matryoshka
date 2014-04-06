@@ -13,6 +13,7 @@ use Zend\ServiceManager;
 use Zend\Mvc\Service\ServiceManagerConfig;
 use Matryoshka\Model\ResultSet\ArrayObjectResultSet as ResultSet;
 use MatryoshkaTest\Model\Service\TestAsset\DomainObject;
+use MatryoshkaTest\Model\Service\TestAsset\PaginatorCriteria;
 
 /**
  * Class ModelAbstractServiceFactoryTest
@@ -34,6 +35,7 @@ class ModelAbstractServiceFactoryTest extends \PHPUnit_Framework_TestCase
         $dataGateway = new \MatryoshkaTest\Model\Service\TestAsset\FakeDataGateway;
         $resultSet   = new ResultSet;
         $objectPrototype = new DomainObject();
+        $paginatorCriteria = new PaginatorCriteria();
 
 
 
@@ -61,6 +63,7 @@ class ModelAbstractServiceFactoryTest extends \PHPUnit_Framework_TestCase
                     'object'      => 'DomainObject',
                     'hydrator'    => 'Zend\Stdlib\Hydrator\ObjectProperty',
                     'input_filter'=> 'Zend\InputFilter\InputFilter',
+                    'paginator_criteria'=> 'MatryoshkaTest\Model\Service\TestAsset\PaginatorCriteria',
                     'type'        => 'MatryoshkaTest\Model\Service\TestAsset\MyModel',
 
                 ),
@@ -82,6 +85,7 @@ class ModelAbstractServiceFactoryTest extends \PHPUnit_Framework_TestCase
         $sm->setService('Zend\Stdlib\Hydrator\ArraySerializable', new \Zend\Stdlib\Hydrator\ArraySerializable);
         $sm->setService('Zend\Stdlib\Hydrator\ObjectProperty', new \Zend\Stdlib\Hydrator\ObjectProperty);
         $sm->setService('Zend\InputFilter\InputFilter', new \Zend\InputFilter\InputFilter);
+        $sm->setService('MatryoshkaTest\Model\Service\TestAsset\PaginatorCriteria', $paginatorCriteria);
         $sm->setService('ArrayObject', new \ArrayObject);
         $sm->setService('DomainObject', $objectPrototype);
     }

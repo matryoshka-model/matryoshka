@@ -135,6 +135,16 @@ class ModelAbstractServiceFactory implements AbstractFactoryInterface
             $model->setInputFilter($inputFilter);
         }
 
+        //Setup Paginator
+        if (isset($config['paginator_criteria'])
+            && is_string($config['paginator_criteria'])
+            && !empty($config['paginator_criteria'])
+            && $serviceLocator->has($config['paginator_criteria'])
+        ) {
+            $paginatorCriteria = $serviceLocator->get($config['paginator_criteria']);
+            $model->setPaginatorCriteria($paginatorCriteria);
+        }
+
         //Setup Object Prototype
         if (isset($config['object'])
             && is_string($config['object'])

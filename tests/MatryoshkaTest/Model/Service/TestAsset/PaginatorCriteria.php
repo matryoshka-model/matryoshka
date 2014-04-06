@@ -6,20 +6,23 @@
  * @copyright   Copyright (c) 2014, Ripa Club
  * @license     http://opensource.org/licenses/BSD-2-Clause Simplified BSD License
  */
-namespace Matryoshka\Model\Criteria;
+namespace MatryoshkaTest\Model\Service\TestAsset;
 
+use Matryoshka\Model\Criteria\PaginatorCriteriaInterface;
 use Matryoshka\Model\ModelInterface;
 use Zend\Paginator\Adapter\AdapterInterface;
+use Zend\Paginator\Adapter\ArrayAdapter;
 
-/**
- * Interface PaginatorCriteriaInterface
- */
-interface PaginatorCriteriaInterface
+class PaginatorCriteria implements PaginatorCriteriaInterface
 {
 
     /**
      * @param ModelInterface $model
      * @return AdapterInterface
      */
-    public function getPaginatorAdapter(ModelInterface $model);
+    public function getPaginatorAdapter(ModelInterface $model)
+    {
+        return new ArrayAdapter();
+    }
+
 }
