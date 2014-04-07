@@ -31,7 +31,7 @@ And of course you have to add it to your dependencies.
 
 ### Fetch and Hydrate objects from a Mongo Collection
 
-1. Assume to have a Person object
+**Assume to have a Person object**
 
 ```php
 
@@ -47,7 +47,7 @@ class Place
 
 ```
 
-2. Create an instance of a MongoDb Collection (your Data Gateway)
+**Create an instance of a MongoDb Collection (your Data Gateway)**
 
 ```php
 
@@ -57,7 +57,7 @@ $collection = $db->selectCollection('places');
 
 ```
 
-3. Create the model hydrating each result with the Place object.
+**Create the model hydrating each result with the Place object.**
 
 ```php
 $hydrator = new \Zend\Stdlib\Hydrator\ObjectProperty();
@@ -67,7 +67,7 @@ $resultSetPrototype->setObjectPrototype(new Place());
 $model = new \Matryoshka\Model\Model($collection, $resultSetPrototype);
 ```
 
-4. Find all places using the callable criteria
+**Find all places using the callable criteria**
 
 ```php
 $places = $model->find(
@@ -80,7 +80,7 @@ $places = $model->find(
 );
 ```
 
-5. Do whatever you want with the ResultSet
+**Do whatever you want with the ResultSet**
 
 ```php
 foreach ($places as $place) {
