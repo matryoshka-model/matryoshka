@@ -53,6 +53,11 @@ class HydratingResultSet extends AbstractResultSet implements HydratorAwareInter
                 'An object must be set as the object prototype, a ' . gettype($objectPrototype) . ' was provided.'
             );
         }
+
+        if ($objectPrototype instanceof HydratorAwareInterface && $objectPrototype->getHydrator()) {
+            $this->setHydrator($objectPrototype->getHydrator());
+        }
+
         $this->objectPrototype = $objectPrototype;
         return $this;
     }
