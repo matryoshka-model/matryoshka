@@ -19,12 +19,6 @@ use Matryoshka\Model\Exception;
  */
 abstract class AbstractResultSet implements Iterator, ResultSetInterface
 {
-
-    /**
-     * @var null|int
-     */
-    protected $count = null;
-
     /**
      * @var Iterator|IteratorAggregate
      */
@@ -36,6 +30,11 @@ abstract class AbstractResultSet implements Iterator, ResultSetInterface
     protected $position = 0;
 
     /**
+     * @var int
+     */
+    protected $count = null;
+
+    /**
      * Set the data source for the result set
      *
      * @param  Iterator|IteratorAggregate $dataSource
@@ -44,14 +43,10 @@ abstract class AbstractResultSet implements Iterator, ResultSetInterface
      */
     public function initialize($dataSource)
     {
-        $this->count = null;
         $this->position = 0;
 
         if (is_array($dataSource)) {
-            // its safe to get numbers from an array
-            $first = current($dataSource);
             reset($dataSource);
-            $this->count = count($dataSource);
             $this->dataSource = new ArrayIterator($dataSource);
         } elseif ($dataSource instanceof IteratorAggregate) {
             $this->dataSource = $dataSource->getIterator();
@@ -136,7 +131,13 @@ abstract class AbstractResultSet implements Iterator, ResultSetInterface
     public function count()
     {
         if ($this->count === null) {
-            $this->count = count($this->dataSource);
+            if (method_exists($this->dataSource, 'count')) {
+                $this->count = $this->dataSource->count();
+            } elseif (is_array($this->dataSource)) {
+                $this->count = count($this->dataSource);
+            } else {
+                throw new Exception\RuntimeException('DataSource ith type ' . gettype($item) . ' cannot be counted');
+            }
         }
         return $this->count;
     }
