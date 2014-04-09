@@ -55,8 +55,10 @@ abstract class AbstractResultSet implements Iterator, ResultSetInterface
             $this->dataSource = new ArrayIterator($dataSource);
         } elseif ($dataSource instanceof IteratorAggregate) {
             $this->dataSource = $dataSource->getIterator();
+            $this->dataSource->rewind(); //FIXME: not initialized cursor won't work if rewind() is not called
         } elseif ($dataSource instanceof Iterator) {
             $this->dataSource = $dataSource;
+            $this->dataSource->rewind(); //FIXME: not initialized cursor won't work if rewind() is not called
         } else {
             throw new Exception\InvalidArgumentException('DataSource provided is not an array, nor does it implement Iterator or IteratorAggregate');
         }
