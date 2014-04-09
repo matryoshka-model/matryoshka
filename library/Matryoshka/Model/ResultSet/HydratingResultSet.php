@@ -73,21 +73,6 @@ class HydratingResultSet extends AbstractResultSet implements HydratorAwareInter
     }
 
     /**
-     * Retrieve hydrator
-     *
-     * @param void
-     * @return HydratorInterface
-     * @access public
-     */
-    public function getHydrator()
-    {
-        if (!$this->hydrator) {
-            throw new Exception\RuntimeException('Hydrator must be set before');
-        }
-        return $this->hydrator;
-    }
-
-    /**
      * Iterator: get current item
      *
      * @return object|null

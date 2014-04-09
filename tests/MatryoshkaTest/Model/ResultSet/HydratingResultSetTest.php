@@ -9,6 +9,10 @@
 namespace MatryoshkaTest\Model\ResultSet;
 
 use MatryoshkaTest\Model\ResultSet\TestAsset\ItemWithToArray;
+use MatryoshkaTest\Model\TestAsset\HydratorAwareObject;
+use Zend\Stdlib\Hydrator\ClassMethods;
+use Zend\Stdlib\Hydrator\HydratorAwareInterface;
+
 class HydratingResultSetTest extends AbstractResultSetTest//\PHPUnit_Framework_TestCase
 {
 
@@ -57,4 +61,11 @@ class HydratingResultSetTest extends AbstractResultSetTest//\PHPUnit_Framework_T
         );
     }
 
+    public function testSetObjectPrototypeWithHydratorAware()
+    {
+        $prototype = new HydratorAwareObject();
+        $resultSet = $this->getMockForAbstractClass('\Matryoshka\Model\ResultSet\HydratingResultSet');
+        $resultSet->expects($this->any())->method('getHydrator')->willReturn($this->returnValue(new ClassMethods()));
+        $this->assertInstanceOf(get_class($resultSet), $resultSet->setObjectPrototype($prototype));
+    }
 }
