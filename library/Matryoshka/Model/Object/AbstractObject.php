@@ -1,13 +1,11 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: antonio
- * Date: 07/04/14
- * Time: 16.55
+ * Matryoshka
  *
- * Abstract generic class to use as the entity model. Set minimum of interface for use correctly Matryoshka library
+ * @link        https://github.com/ripaclub/matryoshka
+ * @copyright   Copyright (c) 2014, Copyright (c) 2014, Ripa Club
+ * @license     http://opensource.org/licenses/BSD-2-Clause Simplified BSD License
  */
-
 namespace Matryoshka\Model\Object;
 
 use Zend\InputFilter\InputFilter;
@@ -16,7 +14,11 @@ use Zend\InputFilter\InputFilterAwareTrait;
 use Zend\Stdlib\Hydrator\HydratorAwareInterface;
 use Zend\Stdlib\Hydrator\HydratorAwareTrait;
 use Zend\Stdlib\Hydrator\ObjectProperty;
-
+/**
+ * Abstract generic class to use as the entity model. Set minimum of interface for use correctly Matryoshka library
+ *
+ * @author antonio
+ */
 abstract class AbstractObject implements HydratorAwareInterface, InputFilterAwareInterface
 {
     use HydratorAwareTrait;
@@ -45,4 +47,4 @@ abstract class AbstractObject implements HydratorAwareInterface, InputFilterAwar
 
         return $this->inputFilter;
     }
-} 
+}
