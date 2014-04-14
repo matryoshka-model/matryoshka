@@ -47,7 +47,7 @@ class HasMany implements StrategyInterface
      */
     public function extract($value)
     {
-        $return = array();
+        $return = new ArrayObject();
         if (is_array($value) || $value instanceof \Traversable) {
             foreach ($value as $object) {
                 $return[] = $this->hasOneStrategy->extract($object);
@@ -68,7 +68,7 @@ class HasMany implements StrategyInterface
      */
     public function hydrate($value)
     {
-        $return = array();
+        $return = new ArrayObject();
         if (is_array($value) || $value instanceof \Traversable) {
             foreach ($value as $data) {
                 $return[] = $this->hasOneStrategy->hydrate($data);
