@@ -48,12 +48,12 @@ class HasMany implements StrategyInterface
     public function extract($value)
     {
         $return = array();
-        if (is_array($value)) {
+        if (is_array($value) || $value instanceof \Traversable) {
             foreach ($value as $object) {
                 $return[] = $this->hasOneStrategy->extract($object);
             }
         } else {
-            throw new Exception\InvalidArgumentException("Value is not an array, " . gettype($value) . " given");
+            throw new Exception\InvalidArgumentException("Value must be an array or Travesable, " . gettype($value) . " given");
         }
 
         return $return;
@@ -69,9 +69,12 @@ class HasMany implements StrategyInterface
     public function hydrate($value)
     {
         $return = array();
-        $objectPrototype = $this->getObjectPrototype();
-        foreach ($value as $data) {
-            $return[] = $this->hasOneStrategy->hydrate($data);
+        if (is_array($value) || $value instanceof \Traversable) {
+            foreach ($value as $data) {
+                $return[] = $this->hasOneStrategy->hydrate($data);
+            }
+        } else {
+            throw new Exception\InvalidArgumentException("Value must be an array or Travesable, " . gettype($value) . " given");
         }
 
         return $return;
