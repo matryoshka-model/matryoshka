@@ -8,6 +8,7 @@
  */
 namespace Matryoshka\Model\Object\Hydrator\Strategy;
 
+use Zend\Stdlib\ArrayObject;
 use Zend\Stdlib\Hydrator\Strategy\StrategyInterface;
 use Zend\Stdlib\Hydrator\HydratorAwareInterface;
 use Matryoshka\Model\Exception;
