@@ -145,11 +145,17 @@ abstract class AbstractModel implements
      */
     public function save(WritableCriteriaInterface $criteria, $dataOrObject)
     {
-        if ($dataOrObject instanceof HydratorAwareInterface && $dataOrObject->getHydrator()) {
-            $hydrator = $dataOrObject->getHydrator();
-            $data = $dataOrObject->getHydrator()->extract($dataOrObject);
 
+        $hydrator = $this->getHydrator();
+
+        if (!$hydrator && ($dataOrObject instanceof HydratorAwareInterface)) {
+            $hydrator = $dataOrObject->getHydrator();
+        }
+
+        if ($hydrator && is_object($dataOrObject)) {
+            $data = $hydrator->extract($dataOrObject);
         } else {
+
             if (is_array($dataOrObject)) {
                 $data = $dataOrObject;
             } elseif (method_exists($dataOrObject, 'toArray')) {
@@ -158,13 +164,12 @@ abstract class AbstractModel implements
                 $data = $dataOrObject->getArrayCopy();
             } else {
                 throw new Exception\RuntimeException(
-                    '$dataOrObject must be an HydratorAwareInterface or an array, with type ' .
+                    'dataOrObject with type ' .
                     gettype($dataOrObject) .
-                    ' cannot be cast to an array'
+                    ' cannot be casted to an array'
                 );
             }
 
-            $hydrator = $this->getHydrator();
             if ($hydrator) {
                 if (!$hydrator instanceof AbstractHydrator) {
                     throw new Exception\RuntimeException(
@@ -176,15 +181,14 @@ abstract class AbstractModel implements
                 foreach ($dataOrObject as $key => $value) {
                     $data[$key] = $hydrator->extractValue($key, $value, $dataOrObject);
                 }
+
             }
         }
 
         $result = (bool) $criteria->applyWrite($this, $data);
 
-        if ($result) {
-            if ($dataOrObject instanceof HydratorAwareInterface && $hydrator) {
-                $hydrator->hydrate($data, $dataOrObject);
-            }
+        if ($result && $hydrator && is_object($dataOrObject)) {
+            $hydrator->hydrate($data, $dataOrObject);
         }
 
         return $result;

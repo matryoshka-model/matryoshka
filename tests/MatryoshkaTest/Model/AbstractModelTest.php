@@ -235,6 +235,7 @@ class AbstractModelTest extends \PHPUnit_Framework_TestCase
     {
         return array(
             array(array('foo' => 'bar'), array('foo' => 'bar')),
+            array(array('foo' => 'bar'), array('foo' => 'bar'), new ArraySerializable()),
             array(new ToArrayObject(array('foo' => 'bar')), array('foo' => 'bar')),
             array(new \ArrayObject(array('foo' => 'bar')), array('foo' => 'bar')),
             array(new HydratorAwareObject(array('foo' => 'bar')), array('foo' => 'bar')),
