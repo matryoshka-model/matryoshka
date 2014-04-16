@@ -35,6 +35,9 @@ class HydratingResultSet extends AbstractResultSet implements HydratorAwareInter
      */
     public function __construct(HydratorInterface $hydrator = null, $objectPrototype = null)
     {
+        if (!$hydrator && $objectPrototype instanceof HydratorAwareInterface) {
+            $hydrator = $objectPrototype->getHydrator();
+        }
         $this->setHydrator(($hydrator) ?: new ArraySerializable);
         $this->setObjectPrototype(($objectPrototype) ?: new ArrayObject(array(), ArrayObject::ARRAY_AS_PROPS));
     }
@@ -52,10 +55,6 @@ class HydratingResultSet extends AbstractResultSet implements HydratorAwareInter
             throw new Exception\InvalidArgumentException(
                 'An object must be set as the object prototype, a ' . gettype($objectPrototype) . ' was provided.'
             );
-        }
-
-        if ($objectPrototype instanceof HydratorAwareInterface && $objectPrototype->getHydrator()) {
-            $this->setHydrator($objectPrototype->getHydrator());
         }
 
         $this->objectPrototype = $objectPrototype;
