@@ -48,7 +48,7 @@ class HasMany implements StrategyInterface
      */
     public function extract($value)
     {
-        $return = new ArrayObject();
+        $return = array();
         if (is_array($value) || $value instanceof \Traversable) {
             foreach ($value as $object) {
                 $return[] = $this->hasOneStrategy->extract($object);
