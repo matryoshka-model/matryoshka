@@ -153,12 +153,7 @@ class ModelAbstractServiceFactory implements AbstractFactoryInterface
         ) {
             $object = $serviceLocator->get($config['object']);
             $resultSetPrototype->setObjectPrototype($object);
-            if ($hydrator && $object instanceof HydratorAwareInterface) {
-                $object->setHydrator($hydrator);
-            }
-            if ($inputFilter && $object instanceof InputFilterAwareInterface) {
-                $object->setInputFilter($inputFilter);
-            }
+
             if ($object instanceof ModelAwareInterface) {
                 $object->setModel($model);
             }
