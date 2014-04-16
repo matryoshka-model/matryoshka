@@ -8,7 +8,6 @@
  */
 namespace Matryoshka\Model\Hydrator\Strategy;
 
-use Zend\Stdlib\ArrayObject;
 use Zend\Stdlib\Hydrator\Strategy\StrategyInterface;
 use Zend\Stdlib\Hydrator\HydratorAwareInterface;
 use Matryoshka\Model\Exception;
@@ -34,7 +33,7 @@ class HasMany implements StrategyInterface
     public function __construct(HydratorAwareInterface $objectPrototype, \ArrayAccess $arrayObjectPrototype = null)
     {
         $this->hasOneStrategy = new HasOne($objectPrototype);
-        $this->arrayObjectPrototype = $arrayObjectPrototype ? $arrayObjectPrototype : new ArrayObject();
+        $this->arrayObjectPrototype = $arrayObjectPrototype ? $arrayObjectPrototype : new ArrayObject(array(), ArrayObject::ARRAY_AS_PROPS);
     }
 
     /**
@@ -56,8 +55,8 @@ class HasMany implements StrategyInterface
     {
         $return = array();
         if (is_array($value) || $value instanceof \Traversable) {
-            foreach ($value as $object) {
-                $return[] = $this->hasOneStrategy->extract($object);
+            foreach ($value as $key => $object) {
+                $return[$key] = $this->hasOneStrategy->extract($object);
             }
         } else {
             throw new Exception\InvalidArgumentException("Value must be an array or Travesable, " . gettype($value) . " given");
@@ -77,8 +76,8 @@ class HasMany implements StrategyInterface
     {
         $return = clone $this->arrayObjectPrototype;
         if (is_array($value) || $value instanceof \Traversable) {
-            foreach ($value as $data) {
-                $return[] = $this->hasOneStrategy->hydrate($data);
+            foreach ($value as $key => $data) {
+                $return[$key] = $this->hasOneStrategy->hydrate($data);
             }
         } else {
             throw new Exception\InvalidArgumentException("Value must be an array or Travesable, " . gettype($value) . " given");
