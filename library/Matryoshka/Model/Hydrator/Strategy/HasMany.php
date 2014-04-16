@@ -6,7 +6,7 @@
  * @copyright   Copyright (c) 2014, Ripa Club
  * @license     http://opensource.org/licenses/BSD-2-Clause Simplified BSD License
  */
-namespace Matryoshka\Model\Object\Hydrator\Strategy;
+namespace Matryoshka\Model\Hydrator\Strategy;
 
 use Zend\Stdlib\ArrayObject;
 use Zend\Stdlib\Hydrator\Strategy\StrategyInterface;
@@ -22,13 +22,19 @@ class HasMany implements StrategyInterface
     protected $hasOneStrategy;
 
     /**
+     * @var \ArrayAccess
+     */
+    protected $arrayObjectPrototype;
+
+    /**
      * Ctor
      *
      * @param $objectPrototype
      */
-    public function __construct(HydratorAwareInterface $objectPrototype)
+    public function __construct(HydratorAwareInterface $objectPrototype, \ArrayAccess $arrayObjectPrototype = null)
     {
         $this->hasOneStrategy = new HasOne($objectPrototype);
+        $this->arrayObjectPrototype = $arrayObjectPrototype ? $arrayObjectPrototype : new ArrayObject();
     }
 
     /**
@@ -69,7 +75,7 @@ class HasMany implements StrategyInterface
      */
     public function hydrate($value)
     {
-        $return = new ArrayObject();
+        $return = clone $this->arrayObjectPrototype;
         if (is_array($value) || $value instanceof \Traversable) {
             foreach ($value as $data) {
                 $return[] = $this->hasOneStrategy->hydrate($data);

@@ -1,7 +1,7 @@
 <?php
-namespace MatryoshkaTest\Model\Object;
+namespace MatryoshkaTest\Model;
 
-use Matryoshka\Model\Object\Hydrator\Strategy\HasOne;
+use Matryoshka\Model\Hydrator\Strategy\HasOne;
 class HasOneTest extends \PHPUnit_Framework_TestCase
 {
 

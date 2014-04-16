@@ -6,7 +6,7 @@
  * @copyright   Copyright (c) 2014, Ripa Club
  * @license     http://opensource.org/licenses/BSD-2-Clause Simplified BSD License
  */
-namespace Matryoshka\Model\Object\Hydrator\Strategy;
+namespace Matryoshka\Model\Hydrator\Strategy;
 
 use Zend\Stdlib\Hydrator\Strategy\StrategyInterface;
 use Zend\Stdlib\Hydrator\HydratorAwareInterface;
