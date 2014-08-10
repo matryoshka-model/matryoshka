@@ -12,9 +12,31 @@ use MatryoshkaTest\Model\ResultSet\TestAsset\ItemWithToArray;
 use MatryoshkaTest\Model\TestAsset\HydratorAwareObject;
 use Zend\Stdlib\Hydrator\ClassMethods;
 use Zend\Stdlib\Hydrator\HydratorAwareInterface;
+use Matryoshka\Model\ResultSet\HydratingResultSet;
+use Zend\Stdlib\Hydrator\ObjectProperty;
+use Zend\Stdlib\Hydrator\ArraySerializable;
 
 class HydratingResultSetTest extends AbstractResultSetTest//\PHPUnit_Framework_TestCase
 {
+
+    public function test__constructor()
+    {
+        $hydrator = new ObjectProperty();
+        $resultSet = new HydratingResultSet($hydrator);
+        $this->assertSame($hydrator, $resultSet->getHydrator());
+
+
+        $abstractObject = $this->getMockForAbstractClass('\Matryoshka\Model\Object\AbstractObject');
+        $resultSet = new HydratingResultSet(null, $abstractObject);
+        $this->assertSame($abstractObject, $resultSet->getObjectPrototype());
+        $this->assertSame($abstractObject->getHydrator(), $resultSet->getHydrator());
+
+
+        //Defaults
+        $resultSet = new HydratingResultSet();
+        $this->assertInstanceOf('\ArrayObject', $resultSet->getObjectPrototype());
+        $this->assertInstanceOf('\Zend\Stdlib\Hydrator\ArraySerializable', $resultSet->getHydrator());
+    }
 
     public function testCurrent()
     {
