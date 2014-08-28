@@ -14,6 +14,8 @@ use Zend\Stdlib\Hydrator\ArraySerializable;
 use Zend\Stdlib\Hydrator\HydratorInterface;
 use Zend\Stdlib\Hydrator\HydratorAwareInterface;
 use Zend\Stdlib\Hydrator\HydratorAwareTrait;
+use Matryoshka\Model\ResultSet\PrototypeStrategy\PrototypeStrategyInterface;
+use Matryoshka\Model\ResultSet\PrototypeStrategy\CloneStrategy;
 
 /**
  * Class HydratingResultSet
@@ -23,9 +25,14 @@ class HydratingResultSet extends AbstractResultSet implements HydratorAwareInter
     use HydratorAwareTrait;
 
     /**
-     * @var null
+     * @var object
      */
     protected $objectPrototype = null;
+
+    /**
+     * @var PrototypeStrategyInterface
+     */
+    protected $prototypeStrategy = null;
 
     /**
      * Constructor
@@ -47,7 +54,7 @@ class HydratingResultSet extends AbstractResultSet implements HydratorAwareInter
      *
      * @param  object $objectPrototype
      * @throws Exception\InvalidArgumentException
-     * @return ResultSet
+     * @return HydratingResultSet
      */
     public function setObjectPrototype($objectPrototype)
     {
@@ -72,6 +79,31 @@ class HydratingResultSet extends AbstractResultSet implements HydratorAwareInter
     }
 
     /**
+     * Set the prototype strategy
+     *
+     * @return HydratingResultSet
+     */
+    public function setPrototypeStrategy(PrototypeStrategyInterface $strategy)
+    {
+        $this->prototypeStrategy = $strategy;
+        return $this;
+    }
+
+    /**
+     * Get prototype strategy
+     *
+     * @return CloneStrategy
+     */
+    public function getPrototypeStrategy()
+    {
+        if (null === $this->prototypeStrategy) {
+            $this->prototypeStrategy = new CloneStrategy();
+        }
+
+        return $this->prototypeStrategy;
+    }
+
+    /**
      * Iterator: get current item
      *
      * @return object|null
@@ -79,7 +111,13 @@ class HydratingResultSet extends AbstractResultSet implements HydratorAwareInter
     public function current()
     {
         $data = $this->dataSource->current();
-        $object = is_array($data) ? $this->getHydrator()->hydrate($data, clone $this->objectPrototype) : null;
+        $object = null;
+
+        if (is_array($data)) {
+            $object = $this->getPrototypeStrategy()->createObject($this->getObjectPrototype(), $data);
+            $this->getHydrator()->hydrate($data, $object);
+        }
+
         return $object;
     }
 
