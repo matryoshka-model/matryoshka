@@ -8,7 +8,9 @@
  */
 namespace MatryoshkaTest\Model\ResultSet;
 
+use MatryoshkaTest\Model\ResultSet\TestAsset\GenericResultSet;
 use MatryoshkaTest\Model\ResultSet\TestAsset\ItemWithToArray;
+
 class AbstractResultSetTest extends \PHPUnit_Framework_TestCase
 {
 
@@ -141,6 +143,24 @@ class AbstractResultSetTest extends \PHPUnit_Framework_TestCase
         $this->setExpectedException('\Matryoshka\Model\Exception\RuntimeException');
         $resultSet->initialize(array(1,2,3)); //Not castable items
         $resultSet->toArray();
+    }
+
+
+    public function testCountArray()
+    {
+        $resultSet = new GenericResultSet();
+
+        $this->assertEquals(1, $resultSet->count());
+    }
+
+    /**
+     * @expectedException \Matryoshka\Model\Exception\RuntimeException
+     */
+    public function testCountException()
+    {
+        $resultSet = $this->getMockForAbstractClass('\Matryoshka\Model\ResultSet\AbstractResultSet');
+
+        $this->assertEquals(0, $resultSet->count());
     }
 
 }

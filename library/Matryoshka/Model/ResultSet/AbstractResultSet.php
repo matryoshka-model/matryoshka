@@ -127,6 +127,7 @@ abstract class AbstractResultSet implements Iterator, ResultSetInterface
      * Countable: return count of items
      *
      * @return int
+     * @throws \Matryoshka\Model\Exception\RuntimeException
      */
     public function count()
     {
@@ -136,7 +137,7 @@ abstract class AbstractResultSet implements Iterator, ResultSetInterface
             } elseif (is_array($this->dataSource)) {
                 $this->count = count($this->dataSource);
             } else {
-                throw new Exception\RuntimeException('DataSource ith type ' . gettype($item) . ' cannot be counted');
+                throw new Exception\RuntimeException('DataSource ith type ' . gettype($this->dataSource) . ' cannot be counted');
             }
         }
         return $this->count;

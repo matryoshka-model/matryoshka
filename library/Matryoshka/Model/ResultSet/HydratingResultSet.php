@@ -97,7 +97,7 @@ class HydratingResultSet extends AbstractResultSet implements HydratorAwareInter
     public function getPrototypeStrategy()
     {
         if (null === $this->prototypeStrategy) {
-            $this->prototypeStrategy = new CloneStrategy();
+            $this->setPrototypeStrategy(new CloneStrategy());
         }
 
         return $this->prototypeStrategy;
