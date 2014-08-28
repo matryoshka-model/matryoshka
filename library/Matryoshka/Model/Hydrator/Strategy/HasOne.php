@@ -48,7 +48,7 @@ class HasOne implements StrategyInterface
     public function extract($value)
     {
         if (null === $value) {
-            return array();
+            return [];
         }
 
         if (is_array($value)) {

@@ -15,20 +15,20 @@ class ObjectFactoryTest extends \PHPUnit_Framework_TestCase
 {
     public function testFactory()
     {
-        $config = array(
-            'object_manager' => array(
-                'invokables' => array(
+        $config = [
+            'object_manager' => [
+                'invokables' => [
                     'test' => 'stdClass'
-                )
-            )
-        );
+                ]
+            ]
+        ];
 
         $serviceManager = new ServiceManager(
-            new Config(array(
-                'factories' => array(
+            new Config([
+                'factories' => [
                     'ObjectManager' => 'Matryoshka\Model\Object\ObjectFactory',
-                )
-            ))
+                ]
+            ])
         );
         $serviceManager->setService('Config', $config);
 

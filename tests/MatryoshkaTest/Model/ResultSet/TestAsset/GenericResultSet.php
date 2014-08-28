@@ -14,7 +14,7 @@ use Matryoshka\Model\ResultSet\ResultSetInterface;
 
 class GenericResultSet extends AbstractResultSet
 {
-    protected $dataSource = array('test');
+    protected $dataSource = ['test'];
 
     /**
      * Set the item object prototype

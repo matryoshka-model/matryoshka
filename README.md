@@ -25,7 +25,7 @@ Add the following to your `composer.json` file:
 
 ```
 "require": {
-    "php": ">=5.3.3",
+    "php": ">=5.4",
     "matryoshka-model/matryoshka": "~0.1",
 }
 ```

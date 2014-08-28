@@ -28,6 +28,6 @@ class HydratorObject implements HydratorInterface
      */
     public function hydrate(array $data, $object)
     {
-        return array('one', 'two', 'three');
+        return ['one', 'two', 'three'];
     }
 }

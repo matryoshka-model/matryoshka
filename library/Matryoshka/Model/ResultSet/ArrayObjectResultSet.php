@@ -30,7 +30,7 @@ class ArrayObjectResultSet extends AbstractResultSet
      */
     public function __construct($arrayObjectPrototype = null)
     {
-        $this->setObjectPrototype(($arrayObjectPrototype) ?: new ArrayObject(array(), ArrayObject::ARRAY_AS_PROPS));
+        $this->setObjectPrototype(($arrayObjectPrototype) ?: new ArrayObject([], ArrayObject::ARRAY_AS_PROPS));
     }
 
     /**

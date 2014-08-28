@@ -41,10 +41,10 @@ class HydratingResultSetTest extends AbstractResultSetTest//\PHPUnit_Framework_T
     public function testCurrent()
     {
         $resultSet = $this->getMockForAbstractClass('\Matryoshka\Model\ResultSet\HydratingResultSet');
-        $resultSet->initialize(new \ArrayIterator(array(
-            array('id' => 1, 'name' => 'one'),
-        )));
-        $this->assertEquals(new \ArrayObject(array('id' => 1, 'name' => 'one')), $resultSet->current());
+        $resultSet->initialize(new \ArrayIterator([
+            ['id' => 1, 'name' => 'one'],
+        ]));
+        $this->assertEquals(new \ArrayObject(['id' => 1, 'name' => 'one']), $resultSet->current());
         $resultSet->next();
         $this->assertNull($resultSet->current());
 
@@ -59,7 +59,7 @@ class HydratingResultSetTest extends AbstractResultSetTest//\PHPUnit_Framework_T
 
     public function testGetSetObjectPrototype()
     {
-        $prototype = new \ArrayObject(array());
+        $prototype = new \ArrayObject([]);
         $resultSet = $this->getMockForAbstractClass('\Matryoshka\Model\ResultSet\HydratingResultSet');
         $this->assertSame($resultSet, $resultSet->setObjectPrototype($prototype));
         $this->assertSame($prototype, $resultSet->getObjectPrototype());
@@ -68,17 +68,17 @@ class HydratingResultSetTest extends AbstractResultSetTest//\PHPUnit_Framework_T
     public function testToArray()
     {
         $resultSet = $this->getMockForAbstractClass('\Matryoshka\Model\ResultSet\HydratingResultSet');
-        $resultSet->initialize(new \ArrayIterator(array(
-            array('id' => 1, 'name' => 'one'),
-            array('id' => 2, 'name' => 'two'),
-            array('id' => 3, 'name' => 'three'),
-        )));
+        $resultSet->initialize(new \ArrayIterator([
+            ['id' => 1, 'name' => 'one'],
+            ['id' => 2, 'name' => 'two'],
+            ['id' => 3, 'name' => 'three'],
+        ]));
         $this->assertEquals(
-            array(
-                array('id' => 1, 'name' => 'one'),
-                array('id' => 2, 'name' => 'two'),
-                array('id' => 3, 'name' => 'three'),
-            ),
+            [
+                ['id' => 1, 'name' => 'one'],
+                ['id' => 2, 'name' => 'two'],
+                ['id' => 3, 'name' => 'three'],
+            ],
             $resultSet->toArray()
         );
     }

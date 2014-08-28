@@ -18,11 +18,11 @@ class AbstractResultSetTest extends \PHPUnit_Framework_TestCase
     {
         $resultSet = $this->getMockForAbstractClass('\Matryoshka\Model\ResultSet\AbstractResultSet');
 
-        $data = array(
-            array('id' => 1, 'name' => 'one'),
-            array('id' => 2, 'name' => 'two'),
-            array('id' => 3, 'name' => 'three'),
-        );
+        $data = [
+            ['id' => 1, 'name' => 'one'],
+            ['id' => 2, 'name' => 'two'],
+            ['id' => 3, 'name' => 'three'],
+        ];
 
         $this->assertSame($resultSet, $resultSet->initialize($data));
 
@@ -41,33 +41,33 @@ class AbstractResultSetTest extends \PHPUnit_Framework_TestCase
     public function testGetDataSource()
     {
         $resultSet = $this->getMockForAbstractClass('\Matryoshka\Model\ResultSet\AbstractResultSet');
-        $resultSet->initialize(new \ArrayIterator(array(
-            array('id' => 1, 'name' => 'one'),
-            array('id' => 2, 'name' => 'two'),
-            array('id' => 3, 'name' => 'three'),
-        )));
+        $resultSet->initialize(new \ArrayIterator([
+            ['id' => 1, 'name' => 'one'],
+            ['id' => 2, 'name' => 'two'],
+            ['id' => 3, 'name' => 'three'],
+        ]));
         $this->assertInstanceOf('\ArrayIterator', $resultSet->getDataSource());
     }
 
     public function testNext()
     {
         $resultSet = $this->getMockForAbstractClass('\Matryoshka\Model\ResultSet\AbstractResultSet');
-        $resultSet->initialize(new \ArrayIterator(array(
-            array('id' => 1, 'name' => 'one'),
-            array('id' => 2, 'name' => 'two'),
-            array('id' => 3, 'name' => 'three'),
-        )));
+        $resultSet->initialize(new \ArrayIterator([
+            ['id' => 1, 'name' => 'one'],
+            ['id' => 2, 'name' => 'two'],
+            ['id' => 3, 'name' => 'three'],
+        ]));
         $this->assertNull($resultSet->next());
     }
 
     public function testKey()
     {
         $resultSet = $this->getMockForAbstractClass('\Matryoshka\Model\ResultSet\AbstractResultSet');
-        $resultSet->initialize(new \ArrayIterator(array(
-            array('id' => 1, 'name' => 'one'),
-            array('id' => 2, 'name' => 'two'),
-            array('id' => 3, 'name' => 'three'),
-        )));
+        $resultSet->initialize(new \ArrayIterator([
+            ['id' => 1, 'name' => 'one'],
+            ['id' => 2, 'name' => 'two'],
+            ['id' => 3, 'name' => 'three'],
+        ]));
         $resultSet->next();
         $this->assertEquals(1, $resultSet->key());
         $resultSet->next();
@@ -79,22 +79,22 @@ class AbstractResultSetTest extends \PHPUnit_Framework_TestCase
     public function testCurrent()
     {
         $resultSet = $this->getMockForAbstractClass('\Matryoshka\Model\ResultSet\AbstractResultSet');
-        $resultSet->initialize(new \ArrayIterator(array(
-            array('id' => 1, 'name' => 'one'),
-            array('id' => 2, 'name' => 'two'),
-            array('id' => 3, 'name' => 'three'),
-        )));
-        $this->assertEquals(array('id' => 1, 'name' => 'one'), $resultSet->current());
+        $resultSet->initialize(new \ArrayIterator([
+            ['id' => 1, 'name' => 'one'],
+            ['id' => 2, 'name' => 'two'],
+            ['id' => 3, 'name' => 'three'],
+        ]));
+        $this->assertEquals(['id' => 1, 'name' => 'one'], $resultSet->current());
     }
 
     public function testValid()
     {
         $resultSet = $this->getMockForAbstractClass('\Matryoshka\Model\ResultSet\AbstractResultSet');
-        $resultSet->initialize(new \ArrayIterator(array(
-            array('id' => 1, 'name' => 'one'),
-            array('id' => 2, 'name' => 'two'),
-            array('id' => 3, 'name' => 'three'),
-        )));
+        $resultSet->initialize(new \ArrayIterator([
+            ['id' => 1, 'name' => 'one'],
+            ['id' => 2, 'name' => 'two'],
+            ['id' => 3, 'name' => 'three'],
+        ]));
         $this->assertTrue($resultSet->valid());
         $resultSet->next(); $resultSet->next(); $resultSet->next();
         $this->assertFalse($resultSet->valid());
@@ -103,22 +103,22 @@ class AbstractResultSetTest extends \PHPUnit_Framework_TestCase
     public function testRewind()
     {
         $resultSet = $this->getMockForAbstractClass('\Matryoshka\Model\ResultSet\AbstractResultSet');
-        $resultSet->initialize(new \ArrayIterator(array(
-            array('id' => 1, 'name' => 'one'),
-            array('id' => 2, 'name' => 'two'),
-            array('id' => 3, 'name' => 'three'),
-        )));
+        $resultSet->initialize(new \ArrayIterator([
+            ['id' => 1, 'name' => 'one'],
+            ['id' => 2, 'name' => 'two'],
+            ['id' => 3, 'name' => 'three'],
+        ]));
         $this->assertNull($resultSet->rewind());
     }
 
     public function testCount()
     {
         $resultSet = $this->getMockForAbstractClass('\Matryoshka\Model\ResultSet\AbstractResultSet');
-        $resultSet->initialize(new \ArrayIterator(array(
-            array('id' => 1, 'name' => 'one'),
-            array('id' => 2, 'name' => 'two'),
-            array('id' => 3, 'name' => 'three'),
-        )));
+        $resultSet->initialize(new \ArrayIterator([
+            ['id' => 1, 'name' => 'one'],
+            ['id' => 2, 'name' => 'two'],
+            ['id' => 3, 'name' => 'three'],
+        ]));
         $this->assertEquals(3, $resultSet->count());
         $this->assertEquals(3, $resultSet->count());
     }
@@ -126,22 +126,22 @@ class AbstractResultSetTest extends \PHPUnit_Framework_TestCase
     public function testToArray()
     {
         $resultSet = $this->getMockForAbstractClass('\Matryoshka\Model\ResultSet\AbstractResultSet');
-        $resultSet->initialize(new \ArrayIterator(array(
-            new \ArrayObject(array('id' => 1, 'name' => 'one')), //test cast with getArrayCopy()
-            new ItemWithToArray(array('id' => 2, 'name' => 'two')), //test cast with toArray()
-            array('id' => 3, 'name' => 'three'),
-        )));
+        $resultSet->initialize(new \ArrayIterator([
+            new \ArrayObject(['id' => 1, 'name' => 'one']), //test cast with getArrayCopy()
+            new ItemWithToArray(['id' => 2, 'name' => 'two']), //test cast with toArray()
+            ['id' => 3, 'name' => 'three'],
+        ]));
         $this->assertEquals(
-            array(
-                array('id' => 1, 'name' => 'one'),
-                array('id' => 2, 'name' => 'two'),
-                array('id' => 3, 'name' => 'three'),
-            ),
+            [
+                ['id' => 1, 'name' => 'one'],
+                ['id' => 2, 'name' => 'two'],
+                ['id' => 3, 'name' => 'three'],
+            ],
             $resultSet->toArray()
         );
 
         $this->setExpectedException('\Matryoshka\Model\Exception\RuntimeException');
-        $resultSet->initialize(array(1,2,3)); //Not castable items
+        $resultSet->initialize([1,2,3]); //Not castable items
         $resultSet->toArray();
     }
 

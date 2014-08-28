@@ -25,28 +25,28 @@ class ServiceLocatorStrategyFactoryTest extends \PHPUnit_Framework_TestCase
      */
     protected $serviceManager;
 
-    protected $testConfig =  array(
+    protected $testConfig =  [
         'type_field'        => 'foo',
         'validate_object'   => true,
         'clone_object'      => false,
-    );
+    ];
 
     /**
      * @return void
      */
     public function setUp()
     {
-        $config = array(
+        $config = [
             'model_prototype_strategy' => $this->testConfig,
-        );
+        ];
 
         $sm = $this->serviceManager = new ServiceManager\ServiceManager(
-            new ServiceManagerConfig(array(
-                'factories' => array(
+            new ServiceManagerConfig([
+                'factories' => [
                     'Matryoshka\Model\ResultSet\PrototypeStrategy\ServiceLocatorStrategy' =>
                     'Matryoshka\Model\ResultSet\PrototypeStrategy\Service\ServiceLocatorStrategyFactory',
-                )
-            ))
+                ]
+            ])
         );
 
         $sm->setService('Config', $config);
@@ -86,7 +86,7 @@ class ServiceLocatorStrategyFactoryTest extends \PHPUnit_Framework_TestCase
         $getConfigMethod = $reflection->getMethod('getConfig');
         $getConfigMethod->setAccessible(true);
 
-        $this->assertSame(array(), $getConfigMethod->invoke($factory, new ServiceManager\ServiceManager()));
+        $this->assertSame([], $getConfigMethod->invoke($factory, new ServiceManager\ServiceManager()));
 
         //Test without config node
         $factory = new ServiceLocatorStrategyFactory();
@@ -94,8 +94,8 @@ class ServiceLocatorStrategyFactoryTest extends \PHPUnit_Framework_TestCase
         $getConfigMethod = $reflection->getMethod('getConfig');
         $getConfigMethod->setAccessible(true);
         $sm = new ServiceManager\ServiceManager();
-        $sm->setService('Config', array());
-        $this->assertSame(array(), $getConfigMethod->invoke($factory, $sm));
+        $sm->setService('Config', []);
+        $this->assertSame([], $getConfigMethod->invoke($factory, $sm));
 
 
     }

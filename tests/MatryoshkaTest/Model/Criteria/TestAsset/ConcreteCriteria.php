@@ -15,6 +15,6 @@ class ConcreteCriteria extends AbstractCriteria
 {
     public function apply(ModelInterface $model)
     {
-        return array();
+        return [];
     }
 }

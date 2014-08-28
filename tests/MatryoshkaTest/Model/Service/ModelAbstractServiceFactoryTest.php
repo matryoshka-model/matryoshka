@@ -39,25 +39,25 @@ class ModelAbstractServiceFactoryTest extends \PHPUnit_Framework_TestCase
 
 
 
-        $config = array(
-            'model' => array(
-                'MyModel\A' => array(
+        $config = [
+            'model' => [
+                'MyModel\A' => [
                     'datagateway' => 'MatryoshkaTest\Model\Service\TestAsset\FakeDataGateway',
                     'resultset'   => 'Matryoshka\Model\ResultSet\ResultSet',
-                ),
-                'MyModel\B' => array(
+                ],
+                'MyModel\B' => [
                     'datagateway' => 'MatryoshkaTest\Model\Service\TestAsset\FakeDataGateway',
                     'resultset'   => 'Matryoshka\Model\ResultSet\HydratingResultSet',
                     'object'      => 'ArrayObject',
                     'hydrator'    => 'Zend\Stdlib\Hydrator\ArraySerializable',
                     'type'        => 'MatryoshkaTest\Model\Service\TestAsset\MyModel',
-                ),
-                'MyModel\InvalidTypeModel' => array(
+                ],
+                'MyModel\InvalidTypeModel' => [
                     'datagateway' => 'MatryoshkaTest\Model\Service\TestAsset\FakeDataGateway',
                     'resultset'   => 'Matryoshka\Model\ResultSet\ResultSet',
                     'type'        => '\stdClass',
-                ),
-                'MyModel\Full' => array(
+                ],
+                'MyModel\Full' => [
                     'datagateway' => 'MatryoshkaTest\Model\Service\TestAsset\FakeDataGateway',
                     'resultset'   => 'Matryoshka\Model\ResultSet\HydratingResultSet',
                     'object'      => 'DomainObject',
@@ -66,16 +66,16 @@ class ModelAbstractServiceFactoryTest extends \PHPUnit_Framework_TestCase
                     'paginator_criteria'=> 'MatryoshkaTest\Model\Service\TestAsset\PaginatorCriteria',
                     'type'        => 'MatryoshkaTest\Model\Service\TestAsset\MyModel',
 
-                ),
-            ),
-        );
+                ],
+            ],
+        ];
 
         $sm = $this->serviceManager = new ServiceManager\ServiceManager(
-            new ServiceManagerConfig(array(
-                'abstract_factories' => array(
+            new ServiceManagerConfig([
+                'abstract_factories' => [
                     'Matryoshka\Model\Service\ModelAbstractServiceFactory',
-                )
-            ))
+                ]
+            ])
         );
 
         $sm->setService('Config', $config);
@@ -114,7 +114,7 @@ class ModelAbstractServiceFactoryTest extends \PHPUnit_Framework_TestCase
 
         //test with empty config
         $factory = new ModelAbstractServiceFactory();
-        $serviceLocator->setService('Config', array());
+        $serviceLocator->setService('Config', []);
 
         $this->assertFalse($factory->canCreateServiceWithName($serviceLocator, 'mymodelnonexistingmodel', 'MyModel\NonExistingModel'));
     }

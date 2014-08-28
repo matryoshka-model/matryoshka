@@ -17,12 +17,12 @@ class HasManyTest extends \PHPUnit_Framework_TestCase
         $abstractObject = $this->getMockForAbstractClass('\Matryoshka\Model\Object\AbstractObject');
         $strategy = new HasMany($abstractObject);
 
-        $hydratedValue = $strategy->hydrate(array($abstractObject));
+        $hydratedValue = $strategy->hydrate([$abstractObject]);
         $this->assertInstanceOf('\ArrayObject', $hydratedValue);
         $this->assertCount(1, $hydratedValue);
         $this->assertInstanceOf('\Matryoshka\Model\Object\AbstractObject', $hydratedValue[0]);
 
-        $hydratedValue = $strategy->hydrate(array());
+        $hydratedValue = $strategy->hydrate([]);
         $this->assertInstanceOf('\ArrayObject', $hydratedValue);
         $this->assertCount(0, $hydratedValue);
 
@@ -35,12 +35,12 @@ class HasManyTest extends \PHPUnit_Framework_TestCase
         $abstractObject = $this->getMockForAbstractClass('\Matryoshka\Model\Object\AbstractObject');
         $strategy = new HasMany($abstractObject);
 
-        $extractedValue = $strategy->extract(new \ArrayObject(array($abstractObject)));
+        $extractedValue = $strategy->extract(new \ArrayObject([$abstractObject]));
         $this->assertInternalType('array', $extractedValue);
         $this->assertCount(1, $extractedValue);
         $this->assertInternalType('array', $extractedValue[0]);
 
-        $extractedValue = $strategy->extract(new \ArrayObject(array()));
+        $extractedValue = $strategy->extract(new \ArrayObject([]));
         $this->assertInternalType('array', $extractedValue);
         $this->assertCount(0, $extractedValue);
 

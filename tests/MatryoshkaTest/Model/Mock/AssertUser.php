@@ -145,18 +145,18 @@ class AssertUser implements HydratorAwareInterface, InputFilterAwareInterface
         $inputFilter = new InputFilter();
 
         $inputFilter->add(
-            array(
+            [
                 'name' => 'firstName',
                 'required' => true,
-            )
+            ]
         );
 
 
         $inputFilter->add(
-            array(
+            [
                 'name' => 'surname',
                 'required' => true,
-            )
+            ]
         );
 
         return $inputFilter;

@@ -180,7 +180,7 @@ class AbstractModelTest extends \PHPUnit_Framework_TestCase
     {
         $mockCriteria = $this->getMock(
             '\Matryoshka\Model\Criteria\WritableCriteriaInterface',
-            array('applyWrite')
+            ['applyWrite']
         );
 
         if ($hydrator) {
@@ -216,7 +216,7 @@ class AbstractModelTest extends \PHPUnit_Framework_TestCase
     {
         $mockCriteria = $this->getMock(
             '\Matryoshka\Model\Criteria\DeletableCriteriaInterface',
-            array('applyDelete')
+            ['applyDelete']
         );
         $mockCriteria->expects($this->at(0))->method('applyDelete')->with(
             $this->equalTo($this->model)
@@ -233,14 +233,14 @@ class AbstractModelTest extends \PHPUnit_Framework_TestCase
      */
     public function saveDataProvider()
     {
-        return array(
-            array(array('foo' => 'bar'), array('foo' => 'bar')),
-            array(array('foo' => 'bar'), array('foo' => 'bar'), new ArraySerializable()),
-            array(new ToArrayObject(array('foo' => 'bar')), array('foo' => 'bar')),
-            array(new \ArrayObject(array('foo' => 'bar')), array('foo' => 'bar')),
-            array(new HydratorAwareObject(array('foo' => 'bar')), array('foo' => 'bar')),
-            array(new \ArrayObject(array('foo' => 'bar')), array('foo' => 'bar'), new ArraySerializable()),
-        );
+        return [
+            [['foo' => 'bar'], ['foo' => 'bar']],
+            [['foo' => 'bar'], ['foo' => 'bar'], new ArraySerializable()],
+            [new ToArrayObject(['foo' => 'bar']), ['foo' => 'bar']],
+            [new \ArrayObject(['foo' => 'bar']), ['foo' => 'bar']],
+            [new HydratorAwareObject(['foo' => 'bar']), ['foo' => 'bar']],
+            [new \ArrayObject(['foo' => 'bar']), ['foo' => 'bar'], new ArraySerializable()],
+        ];
     }
 
 
@@ -251,17 +251,17 @@ class AbstractModelTest extends \PHPUnit_Framework_TestCase
      */
     public function saveExceptionDataProvider()
     {
-        return array(
-            array('Yak'),
-            array(array('Yak'), new HydratorObject())
-        );
+        return [
+            ['Yak'],
+            [['Yak'], new HydratorObject()]
+        ];
     }
 
     public function testGetSetPaginatorCriteria()
     {
         $mockCriteria = $this->getMock(
             '\Matryoshka\Model\Criteria\PaginatorCriteriaInterface',
-            array('getPaginatorAdapter')
+            ['getPaginatorAdapter']
         );
 
         $this->assertInstanceOf('\Matryoshka\Model\Model', $this->model->setPaginatorCriteria($mockCriteria));
@@ -278,7 +278,7 @@ class AbstractModelTest extends \PHPUnit_Framework_TestCase
     {
         $mockCriteria = $this->getMock(
             '\Matryoshka\Model\Criteria\PaginatorCriteriaInterface',
-            array('getPaginatorAdapter')
+            ['getPaginatorAdapter']
         );
 
         $mockPaginatorAdapter = $this->getMock(

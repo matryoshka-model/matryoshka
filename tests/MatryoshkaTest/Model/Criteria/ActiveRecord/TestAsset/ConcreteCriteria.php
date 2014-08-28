@@ -15,7 +15,7 @@ class ConcreteCriteria extends AbstractCriteria
 {
     public function apply(ModelInterface $model)
     {
-        return array();
+        return [];
     }
 
     public function applyWrite(ModelInterface $model, array &$data)

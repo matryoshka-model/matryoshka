@@ -175,7 +175,7 @@ class ModelAbstractServiceFactory implements AbstractFactoryInterface
         }
 
         if (!$serviceLocator->has('Config')) {
-            $this->config = array();
+            $this->config = [];
             return $this->config;
         }
 
@@ -183,7 +183,7 @@ class ModelAbstractServiceFactory implements AbstractFactoryInterface
         if (!isset($config[$this->configKey])
             || !is_array($config[$this->configKey])
         ) {
-            $this->config = array();
+            $this->config = [];
             return $this->config;
         }
 

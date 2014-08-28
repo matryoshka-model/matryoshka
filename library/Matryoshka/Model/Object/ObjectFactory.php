@@ -23,7 +23,7 @@ class ObjectFactory implements FactoryInterface
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
         $config = $serviceLocator->get('Config');
-        $objectConfig =  isset($config['object_manager']) ? $config['object_manager'] : array();
+        $objectConfig =  isset($config['object_manager']) ? $config['object_manager'] : [];
         return new ServiceManager(new Config($objectConfig));
     }
 

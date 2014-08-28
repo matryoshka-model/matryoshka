@@ -10,7 +10,7 @@ class MockCriteria extends AbstractCriteria
 
     public function apply(ModelInterface $model)
     {
-        return array();
+        return [];
     }
 
 }

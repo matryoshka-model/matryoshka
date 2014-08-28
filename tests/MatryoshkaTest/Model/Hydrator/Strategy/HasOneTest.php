@@ -18,7 +18,7 @@ class HasOneTest extends \PHPUnit_Framework_TestCase
         $strategy = new HasOne($abstractObject);
 
         $this->assertInstanceOf('\Matryoshka\Model\Object\AbstractObject', $strategy->hydrate($abstractObject));
-        $this->assertInstanceOf('\Matryoshka\Model\Object\AbstractObject', $strategy->hydrate(array()));
+        $this->assertInstanceOf('\Matryoshka\Model\Object\AbstractObject', $strategy->hydrate([]));
         $this->assertInstanceOf('\Matryoshka\Model\Object\AbstractObject', $strategy->hydrate(null));
 
         $this->setExpectedException('\Matryoshka\Model\Exception\InvalidArgumentException');
@@ -31,7 +31,7 @@ class HasOneTest extends \PHPUnit_Framework_TestCase
         $strategy = new HasOne($abstractObject);
 
         $this->assertInternalType('array', $strategy->extract($abstractObject));
-        $this->assertInternalType('array', $strategy->extract(array()));
+        $this->assertInternalType('array', $strategy->extract([]));
         $this->assertInternalType('array', $strategy->extract(null));
 
         $this->setExpectedException('\Matryoshka\Model\Exception\InvalidArgumentException');
