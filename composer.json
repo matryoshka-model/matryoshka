@@ -15,8 +15,7 @@
         "phpunit/phpunit": "4.0.*",
         "phpmd/phpmd": "1.5.*",
         "satooshi/php-coveralls": "dev-master",
-        "zendframework/zendframework": "dev-master",
-        "robertboloc/zf2-components-list-generator": "dev-master"
+        "zendframework/zendframework": "dev-master"
     },
     "authors": [
         {
@@ -46,6 +45,11 @@
         ]
     },
     "keywords": [
-        "model"
+        "model",
+        "mvc",
+        "matryoshka",
+        "back-end",
+        "db",
+        "database"
     ]
 }
