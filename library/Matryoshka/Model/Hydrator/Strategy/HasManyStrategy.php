@@ -13,7 +13,7 @@ use Zend\Stdlib\Hydrator\Strategy\StrategyInterface;
 use Zend\Stdlib\Hydrator\HydratorAwareInterface;
 use Matryoshka\Model\Exception;
 
-class HasMany implements StrategyInterface
+class HasManyStrategy implements StrategyInterface
 {
 
     /**
@@ -33,7 +33,7 @@ class HasMany implements StrategyInterface
      */
     public function __construct(HydratorAwareInterface $objectPrototype, \ArrayAccess $arrayObjectPrototype = null)
     {
-        $this->hasOneStrategy = new HasOne($objectPrototype);
+        $this->hasOneStrategy = new HasOneStrategy($objectPrototype);
         $this->arrayObjectPrototype = $arrayObjectPrototype ? $arrayObjectPrototype : new ArrayObject([], ArrayObject::ARRAY_AS_PROPS);
     }
 
