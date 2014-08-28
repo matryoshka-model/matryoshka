@@ -1,18 +1,20 @@
 <?php
 /**
- * Created by visa
- * Date:  28/08/14 16.44
- * Class: ObjectFactory.php
+ * Matryoshka
+ *
+ * @link        https://github.com/matryoshka-model/matryoshka
+ * @copyright   Copyright (c) 2014, Copyright (c) 2014, Ripa Club
+ * @license     http://opensource.org/licenses/BSD-2-Clause Simplified BSD License
  */
-
-namespace Matryoshka\Model\Object;
+namespace Matryoshka\Model\Object\Service;
 
 use Zend\ServiceManager\Config;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 use Zend\ServiceManager\ServiceManager;
+use Matryoshka\Model\Object\ObjectManager;
 
-class ObjectFactory implements FactoryInterface
+class ObjectManagerFactory implements FactoryInterface
 {
     /**
      * Create service
@@ -24,7 +26,7 @@ class ObjectFactory implements FactoryInterface
     {
         $config = $serviceLocator->get('Config');
         $objectConfig =  isset($config['object_manager']) ? $config['object_manager'] : [];
-        return new ServiceManager(new Config($objectConfig));
+        return new ObjectManager(new Config($objectConfig));
     }
 
-} 
+}
