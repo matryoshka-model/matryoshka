@@ -23,10 +23,12 @@ Install it using [composer](http://getcomposer.org).
 
 Add the following to your `composer.json` file:
 
+```
 "require": {
     "php": ">=5.3.3",
     "matryoshka-model/matryoshka": "~0.1",
 }
+```
 
 ---
 
