@@ -19,23 +19,18 @@ Layers:
 
 ## Installation
 
-Since a Matryoshka stable version has not been released yet you have to put
-the Matryoshka repository in your composer.json
+Install it using [composer](http://getcomposer.org).
 
-```json
-    "repositories": [
-        {
-            "type": "vcs",
-            "url": "https://github.com/matryoshka-model/matryoshka.git"
-        }
-    ]
-```
-
-And of course you have to add it to your dependencies.
+Add the following to your `composer.json` file:
 
 ```
-"ripaclub/matryoshka" : "dev-develop"
+"require": {
+    "php": ">=5.4",
+    "matryoshka-model/matryoshka": "~0.1",
+}
 ```
 
-[![Analytics](https://ga-beacon.appspot.com/UA-49655829-1/ripaclub/matryoshka)](https://github.com/igrigorik/ga-beacon)
+---
+
+[![Analytics](https://ga-beacon.appspot.com/UA-49655829-1/matryoshka-model/matryoshka)](https://github.com/igrigorik/ga-beacon)
 

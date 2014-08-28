@@ -76,10 +76,10 @@ class AssertRoleCommunity implements HydratorAwareInterface, InputFilterAwareInt
     {
         $inputFilter = new InputFilter();
         $inputFilter->add(
-            array(
+            [
                 'name' => 'name',
                 'required' => true,
-            )
+            ]
         );
 
         return $inputFilter;

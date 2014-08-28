@@ -7,6 +7,6 @@ class MockCallable
 {
     static public function applyTest()
     {
-        return array();
+        return [];
     }
 }

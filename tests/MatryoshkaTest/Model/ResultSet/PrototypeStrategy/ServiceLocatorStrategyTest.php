@@ -28,7 +28,7 @@ class ServiceLocatorStrategyTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $sm = $this->serviceManager = new ServiceManager\ServiceManager(
-            new ServiceManagerConfig(array(''))
+            new ServiceManagerConfig([''])
         );
 
         $sm->setAllowOverride(true);
@@ -42,7 +42,7 @@ class ServiceLocatorStrategyTest extends \PHPUnit_Framework_TestCase
     {
         $strategy = new ServiceLocatorStrategy($this->serviceManager);
         $myDomainObject = $this->serviceManager->get('MyDomainObject');
-        $data = array('type' => 'MyDomainObject', 'foo' => 'bar');
+        $data = ['type' => 'MyDomainObject', 'foo' => 'bar'];
 
         $object = $strategy->createObject($myDomainObject, $data);
 

@@ -34,7 +34,7 @@ class HasMany implements StrategyInterface
     public function __construct(HydratorAwareInterface $objectPrototype, \ArrayAccess $arrayObjectPrototype = null)
     {
         $this->hasOneStrategy = new HasOne($objectPrototype);
-        $this->arrayObjectPrototype = $arrayObjectPrototype ? $arrayObjectPrototype : new ArrayObject(array(), ArrayObject::ARRAY_AS_PROPS);
+        $this->arrayObjectPrototype = $arrayObjectPrototype ? $arrayObjectPrototype : new ArrayObject([], ArrayObject::ARRAY_AS_PROPS);
     }
 
     /**
@@ -54,7 +54,7 @@ class HasMany implements StrategyInterface
      */
     public function extract($value)
     {
-        $return = array();
+        $return = [];
         if (is_array($value) || $value instanceof \Traversable) {
             foreach ($value as $key => $object) {
                 $return[$key] = $this->hasOneStrategy->extract($object);

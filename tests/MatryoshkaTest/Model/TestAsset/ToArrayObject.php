@@ -15,7 +15,7 @@ class ToArrayObject
 {
     protected $data;
 
-    public function __construct($data = array())
+    public function __construct($data = [])
     {
         $this->data = $data;
     }

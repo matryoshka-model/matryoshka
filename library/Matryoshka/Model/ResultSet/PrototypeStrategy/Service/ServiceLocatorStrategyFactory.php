@@ -68,7 +68,7 @@ class ServiceLocatorStrategyFactory implements FactoryInterface
         }
 
         if (!$serviceLocator->has('Config')) {
-            $this->config = array();
+            $this->config = [];
             return $this->config;
         }
 
@@ -76,7 +76,7 @@ class ServiceLocatorStrategyFactory implements FactoryInterface
         if (!isset($config[$this->configKey])
             || !is_array($config[$this->configKey])
         ) {
-            $this->config = array();
+            $this->config = [];
             return $this->config;
         }
 

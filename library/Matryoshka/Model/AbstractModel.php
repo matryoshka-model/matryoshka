@@ -177,7 +177,7 @@ abstract class AbstractModel implements
                         'in order to extract single value with extractValue method'
                     );
                 }
-                $data = array();
+                $data = [];
                 foreach ($dataOrObject as $key => $value) {
                     $data[$key] = $hydrator->extractValue($key, $value, $dataOrObject);
                 }

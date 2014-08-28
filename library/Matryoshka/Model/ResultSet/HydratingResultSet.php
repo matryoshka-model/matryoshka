@@ -46,7 +46,7 @@ class HydratingResultSet extends AbstractResultSet implements HydratorAwareInter
             $hydrator = $objectPrototype->getHydrator();
         }
         $this->setHydrator(($hydrator) ?: new ArraySerializable);
-        $this->setObjectPrototype(($objectPrototype) ?: new ArrayObject(array(), ArrayObject::ARRAY_AS_PROPS));
+        $this->setObjectPrototype(($objectPrototype) ?: new ArrayObject([], ArrayObject::ARRAY_AS_PROPS));
     }
 
     /**
@@ -128,7 +128,7 @@ class HydratingResultSet extends AbstractResultSet implements HydratorAwareInter
      */
     public function toArray()
     {
-        $return = array();
+        $return = [];
         foreach ($this as $item) {
             $return[] = $this->getHydrator()->extract($item);
         }

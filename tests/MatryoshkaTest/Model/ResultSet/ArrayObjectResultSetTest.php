@@ -14,10 +14,10 @@ class ArrayObjectResultSetTest extends \PHPUnit_Framework_TestCase
     public function testCurrent()
     {
         $resultSet = $this->getMockForAbstractClass('\Matryoshka\Model\ResultSet\ArrayObjectResultSet');
-        $resultSet->initialize(new \ArrayIterator(array(
-            array('id' => 1, 'name' => 'one'),
-        )));
-        $this->assertEquals(new \ArrayObject(array('id' => 1, 'name' => 'one')), $resultSet->current());
+        $resultSet->initialize(new \ArrayIterator([
+            ['id' => 1, 'name' => 'one'],
+        ]));
+        $this->assertEquals(new \ArrayObject(['id' => 1, 'name' => 'one']), $resultSet->current());
         $resultSet->next();
         $this->assertNull($resultSet->current());
 
@@ -32,7 +32,7 @@ class ArrayObjectResultSetTest extends \PHPUnit_Framework_TestCase
 
     public function testGetSetObjectPrototype()
     {
-        $prototype = new \ArrayObject(array());
+        $prototype = new \ArrayObject([]);
         $resultSet = $this->getMockForAbstractClass('\Matryoshka\Model\ResultSet\ArrayObjectResultSet');
         $this->assertSame($resultSet, $resultSet->setObjectPrototype($prototype));
         $this->assertSame($prototype, $resultSet->getObjectPrototype());

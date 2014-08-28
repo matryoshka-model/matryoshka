@@ -14,7 +14,7 @@ namespace MatryoshkaTest\Model\TestAsset\ArrayGateway;
  */
 class ArrayGateway
 {
-    protected $data = array();
+    protected $data = [];
 
     protected function testCriteria(array $criteria, array $element)
     {
@@ -29,7 +29,7 @@ class ArrayGateway
 
     public function find(array $criteria)
     {
-        $return = array();
+        $return = [];
         foreach ($this->data as $element) {
             if ($this->testCriteria($criteria, $element)) {
                 $return[] = $element;

@@ -151,7 +151,7 @@ abstract class AbstractResultSet implements Iterator, ResultSetInterface
      */
     public function toArray()
     {
-        $return = array();
+        $return = [];
         foreach ($this as $item) {
             if (is_array($item)) {
                 $return[] = $item;
