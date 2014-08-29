@@ -1,21 +1,21 @@
 <?php
 namespace MatryoshkaTest\Model;
 
-use Matryoshka\Model\Hydrator\Strategy\HasMany;
-class HasManyTest extends \PHPUnit_Framework_TestCase
+use Matryoshka\Model\Hydrator\Strategy\HasManyStrategy;
+class HasManyStrategyTest extends \PHPUnit_Framework_TestCase
 {
 
     public function testGetHydrator()
     {
         $abstractObject = $this->getMockForAbstractClass('\Matryoshka\Model\Object\AbstractObject');
-        $strategy = new HasMany($abstractObject);
+        $strategy = new HasManyStrategy($abstractObject);
         $this->assertSame($abstractObject, $strategy->getObjectPrototype());
     }
 
     public function testHydrate()
     {
         $abstractObject = $this->getMockForAbstractClass('\Matryoshka\Model\Object\AbstractObject');
-        $strategy = new HasMany($abstractObject);
+        $strategy = new HasManyStrategy($abstractObject);
 
         $hydratedValue = $strategy->hydrate([$abstractObject]);
         $this->assertInstanceOf('\ArrayObject', $hydratedValue);
@@ -33,7 +33,7 @@ class HasManyTest extends \PHPUnit_Framework_TestCase
     public function testExtract()
     {
         $abstractObject = $this->getMockForAbstractClass('\Matryoshka\Model\Object\AbstractObject');
-        $strategy = new HasMany($abstractObject);
+        $strategy = new HasManyStrategy($abstractObject);
 
         $extractedValue = $strategy->extract(new \ArrayObject([$abstractObject]));
         $this->assertInternalType('array', $extractedValue);

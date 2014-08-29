@@ -1,21 +1,21 @@
 <?php
 namespace MatryoshkaTest\Model;
 
-use Matryoshka\Model\Hydrator\Strategy\HasOne;
-class HasOneTest extends \PHPUnit_Framework_TestCase
+use Matryoshka\Model\Hydrator\Strategy\HasOneStrategy;
+class HasOneStrategyTest extends \PHPUnit_Framework_TestCase
 {
 
     public function testGetHydrator()
     {
         $abstractObject = $this->getMockForAbstractClass('\Matryoshka\Model\Object\AbstractObject');
-        $strategy = new HasOne($abstractObject);
+        $strategy = new HasOneStrategy($abstractObject);
         $this->assertSame($abstractObject, $strategy->getObjectPrototype());
     }
 
     public function testHydrate()
     {
         $abstractObject = $this->getMockForAbstractClass('\Matryoshka\Model\Object\AbstractObject');
-        $strategy = new HasOne($abstractObject);
+        $strategy = new HasOneStrategy($abstractObject);
 
         $this->assertInstanceOf('\Matryoshka\Model\Object\AbstractObject', $strategy->hydrate($abstractObject));
         $this->assertInstanceOf('\Matryoshka\Model\Object\AbstractObject', $strategy->hydrate([]));
@@ -28,7 +28,7 @@ class HasOneTest extends \PHPUnit_Framework_TestCase
     public function testExtract()
     {
         $abstractObject = $this->getMockForAbstractClass('\Matryoshka\Model\Object\AbstractObject');
-        $strategy = new HasOne($abstractObject);
+        $strategy = new HasOneStrategy($abstractObject);
 
         $this->assertInternalType('array', $strategy->extract($abstractObject));
         $this->assertInternalType('array', $strategy->extract([]));
