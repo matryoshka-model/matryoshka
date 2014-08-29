@@ -53,10 +53,12 @@ class DateTimeStrategy extends DefaultStrategy
 
     /**
      * @param string $format
+     * @return DateTimeStrategy
      */
     public function setFormat($format)
     {
         $this->format = $format;
+        return $this;
     }
 
     /**
