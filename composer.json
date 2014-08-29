@@ -15,6 +15,7 @@
         "phpunit/phpunit": "4.0.*",
         "phpmd/phpmd": "1.5.*",
         "satooshi/php-coveralls": "dev-master",
+        "fabpot/php-cs-fixer": "dev-master",
         "zendframework/zendframework": "dev-master"
     },
     "authors": [

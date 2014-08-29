@@ -1,4 +1,11 @@
-# Matryoshka [![Build Status](https://travis-ci.org/matryoshka-model/matryoshka.svg)](https://travis-ci.org/matryoshka-model/matryoshka)
+# Matryoshka
+
+Master:
+[![Build Status](https://secure.travis-ci.org/matryoshka-model/matryoshka.svg?branch=master)](https://travis-ci.org/matryoshka-model/matryoshka)
+[![Coverage Status](https://coveralls.io/repos/matryoshka-model/matryoshka/badge.png?branch=master)](https://coveralls.io/r/matryoshka-model/matryoshka)
+Develop:
+[![Build Status](https://secure.travis-ci.org/matryoshka-model/matryoshka.svg?branch=develop)](https://travis-ci.org/matryoshka-model/matryoshka)
+[![Coverage Status](https://coveralls.io/repos/matryoshka-model/matryoshka/badge.png?branch=develop)](https://coveralls.io/r/matryoshka-model/matryoshka)
 
 [m&#592;'tr<sup>j</sup>&#629;&#642;k&#601;]
 
