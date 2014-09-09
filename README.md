@@ -1,5 +1,4 @@
 # Matryoshka [![Latest Stable Version](https://poser.pugx.org/matryoshka-model/matryoshka/v/stable.png)](https://packagist.org/packages/matryoshka-model/matryoshka)
-[m&#592;'tr<sup>j</sup>&#629;&#642;k&#601;]
 
 | Master  | Develop |
 |:-------------:|:-------------:|

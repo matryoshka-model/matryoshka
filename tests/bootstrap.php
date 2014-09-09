@@ -7,7 +7,6 @@
  * @license     http://opensource.org/licenses/BSD-2-Clause Simplified BSD License
  */
 
-
 chdir(__DIR__);
 
 if (!file_exists('../vendor/autoload.php')) {
