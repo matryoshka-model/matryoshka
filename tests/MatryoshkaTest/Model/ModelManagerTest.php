@@ -8,11 +8,9 @@
  */
 namespace MatryoshkaTest\Model;
 
-
 use Matryoshka\Model\ModelManager;
 use Zend\ServiceManager\ServiceManager;
 use Matryoshka\Model\ResultSet\ArrayObjectResultSet as ResultSet;
-
 
 class ModelManagerTest extends \PHPUnit_Framework_TestCase
 {
