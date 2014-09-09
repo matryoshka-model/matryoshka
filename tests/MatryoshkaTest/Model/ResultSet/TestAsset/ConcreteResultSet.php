@@ -12,5 +12,5 @@ use Matryoshka\Model\ResultSet\AbstractResultSet;
 
 class ConcreteResultSet extends AbstractResultSet
 {
-
+    // FIXME: implements interface methods
 }

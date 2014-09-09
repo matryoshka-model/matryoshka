@@ -10,6 +10,7 @@ namespace MatryoshkaTest\Model\TestAsset;
 
 use Matryoshka\Model\AbstractModel;
 use Matryoshka\Model\ResultSet\ResultSetInterface;
+
 class ConcreteAbstractModel extends AbstractModel
 {
     public function setResultSetPrototype(ResultSetInterface $resultSet)

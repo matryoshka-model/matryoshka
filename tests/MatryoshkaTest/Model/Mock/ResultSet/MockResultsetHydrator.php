@@ -1,13 +1,19 @@
 <?php
-
+/**
+ * Matryoshka
+ *
+ * @link        https://github.com/matryoshka-model/matryoshka
+ * @copyright   Copyright (c) 2014, Ripa Club
+ * @license     http://opensource.org/licenses/BSD-2-Clause Simplified BSD License
+ */
 namespace MatryoshkaTest\Model\Mock\ResultSet;
 
 use Zend\Stdlib\Hydrator\ClassMethods;
 use Zend\Stdlib\Hydrator\HydratorAwareInterface;
 use Zend\Stdlib\Hydrator\HydratorInterface;
 
-class MockResultsetHydrator extends ResultSet implements HydratorAwareInterface {
-
+class MockResultsetHydrator extends ResultSet implements HydratorAwareInterface
+{
     protected $hydrator = null;
 
     public function setHydrator(HydratorInterface $hydrator)

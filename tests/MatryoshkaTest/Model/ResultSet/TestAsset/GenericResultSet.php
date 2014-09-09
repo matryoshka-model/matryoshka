@@ -1,16 +1,17 @@
 <?php
 /**
- * Created by visa
- * Date:  28/08/14 12.32
- * Class: GenericResultSet.php
+ * Matryoshka
+ *
+ * @link        https://github.com/matryoshka-model/matryoshka
+ * @copyright   Copyright (c) 2014, Ripa Club
+ * @license     http://opensource.org/licenses/BSD-2-Clause Simplified BSD License
  */
-
 namespace MatryoshkaTest\Model\ResultSet\TestAsset;
-
 
 use Matryoshka\Model\ResultSet\AbstractResultSet;
 use Matryoshka\Model\ResultSet\Exception;
 use Matryoshka\Model\ResultSet\ResultSetInterface;
+use Zend\Db\Exception\InvalidArgumentException;
 
 class GenericResultSet extends AbstractResultSet
 {
@@ -20,7 +21,7 @@ class GenericResultSet extends AbstractResultSet
      * Set the item object prototype
      *
      * @param  object $objectPrototype
-     * @throws Exception\InvalidArgumentException
+     * @throws InvalidArgumentException
      * @return ResultSetInterface
      */
     public function setObjectPrototype($objectPrototype)
@@ -38,9 +39,9 @@ class GenericResultSet extends AbstractResultSet
         // TODO: Implement getObjectPrototype() method.
     }
 
-    function __call($name, $arguments)
+    public function __call($name, $arguments)
     {
         // TODO: Implement __call() method.
     }
 
-} 
+}

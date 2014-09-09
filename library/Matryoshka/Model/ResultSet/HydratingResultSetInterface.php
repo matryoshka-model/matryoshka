@@ -11,7 +11,7 @@ namespace Matryoshka\Model\ResultSet;
 use Zend\Stdlib\Hydrator\HydratorAwareInterface;
 
 /**
- * Interface HydratingResultSetInterface 
+ * Interface HydratingResultSetInterface
  */
 interface HydratingResultSetInterface extends ResultSetInterface, HydratorAwareInterface
 {

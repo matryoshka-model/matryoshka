@@ -25,7 +25,6 @@ class ModelAwareTraitTest extends \PHPUnit_Framework_TestCase
         $this->modelMock = $this->getMockBuilder('\Matryoshka\Model\Model')
             ->disableOriginalConstructor()
             ->getMock();
-
     }
 
     public function testSetModel()

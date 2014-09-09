@@ -9,6 +9,7 @@
 namespace MatryoshkaTest\Model\ResultSet\PrototypeStrategy;
 
 use Matryoshka\Model\ResultSet\PrototypeStrategy\CloneStrategy;
+
 class CloneStrategyTest extends \PHPUnit_Framework_TestCase
 {
 
