@@ -55,5 +55,9 @@
             "dev-master": "0.3.x-dev",
             "dev-develop": "0.4.x-dev"
         }
+    },
+    "suggest": {
+        "matryoshka-model/zf2-matryoshka-module": "ZF2 module for matryoshka library",
+        "matryoshka-model/mongo-wrapper": "MongoDB matryoshka wrapper"
     }
 }
