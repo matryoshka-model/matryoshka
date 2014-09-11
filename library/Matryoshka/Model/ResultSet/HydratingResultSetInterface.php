@@ -14,5 +14,4 @@ use Zend\Stdlib\Hydrator\HydratorAwareInterface;
  * Interface HydratingResultSetInterface
  */
 interface HydratingResultSetInterface extends ResultSetInterface, HydratorAwareInterface
-{
-}
+{}
