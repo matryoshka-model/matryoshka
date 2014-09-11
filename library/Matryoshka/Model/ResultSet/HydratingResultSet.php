@@ -20,7 +20,7 @@ use Matryoshka\Model\ResultSet\PrototypeStrategy\CloneStrategy;
 /**
  * Class HydratingResultSet
  */
-class HydratingResultSet extends AbstractResultSet implements HydratorAwareInterface
+class HydratingResultSet extends AbstractResultSet implements HydratingResultSetInterface
 {
     use HydratorAwareTrait;
 
