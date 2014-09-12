@@ -190,9 +190,9 @@ class AbstractModelTest extends \PHPUnit_Framework_TestCase
         $mockCriteria->expects($this->at(0))->method('applyWrite')->with(
             $this->equalTo($this->model),
             $this->equalTo($expected)
-        )->will($this->returnValue(true));
+        )->will($this->returnValue(1));
 
-        $this->assertTrue($this->model->save($mockCriteria, $data));
+        $this->assertEquals(1, $this->model->save($mockCriteria, $data));
     }
 
 
@@ -220,9 +220,9 @@ class AbstractModelTest extends \PHPUnit_Framework_TestCase
         );
         $mockCriteria->expects($this->at(0))->method('applyDelete')->with(
             $this->equalTo($this->model)
-        )->will($this->returnValue(true));
+        )->will($this->returnValue(1));
 
-        $this->assertTrue($this->model->delete($mockCriteria));
+        $this->assertEquals(1, $this->model->delete($mockCriteria));
     }
 
 

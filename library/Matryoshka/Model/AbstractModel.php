@@ -141,7 +141,7 @@ abstract class AbstractModel implements
      * @param WriteCriteriaInterface $criteria
      * @param HydratorAwareInterface|object|array $dataOrObject
      * @throws Exception\RuntimeException
-     * @return boolean
+     * @return null|int
      */
     public function save(WritableCriteriaInterface $criteria, $dataOrObject)
     {
@@ -185,7 +185,11 @@ abstract class AbstractModel implements
             }
         }
 
-        $result = (bool) $criteria->applyWrite($this, $data);
+        $result = $criteria->applyWrite($this, $data);
+
+        if (!is_integer($result)) {
+            $result = null;
+        }
 
         if ($result && $hydrator && is_object($dataOrObject)) {
             $hydrator->hydrate($data, $dataOrObject);
@@ -198,11 +202,15 @@ abstract class AbstractModel implements
      * Delete
      *
      * @param DeleteCriteriaInterface $criteria
-     * @return boolean
+     * @return null|int
      */
     public function delete(DeletableCriteriaInterface $criteria)
     {
-        return (bool) $criteria->applyDelete($this);
+        $result = $criteria->applyDelete($this);
+        if (!is_integer($result)) {
+            $result = null;
+        }
+        return $result;
     }
 
 
