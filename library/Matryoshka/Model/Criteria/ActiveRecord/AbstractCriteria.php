@@ -12,6 +12,7 @@ use Matryoshka\Model\Exception;
 use Matryoshka\Model\Criteria\DeletableCriteriaInterface;
 use Matryoshka\Model\Criteria\WritableCriteriaInterface;
 use Matryoshka\Model\Criteria\CriteriaInterface;
+use Matryoshka\Model\Criteria\ReadableCriteriaInterface;
 
 /**
  * Class AbstractCriteria
@@ -19,7 +20,7 @@ use Matryoshka\Model\Criteria\CriteriaInterface;
  * A particular kind of CriteriaInterface in order to work with an Active Record object.
  */
 abstract class AbstractCriteria implements
-    CriteriaInterface,
+    ReadableCriteriaInterface,
     WritableCriteriaInterface,
     DeletableCriteriaInterface
 {

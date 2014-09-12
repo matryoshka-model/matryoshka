@@ -15,7 +15,7 @@ use Zend\Stdlib\Hydrator\HydratorAwareTrait;
 /**
  * Class AbstractCriteria
  */
-abstract class AbstractCriteria implements CriteriaInterface
+abstract class AbstractCriteria implements ReadableCriteriaInterface
 {
     /**
      * Limit

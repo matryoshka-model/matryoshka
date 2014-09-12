@@ -260,7 +260,7 @@ class AbstractModelTest extends \PHPUnit_Framework_TestCase
     public function testGetSetPaginatorCriteria()
     {
         $mockCriteria = $this->getMock(
-            '\Matryoshka\Model\Criteria\PaginatorCriteriaInterface',
+            '\Matryoshka\Model\Criteria\PaginableCriteriaInterface',
             ['getPaginatorAdapter']
         );
 
@@ -277,7 +277,7 @@ class AbstractModelTest extends \PHPUnit_Framework_TestCase
     public function testGetPaginatorAdapter()
     {
         $mockCriteria = $this->getMock(
-            '\Matryoshka\Model\Criteria\PaginatorCriteriaInterface',
+            '\Matryoshka\Model\Criteria\PaginableCriteriaInterface',
             ['getPaginatorAdapter']
         );
 

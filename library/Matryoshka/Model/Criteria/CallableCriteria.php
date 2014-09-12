@@ -14,7 +14,7 @@ use Matryoshka\Model\ModelInterface;
 /**
  * Class CallableCriteria
  */
-class CallableCriteria extends AbstractCriteria implements CriteriaInterface
+class CallableCriteria extends AbstractCriteria implements ReadableCriteriaInterface
 {
     /**
      * Callable

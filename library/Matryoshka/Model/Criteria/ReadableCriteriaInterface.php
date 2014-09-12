@@ -11,15 +11,15 @@ namespace Matryoshka\Model\Criteria;
 use Matryoshka\Model\ModelInterface;
 
 /**
- * Interface WritableCriteriaInterface
+ * Interface ReadableCriteriaInterface
+ *
  */
-interface WritableCriteriaInterface extends CriteriaInterface
+interface ReadableCriteriaInterface extends CriteriaInterface
 {
-
-
     /**
+     * Apply
      * @param ModelInterface $model
-     * @param array $data
+     * @return mixed
      */
-    public function applyWrite(ModelInterface $model, array &$data);
+    public function apply(ModelInterface $model);
 }

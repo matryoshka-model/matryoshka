@@ -16,12 +16,4 @@ use Matryoshka\Model\ModelInterface;
  * Criteria is an "user query intefarce" from an API point of view,
  * acting as mediator between model and datagateway.
  */
-interface CriteriaInterface
-{
-    /**
-     * Apply
-     * @param ModelInterface $model
-     * @return mixed
-     */
-    public function apply(ModelInterface $model);
-}
+interface CriteriaInterface {}

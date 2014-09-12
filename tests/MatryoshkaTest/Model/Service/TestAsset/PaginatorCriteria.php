@@ -8,12 +8,12 @@
  */
 namespace MatryoshkaTest\Model\Service\TestAsset;
 
-use Matryoshka\Model\Criteria\PaginatorCriteriaInterface;
+use Matryoshka\Model\Criteria\PaginableCriteriaInterface;
 use Matryoshka\Model\ModelInterface;
 use Zend\Paginator\Adapter\AdapterInterface;
 use Zend\Paginator\Adapter\ArrayAdapter;
 
-class PaginatorCriteria implements PaginatorCriteriaInterface
+class PaginatorCriteria implements PaginableCriteriaInterface
 {
 
     /**

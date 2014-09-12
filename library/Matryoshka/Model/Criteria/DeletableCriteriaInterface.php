@@ -13,7 +13,7 @@ use Matryoshka\Model\ModelInterface;
 /**
  * Interface DeletableCriteriaInterface
  */
-interface DeletableCriteriaInterface
+interface DeletableCriteriaInterface extends CriteriaInterface
 {
 
 
