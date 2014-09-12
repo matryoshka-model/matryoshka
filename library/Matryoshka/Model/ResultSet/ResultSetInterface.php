@@ -9,8 +9,12 @@
 namespace Matryoshka\Model\ResultSet;
 
 use Countable;
+use Matryoshka\Model\Exception\InvalidArgumentException;
 use Traversable;
 
+/**
+ * Interface ResultSetInterface
+ */
 interface ResultSetInterface extends Traversable, Countable
 {
 
@@ -26,7 +30,7 @@ interface ResultSetInterface extends Traversable, Countable
      * Set the item object prototype
      *
      * @param  object $objectPrototype
-     * @throws Exception\InvalidArgumentException
+     * @throws InvalidArgumentException
      * @return ResultSetInterface
      */
     public function setObjectPrototype($objectPrototype);

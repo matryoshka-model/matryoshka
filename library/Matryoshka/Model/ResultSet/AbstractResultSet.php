@@ -9,7 +9,6 @@
 namespace Matryoshka\Model\ResultSet;
 
 use ArrayIterator;
-use Countable;
 use Iterator;
 use IteratorAggregate;
 use Matryoshka\Model\Exception;
@@ -38,7 +37,7 @@ abstract class AbstractResultSet implements Iterator, ResultSetInterface
      * Set the data source for the result set
      *
      * @param  Iterator|IteratorAggregate $dataSource
-     * @return ResultSet
+     * @return ResultSetInterface
      * @throws Exception\InvalidArgumentException
      */
     public function initialize($dataSource)

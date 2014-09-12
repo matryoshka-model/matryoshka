@@ -9,9 +9,13 @@
 namespace MatryoshkaTest\Model;
 
 use Matryoshka\Model\ModelManager;
+use MatryoshkaTest\Model\Service\TestAsset\FakeDataGateway;
 use Zend\ServiceManager\ServiceManager;
 use Matryoshka\Model\ResultSet\ArrayObjectResultSet as ResultSet;
 
+/**
+ * Class ModelManagerTest
+ */
 class ModelManagerTest extends \PHPUnit_Framework_TestCase
 {
     public function testPluginManagerThrowsExceptionForMissingPluginInterface()
@@ -26,7 +30,7 @@ class ModelManagerTest extends \PHPUnit_Framework_TestCase
 
     public function testCanCreateByModelAbstractServiceFactory()
     {
-        $dataGateway = new \MatryoshkaTest\Model\Service\TestAsset\FakeDataGateway;
+        $dataGateway = new FakeDataGateway;
         $resultSet   = new ResultSet;
 
         $config = [

@@ -8,11 +8,10 @@
  */
 namespace Matryoshka\Model\Object\Service;
 
+use Matryoshka\Model\Object\ObjectManager;
 use Zend\ServiceManager\Config;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
-use Zend\ServiceManager\ServiceManager;
-use Matryoshka\Model\Object\ObjectManager;
 
 class ObjectManagerFactory implements FactoryInterface
 {

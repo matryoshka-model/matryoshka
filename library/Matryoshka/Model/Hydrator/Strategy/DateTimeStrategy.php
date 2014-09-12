@@ -8,8 +8,8 @@
  */
 namespace Matryoshka\Model\Hydrator\Strategy;
 
-use Zend\Stdlib\Hydrator\Strategy\DefaultStrategy;
 use DateTime;
+use Zend\Stdlib\Hydrator\Strategy\DefaultStrategy;
 
 class DateTimeStrategy extends DefaultStrategy
 {

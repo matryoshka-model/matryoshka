@@ -8,18 +8,18 @@
  */
 namespace Matryoshka\Model;
 
-use Matryoshka\Model\Exception;
-use Matryoshka\Model\ResultSet\ResultSetInterface;
-use Zend\InputFilter\InputFilterAwareTrait;
-use Zend\Stdlib\Hydrator\HydratorAwareInterface;
-use Zend\Stdlib\Hydrator\HydratorAwareTrait;
-use Matryoshka\Model\Criteria\WritableCriteriaInterface;
 use Matryoshka\Model\Criteria\DeletableCriteriaInterface;
-use Zend\Stdlib\Hydrator\AbstractHydrator;
-use Zend\InputFilter\InputFilterAwareInterface;
-use Zend\Paginator\AdapterAggregateInterface as PaginatorAdapterAggregateInterface;
 use Matryoshka\Model\Criteria\PaginableCriteriaInterface;
 use Matryoshka\Model\Criteria\ReadableCriteriaInterface;
+use Matryoshka\Model\Criteria\WritableCriteriaInterface;
+use Matryoshka\Model\Exception;
+use Matryoshka\Model\ResultSet\ResultSetInterface;
+use Zend\InputFilter\InputFilterAwareInterface;
+use Zend\InputFilter\InputFilterAwareTrait;
+use Zend\Paginator\AdapterAggregateInterface as PaginatorAdapterAggregateInterface;
+use Zend\Stdlib\Hydrator\AbstractHydrator;
+use Zend\Stdlib\Hydrator\HydratorAwareInterface;
+use Zend\Stdlib\Hydrator\HydratorAwareTrait;
 
 /**
  * Class AbstractModel
@@ -138,7 +138,7 @@ abstract class AbstractModel implements
      *
      * Inserts or updates data
      *
-     * @param WriteCriteriaInterface $criteria
+     * @param WritableCriteriaInterface $criteria
      * @param HydratorAwareInterface|object|array $dataOrObject
      * @throws Exception\RuntimeException
      * @return null|int
@@ -201,7 +201,7 @@ abstract class AbstractModel implements
     /**
      * Delete
      *
-     * @param DeleteCriteriaInterface $criteria
+     * @param DeletableCriteriaInterface $criteria
      * @return null|int
      */
     public function delete(DeletableCriteriaInterface $criteria)

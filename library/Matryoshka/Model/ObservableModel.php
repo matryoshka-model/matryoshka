@@ -8,25 +8,18 @@
  */
 namespace Matryoshka\Model;
 
-use Matryoshka\Model\ResultSet\ResultSetInterface;
-use Matryoshka\Model\Exception;
-use Zend\ServiceManager\ServiceLocatorAwareInterface;
-use Zend\ServiceManager\ServiceLocatorAwareTrait;
-use Zend\EventManager\EventManagerAwareInterface;
-use Zend\EventManager\EventManagerInterface;
-use Zend\EventManager\EventManager;
-use Matryoshka\Model\Criteria\CriteriaInterface;
-use Zend\EventManager\EventManagerAwareTrait;
 use Matryoshka\Model\Criteria\DeletableCriteriaInterface;
-use Matryoshka\Model\Criteria\WritableCriteriaInterface;
 use Matryoshka\Model\Criteria\ReadableCriteriaInterface;
+use Matryoshka\Model\Criteria\WritableCriteriaInterface;
+use Matryoshka\Model\Exception;
+use Zend\EventManager\EventManagerAwareInterface;
+use Zend\EventManager\EventManagerAwareTrait;
 
 /**
  * Class ObservableModel
  */
 class ObservableModel extends Model implements EventManagerAwareInterface
 {
-
     use EventManagerAwareTrait;
 
     /**
@@ -38,10 +31,8 @@ class ObservableModel extends Model implements EventManagerAwareInterface
     {
         $event = new ModelEvent();
         $event->setTarget($this);
-        $event->setModel($this);
         return $event;
     }
-
 
     /**
      * {@inheritdoc}
@@ -101,5 +92,4 @@ class ObservableModel extends Model implements EventManagerAwareInterface
         $this->getEventManager()->trigger(__FUNCTION__ . '.post', $event);
         return $return;
     }
-
 }

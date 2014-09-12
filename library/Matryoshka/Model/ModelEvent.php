@@ -8,11 +8,10 @@
  */
 namespace Matryoshka\Model;
 
-
-use Zend\EventManager\Event;
-use Matryoshka\Model\ResultSet\ResultSetInterface;
 use Matryoshka\Model\Criteria\CriteriaInterface;
 use Matryoshka\Model\Exception;
+use Matryoshka\Model\ResultSet\ResultSetInterface;
+use Zend\EventManager\Event;
 
 /**
  * Class ModelEvent
@@ -77,4 +76,73 @@ class ModelEvent extends Event
         return $this->resultSet;
     }
 
+    /**
+     * {@inheritdoc}
+     */
+    public function setParam($name, $value)
+    {
+        switch ($name) {
+            case 'criteria':
+                $this->setCriteria($value);
+                break;
+            case 'resultSet':
+                $this->setResultSet($value);
+                break;
+            default:
+                parent::setParam($name, $value);
+                break;
+        }
+        return $this;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setParams($params)
+    {
+        parent::setParams($params);
+        if (!is_array($params) && !$params instanceof \ArrayAccess) {
+            return $this;
+        }
+
+        foreach (['criteria', 'resultSet'] as $param) {
+            if (isset($params[$param])) {
+                $method = 'set' . $param;
+                $this->$method($params[$param]);
+            }
+        }
+        return $this;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getParam($name, $default = null)
+    {
+        switch ($name) {
+            case 'criteria':
+                return $this->getCriteria();
+            case 'resultSet':
+                return $this->getResultSet();
+            default:
+                return parent::getParam($name, $default);
+        }
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getParams()
+    {
+        $params = parent::getParams();
+        if (is_array($params) || $params instanceof \ArrayAccess) {
+            $params['criteria'] = $this->getCriteria();
+            $params['resultSet'] = $this->getResultSet();
+            return $params;
+        }
+
+        $params->criteria = $this->getCriteria();
+        $params->resultSet = $this->getResultSet();
+        return $params;
+    }
 }

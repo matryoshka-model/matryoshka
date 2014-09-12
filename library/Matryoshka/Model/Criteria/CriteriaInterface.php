@@ -8,8 +8,6 @@
  */
 namespace Matryoshka\Model\Criteria;
 
-use Matryoshka\Model\ModelInterface;
-
 /**
  * Interface CriteriaInterface
  *

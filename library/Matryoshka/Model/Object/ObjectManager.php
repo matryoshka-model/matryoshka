@@ -8,7 +8,6 @@
  */
 namespace Matryoshka\Model\Object;
 
-use Zend\ServiceManager\ConfigInterface;
 use Zend\ServiceManager\ServiceManager;
 
 /**

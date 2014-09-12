@@ -10,12 +10,12 @@ namespace Matryoshka\Model\ResultSet;
 
 use ArrayObject;
 use Matryoshka\Model\Exception;
+use Matryoshka\Model\ResultSet\PrototypeStrategy\CloneStrategy;
+use Matryoshka\Model\ResultSet\PrototypeStrategy\PrototypeStrategyInterface;
 use Zend\Stdlib\Hydrator\ArraySerializable;
-use Zend\Stdlib\Hydrator\HydratorInterface;
 use Zend\Stdlib\Hydrator\HydratorAwareInterface;
 use Zend\Stdlib\Hydrator\HydratorAwareTrait;
-use Matryoshka\Model\ResultSet\PrototypeStrategy\PrototypeStrategyInterface;
-use Matryoshka\Model\ResultSet\PrototypeStrategy\CloneStrategy;
+use Zend\Stdlib\Hydrator\HydratorInterface;
 
 /**
  * Class HydratingResultSet

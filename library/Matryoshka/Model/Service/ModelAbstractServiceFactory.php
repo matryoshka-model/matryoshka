@@ -8,13 +8,13 @@
  */
 namespace Matryoshka\Model\Service;
 
-use Zend\ServiceManager\AbstractFactoryInterface;
-use Zend\ServiceManager\ServiceLocatorInterface;
+use Matryoshka\Model\AbstractModel;
 use Matryoshka\Model\Exception;
-use Zend\ServiceManager\AbstractPluginManager;
-use Zend\Stdlib\Hydrator\HydratorAwareInterface;
-use Zend\InputFilter\InputFilterAwareInterface;
 use Matryoshka\Model\ModelAwareInterface;
+use Zend\ServiceManager\AbstractFactoryInterface;
+use Zend\ServiceManager\AbstractPluginManager;
+use Zend\ServiceManager\ServiceLocatorInterface;
+use Zend\Stdlib\Hydrator\HydratorAwareInterface;
 
 /**
  * Class ModelAbstractServiceFactory
@@ -107,6 +107,7 @@ class ModelAbstractServiceFactory implements AbstractFactoryInterface
             $class = $config['type'];
         }
 
+        /** @var $model AbstractModel */
         $model =  new $class($dataGataway, $resultSetPrototype);
 
         //Setup Hydrator

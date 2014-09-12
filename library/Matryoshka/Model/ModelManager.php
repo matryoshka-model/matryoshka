@@ -8,9 +8,9 @@
  */
 namespace Matryoshka\Model;
 
+use Matryoshka\Model\Service\ModelAbstractServiceFactory;
 use Zend\ServiceManager\AbstractPluginManager;
 use Zend\ServiceManager\ConfigInterface;
-use Matryoshka\Model\Service\ModelAbstractServiceFactory;
 
 /**
  * Class ModelManager

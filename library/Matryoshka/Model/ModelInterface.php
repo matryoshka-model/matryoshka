@@ -8,16 +8,15 @@
  */
 namespace Matryoshka\Model;
 
-use Zend\Stdlib\Hydrator\HydratorInterface;
-use Zend\InputFilter\InputFilterInterface;
 use Matryoshka\Model\ResultSet\ResultSetInterface;
+use Zend\InputFilter\InputFilterInterface;
+use Zend\Stdlib\Hydrator\HydratorInterface;
 
 /**
  * Interface ModelInterface
  */
 interface ModelInterface
 {
-
     /**
      * Retrieve hydrator
      *
@@ -54,5 +53,4 @@ interface ModelInterface
      * @return ResultSetInterface
      */
     public function getResultSetPrototype();
-
 }

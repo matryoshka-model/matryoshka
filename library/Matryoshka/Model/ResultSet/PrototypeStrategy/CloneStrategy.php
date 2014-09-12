@@ -8,16 +8,18 @@
  */
 namespace Matryoshka\Model\ResultSet\PrototypeStrategy;
 
+/**
+ * Class CloneStrategy
+ */
 class CloneStrategy implements PrototypeStrategyInterface
 {
-
     /**
      * @param object $objectPrototype
      * @param array $context
+     * @return object
      */
     public function createObject($objectPrototype, array $context = null)
     {
         return clone $objectPrototype;
     }
-
 }
