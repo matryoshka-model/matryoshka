@@ -21,7 +21,6 @@ use Zend\Stdlib\Hydrator\HydratorAwareInterface;
  */
 class ModelAbstractServiceFactory implements AbstractFactoryInterface
 {
-
     /**
      * Config Key
      * @var string

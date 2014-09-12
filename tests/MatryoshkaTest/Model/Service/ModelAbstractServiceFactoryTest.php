@@ -32,13 +32,9 @@ class ModelAbstractServiceFactoryTest extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-        $dataGateway = new \MatryoshkaTest\Model\Service\TestAsset\FakeDataGateway;
-        $resultSet   = new ResultSet;
         $objectPrototype = new DomainObject();
         $paginatorCriteria = new PaginatorCriteria();
-
-
-
+        
         $config = [
             'model' => [
                 'MyModel\A' => [
@@ -51,6 +47,13 @@ class ModelAbstractServiceFactoryTest extends \PHPUnit_Framework_TestCase
                     'object'      => 'ArrayObject',
                     'hydrator'    => 'Zend\Stdlib\Hydrator\ArraySerializable',
                     'type'        => 'MatryoshkaTest\Model\Service\TestAsset\MyModel',
+                ],
+                'MyModel\O' => [
+                    'datagateway' => 'MatryoshkaTest\Model\Service\TestAsset\FakeDataGateway',
+                    'resultset'   => 'Matryoshka\Model\ResultSet\HydratingResultSet',
+                    'object'      => 'ArrayObject',
+                    'hydrator'    => 'Zend\Stdlib\Hydrator\ArraySerializable',
+                    'type'        => 'MatryoshkaTest\Model\Service\TestAsset\MyObservableModel',
                 ],
                 'MyModel\InvalidTypeModel' => [
                     'datagateway' => 'MatryoshkaTest\Model\Service\TestAsset\FakeDataGateway',
@@ -90,7 +93,6 @@ class ModelAbstractServiceFactoryTest extends \PHPUnit_Framework_TestCase
         $sm->setService('DomainObject', $objectPrototype);
     }
 
-
     /**
      * @return void
      */
@@ -102,6 +104,7 @@ class ModelAbstractServiceFactoryTest extends \PHPUnit_Framework_TestCase
         $this->assertFalse($factory->canCreateServiceWithName($serviceLocator, 'mymodelnonexistingmodel', 'MyModel\NonExistingModel'));
         $this->assertTrue($factory->canCreateServiceWithName($serviceLocator, 'mymodela', 'MyModel\A'));
         $this->assertTrue($factory->canCreateServiceWithName($serviceLocator, 'mymodela', 'MyModel\B'));
+        $this->assertTrue($factory->canCreateServiceWithName($serviceLocator, 'mymodela', 'MyModel\O'));
         $this->assertTrue($factory->canCreateServiceWithName($serviceLocator, 'mymodela', 'MyModel\Full'));
 
         //test without config
@@ -130,9 +133,11 @@ class ModelAbstractServiceFactoryTest extends \PHPUnit_Framework_TestCase
         $modelA = $serviceLocator->get('MyModel\A');
         $this->assertInstanceOf('\Matryoshka\Model\Model', $modelA);
 
-
         $modelB = $serviceLocator->get('MyModel\B');
         $this->assertInstanceOf('\MatryoshkaTest\Model\Service\TestAsset\MyModel', $modelB);
+
+        $modelO = $serviceLocator->get('MyModel\O');
+        $this->assertInstanceOf('\Matryoshka\Model\ObservableModel', $modelO);
 
         $modelFull = $serviceLocator->get('MyModel\Full');
         $this->assertInstanceOf('\MatryoshkaTest\Model\Service\TestAsset\MyModel', $modelFull);

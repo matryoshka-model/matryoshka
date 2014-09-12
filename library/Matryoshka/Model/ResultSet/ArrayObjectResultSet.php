@@ -16,12 +16,10 @@ use Matryoshka\Model\Exception;
  */
 class ArrayObjectResultSet extends AbstractResultSet
 {
-
     /**
      * @var ArrayObject|object
      */
     protected $arrayObjectPrototype = null;
-
 
     /**
      * Constructor

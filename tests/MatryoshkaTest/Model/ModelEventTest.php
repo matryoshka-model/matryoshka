@@ -26,7 +26,7 @@ class ModelEventTest extends \PHPUnit_Framework_TestCase
         $this->event = new ModelEvent();
     }
 
-    public function testTarget()
+    public function testSetTarget()
     {
         $model = new ConcreteAbstractModel();
         $this->event->setTarget($model);

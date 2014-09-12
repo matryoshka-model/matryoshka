@@ -8,6 +8,7 @@
  */
 namespace MatryoshkaTest\Model;
 
+use Matryoshka\Model\Criteria\CallableCriteria;
 use Matryoshka\Model\Model;
 use MatryoshkaTest\Model\Mock\Criteria\MockCriteria;
 use Matryoshka\Model\ResultSet\ArrayObjectResultSet as ResultSet;
@@ -158,7 +159,7 @@ class AbstractModelTest extends \PHPUnit_Framework_TestCase
 
     public function testFindClosureCriteria()
     {
-        $criteria = new \Matryoshka\Model\Criteria\CallableCriteria(
+        $criteria = new CallableCriteria(
             'MatryoshkaTest\Model\Mock\Criteria\MockCallable::applyTest'
         );
 
