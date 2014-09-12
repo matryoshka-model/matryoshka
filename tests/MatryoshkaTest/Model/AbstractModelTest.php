@@ -10,6 +10,7 @@ namespace MatryoshkaTest\Model;
 
 use Matryoshka\Model\Criteria\CallableCriteria;
 use Matryoshka\Model\Model;
+use Matryoshka\Model\ObservableModel;
 use MatryoshkaTest\Model\Mock\Criteria\MockCriteria;
 use Matryoshka\Model\ResultSet\ArrayObjectResultSet as ResultSet;
 use MatryoshkaTest\Model\TestAsset\ConcreteAbstractModel;
@@ -29,6 +30,11 @@ class AbstractModelTest extends \PHPUnit_Framework_TestCase
      */
     protected $model;
 
+    /**
+     * @var \Matryoshka\Model\ObservableModel
+     */
+    protected $obsModel; // TODO: test ObservableModel
+
     protected $mockDataGateway;
 
     protected $mockCriteria;
@@ -42,6 +48,8 @@ class AbstractModelTest extends \PHPUnit_Framework_TestCase
         $this->resultSet = new ResultSet();
 
         $this->model = new Model($this->mockDataGateway, $this->resultSet);
+
+        $this->obsModel = new ObservableModel($this->mockDataGateway, $this->resultSet);
     }
 
     public function testWithoutConstructor()
@@ -137,6 +145,15 @@ class AbstractModelTest extends \PHPUnit_Framework_TestCase
     {
         $prototype = $this->model->getObjectPrototype();
         $newObj = $this->model->create();
+
+        $this->assertEquals($prototype, $newObj);
+        $this->assertNotSame($prototype, $newObj);
+    }
+
+    public function testCreateObservable()
+    {
+        $prototype = $this->obsModel->getObjectPrototype();
+        $newObj = $this->obsModel->create();
 
         $this->assertEquals($prototype, $newObj);
         $this->assertNotSame($prototype, $newObj);
