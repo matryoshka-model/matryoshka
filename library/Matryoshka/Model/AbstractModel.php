@@ -100,8 +100,8 @@ abstract class AbstractModel implements
     public function getObjectPrototype()
     {
         $resultSetPrototype = $this->getResultSetPrototype();
-        if ($resultSetPrototype) {
-            return $resultSetPrototype->getObjectPrototype();
+        if ($resultSetPrototype && ($objectPrototype = $resultSetPrototype->getObjectPrototype())) {
+            return $objectPrototype;
         }
 
         throw new Exception\RuntimeException(

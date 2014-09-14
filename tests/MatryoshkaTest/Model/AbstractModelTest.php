@@ -10,15 +10,14 @@ namespace MatryoshkaTest\Model;
 
 use Matryoshka\Model\Criteria\CallableCriteria;
 use Matryoshka\Model\Model;
-use Matryoshka\Model\ObservableModel;
 use MatryoshkaTest\Model\Mock\Criteria\MockCriteria;
-use Matryoshka\Model\ResultSet\ArrayObjectResultSet as ResultSet;
 use MatryoshkaTest\Model\TestAsset\ConcreteAbstractModel;
 use MatryoshkaTest\Model\TestAsset\HydratorObject;
 use MatryoshkaTest\Model\TestAsset\ToArrayObject;
 use Zend\Stdlib\Hydrator\ArraySerializable;
 use MatryoshkaTest\Model\TestAsset\HydratorAwareObject;
 use MatryoshkaTest\Model\TestAsset\InputFilterAwareObject;
+use MatryoshkaTest\Model\TestAsset\ResultSet;
 
 /**
  * Class AbstractModelTest
@@ -26,14 +25,9 @@ use MatryoshkaTest\Model\TestAsset\InputFilterAwareObject;
 class AbstractModelTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Matryoshka\Model\Model
+     * @var ConcreteAbstractModel
      */
     protected $model;
-
-    /**
-     * @var \Matryoshka\Model\ObservableModel
-     */
-    protected $obsModel; // TODO: test ObservableModel
 
     protected $mockDataGateway;
 
@@ -47,44 +41,39 @@ class AbstractModelTest extends \PHPUnit_Framework_TestCase
 
         $this->resultSet = new ResultSet();
 
-        $this->model = new Model($this->mockDataGateway, $this->resultSet);
+        $this->model = new ConcreteAbstractModel();
 
-        $this->obsModel = new ObservableModel($this->mockDataGateway, $this->resultSet);
-    }
+        $this->model->setDataGateway($this->mockDataGateway)
+                    ->setResultSetPrototype($this->resultSet);
 
-    public function testWithoutConstructor()
-    {
-        $model = new ConcreteAbstractModel();
-        $this->assertNull($model->getResultSetPrototype());
-        $this->assertNull($model->getDataGateway());
     }
 
     public function testShouldThrowExceptionWhenNoObjectPrototype()
     {
-        $model = new ConcreteAbstractModel();
+        $this->resultSet->arrayObjectPrototype = null;
         $this->setExpectedException('\Matryoshka\Model\Exception\RuntimeException');
-        $model->getObjectPrototype();
+        var_dump($this->model->getObjectPrototype());
     }
 
     public function testGetHydratorShouldThrowExceptionWhenNoHydratorAndNoObjectPrototype()
     {
-        $model = new ConcreteAbstractModel();
+        $this->resultSet->arrayObjectPrototype = null;
         $this->setExpectedException('\Matryoshka\Model\Exception\RuntimeException');
-        $model->getHydrator();
+        $this->model->getHydrator();
     }
 
     public function testShouldThrowExceptionWhenNoInputFilterAndNoObjectPrototype()
     {
-        $model = new ConcreteAbstractModel();
         $this->setExpectedException('\Matryoshka\Model\Exception\RuntimeException');
-        $model->getInputFilter();
+        $this->model->getInputFilter();
     }
 
     public function testShouldThrowExceptionWhenNoInputFilter()
     {
-        $model = new ConcreteAbstractModel();
-        $model->setResultSetPrototype(new ResultSet());
-        $model->getResultSetPrototype()->setObjectPrototype(new \ArrayObject);
+        $model = $this->model;
+        if ($this->model instanceof ConcreteAbstractModel) {
+            $model->setResultSetPrototype(new ResultSet(new \ArrayObject));
+        }
 
         $this->setExpectedException('\Matryoshka\Model\Exception\RuntimeException');
 
@@ -102,7 +91,7 @@ class AbstractModelTest extends \PHPUnit_Framework_TestCase
         $model->getResultSetPrototype()->setObjectPrototype($hydratableObject);
         $this->assertSame($hydratableObject->getHydrator(), $model->getHydrator());
 
-        $this->assertInstanceOf('\Matryoshka\Model\Model', $model->setHydrator(new ArraySerializable()));
+        $this->assertSame($model, $model->setHydrator(new ArraySerializable()));
         $this->assertInstanceOf('\Zend\Stdlib\Hydrator\HydratorInterface', $model->getHydrator());
     }
 
@@ -114,7 +103,7 @@ class AbstractModelTest extends \PHPUnit_Framework_TestCase
         $model->getResultSetPrototype()->setObjectPrototype($filterableObject);
         $this->assertSame($filterableObject->getInputFilter(), $model->getInputFilter());
 
-        $this->assertInstanceOf('\Matryoshka\Model\Model', $model->setInputFilter(new \Zend\InputFilter\InputFilter()));
+        $this->assertSame($model, $model->setInputFilter(new \Zend\InputFilter\InputFilter()));
         $this->assertInstanceOf('\Zend\InputFilter\InputFilterInterface', $model->getInputFilter());
     }
 
@@ -145,15 +134,6 @@ class AbstractModelTest extends \PHPUnit_Framework_TestCase
     {
         $prototype = $this->model->getObjectPrototype();
         $newObj = $this->model->create();
-
-        $this->assertEquals($prototype, $newObj);
-        $this->assertNotSame($prototype, $newObj);
-    }
-
-    public function testCreateObservable()
-    {
-        $prototype = $this->obsModel->getObjectPrototype();
-        $newObj = $this->obsModel->create();
 
         $this->assertEquals($prototype, $newObj);
         $this->assertNotSame($prototype, $newObj);
@@ -211,6 +191,14 @@ class AbstractModelTest extends \PHPUnit_Framework_TestCase
         )->will($this->returnValue(1));
 
         $this->assertEquals(1, $this->model->save($mockCriteria, $data));
+
+        //save() should return null when criteria return value is non-integer
+        $mockCriteria->expects($this->at(0))->method('applyWrite')->with(
+            $this->equalTo($this->model),
+            $this->equalTo($expected)
+        )->will($this->returnValue(true));
+
+        $this->assertNull($this->model->save($mockCriteria, $data));
     }
 
 
@@ -236,11 +224,19 @@ class AbstractModelTest extends \PHPUnit_Framework_TestCase
             '\Matryoshka\Model\Criteria\DeletableCriteriaInterface',
             ['applyDelete']
         );
+
         $mockCriteria->expects($this->at(0))->method('applyDelete')->with(
             $this->equalTo($this->model)
         )->will($this->returnValue(1));
 
         $this->assertEquals(1, $this->model->delete($mockCriteria));
+
+        //delete() should return null when criteria return value is non-integer
+        $mockCriteria->expects($this->at(0))->method('applyDelete')->with(
+            $this->equalTo($this->model)
+        )->will($this->returnValue(true));
+
+        $this->assertNull($this->model->delete($mockCriteria));
     }
 
 
@@ -282,7 +278,7 @@ class AbstractModelTest extends \PHPUnit_Framework_TestCase
             ['getPaginatorAdapter']
         );
 
-        $this->assertInstanceOf('\Matryoshka\Model\Model', $this->model->setPaginatorCriteria($mockCriteria));
+        $this->assertSame($this->model, $this->model->setPaginatorCriteria($mockCriteria));
         $this->assertSame($mockCriteria, $this->model->getPaginatorCriteria());
     }
 

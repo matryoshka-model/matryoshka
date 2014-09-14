@@ -9,14 +9,18 @@
 namespace MatryoshkaTest\Model;
 
 use Matryoshka\Model\ObservableModel;
+use Matryoshka\Model\Model;
 use MatryoshkaTest\Model\TestAsset\ResultSet;
 
 /**
- * Class ObservableModelTest
+ * Class ModelTest
  */
-class ObservableModelTest extends ModelTest
+class ModelTest extends AbstractModelTest
 {
-    /** @var ObservableModel */
+
+    /**
+     * @var \Matryoshka\Model\Model
+     */
     protected $model;
 
     public function setUp()
@@ -25,7 +29,7 @@ class ObservableModelTest extends ModelTest
 
         $this->resultSet = new ResultSet();
 
-        $this->model = new ObservableModel($this->mockDataGateway, $this->resultSet);
+        $this->model = new Model($this->mockDataGateway, $this->resultSet);
     }
 
     public function testConstructorDefaults()
