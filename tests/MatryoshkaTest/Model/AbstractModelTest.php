@@ -139,7 +139,7 @@ class AbstractModelTest extends \PHPUnit_Framework_TestCase
         $this->assertNotSame($prototype, $newObj);
     }
 
-    public function testFindAbstractCriteria()
+    public function testFind()
     {
         $criteria = new MockCriteria();
 

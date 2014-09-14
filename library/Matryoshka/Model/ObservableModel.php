@@ -44,7 +44,9 @@ class ObservableModel extends Model implements EventManagerAwareInterface
         $results = $this->getEventManager()->trigger(__FUNCTION__ . '.pre', $event);
 
         if ($results->stopped()) {
-            return clone $this->getResultSetPrototype();
+            $resultSet = clone $this->getResultSetPrototype();
+            $resultSet->initialize([]);
+            return $resultSet;
         }
 
         $return = parent::find($criteria);
