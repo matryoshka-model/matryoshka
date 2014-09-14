@@ -20,7 +20,7 @@ use Zend\Stdlib\Hydrator\HydratorInterface;
 /**
  * Class HydratingResultSet
  */
-class HydratingResultSet extends AbstractResultSet
+class HydratingResultSet extends AbstractResultSet implements HydratingResultSetInterface
 {
     use HydratorAwareTrait;
 
