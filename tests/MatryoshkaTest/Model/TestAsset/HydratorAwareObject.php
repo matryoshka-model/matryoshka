@@ -8,14 +8,20 @@
  */
 namespace MatryoshkaTest\Model\TestAsset;
 
+use Zend\Stdlib\Hydrator\ArraySerializable;
 use Zend\Stdlib\Hydrator\HydratorAwareInterface;
 use Zend\Stdlib\Hydrator\HydratorAwareTrait;
-use Zend\Stdlib\Hydrator\ArraySerializable;
 
+/**
+ * Class HydratorAwareObject
+ */
 class HydratorAwareObject extends \ArrayObject implements HydratorAwareInterface
 {
     use HydratorAwareTrait;
 
+    /**
+     * {@inheritdoc}
+     */
     public function getHydrator()
     {
         if (!$this->hydrator) {

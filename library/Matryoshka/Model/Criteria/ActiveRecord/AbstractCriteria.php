@@ -8,10 +8,10 @@
  */
 namespace Matryoshka\Model\Criteria\ActiveRecord;
 
-use Matryoshka\Model\Exception;
 use Matryoshka\Model\Criteria\DeletableCriteriaInterface;
+use Matryoshka\Model\Criteria\ReadableCriteriaInterface;
 use Matryoshka\Model\Criteria\WritableCriteriaInterface;
-use Matryoshka\Model\Criteria\CriteriaInterface;
+use Matryoshka\Model\Exception;
 
 /**
  * Class AbstractCriteria
@@ -19,11 +19,10 @@ use Matryoshka\Model\Criteria\CriteriaInterface;
  * A particular kind of CriteriaInterface in order to work with an Active Record object.
  */
 abstract class AbstractCriteria implements
-    CriteriaInterface,
+    ReadableCriteriaInterface,
     WritableCriteriaInterface,
     DeletableCriteriaInterface
 {
-
     protected $id;
 
     /**
@@ -48,6 +47,4 @@ abstract class AbstractCriteria implements
         }
         return $this->id;
     }
-
-
 }

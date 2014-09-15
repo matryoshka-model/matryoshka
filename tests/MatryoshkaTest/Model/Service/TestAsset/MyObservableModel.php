@@ -6,11 +6,13 @@
  * @copyright   Copyright (c) 2014, Ripa Club
  * @license     http://opensource.org/licenses/BSD-2-Clause Simplified BSD License
  */
-namespace MatryoshkaTest\Model\ResultSet\TestAsset;
+namespace MatryoshkaTest\Model\Service\TestAsset;
 
-use Matryoshka\Model\ResultSet\AbstractResultSet;
+use Matryoshka\Model\ObservableModel;
 
-class ConcreteResultSet extends AbstractResultSet
+/**
+ * Class MyObservableModel
+ */
+class MyObservableModel extends ObservableModel
 {
-    // FIXME: implements interface methods
 }

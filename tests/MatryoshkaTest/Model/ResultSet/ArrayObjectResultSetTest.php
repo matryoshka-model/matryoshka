@@ -8,6 +8,9 @@
  */
 namespace MatryoshkaTest\Model\ResultSet;
 
+/**
+ * Class ArrayObjectResultSetTest
+ */
 class ArrayObjectResultSetTest extends \PHPUnit_Framework_TestCase
 {
 
@@ -20,7 +23,6 @@ class ArrayObjectResultSetTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(new \ArrayObject(['id' => 1, 'name' => 'one']), $resultSet->current());
         $resultSet->next();
         $this->assertNull($resultSet->current());
-
     }
 
     public function testSetObjectPrototypeShouldThrowExceptionWhenInvalidType()
@@ -37,5 +39,4 @@ class ArrayObjectResultSetTest extends \PHPUnit_Framework_TestCase
         $this->assertSame($resultSet, $resultSet->setObjectPrototype($prototype));
         $this->assertSame($prototype, $resultSet->getObjectPrototype());
     }
-
 }

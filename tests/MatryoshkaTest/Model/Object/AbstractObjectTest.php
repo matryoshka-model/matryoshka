@@ -1,6 +1,9 @@
 <?php
 namespace MatryoshkaTest\Model\Object;
 
+/**
+ * Class AbstractObjectTest
+ */
 class AbstractObjectTest extends \PHPUnit_Framework_TestCase
 {
     public function testGetHydrator()

@@ -8,8 +8,8 @@
  */
 namespace Matryoshka\Model;
 
-use Matryoshka\Model\ResultSet\ResultSetInterface;
 use Matryoshka\Model\Exception;
+use Matryoshka\Model\ResultSet\ResultSetInterface;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use Zend\ServiceManager\ServiceLocatorAwareTrait;
 

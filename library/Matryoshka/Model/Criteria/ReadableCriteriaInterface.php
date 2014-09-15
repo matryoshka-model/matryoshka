@@ -11,12 +11,15 @@ namespace Matryoshka\Model\Criteria;
 use Matryoshka\Model\ModelInterface;
 
 /**
- * Interface DeletableCriteriaInterface
+ * Interface ReadableCriteriaInterface
+ *
  */
-interface DeletableCriteriaInterface extends CriteriaInterface
+interface ReadableCriteriaInterface extends CriteriaInterface
 {
     /**
+     * Apply
      * @param ModelInterface $model
+     * @return mixed
      */
-    public function applyDelete(ModelInterface $model);
+    public function apply(ModelInterface $model);
 }

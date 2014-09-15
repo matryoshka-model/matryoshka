@@ -28,7 +28,7 @@ trait DataGatewayAwareTrait
     public function setDataGateway($dataGateway)
     {
         $this->dataGateway = $dataGateway;
-        return $this->dataGateway;
+        return $this;
     }
 
     /**

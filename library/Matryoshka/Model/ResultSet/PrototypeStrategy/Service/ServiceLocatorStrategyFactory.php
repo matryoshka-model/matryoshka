@@ -8,18 +8,19 @@
  */
 namespace Matryoshka\Model\ResultSet\PrototypeStrategy\Service;
 
-use Zend\ServiceManager\ServiceLocatorInterface;
-use Zend\ServiceManager\FactoryInterface;
 use Matryoshka\Model\ResultSet\PrototypeStrategy\ServiceLocatorStrategy;
+use Zend\ServiceManager\FactoryInterface;
+use Zend\ServiceManager\ServiceLocatorInterface;
 
 /**
  * Class ServiceLocatatorStrategyFactory
  */
 class ServiceLocatorStrategyFactory implements FactoryInterface
 {
-
+    /**
+     * @var string
+     */
     protected $configKey = 'model_prototype_strategy';
-
 
     /**
      * Config

@@ -8,11 +8,14 @@
  */
 namespace Matryoshka\Model\ResultSet\PrototypeStrategy;
 
-use Zend\ServiceManager\ServiceLocatorInterface;
 use Matryoshka\Model\Exception\ErrorException;
+use Zend\ServiceManager\ServiceLocatorInterface;
+
+/**
+ * Class ServiceLocatorStrategy
+ */
 class ServiceLocatorStrategy implements PrototypeStrategyInterface
 {
-
     /**
      * @var ServiceLocatorInterface
      */
@@ -36,8 +39,8 @@ class ServiceLocatorStrategy implements PrototypeStrategyInterface
     /**
      * @param ServiceLocatorInterface $serviceLocator
      * @param string $typeField
-     * @param string $validateObject
-     * @param string $cloneObject
+     * @param bool|string $validateObject
+     * @param bool|string $cloneObject
      */
     public function __construct(ServiceLocatorInterface $serviceLocator, $typeField = 'type', $validateObject = true, $cloneObject = false)
     {
@@ -122,7 +125,8 @@ class ServiceLocatorStrategy implements PrototypeStrategyInterface
     /**
      * @param object $objectPrototype
      * @param array $context
-     * @return object
+     * @return array|object
+     * @throws ErrorException
      */
     public function createObject($objectPrototype, array $context = null)
     {

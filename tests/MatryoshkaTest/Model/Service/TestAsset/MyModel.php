@@ -10,7 +10,9 @@ namespace MatryoshkaTest\Model\Service\TestAsset;
 
 use Matryoshka\Model\Model;
 
+/**
+ * Class MyModel
+ */
 class MyModel extends Model
 {
-
 }

@@ -8,13 +8,14 @@
  */
 namespace Matryoshka\Model\ResultSet\PrototypeStrategy;
 
+/**
+ * Interface PrototypeStrategyInterface
+ */
 interface PrototypeStrategyInterface
 {
-
     /**
      * @param object $objectPrototype
      * @param array $context
      */
     public function createObject($objectPrototype, array $context = null);
-
 }

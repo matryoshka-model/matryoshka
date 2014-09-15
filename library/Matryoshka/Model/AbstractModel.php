@@ -8,18 +8,18 @@
  */
 namespace Matryoshka\Model;
 
+use Matryoshka\Model\Criteria\DeletableCriteriaInterface;
+use Matryoshka\Model\Criteria\PaginableCriteriaInterface;
+use Matryoshka\Model\Criteria\ReadableCriteriaInterface;
+use Matryoshka\Model\Criteria\WritableCriteriaInterface;
 use Matryoshka\Model\Exception;
 use Matryoshka\Model\ResultSet\ResultSetInterface;
-use Matryoshka\Model\Criteria\CriteriaInterface;
+use Zend\InputFilter\InputFilterAwareInterface;
 use Zend\InputFilter\InputFilterAwareTrait;
+use Zend\Paginator\AdapterAggregateInterface as PaginatorAdapterAggregateInterface;
+use Zend\Stdlib\Hydrator\AbstractHydrator;
 use Zend\Stdlib\Hydrator\HydratorAwareInterface;
 use Zend\Stdlib\Hydrator\HydratorAwareTrait;
-use Matryoshka\Model\Criteria\WritableCriteriaInterface;
-use Matryoshka\Model\Criteria\DeletableCriteriaInterface;
-use Zend\Stdlib\Hydrator\AbstractHydrator;
-use Zend\InputFilter\InputFilterAwareInterface;
-use Zend\Paginator\AdapterAggregateInterface as PaginatorAdapterAggregateInterface;
-use Matryoshka\Model\Criteria\PaginatorCriteriaInterface;
 
 /**
  * Class AbstractModel
@@ -35,7 +35,7 @@ abstract class AbstractModel implements
     use DataGatewayAwareTrait;
 
     /**
-     * @var PaginatorCriteriaInterface
+     * @var PaginableCriteriaInterface
      */
     protected $paginatorCriteria;
 
@@ -100,8 +100,8 @@ abstract class AbstractModel implements
     public function getObjectPrototype()
     {
         $resultSetPrototype = $this->getResultSetPrototype();
-        if ($resultSetPrototype) {
-            return $resultSetPrototype->getObjectPrototype();
+        if ($resultSetPrototype && ($objectPrototype = $resultSetPrototype->getObjectPrototype())) {
+            return $objectPrototype;
         }
 
         throw new Exception\RuntimeException(
@@ -122,10 +122,10 @@ abstract class AbstractModel implements
     /**
      * Find
      *
-     * @param CriteriaInterface $criteria
+     * @param ReadableCriteriaInterface $criteria
      * @return ResultSetInterface
      */
-    public function find(CriteriaInterface $criteria)
+    public function find(ReadableCriteriaInterface $criteria)
     {
         $result = $criteria->apply($this);
         $resultSet = clone $this->getResultSetPrototype();
@@ -138,10 +138,10 @@ abstract class AbstractModel implements
      *
      * Inserts or updates data
      *
-     * @param WriteCriteriaInterface $criteria
+     * @param WritableCriteriaInterface $criteria
      * @param HydratorAwareInterface|object|array $dataOrObject
      * @throws Exception\RuntimeException
-     * @return boolean
+     * @return null|int
      */
     public function save(WritableCriteriaInterface $criteria, $dataOrObject)
     {
@@ -185,7 +185,11 @@ abstract class AbstractModel implements
             }
         }
 
-        $result = (bool) $criteria->applyWrite($this, $data);
+        $result = $criteria->applyWrite($this, $data);
+
+        if (!is_integer($result)) {
+            $result = null;
+        }
 
         if ($result && $hydrator && is_object($dataOrObject)) {
             $hydrator->hydrate($data, $dataOrObject);
@@ -197,22 +201,26 @@ abstract class AbstractModel implements
     /**
      * Delete
      *
-     * @param DeleteCriteriaInterface $criteria
-     * @return boolean
+     * @param DeletableCriteriaInterface $criteria
+     * @return null|int
      */
     public function delete(DeletableCriteriaInterface $criteria)
     {
-        return (bool) $criteria->applyDelete($this);
+        $result = $criteria->applyDelete($this);
+        if (!is_integer($result)) {
+            $result = null;
+        }
+        return $result;
     }
 
 
     /**
      * Set the default paginator criteria
      *
-     * @param PaginatorCriteriaInterface $criteria
+     * @param PaginableCriteriaInterface $criteria
      * @return $this
      */
-    public function setPaginatorCriteria(PaginatorCriteriaInterface $criteria)
+    public function setPaginatorCriteria(PaginableCriteriaInterface $criteria)
     {
         $this->paginatorCriteria = $criteria;
         return $this;
@@ -222,7 +230,7 @@ abstract class AbstractModel implements
      * Retrive the default paginator criteria
      *
      * @throws Exception\RuntimeException
-     * @return PaginatorCriteriaInterface
+     * @return PaginableCriteriaInterface
      */
     public function getPaginatorCriteria()
     {
@@ -237,7 +245,7 @@ abstract class AbstractModel implements
      * {@inheritdoc}
      * @throws Exception\RuntimeException
      */
-    public function getPaginatorAdapter(PaginatorCriteriaInterface $criteria = null)
+    public function getPaginatorAdapter(PaginableCriteriaInterface $criteria = null)
     {
         if (null === $criteria) {
             $criteria = $this->getPaginatorCriteria();

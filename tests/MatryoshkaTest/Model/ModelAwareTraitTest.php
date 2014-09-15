@@ -8,13 +8,14 @@
  */
 namespace MatryoshkaTest\Model;
 
+use Matryoshka\Model\ModelAwareTrait;
+
 /**
  * Class ModelAwareTraitTest
- *
- * @author Lorenzo Fontana <fontanalorenzo@me.com>
  */
 class ModelAwareTraitTest extends \PHPUnit_Framework_TestCase
 {
+    /** @var ModelAwareTrait */
     protected $traitObject;
 
     protected $modelMock;
@@ -29,14 +30,13 @@ class ModelAwareTraitTest extends \PHPUnit_Framework_TestCase
 
     public function testSetModel()
     {
-        $this->traitObject->setModel($this->modelMock);
+        $this->assertSame($this->traitObject, $this->traitObject->setModel($this->modelMock));
         $this->assertAttributeEquals($this->modelMock, 'model', $this->traitObject);
     }
 
     public function testGetModel()
     {
         $this->traitObject->setModel($this->modelMock);
-
         $this->assertEquals($this->modelMock, $this->traitObject->getModel());
     }
 }

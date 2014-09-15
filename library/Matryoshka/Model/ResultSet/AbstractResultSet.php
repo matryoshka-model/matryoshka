@@ -9,7 +9,6 @@
 namespace Matryoshka\Model\ResultSet;
 
 use ArrayIterator;
-use Countable;
 use Iterator;
 use IteratorAggregate;
 use Matryoshka\Model\Exception;
@@ -38,7 +37,7 @@ abstract class AbstractResultSet implements Iterator, ResultSetInterface
      * Set the data source for the result set
      *
      * @param  Iterator|IteratorAggregate $dataSource
-     * @return ResultSet
+     * @return ResultSetInterface
      * @throws Exception\InvalidArgumentException
      */
     public function initialize($dataSource)
@@ -137,7 +136,7 @@ abstract class AbstractResultSet implements Iterator, ResultSetInterface
             } elseif (is_array($this->dataSource)) {
                 $this->count = count($this->dataSource);
             } else {
-                throw new Exception\RuntimeException('DataSource ith type ' . gettype($this->dataSource) . ' cannot be counted');
+                throw new Exception\RuntimeException('DataSource with type ' . gettype($this->dataSource) . ' cannot be counted');
             }
         }
         return $this->count;

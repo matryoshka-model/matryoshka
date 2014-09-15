@@ -9,10 +9,12 @@
 namespace MatryoshkaTest\Model\ResultSet\TestAsset;
 
 use Matryoshka\Model\ResultSet\AbstractResultSet;
-use Matryoshka\Model\ResultSet\Exception;
 use Matryoshka\Model\ResultSet\ResultSetInterface;
 use Zend\Db\Exception\InvalidArgumentException;
 
+/**
+ * Class GenericResultSet
+ */
 class GenericResultSet extends AbstractResultSet
 {
     protected $dataSource = ['test'];

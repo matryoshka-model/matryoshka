@@ -8,15 +8,15 @@
  */
 namespace MatryoshkaTest\Model\ResultSet\PrototypeStrategy;
 
-use Matryoshka\Model\ResultSet\PrototypeStrategy\CloneStrategy;
-use Zend\ServiceManager;
 use Matryoshka\Model\ResultSet\PrototypeStrategy\ServiceLocatorStrategy;
-use MatryoshkaTest\Model\Service\TestAsset\DomainObject;
 use Zend\Mvc\Service\ServiceManagerConfig;
+use Zend\ServiceManager;
 
+/**
+ * Class ServiceLocatorStrategyTest
+ */
 class ServiceLocatorStrategyTest extends \PHPUnit_Framework_TestCase
 {
-
     /**
      * @var \Zend\ServiceManager\ServiceManager
      */
@@ -94,5 +94,4 @@ class ServiceLocatorStrategyTest extends \PHPUnit_Framework_TestCase
         $strategy->setCloneObject(true);
         $this->assertSame(true, $strategy->getCloneObject());
     }
-
 }

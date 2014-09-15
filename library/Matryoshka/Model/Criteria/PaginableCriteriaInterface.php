@@ -12,11 +12,10 @@ use Matryoshka\Model\ModelInterface;
 use Zend\Paginator\Adapter\AdapterInterface;
 
 /**
- * Interface PaginatorCriteriaInterface
+ * Interface PaginableCriteriaInterface
  */
-interface PaginatorCriteriaInterface
+interface PaginableCriteriaInterface extends CriteriaInterface
 {
-
     /**
      * @param ModelInterface $model
      * @return AdapterInterface

@@ -8,13 +8,15 @@
  */
 namespace Matryoshka\Model\Hydrator\Strategy;
 
-use Zend\Stdlib\Hydrator\Strategy\StrategyInterface;
-use Zend\Stdlib\Hydrator\HydratorAwareInterface;
 use Matryoshka\Model\Exception;
+use Zend\Stdlib\Hydrator\HydratorAwareInterface;
+use Zend\Stdlib\Hydrator\Strategy\StrategyInterface;
 
+/**
+ * Class HasOneStrategy
+ */
 class HasOneStrategy implements StrategyInterface
 {
-
     /**
      * @var HydratorAwareInterface
      */

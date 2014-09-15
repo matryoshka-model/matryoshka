@@ -13,10 +13,8 @@ use Matryoshka\Model\ModelInterface;
 /**
  * Interface WritableCriteriaInterface
  */
-interface WritableCriteriaInterface
+interface WritableCriteriaInterface extends CriteriaInterface
 {
-
-
     /**
      * @param ModelInterface $model
      * @param array $data

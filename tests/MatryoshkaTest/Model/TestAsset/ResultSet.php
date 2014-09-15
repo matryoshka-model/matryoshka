@@ -6,19 +6,17 @@
  * @copyright   Copyright (c) 2014, Ripa Club
  * @license     http://opensource.org/licenses/BSD-2-Clause Simplified BSD License
  */
-namespace Matryoshka\Model\Object;
+namespace MatryoshkaTest\Model\TestAsset;
 
-use Zend\ServiceManager\ServiceManager;
+use Matryoshka\Model\ResultSet\ArrayObjectResultSet;
 
 /**
- * Class ObjectManager
+ * Class ResultSet
  */
-class ObjectManager extends ServiceManager
+class ResultSet extends ArrayObjectResultSet
 {
     /**
-     * Share by default
-     * @var bool
+     * @var \ArrayObject|object
      */
-    protected $shareByDefault = false;
-
+    public $arrayObjectPrototype = null;
 }

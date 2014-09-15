@@ -9,6 +9,7 @@
 namespace Matryoshka\Model\Hydrator\Strategy;
 
 use Zend\Stdlib\Hydrator\Strategy\StrategyInterface;
+
 /**
  * Class SetTypeStrategy
  *
@@ -16,7 +17,6 @@ use Zend\Stdlib\Hydrator\Strategy\StrategyInterface;
  */
 class SetTypeStrategy implements StrategyInterface
 {
-
     /**
      * Type to extract to
      *
