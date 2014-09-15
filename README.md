@@ -5,7 +5,7 @@
 | [![Build Status](https://secure.travis-ci.org/matryoshka-model/matryoshka.svg?branch=master)](https://travis-ci.org/matryoshka-model/matryoshka)  | [![Build Status](https://secure.travis-ci.org/matryoshka-model/matryoshka.svg?branch=develop)](https://travis-ci.org/matryoshka-model/matryoshka)  |
 | [![Coverage Status](https://coveralls.io/repos/matryoshka-model/matryoshka/badge.png?branch=master)](https://coveralls.io/r/matryoshka-model/matryoshka)  | [![Coverage Status](https://coveralls.io/repos/matryoshka-model/matryoshka/badge.png?branch=develop)](https://coveralls.io/r/matryoshka-model/matryoshka)  |
 
-Matryoshka is a model (service layer)[http://martinfowler.com/eaaCatalog/serviceLayer.html] that normalizes and standardizes your model's interface use, whether you are using Zend\Db, Mongo, Doctrine or anything else.
+Matryoshka is a model [service layer](http://martinfowler.com/eaaCatalog/serviceLayer.html) that normalizes and standardizes your model's interface use, whether you are using Zend\Db, Mongo, Doctrine or anything else.
 
 ## Theory of operation
 
