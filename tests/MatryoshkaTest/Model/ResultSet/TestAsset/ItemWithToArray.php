@@ -8,6 +8,9 @@
  */
 namespace MatryoshkaTest\Model\ResultSet\TestAsset;
 
+/**
+ * Class ItemWithToArray
+ */
 class ItemWithToArray extends \ArrayObject
 {
     public function toArray()

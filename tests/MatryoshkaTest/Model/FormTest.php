@@ -42,7 +42,6 @@ class FormTest extends \PHPUnit_Framework_TestCase
         $this->roleCommunity2 = new AssertRoleCommunity();
         $this->roleCommunity2->setName('matrioska 2');
 
-
         $this->user = new AssertUser();
         $this->user->setFirstName('avisalli');
         $this->user->setSurname('dmlab');

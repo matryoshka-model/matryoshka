@@ -8,10 +8,10 @@
  */
 namespace MatryoshkaTest\Model;
 
-use Matryoshka\Model\ObservableModel;
-use MatryoshkaTest\Model\TestAsset\ResultSet;
 use Matryoshka\Model\ModelEvent;
+use Matryoshka\Model\ObservableModel;
 use MatryoshkaTest\Model\Mock\Criteria\MockCriteria;
+use MatryoshkaTest\Model\TestAsset\ResultSet;
 
 /**
  * Class ObservableModelTest
@@ -26,28 +26,27 @@ class ObservableModelTest extends ModelTest
     public function setUp()
     {
         $this->mockDataGateway = $this->getMock('stdClass');
-
         $this->resultSet = new ResultSet();
-
         $this->model = new ObservableModel($this->mockDataGateway, $this->resultSet);
     }
-
 
     public function testFind()
     {
         $preEventCalled = false;
         $postEventCallend = false;
 
-        $this->model->getEventManager()->attach('find.pre', function($e) use (&$preEventCalled) {
-            $preEventCalled = true;
-            $this->assertSame($this->model, $e->getTarget());
-            $this->assertInstanceOf('\Matryoshka\Model\Criteria\ReadableCriteriaInterface', $e->getCriteria());
+        $this->model->getEventManager()->attach('find.pre', function ($e) use (&$preEventCalled) {
+                /** @var $e ModelEvent */
+                $preEventCalled = true;
+                $this->assertSame($this->model, $e->getTarget());
+                $this->assertInstanceOf('\Matryoshka\Model\Criteria\ReadableCriteriaInterface', $e->getCriteria());
         });
 
-        $this->model->getEventManager()->attach('find.post', function($e) use (&$postEventCallend) {
-            $postEventCallend = true;
-            $this->assertSame($this->model, $e->getTarget());
-            $this->assertInstanceOf('\Matryoshka\Model\Criteria\ReadableCriteriaInterface', $e->getCriteria());
+        $this->model->getEventManager()->attach('find.post', function ($e) use (&$postEventCallend) {
+                /** @var $e ModelEvent */
+                $postEventCallend = true;
+                $this->assertSame($this->model, $e->getTarget());
+                $this->assertInstanceOf('\Matryoshka\Model\Criteria\ReadableCriteriaInterface', $e->getCriteria());
         });
 
         parent::testFind();
@@ -59,8 +58,9 @@ class ObservableModelTest extends ModelTest
         $preEventCalled = false;
         $postEventCallend = false;
 
-        $this->model->getEventManager()->attach('find.pre', function($e) use (&$preEventCalled) {
-            $e->stopPropagation();
+        $this->model->getEventManager()->attach('find.pre', function ($e) use (&$preEventCalled) {
+                /** @var $e ModelEvent */
+                $e->stopPropagation();
         });
 
         $mockCriteria = new MockCriteria();
@@ -75,7 +75,6 @@ class ObservableModelTest extends ModelTest
             )
         );
         $this->assertCount(0, $resultset);
-
         $this->assertTrue($preEventCalled);
         $this->assertFalse($postEventCallend);
     }
@@ -88,16 +87,18 @@ class ObservableModelTest extends ModelTest
         $preEventCalled = false;
         $postEventCallend = false;
 
-        $this->model->getEventManager()->attach('save.pre', function($e) use (&$preEventCalled) {
-            $preEventCalled = true;
-            $this->assertSame($this->model, $e->getTarget());
-            $this->assertInstanceOf('\Matryoshka\Model\Criteria\WritableCriteriaInterface', $e->getCriteria());
+        $this->model->getEventManager()->attach('save.pre', function ($e) use (&$preEventCalled) {
+                /** @var $e ModelEvent */
+                $preEventCalled = true;
+                $this->assertSame($this->model, $e->getTarget());
+                $this->assertInstanceOf('\Matryoshka\Model\Criteria\WritableCriteriaInterface', $e->getCriteria());
         });
 
-        $this->model->getEventManager()->attach('save.post', function($e) use (&$postEventCallend) {
-            $postEventCallend = true;
-            $this->assertSame($this->model, $e->getTarget());
-            $this->assertInstanceOf('\Matryoshka\Model\Criteria\WritableCriteriaInterface', $e->getCriteria());
+        $this->model->getEventManager()->attach('save.post', function ($e) use (&$postEventCallend) {
+                /** @var $e ModelEvent */
+                $postEventCallend = true;
+                $this->assertSame($this->model, $e->getTarget());
+                $this->assertInstanceOf('\Matryoshka\Model\Criteria\WritableCriteriaInterface', $e->getCriteria());
         });
 
         parent::testSave($data, $expected, $hydrator);
@@ -109,8 +110,9 @@ class ObservableModelTest extends ModelTest
         $preEventCalled = false;
         $postEventCallend = false;
 
-        $this->model->getEventManager()->attach('save.pre', function($e) use (&$preEventCalled) {
-            $e->stopPropagation();
+        $this->model->getEventManager()->attach('save.pre', function ($e) use (&$preEventCalled) {
+                /** @var $e ModelEvent */
+                $e->stopPropagation();
         });
 
         $mockCriteria = $this->getMock(
@@ -119,28 +121,27 @@ class ObservableModelTest extends ModelTest
         );
 
         $this->assertNull($this->model->save($mockCriteria, $data));
-
         $this->assertTrue($preEventCalled);
         $this->assertFalse($postEventCallend);
-
     }
-
 
     public function testDelete()
     {
         $preEventCalled = false;
         $postEventCallend = false;
 
-        $this->model->getEventManager()->attach('delete.pre', function($e) use (&$preEventCalled) {
-            $preEventCalled = true;
-            $this->assertSame($this->model, $e->getTarget());
-            $this->assertInstanceOf('\Matryoshka\Model\Criteria\DeletableCriteriaInterface', $e->getCriteria());
+        $this->model->getEventManager()->attach('delete.pre', function ($e) use (&$preEventCalled) {
+                /** @var $e ModelEvent */
+                $preEventCalled = true;
+                $this->assertSame($this->model, $e->getTarget());
+                $this->assertInstanceOf('\Matryoshka\Model\Criteria\DeletableCriteriaInterface', $e->getCriteria());
         });
 
-        $this->model->getEventManager()->attach('delete.post', function($e) use (&$postEventCallend) {
-            $postEventCallend = true;
-            $this->assertSame($this->model, $e->getTarget());
-            $this->assertInstanceOf('\Matryoshka\Model\Criteria\DeletableCriteriaInterface', $e->getCriteria());
+        $this->model->getEventManager()->attach('delete.post', function ($e) use (&$postEventCallend) {
+                /** @var $e ModelEvent */
+                $postEventCallend = true;
+                $this->assertSame($this->model, $e->getTarget());
+                $this->assertInstanceOf('\Matryoshka\Model\Criteria\DeletableCriteriaInterface', $e->getCriteria());
         });
 
         parent::testDelete();
@@ -152,8 +153,9 @@ class ObservableModelTest extends ModelTest
         $preEventCalled = false;
         $postEventCallend = false;
 
-        $this->model->getEventManager()->attach('delete.pre', function($e) use (&$preEventCalled) {
-            $e->stopPropagation();
+        $this->model->getEventManager()->attach('delete.pre', function ($e) use (&$preEventCalled) {
+                /** @var $e ModelEvent */
+                $e->stopPropagation();
         });
 
         $mockCriteria = $this->getMock(
@@ -162,11 +164,7 @@ class ObservableModelTest extends ModelTest
         );
 
         $this->assertNull($this->model->delete($mockCriteria));
-
         $this->assertTrue($preEventCalled);
         $this->assertFalse($postEventCallend);
-
     }
-
-
 }

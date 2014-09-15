@@ -15,11 +15,8 @@ use Matryoshka\Model\ModelInterface;
  */
 interface DeletableCriteriaInterface extends CriteriaInterface
 {
-
-
     /**
      * @param ModelInterface $model
-     * @param array $data
      */
     public function applyDelete(ModelInterface $model);
 }

@@ -13,9 +13,11 @@ use Matryoshka\Model\ModelInterface;
 use Zend\Paginator\Adapter\AdapterInterface;
 use Zend\Paginator\Adapter\ArrayAdapter;
 
+/**
+ * Class PaginatorCriteria
+ */
 class PaginatorCriteria implements PaginableCriteriaInterface
 {
-
     /**
      * @param ModelInterface $model
      * @return AdapterInterface
@@ -24,5 +26,4 @@ class PaginatorCriteria implements PaginableCriteriaInterface
     {
         return new ArrayAdapter();
     }
-
 }

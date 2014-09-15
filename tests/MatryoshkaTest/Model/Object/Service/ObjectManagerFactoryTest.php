@@ -8,9 +8,12 @@
  */
 namespace MatryoshkaTest\Model\Object\Service;
 
-use Zend\ServiceManager\ServiceManager;
 use Zend\ServiceManager\Config;
+use Zend\ServiceManager\ServiceManager;
 
+/**
+ * Class ObjectManagerFactoryTest
+ */
 class ObjectManagerFactoryTest extends \PHPUnit_Framework_TestCase
 {
     public function testCreateService()

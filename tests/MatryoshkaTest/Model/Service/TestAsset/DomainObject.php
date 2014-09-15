@@ -8,14 +8,16 @@
  */
 namespace MatryoshkaTest\Model\Service\TestAsset;
 
-use Zend\Stdlib\Hydrator\HydratorAwareInterface;
-use Zend\InputFilter\InputFilterAwareInterface;
-use Zend\Stdlib\Hydrator\HydratorAwareTrait;
-use Zend\InputFilter\InputFilterAwareTrait;
-use Zend\InputFilter\InputFilter;
 use Matryoshka\Model\ModelAwareInterface;
 use Matryoshka\Model\ModelAwareTrait;
+use Zend\InputFilter\InputFilterAwareInterface;
+use Zend\InputFilter\InputFilterAwareTrait;
+use Zend\Stdlib\Hydrator\HydratorAwareInterface;
+use Zend\Stdlib\Hydrator\HydratorAwareTrait;
 
+/**
+ * Class DomainObject
+ */
 class DomainObject implements
     HydratorAwareInterface,
     InputFilterAwareInterface,
@@ -25,6 +27,4 @@ class DomainObject implements
     use HydratorAwareTrait;
     use InputFilterAwareTrait;
     use ModelAwareTrait;
-
-
 }

@@ -13,6 +13,9 @@ use Zend\ServiceManager\Config;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
+/**
+ * Class ObjectManagerFactory
+ */
 class ObjectManagerFactory implements FactoryInterface
 {
     /**

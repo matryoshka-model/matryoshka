@@ -8,15 +8,20 @@
  */
 namespace MatryoshkaTest\Model\TestAsset;
 
+use Zend\InputFilter\InputFilter;
 use Zend\InputFilter\InputFilterAwareInterface;
 use Zend\InputFilter\InputFilterAwareTrait;
-use Zend\InputFilter\InputFilter;
 
+/**
+ * Class InputFilterAwareObject
+ */
 class InputFilterAwareObject extends \ArrayObject implements InputFilterAwareInterface
 {
     use InputFilterAwareTrait;
 
-
+    /**
+     * {@inheritdoc}
+     */
     public function getInputFilter()
     {
         if (!$this->inputFilter) {
@@ -24,5 +29,4 @@ class InputFilterAwareObject extends \ArrayObject implements InputFilterAwareInt
         }
         return $this->inputFilter;
     }
-
 }

@@ -16,7 +16,6 @@ use Zend\Paginator\Adapter\AdapterInterface;
  */
 interface PaginableCriteriaInterface extends CriteriaInterface
 {
-
     /**
      * @param ModelInterface $model
      * @return AdapterInterface

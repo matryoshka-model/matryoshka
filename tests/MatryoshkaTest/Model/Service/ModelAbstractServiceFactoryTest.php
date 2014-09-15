@@ -8,20 +8,18 @@
  */
 namespace MatryoshkaTest\Model\Service;
 
-use Matryoshka\Model\Service\ModelAbstractServiceFactory;
-use Zend\ServiceManager;
-use Zend\Mvc\Service\ServiceManagerConfig;
 use Matryoshka\Model\ResultSet\ArrayObjectResultSet as ResultSet;
+use Matryoshka\Model\Service\ModelAbstractServiceFactory;
 use MatryoshkaTest\Model\Service\TestAsset\DomainObject;
 use MatryoshkaTest\Model\Service\TestAsset\PaginatorCriteria;
+use Zend\Mvc\Service\ServiceManagerConfig;
+use Zend\ServiceManager;
 
 /**
  * Class ModelAbstractServiceFactoryTest
  */
 class ModelAbstractServiceFactoryTest extends \PHPUnit_Framework_TestCase
 {
-
-
     /**
      * @var \Zend\ServiceManager\ServiceManager
      */
@@ -34,7 +32,7 @@ class ModelAbstractServiceFactoryTest extends \PHPUnit_Framework_TestCase
     {
         $objectPrototype = new DomainObject();
         $paginatorCriteria = new PaginatorCriteria();
-        
+
         $config = [
             'model' => [
                 'MyModel\A' => [

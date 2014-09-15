@@ -10,6 +10,9 @@ namespace MatryoshkaTest\Model\ResultSet\PrototypeStrategy;
 
 use Matryoshka\Model\ResultSet\PrototypeStrategy\CloneStrategy;
 
+/**
+ * Class CloneStrategyTest
+ */
 class CloneStrategyTest extends \PHPUnit_Framework_TestCase
 {
 
@@ -23,5 +26,4 @@ class CloneStrategyTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($objectPrototype, $object);
         $this->assertNotSame($objectPrototype, $object);
     }
-
 }

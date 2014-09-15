@@ -9,9 +9,9 @@
 namespace MatryoshkaTest\Model;
 
 use Matryoshka\Model\ModelManager;
+use Matryoshka\Model\ResultSet\ArrayObjectResultSet as ResultSet;
 use MatryoshkaTest\Model\Service\TestAsset\FakeDataGateway;
 use Zend\ServiceManager\ServiceManager;
-use Matryoshka\Model\ResultSet\ArrayObjectResultSet as ResultSet;
 
 /**
  * Class ModelManagerTest
@@ -21,10 +21,8 @@ class ModelManagerTest extends \PHPUnit_Framework_TestCase
     public function testPluginManagerThrowsExceptionForMissingPluginInterface()
     {
         $this->setExpectedException('Matryoshka\Model\Exception\InvalidPluginException');
-
         $pluginManager = new ModelManager();
         $pluginManager->setInvokableClass('samplePlugin', 'stdClass');
-
         $plugin = $pluginManager->get('samplePlugin');
     }
 

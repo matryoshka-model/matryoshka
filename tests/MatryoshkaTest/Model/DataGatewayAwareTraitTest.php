@@ -8,12 +8,15 @@
  */
 namespace MatryoshkaTest\Model;
 
+use Matryoshka\Model\DataGatewayAwareTrait;
 use MatryoshkaTest\Model\TestAsset\ArrayGateway\ArrayGateway;
+
 /**
  * Class DataGatewayAwareTraitTest
  */
 class DataGatewayAwareTraitTest extends \PHPUnit_Framework_TestCase
 {
+    /** @var DataGatewayAwareTrait */
     protected $traitObject;
 
     protected $dataGateway;
@@ -33,7 +36,6 @@ class DataGatewayAwareTraitTest extends \PHPUnit_Framework_TestCase
     public function testGetDataGateway()
     {
         $this->traitObject->setDataGateway($this->dataGateway);
-
         $this->assertEquals($this->dataGateway, $this->traitObject->getDataGateway());
     }
 }

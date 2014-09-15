@@ -12,9 +12,11 @@ use Matryoshka\Model\Exception;
 use Zend\Stdlib\Hydrator\HydratorAwareInterface;
 use Zend\Stdlib\Hydrator\Strategy\StrategyInterface;
 
+/**
+ * Class HasOneStrategy
+ */
 class HasOneStrategy implements StrategyInterface
 {
-
     /**
      * @var HydratorAwareInterface
      */

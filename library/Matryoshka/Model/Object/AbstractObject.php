@@ -16,9 +16,9 @@ use Zend\Stdlib\Hydrator\HydratorAwareTrait;
 use Zend\Stdlib\Hydrator\ObjectProperty;
 
 /**
- * Abstract generic class to use as the entity model. Set minimum of interface for use correctly Matryoshka library
+ * Abstract generic class to use as the entity model.
  *
- * @author antonio
+ * Minimum set to correctly use Matryoshka library.
  */
 abstract class AbstractObject implements HydratorAwareInterface, InputFilterAwareInterface
 {

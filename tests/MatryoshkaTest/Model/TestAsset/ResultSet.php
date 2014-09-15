@@ -7,6 +7,7 @@
  * @license     http://opensource.org/licenses/BSD-2-Clause Simplified BSD License
  */
 namespace MatryoshkaTest\Model\TestAsset;
+
 use Matryoshka\Model\ResultSet\ArrayObjectResultSet;
 
 /**
@@ -15,8 +16,7 @@ use Matryoshka\Model\ResultSet\ArrayObjectResultSet;
 class ResultSet extends ArrayObjectResultSet
 {
     /**
-     * @var ArrayObject|object
+     * @var \ArrayObject|object
      */
     public $arrayObjectPrototype = null;
-
 }

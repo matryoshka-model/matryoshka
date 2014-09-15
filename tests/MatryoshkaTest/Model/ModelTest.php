@@ -8,7 +8,6 @@
  */
 namespace MatryoshkaTest\Model;
 
-use Matryoshka\Model\ObservableModel;
 use Matryoshka\Model\Model;
 use MatryoshkaTest\Model\TestAsset\ResultSet;
 
@@ -17,7 +16,6 @@ use MatryoshkaTest\Model\TestAsset\ResultSet;
  */
 class ModelTest extends AbstractModelTest
 {
-
     /**
      * @var \Matryoshka\Model\Model
      */
@@ -26,9 +24,7 @@ class ModelTest extends AbstractModelTest
     public function setUp()
     {
         $this->mockDataGateway = $this->getMock('stdClass');
-
         $this->resultSet = new ResultSet();
-
         $this->model = new Model($this->mockDataGateway, $this->resultSet);
     }
 
@@ -37,5 +33,4 @@ class ModelTest extends AbstractModelTest
         $this->assertSame($this->resultSet, $this->model->getResultSetPrototype());
         $this->assertSame($this->mockDataGateway, $this->model->getDataGateway());
     }
-
 }

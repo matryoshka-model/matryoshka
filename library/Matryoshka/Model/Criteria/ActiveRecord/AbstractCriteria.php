@@ -23,7 +23,6 @@ abstract class AbstractCriteria implements
     WritableCriteriaInterface,
     DeletableCriteriaInterface
 {
-
     protected $id;
 
     /**
@@ -48,6 +47,4 @@ abstract class AbstractCriteria implements
         }
         return $this->id;
     }
-
-
 }

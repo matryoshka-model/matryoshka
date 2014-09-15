@@ -9,15 +9,14 @@
 namespace MatryoshkaTest\Model;
 
 use Matryoshka\Model\Criteria\CallableCriteria;
-use Matryoshka\Model\Model;
 use MatryoshkaTest\Model\Mock\Criteria\MockCriteria;
 use MatryoshkaTest\Model\TestAsset\ConcreteAbstractModel;
-use MatryoshkaTest\Model\TestAsset\HydratorObject;
-use MatryoshkaTest\Model\TestAsset\ToArrayObject;
-use Zend\Stdlib\Hydrator\ArraySerializable;
 use MatryoshkaTest\Model\TestAsset\HydratorAwareObject;
+use MatryoshkaTest\Model\TestAsset\HydratorObject;
 use MatryoshkaTest\Model\TestAsset\InputFilterAwareObject;
 use MatryoshkaTest\Model\TestAsset\ResultSet;
+use MatryoshkaTest\Model\TestAsset\ToArrayObject;
+use Zend\Stdlib\Hydrator\ArraySerializable;
 
 /**
  * Class AbstractModelTest
@@ -201,7 +200,6 @@ class AbstractModelTest extends \PHPUnit_Framework_TestCase
         $this->assertNull($this->model->save($mockCriteria, $data));
     }
 
-
     /**
      * @dataProvider saveExceptionDataProvider
      * @expectedException \Matryoshka\Model\Exception\RuntimeException
@@ -216,7 +214,6 @@ class AbstractModelTest extends \PHPUnit_Framework_TestCase
 
         $this->model->save($mockCriteria, $data);
     }
-
 
     public function testDelete()
     {
@@ -314,5 +311,4 @@ class AbstractModelTest extends \PHPUnit_Framework_TestCase
         $this->model->setPaginatorCriteria($mockCriteria);
         $this->assertSame($mockPaginatorAdapter, $this->model->getPaginatorAdapter());
     }
-
 }

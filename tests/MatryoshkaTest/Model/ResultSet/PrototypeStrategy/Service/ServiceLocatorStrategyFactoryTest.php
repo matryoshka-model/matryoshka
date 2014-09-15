@@ -8,17 +8,15 @@
  */
 namespace MatryoshkaTest\Model\ResultSet\PrototypeStrategy\Service;
 
-use Zend\ServiceManager;
-use Zend\Mvc\Service\ServiceManagerConfig;
 use Matryoshka\Model\ResultSet\PrototypeStrategy\Service\ServiceLocatorStrategyFactory;
+use Zend\Mvc\Service\ServiceManagerConfig;
+use Zend\ServiceManager;
 
 /**
  * Class ServiceLocatorStrategyFactoryTest
  */
 class ServiceLocatorStrategyFactoryTest extends \PHPUnit_Framework_TestCase
 {
-
-
     /**
      * @var \Zend\ServiceManager\ServiceManager
      */
@@ -95,8 +93,5 @@ class ServiceLocatorStrategyFactoryTest extends \PHPUnit_Framework_TestCase
         $sm = new ServiceManager\ServiceManager();
         $sm->setService('Config', []);
         $this->assertSame([], $getConfigMethod->invoke($factory, $sm));
-
-
     }
-
 }

@@ -15,8 +15,6 @@ use Matryoshka\Model\ModelInterface;
  */
 interface WritableCriteriaInterface extends CriteriaInterface
 {
-
-
     /**
      * @param ModelInterface $model
      * @param array $data

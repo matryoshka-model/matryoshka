@@ -11,6 +11,9 @@ namespace MatryoshkaTest\Model\ResultSet;
 use MatryoshkaTest\Model\ResultSet\TestAsset\GenericResultSet;
 use MatryoshkaTest\Model\ResultSet\TestAsset\ItemWithToArray;
 
+/**
+ * Class AbstractResultSetTest
+ */
 class AbstractResultSetTest extends \PHPUnit_Framework_TestCase
 {
 

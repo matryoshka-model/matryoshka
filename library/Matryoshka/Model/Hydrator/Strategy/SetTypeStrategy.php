@@ -17,7 +17,6 @@ use Zend\Stdlib\Hydrator\Strategy\StrategyInterface;
  */
 class SetTypeStrategy implements StrategyInterface
 {
-
     /**
      * Type to extract to
      *

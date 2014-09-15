@@ -11,6 +11,9 @@ namespace Matryoshka\Model\Hydrator\Strategy;
 use DateTime;
 use Zend\Stdlib\Hydrator\Strategy\DefaultStrategy;
 
+/**
+ * Class DateTimeStrategy
+ */
 class DateTimeStrategy extends DefaultStrategy
 {
     /**
