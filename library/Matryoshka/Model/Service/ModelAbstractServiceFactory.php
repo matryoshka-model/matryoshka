@@ -114,9 +114,8 @@ class ModelAbstractServiceFactory implements AbstractFactoryInterface
         if (isset($config['hydrator'])
             && is_string($config['hydrator'])
             && !empty($config['hydrator'])
-            && $serviceLocator->has($config['hydrator'])
+            && ($hydrator = $this->getHydratorByName($serviceLocator, $config['hydrator']))
         ) {
-            $hydrator = $serviceLocator->get($config['hydrator']);
             $model->setHydrator($hydrator);
         }
 
@@ -125,13 +124,11 @@ class ModelAbstractServiceFactory implements AbstractFactoryInterface
         }
 
         //Setup InputFilter
-        $inputFilter = null;
         if (isset($config['input_filter'])
             && is_string($config['input_filter'])
             && !empty($config['input_filter'])
-            && $serviceLocator->has($config['input_filter'])
+            && ($inputFilter = $this->getInputFilterByName($serviceLocator, $config['input_filter']))
         ) {
-            $inputFilter = $serviceLocator->get($config['input_filter']);
             $model->setInputFilter($inputFilter);
         }
 
@@ -160,6 +157,32 @@ class ModelAbstractServiceFactory implements AbstractFactoryInterface
         }
 
         return $model;
+    }
+
+    protected function getHydratorByName(ServiceLocatorInterface $serviceLocator, $name)
+    {
+        if ($serviceLocator->has('HydratorManager')) {
+            $serviceLocator = $serviceLocator->get('HydratorManager');
+        }
+
+        if ($serviceLocator->has($name)) {
+            return $serviceLocator->get($name);
+        }
+
+        return null;
+    }
+
+    protected function getInputFilterByName(ServiceLocatorInterface $serviceLocator, $name)
+    {
+        if ($serviceLocator->has('InputFilterManager')) {
+            $serviceLocator = $serviceLocator->get('InputFilterManager');
+        }
+
+        if ($serviceLocator->has($name)) {
+            return $serviceLocator->get($name);
+        }
+
+        return null;
     }
 
     /**
