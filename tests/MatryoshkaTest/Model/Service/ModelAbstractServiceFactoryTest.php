@@ -14,6 +14,9 @@ use MatryoshkaTest\Model\Service\TestAsset\DomainObject;
 use MatryoshkaTest\Model\Service\TestAsset\PaginatorCriteria;
 use Zend\Mvc\Service\ServiceManagerConfig;
 use Zend\ServiceManager;
+use Zend\Mvc\Service\HydratorManagerFactory;
+use Zend\Stdlib\Hydrator\HydratorPluginManager;
+use Zend\InputFilter\InputFilterPluginManager;
 
 /**
  * Class ModelAbstractServiceFactoryTest
@@ -83,10 +86,8 @@ class ModelAbstractServiceFactoryTest extends \PHPUnit_Framework_TestCase
         $sm->setService('MatryoshkaTest\Model\Service\TestAsset\FakeDataGateway', new \MatryoshkaTest\Model\Service\TestAsset\FakeDataGateway);
         $sm->setService('Matryoshka\Model\ResultSet\ResultSet', new ResultSet);
         $sm->setService('Matryoshka\Model\ResultSet\HydratingResultSet', new \Matryoshka\Model\ResultSet\HydratingResultSet);
-        $sm->setService('Zend\Stdlib\Hydrator\ArraySerializable', new \Zend\Stdlib\Hydrator\ArraySerializable);
-        $sm->setService('Zend\Stdlib\Hydrator\ObjectProperty', new \Zend\Stdlib\Hydrator\ObjectProperty);
-        $sm->setService('Zend\InputFilter\InputFilter', new \Zend\InputFilter\InputFilter);
         $sm->setService('MatryoshkaTest\Model\Service\TestAsset\PaginatorCriteria', $paginatorCriteria);
+        $sm->setService('Zend\Stdlib\Hydrator\ArraySerializable', new \Zend\Stdlib\Hydrator\ArraySerializable);
         $sm->setService('ArrayObject', new \ArrayObject);
         $sm->setService('DomainObject', $objectPrototype);
     }
@@ -140,6 +141,54 @@ class ModelAbstractServiceFactoryTest extends \PHPUnit_Framework_TestCase
         $modelFull = $serviceLocator->get('MyModel\Full');
         $this->assertInstanceOf('\MatryoshkaTest\Model\Service\TestAsset\MyModel', $modelFull);
     }
+
+    /**
+     * @depends testCanCreateService
+     * @return void
+     */
+    public function testCreateServiceWithOptionalManagers()
+    {
+        $serviceLocator = $this->serviceManager;
+
+        //Test with optional managers
+
+        $hydrator = new \Zend\Stdlib\Hydrator\ObjectProperty;
+        $hydratorManager = new HydratorPluginManager();
+        $hydratorManager->setService('Zend\Stdlib\Hydrator\ObjectProperty', $hydrator);
+        $serviceLocator->setService('HydratorManager', $hydratorManager);
+
+        $inputFilter = new \Zend\InputFilter\InputFilter;
+        $inputFilterManager = new InputFilterPluginManager();
+        $inputFilterManager->setService('Zend\InputFilter\InputFilter', $inputFilter);
+        $serviceLocator->setService('InputFilterManager', $inputFilterManager);
+
+        $modelFull = $serviceLocator->get('MyModel\Full');
+        $this->assertSame($hydrator, $modelFull->getHydrator());
+        $this->assertSame($inputFilter, $modelFull->getInputFilter());
+    }
+
+    /**
+     * @depends testCanCreateService
+     * @return void
+     */
+    public function testCreateServiceWithOptionalServices()
+    {
+        $serviceLocator = $this->serviceManager;
+
+        //Test with optional services
+
+        $hydrator = new \Zend\Stdlib\Hydrator\ObjectProperty;
+        $serviceLocator->setService('Zend\Stdlib\Hydrator\ObjectProperty', $hydrator);
+
+        $inputFilter = new \Zend\InputFilter\InputFilter;
+        $serviceLocator->setService('Zend\InputFilter\InputFilter', $inputFilter);
+
+        $modelFull = $serviceLocator->get('MyModel\Full');
+        $this->assertSame($hydrator, $modelFull->getHydrator());
+        $this->assertSame($inputFilter, $modelFull->getInputFilter());
+    }
+
+
 
     /**
      * @depends testCreateService
