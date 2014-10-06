@@ -43,16 +43,17 @@ abstract class AbstractResultSet implements Iterator, ResultSetInterface
     public function initialize($dataSource)
     {
         $this->position = 0;
+        $this->count    = null;
 
         if (is_array($dataSource)) {
             reset($dataSource);
             $this->dataSource = new ArrayIterator($dataSource);
         } elseif ($dataSource instanceof IteratorAggregate) {
             $this->dataSource = $dataSource->getIterator();
-            $this->dataSource->rewind(); //FIXME: not initialized cursor won't work if rewind() is not called
+            $this->dataSource->rewind();
         } elseif ($dataSource instanceof Iterator) {
             $this->dataSource = $dataSource;
-            $this->dataSource->rewind(); //FIXME: not initialized cursor won't work if rewind() is not called
+            $this->dataSource->rewind();
         } else {
             throw new Exception\InvalidArgumentException('DataSource provided is not an array, nor does it implement Iterator or IteratorAggregate');
         }
@@ -126,12 +127,12 @@ abstract class AbstractResultSet implements Iterator, ResultSetInterface
      * Countable: return count of items
      *
      * @return int
-     * @throws \Matryoshka\Model\Exception\RuntimeException
+     * @throws Exception\RuntimeException
      */
     public function count()
     {
         if ($this->count === null) {
-            if (method_exists($this->dataSource, 'count')) {
+            if ($this->dataSource instanceof \Countable) {
                 $this->count = $this->dataSource->count();
             } elseif (is_array($this->dataSource)) {
                 $this->count = count($this->dataSource);

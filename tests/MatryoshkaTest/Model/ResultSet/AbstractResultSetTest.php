@@ -124,6 +124,13 @@ class AbstractResultSetTest extends \PHPUnit_Framework_TestCase
         ]));
         $this->assertEquals(3, $resultSet->count());
         $this->assertEquals(3, $resultSet->count());
+
+        //Test count after re-initialization
+        $resultSet->initialize(new \ArrayIterator([
+            ['id' => 1, 'name' => 'one'],
+        ]));
+
+        $this->assertEquals(1, $resultSet->count());
     }
 
     public function testToArray()
