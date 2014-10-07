@@ -9,6 +9,8 @@
 namespace Matryoshka\Model\Object;
 
 use Zend\ServiceManager\ServiceManager;
+use Zend\ServiceManager\ConfigInterface;
+use Matryoshka\Model\ModelAwareInterface;
 
 /**
  * Class ObjectManager

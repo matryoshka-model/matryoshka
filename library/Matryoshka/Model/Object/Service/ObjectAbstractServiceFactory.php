@@ -6,7 +6,7 @@
  * @copyright   Copyright (c) 2014, Ripa Club
  * @license     http://opensource.org/licenses/BSD-2-Clause Simplified BSD License
  */
-namespace Matryoshka\Model\Service;
+namespace Matryoshka\Model\Object\Service;
 
 use Matryoshka\Model\Model;
 use Matryoshka\Model\Exception;
@@ -15,24 +15,22 @@ use Zend\ServiceManager\AbstractFactoryInterface;
 use Zend\ServiceManager\AbstractPluginManager;
 use Zend\ServiceManager\ServiceLocatorInterface;
 use Zend\Stdlib\Hydrator\HydratorAwareInterface;
+use Matryoshka\Model\Object\AbstractObject;
+use Zend\InputFilter\InputFilterAwareInterface;
+use Matryoshka\Model\Object\ActiveRecordInterface;
+use Matryoshka\Model\Object\AbstractActiveRecord;
 
 /**
- * Class ModelAbstractServiceFactory
+ * Class ObjectAbstractServiceFactory
  */
-class ModelAbstractServiceFactory implements AbstractFactoryInterface
+class ObjectAbstractServiceFactory implements AbstractFactoryInterface
 {
     /**
      * Config Key
      * @var string
      */
-    protected $configKey = 'model';
+    protected $configKey = 'object';
 
-    /**
-     * Default model class name
-     *
-     * @var string
-     */
-    protected $modelClass = '\Matryoshka\Model\Model';
 
     /**
      * Config
@@ -62,14 +60,9 @@ class ModelAbstractServiceFactory implements AbstractFactoryInterface
             isset($config[$requestedName])
             && is_array($config[$requestedName])
             && !empty($config[$requestedName])
-            && isset($config[$requestedName]['datagateway'])
-            && is_string($config[$requestedName]['datagateway'])
-            && !empty($config[$requestedName]['datagateway'])
-            && $serviceLocator->has($config[$requestedName]['datagateway'])
-            && isset($config[$requestedName]['resultset'])
-            && is_string($config[$requestedName]['resultset'])
-            && !empty($config[$requestedName]['resultset'])
-            && $serviceLocator->has($config[$requestedName]['resultset'])
+            && isset($config[$requestedName]['type'])
+            && is_string($config[$requestedName]['type'])
+            && !empty($config[$requestedName]['type'])
         );
     }
 
@@ -89,74 +82,54 @@ class ModelAbstractServiceFactory implements AbstractFactoryInterface
         }
 
         $config = $this->getConfig($serviceLocator)[$requestedName];
-        $dataGataway = $serviceLocator->get($config['datagateway']);
-        $resultSetPrototype = $serviceLocator->get($config['resultset']);
 
-        //Create a model instance
-        $class = $this->modelClass;
-        if (isset($config['type'])
-            && is_string($config['type'])
-            && !empty($config['type'])
-        ) {
+        //Create an object instance
+        $class = $config['type'];
 
-            if (!is_subclass_of($config['type'], $class)) {
-                throw new Exception\UnexpectedValueException('type must be a subclass of ' . $class);
-            }
-
-            $class = $config['type'];
-        }
-
-        /** @var $model Model */
-        $model =  new $class($dataGataway, $resultSetPrototype);
+        //FIXME: check if class exists
+        $object =  new $class;
 
         //Setup Hydrator
         $hydrator = null;
-        if (isset($config['hydrator'])
+        if ($object instanceof HydratorAwareInterface
+            && isset($config['hydrator'])
             && is_string($config['hydrator'])
             && !empty($config['hydrator'])
-            && ($hydrator = $this->getHydratorByName($serviceLocator, $config['hydrator']))
         ) {
-            $model->setHydrator($hydrator);
-        }
-
-        if ($hydrator && $resultSetPrototype instanceof HydratorAwareInterface) {
-            $resultSetPrototype->setHydrator($hydrator);
+            $object->setHydrator($this->getHydratorByName($serviceLocator, $config['hydrator']));
         }
 
         //Setup InputFilter
-        if (isset($config['input_filter'])
+        if ($object instanceof InputFilterAwareInterface
+            && isset($config['input_filter'])
             && is_string($config['input_filter'])
             && !empty($config['input_filter'])
-            && ($inputFilter = $this->getInputFilterByName($serviceLocator, $config['input_filter']))
         ) {
-            $model->setInputFilter($inputFilter);
+            $object->setInputFilter($this->getInputFilterByName($serviceLocator, $config['input_filter']));
         }
 
-        //Setup Paginator
-        if (isset($config['paginator_criteria'])
-            && is_string($config['paginator_criteria'])
-            && !empty($config['paginator_criteria'])
-            && $serviceLocator->has($config['paginator_criteria'])
+        //Setup Model
+        if ($object instanceof ModelAwareInterface
+            && isset($config['model'])
+            && is_string($config['model'])
+            && !empty($config['model'])
         ) {
-            $paginatorCriteria = $serviceLocator->get($config['paginator_criteria']);
-            $model->setPaginatorCriteria($paginatorCriteria);
+            $object->setModel($this->getModelByName($serviceLocator, $config['model']));
         }
 
-        //Setup Object Prototype
-        if (isset($config['object'])
-            && is_string($config['object'])
-            && !empty($config['object'])
-            && $serviceLocator->has($config['object'])
+        //Setup ActiveRecord
+        if ($object instanceof AbstractActiveRecord
+            && isset($config['active_record_criteria'])
+            && is_string($config['active_record_criteria'])
+            && !empty($config['active_record_criteria'])
         ) {
-            $object = $serviceLocator->get($config['object']);
-            $resultSetPrototype->setObjectPrototype($object);
-
-            if ($object instanceof ModelAwareInterface) {
-                $object->setModel($model);
+            if (!$serviceLocator->has($config['active_record_criteria'])) {
+                throw Exception\InvalidArgumentException('active_record_criteria not found');
             }
+            $object->setActiveRecordCriteriaPrototype($serviceLocator->get($config['active_record_criteria']));
         }
 
-        return $model;
+        return $object;
     }
 
     protected function getHydratorByName(ServiceLocatorInterface $serviceLocator, $name)
@@ -169,7 +142,7 @@ class ModelAbstractServiceFactory implements AbstractFactoryInterface
             return $serviceLocator->get($name);
         }
 
-        return null;
+        return null; //FIXME: throw exception
     }
 
     protected function getInputFilterByName(ServiceLocatorInterface $serviceLocator, $name)
@@ -182,7 +155,21 @@ class ModelAbstractServiceFactory implements AbstractFactoryInterface
             return $serviceLocator->get($name);
         }
 
-        return null;
+        return null; //FIXME: throw exception
+    }
+
+
+    protected function getModelByName(ServiceLocatorInterface $serviceLocator, $name)
+    {
+        if ($serviceLocator->has('Matryoshka\Model\ModelManager')) {
+            $serviceLocator = $serviceLocator->get('Matryoshka\Model\ModelManager');
+        }
+
+        if ($serviceLocator->has($name)) {
+            return $serviceLocator->get($name);
+        }
+
+        return null; //FIXME: throw exception
     }
 
     /**
