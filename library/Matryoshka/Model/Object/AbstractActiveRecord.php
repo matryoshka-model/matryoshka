@@ -73,6 +73,10 @@ abstract class AbstractActiveRecord extends AbstractObject implements
             throw new Exception\RuntimeException('An Active Record Criteria Prototype must be set prior to calling save()');
         }
 
+        if (!$this->getModel()) {
+            throw new Exception\RuntimeException('A Model must be set prior to calling save()');
+        }
+
         $criteria = clone $this->activeRecordCriteriaPrototype;
         $result = $this->getModel()->save($criteria, $this);
         return $result;
@@ -92,6 +96,10 @@ abstract class AbstractActiveRecord extends AbstractObject implements
 
         if (!$this->activeRecordCriteriaPrototype) {
             throw new Exception\RuntimeException('An Active Record Criteria Prototype must be set prior to calling delete()');
+        }
+
+        if (!$this->getModel()) {
+            throw new Exception\RuntimeException('A Model must be set prior to calling delete()');
         }
 
         $criteria = clone $this->activeRecordCriteriaPrototype;
