@@ -8,17 +8,17 @@
  */
 namespace Matryoshka\Model\Object\Service;
 
-use Matryoshka\Model\Model;
 use Matryoshka\Model\Exception;
 use Matryoshka\Model\ModelAwareInterface;
+use Matryoshka\Model\ModelInterface;
+use Matryoshka\Model\Object\AbstractActiveRecord;
+use Zend\InputFilter\InputFilterAwareInterface;
+use Zend\InputFilter\InputFilterInterface;
 use Zend\ServiceManager\AbstractFactoryInterface;
 use Zend\ServiceManager\AbstractPluginManager;
 use Zend\ServiceManager\ServiceLocatorInterface;
 use Zend\Stdlib\Hydrator\HydratorAwareInterface;
-use Matryoshka\Model\Object\AbstractObject;
-use Zend\InputFilter\InputFilterAwareInterface;
-use Matryoshka\Model\Object\ActiveRecordInterface;
-use Matryoshka\Model\Object\AbstractActiveRecord;
+use Zend\Stdlib\Hydrator\HydratorInterface;
 
 /**
  * Class ObjectAbstractServiceFactory
@@ -41,8 +41,8 @@ class ObjectAbstractServiceFactory implements AbstractFactoryInterface
     /**
      * Determine if we can create a service with name
      * @param ServiceLocatorInterface $serviceLocator
-     * @param string                  $name
-     * @param string                  $requestedName
+     * @param string $name
+     * @param string $requestedName
      * @return boolean
      */
     public function canCreateServiceWithName(ServiceLocatorInterface $serviceLocator, $name, $requestedName)
@@ -66,14 +66,14 @@ class ObjectAbstractServiceFactory implements AbstractFactoryInterface
         );
     }
 
-
     /**
      * Create service with name
+     *
      * @param ServiceLocatorInterface $serviceLocator
-     * @param                         $name
-     * @param                         $requestedName
+     * @param $name
+     * @param $requestedName
      * @return mixed
-     * @throws \Matryoshka\Model\Exception\UnexpectedValueException
+     * @throws Exception\RuntimeException
      */
     public function createServiceWithName(ServiceLocatorInterface $serviceLocator, $name, $requestedName)
     {
@@ -85,9 +85,13 @@ class ObjectAbstractServiceFactory implements AbstractFactoryInterface
 
         //Create an object instance
         $class = $config['type'];
-
-        //FIXME: check if class exists
-        $object =  new $class;
+        if (!class_exists($class)) {
+            throw new Exception\RuntimeException(sprintf(
+                'ObjectAbstractServiceFactory expects the "type" to be a valid class; received "%s"',
+                $class
+            ));
+        }
+        $object = new $class;
 
         //Setup Hydrator
         $hydrator = null;
@@ -124,7 +128,10 @@ class ObjectAbstractServiceFactory implements AbstractFactoryInterface
             && !empty($config['active_record_criteria'])
         ) {
             if (!$serviceLocator->has($config['active_record_criteria'])) {
-                throw Exception\InvalidArgumentException('active_record_criteria not found');
+                throw new Exception\InvalidArgumentException(sprintf(
+                    'Config node "%s" not found',
+                    'active_record_criteria'
+                ));
             }
             $object->setActiveRecordCriteriaPrototype($serviceLocator->get($config['active_record_criteria']));
         }
@@ -132,44 +139,80 @@ class ObjectAbstractServiceFactory implements AbstractFactoryInterface
         return $object;
     }
 
+    /**
+     * Retrieve HydratorInterface object from config
+     *
+     * @param ServiceLocatorInterface $serviceLocator
+     * @param $name
+     * @return HydratorInterface
+     * @throws Exception\RuntimeException
+     */
     protected function getHydratorByName(ServiceLocatorInterface $serviceLocator, $name)
     {
         if ($serviceLocator->has('HydratorManager')) {
             $serviceLocator = $serviceLocator->get('HydratorManager');
         }
 
-        if ($serviceLocator->has($name)) {
-            return $serviceLocator->get($name);
+        $obj = $serviceLocator->get($name);
+        if (!$obj instanceof HydratorInterface) {
+            throw new Exception\RuntimeException(sprintf(
+                'Instance of type %s is invalid; must implement %s',
+                (is_object($obj) ? get_class($obj) : gettype($obj)),
+                'Zend\Stdlib\Hydrator\HydratorInterface'
+            ));
         }
-
-        return null; //FIXME: throw exception
+        return $obj;
     }
 
+    /**
+     * Retrieve InputFilterInterface object from config
+     *
+     * @param ServiceLocatorInterface $serviceLocator
+     * @param $name
+     * @return InputFilterInterface
+     * @throws Exception\RuntimeException
+     */
     protected function getInputFilterByName(ServiceLocatorInterface $serviceLocator, $name)
     {
         if ($serviceLocator->has('InputFilterManager')) {
             $serviceLocator = $serviceLocator->get('InputFilterManager');
         }
 
-        if ($serviceLocator->has($name)) {
-            return $serviceLocator->get($name);
+        $obj = $serviceLocator->get($name);
+        if (!$obj instanceof InputFilterInterface) {
+            throw new Exception\RuntimeException(sprintf(
+                'Instance of type %s is invalid; must implement %s',
+                (is_object($obj) ? get_class($obj) : gettype($obj)),
+                'Zend\InputFilter\InputFilterInterface'
+            ));
         }
-
-        return null; //FIXME: throw exception
+        return $obj;
     }
 
-
+    /**
+     * Retrieve ModelInterface object from config
+     *
+     * @param ServiceLocatorInterface $serviceLocator
+     * @param $name
+     * @return ModelInterface
+     * @throws Exception\RuntimeException
+     */
     protected function getModelByName(ServiceLocatorInterface $serviceLocator, $name)
     {
         if ($serviceLocator->has('Matryoshka\Model\ModelManager')) {
             $serviceLocator = $serviceLocator->get('Matryoshka\Model\ModelManager');
         }
 
-        if ($serviceLocator->has($name)) {
-            return $serviceLocator->get($name);
+        /** @var $obj ModelInterface */
+        $obj = $serviceLocator->get($name);
+        if (!$obj instanceof ModelInterface) {
+            throw new Exception\RuntimeException(sprintf(
+                'Instance of type %s is invalid; must implement %s',
+                (is_object($obj) ? get_class($obj) : gettype($obj)),
+                'Matryoshka\Model\ModelInterface'
+            ));
         }
-
-        return null; //FIXME: throw exception
+        return $obj;
     }
 
     /**

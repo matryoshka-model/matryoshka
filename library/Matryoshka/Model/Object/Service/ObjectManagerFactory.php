@@ -30,5 +30,4 @@ class ObjectManagerFactory implements FactoryInterface
         $objectConfig =  isset($config['object_manager']) ? $config['object_manager'] : [];
         return new ObjectManager(new Config($objectConfig));
     }
-
 }
