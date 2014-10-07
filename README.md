@@ -1,4 +1,4 @@
-# Matryoshka [![Latest Stable Version](https://poser.pugx.org/matryoshka-model/matryoshka/v/stable.png)](https://packagist.org/packages/matryoshka-model/matryoshka)
+# Matryoshka [![Latest Stable Version](https://poser.pugx.org/matryoshka-model/matryoshka/v/stable.png)](https://packagist.org/packages/matryoshka-model/matryoshka)&nbsp;[![Dependency Status](https://www.versioneye.com/user/projects/5433b5fc84981fb8820000df/badge.svg)](https://www.versioneye.com/user/projects/5433b5fc84981fb8820000df)&nbsp;[![Total Downloads](https://poser.pugx.org/matryoshka-model/matryoshka/downloads.svg)](https://packagist.org/packages/matryoshka-model/matryoshka)
 
 | Master  | Develop |
 |:-------------:|:-------------:|
@@ -39,7 +39,7 @@ Add the following to your `composer.json` file:
 ```
 "require": {
     "php": ">=5.4",
-    "matryoshka-model/matryoshka": "~0.4.0",
+    "matryoshka-model/matryoshka": "~0.5.0",
 }
 ```
 
