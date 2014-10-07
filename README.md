@@ -1,4 +1,4 @@
-# Matryoshka [![Latest Stable Version](https://poser.pugx.org/matryoshka-model/matryoshka/v/stable.png)](https://packagist.org/packages/matryoshka-model/matryoshka)
+# Matryoshka [![Latest Stable Version](https://poser.pugx.org/matryoshka-model/matryoshka/v/stable.png)](https://packagist.org/packages/matryoshka-model/matryoshka)&nbsp;[![Dependency Status](https://www.versioneye.com/user/projects/5433b5fc84981fb8820000df/badge.svg)](https://www.versioneye.com/user/projects/5433b5fc84981fb8820000df)
 
 | Master  | Develop |
 |:-------------:|:-------------:|
