@@ -59,7 +59,11 @@ $ ./vendor/bin/phpunit
 
 ## Contributing process
 
-First of all:
+What branch to issue the pull request against?
+
+For **new features**, or fixes that introduce **new elements to the public API** (such as new public methods or properties), issue the pull request against the `develop` branch.
+
+For **hotfixes** against the stable release, issue the pull request against the `master` branch.
 
 1. **Fork** the matryoshka [repository](https://github.com/matryoshka-model/matryoshka/fork)
 
@@ -67,15 +71,9 @@ First of all:
 
 3. Retrieve **dependencies** using [composer](https://getcomposer.org/)
 
-What branch to issue the pull request against?
+4. Create your **local branch**, **commit** your code and **push** your local branch to your github fork
 
-For **new features**, or fixes that introduce **new elements to the public API** (such as new public methods or properties), issue the pull request against the `develop` branch.
-
-For **hotfixes** against the stable release, issue the pull request against the `master` branch.
-
-5. Create your **local branch**, **commit** your code and **push** your local branch to your github fork
-
-7. Send us a **pull request** as descripted for your changes to be included
+5. Send us a **pull request** as descripted for your changes to be included
 
 Please remember that **any contribution must provide tests** for additional introduced conditions. Accepted coverage for new contributions is 75%. Any contribution not satisfying this requirement won't be merged.
 
