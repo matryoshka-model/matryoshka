@@ -11,6 +11,7 @@ namespace Matryoshka\Model\Object;
 use Zend\ServiceManager\ServiceManager;
 use Zend\ServiceManager\ConfigInterface;
 use Matryoshka\Model\ModelAwareInterface;
+use Matryoshka\Model\Object\Service\ObjectAbstractServiceFactory;
 
 /**
  * Class ObjectManager
@@ -22,5 +23,17 @@ class ObjectManager extends ServiceManager
      * @var bool
      */
     protected $shareByDefault = false;
+
+    /**
+     * Constructor
+     * Add a default initializer to ensure the plugin is valid after instance
+     * creation.
+     * @param  null|ConfigInterface $configuration
+     */
+    public function __construct(ConfigInterface $configuration = null)
+    {
+        parent::__construct($configuration);
+        $this->addAbstractFactory(new ObjectAbstractServiceFactory());
+    }
 
 }

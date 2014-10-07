@@ -150,10 +150,6 @@ class ModelAbstractServiceFactory implements AbstractFactoryInterface
         ) {
             $object = $serviceLocator->get($config['object']);
             $resultSetPrototype->setObjectPrototype($object);
-
-            if ($object instanceof ModelAwareInterface) {
-                $object->setModel($model);
-            }
         }
 
         return $model;
@@ -169,7 +165,7 @@ class ModelAbstractServiceFactory implements AbstractFactoryInterface
             return $serviceLocator->get($name);
         }
 
-        return null;
+        return null; //FIXME: throw exception
     }
 
     protected function getInputFilterByName(ServiceLocatorInterface $serviceLocator, $name)
@@ -182,7 +178,20 @@ class ModelAbstractServiceFactory implements AbstractFactoryInterface
             return $serviceLocator->get($name);
         }
 
-        return null;
+        return null; //FIXME: throw exception
+    }
+
+    protected function getObjectByName(ServiceLocatorInterface $serviceLocator, $name)
+    {
+        if ($serviceLocator->has('Matryoshka\Model\Object\ObjectManager')) {
+            $serviceLocator = $serviceLocator->get('Matryoshka\Model\Object\ObjectManager');
+        }
+
+        if ($serviceLocator->has($name)) {
+            return $serviceLocator->get($name);
+        }
+
+        return null; //FIXME: throw exception
     }
 
     /**
