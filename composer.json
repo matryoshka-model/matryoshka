@@ -64,6 +64,6 @@
     "suggest": {
         "matryoshka-model/zf2-matryoshka-module": "ZF2 module for matryoshka library",
         "matryoshka-model/mongo-wrapper": "MongoDB matryoshka wrapper",
-        "matryoshka-model/rest-wrapper": "Matryoshka wrapper aimed at creating restful APIs"
+        "matryoshka-model/rest-wrapper": "Matryoshka wrapper aimed at creating restful API clients"
     }
 }
