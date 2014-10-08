@@ -19,9 +19,11 @@ class ObjectManagerFactoryTest extends \PHPUnit_Framework_TestCase
     public function testCreateService()
     {
         $config = [
-            'object_manager' => [
-                'invokables' => [
-                    'test' => 'stdClass'
+            'matryoshka' => [
+                'object_manager' => [
+                    'invokables' => [
+                        'test' => 'stdClass'
+                    ]
                 ]
             ]
         ];

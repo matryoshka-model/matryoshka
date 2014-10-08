@@ -28,8 +28,11 @@ class ModelManagerFactory implements FactoryInterface
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
         $config = $serviceLocator->get('Config');
-        $objectConfig =  isset($config['model_manager']) ? $config['model_manager'] : [];
-        return new ModelManager(new Config($objectConfig));
+        $modelConfig = [];
+        if (isset($config['matryoshka']) && isset($config['matryoshka']['model_manager'])) {
+            $modelConfig = $config['matryoshka']['model_manager'];
+        }
+        return new ModelManager(new Config($modelConfig));
     }
 
 }

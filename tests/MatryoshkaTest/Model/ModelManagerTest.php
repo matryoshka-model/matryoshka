@@ -29,7 +29,7 @@ class ModelManagerTest extends \PHPUnit_Framework_TestCase
     public function testCanCreateByModelAbstractServiceFactory()
     {
         $config = [
-            'model' => [
+            'matryoshka-models' => [
                 'MyModel\A' => [
                     'datagateway' => 'MatryoshkaTest\Model\Service\TestAsset\FakeDataGateway',
                     'resultset' => 'Matryoshka\Model\ResultSet\ResultSet',

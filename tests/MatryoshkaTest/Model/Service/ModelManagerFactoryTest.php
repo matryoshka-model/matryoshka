@@ -21,11 +21,13 @@ class ModelManagerFactoryTest extends \PHPUnit_Framework_TestCase
     public function testCreateService()
     {
         $config = [
-            'model_manager' => [
-                'invokables' => [
-                    'MatryoshkaTest\Model\TestAsset\InvokableModel' => 'MatryoshkaTest\Model\TestAsset\InvokableModel'
-                ]
-            ],
+            'matryoshka' => [
+                'model_manager' => [
+                    'invokables' => [
+                        'MatryoshkaTest\Model\TestAsset\InvokableModel' => 'MatryoshkaTest\Model\TestAsset\InvokableModel'
+                    ]
+                ],
+            ]
         ];
 
         $serviceManager = new ServiceManager(

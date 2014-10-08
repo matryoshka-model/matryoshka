@@ -32,7 +32,7 @@ class ObjectAbstractServiceFactory implements AbstractFactoryInterface
      * Config Key
      * @var string
      */
-    protected $configKey = 'object';
+    protected $configKey = 'matryoshka-objects';
 
 
     /**

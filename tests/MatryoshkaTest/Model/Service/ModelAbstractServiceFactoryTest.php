@@ -43,7 +43,7 @@ class ModelAbstractServiceFactoryTest extends \PHPUnit_Framework_TestCase
         $paginatorCriteria = new PaginatorCriteria();
 
         $config = [
-            'model' => [
+            'matryoshka-models' => [
                 'MyModel\A' => [
                     'datagateway' => 'MatryoshkaTest\Model\Service\TestAsset\FakeDataGateway',
                     'resultset' => 'Matryoshka\Model\ResultSet\ResultSet',

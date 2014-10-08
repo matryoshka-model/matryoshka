@@ -29,7 +29,7 @@ class ModelAbstractServiceFactory implements AbstractFactoryInterface
      * Config Key
      * @var string
      */
-    protected $configKey = 'model';
+    protected $configKey = 'matryoshka-models';
 
     /**
      * Default model class name

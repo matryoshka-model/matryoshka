@@ -46,7 +46,7 @@ class ObjectAbstractServiceFactoryTest extends \PHPUnit_Framework_TestCase
         );
 
         $config = [
-            'object' => [
+            'matryoshka-objects' => [
                 'MyObject\A' => [
                     'type'        => 'MatryoshkaTest\Model\Service\TestAsset\DomainObject',
                 ],

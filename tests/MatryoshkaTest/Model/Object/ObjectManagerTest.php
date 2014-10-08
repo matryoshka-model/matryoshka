@@ -27,7 +27,7 @@ class ObjectManagerTest extends \PHPUnit_Framework_TestCase
     public function testCanCreateByObjectAbstractServiceFactory()
     {
         $config = [
-            'model' => [
+            'matryoshka-models' => [
                 'MyModel\A' => [
                     'datagateway' => 'MatryoshkaTest\Model\Service\TestAsset\FakeDataGateway',
                     'resultset' => 'Matryoshka\Model\ResultSet\ResultSet',
@@ -41,7 +41,7 @@ class ObjectManagerTest extends \PHPUnit_Framework_TestCase
         ];
 
         $config = [
-            'object' => [
+            'matryoshka-objects' => [
                 'MyObject\A' => [
                     'type'        => 'MatryoshkaTest\Model\Service\TestAsset\DomainObject',
                 ],
