@@ -14,9 +14,9 @@ use Zend\Stdlib\Hydrator\HydratorInterface;
 use Matryoshka\Model\Exception;
 
 /**
- * Trait AbstractServiceTrait
+ * Trait AbstractServiceFactoryTrait
  */
-trait AbstractServiceTrait
+trait AbstractServiceFactoryTrait
 {
     /**
      * Get model configuration, if any

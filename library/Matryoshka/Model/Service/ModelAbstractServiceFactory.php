@@ -10,11 +10,9 @@ namespace Matryoshka\Model\Service;
 
 use Matryoshka\Model\Criteria\CriteriaInterface;
 use Matryoshka\Model\Criteria\PaginableCriteriaInterface;
-use Matryoshka\Model\Model;
 use Matryoshka\Model\Exception;
-use Matryoshka\Model\ModelAwareInterface;
+use Matryoshka\Model\Model;
 use Matryoshka\Model\ResultSet\HydratingResultSet;
-use Matryoshka\Model\ResultSet\ResultSetInterface;
 use Zend\ServiceManager\AbstractFactoryInterface;
 use Zend\ServiceManager\AbstractPluginManager;
 use Zend\ServiceManager\ServiceLocatorInterface;
@@ -25,7 +23,7 @@ use Zend\Stdlib\Hydrator\HydratorAwareInterface;
  */
 class ModelAbstractServiceFactory implements AbstractFactoryInterface
 {
-    use AbstractServiceTrait;
+    use AbstractServiceFactoryTrait;
 
     /**
      * Config Key

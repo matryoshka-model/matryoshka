@@ -14,20 +14,19 @@ use Matryoshka\Model\Exception;
 use Matryoshka\Model\ModelAwareInterface;
 use Matryoshka\Model\ModelInterface;
 use Matryoshka\Model\Object\AbstractActiveRecord;
-use Matryoshka\Model\Service\AbstractServiceTrait;
+use Matryoshka\Model\Service\AbstractServiceFactoryTrait;
 use Zend\InputFilter\InputFilterAwareInterface;
 use Zend\ServiceManager\AbstractFactoryInterface;
 use Zend\ServiceManager\AbstractPluginManager;
 use Zend\ServiceManager\ServiceLocatorInterface;
 use Zend\Stdlib\Hydrator\HydratorAwareInterface;
-use Matryoshka\Model\Object\ObjectManager;
 
 /**
  * Class ObjectAbstractServiceFactory
  */
 class ObjectAbstractServiceFactory implements AbstractFactoryInterface
 {
-    use AbstractServiceTrait;
+    use AbstractServiceFactoryTrait;
 
     /**
      * Config Key
