@@ -1,0 +1,61 @@
+<?php
+/**
+ * Matryoshka
+ *
+ * @link        https://github.com/matryoshka-model/matryoshka
+ * @copyright   Copyright (c) 2014, Ripa Club
+ * @license     http://opensource.org/licenses/BSD-2-Clause Simplified BSD License
+ */
+namespace MatryoshkaTest\Model\Object;
+
+use Zend\ServiceManager\ServiceManager;
+use Matryoshka\Model\Object\ObjectManager;
+
+/**
+ * Class ObjectManagerTest
+ */
+class ObjectManagerTest extends \PHPUnit_Framework_TestCase
+{
+    public function testPluginManagerThrowsExceptionForMissingPluginInterface()
+    {
+        $this->setExpectedException('Matryoshka\Model\Exception\InvalidPluginException');
+        $pluginManager = new ObjectManager();
+        $pluginManager->setService('samplePlugin', 'thisIsNotAnObject');
+        $plugin = $pluginManager->get('samplePlugin');
+    }
+
+    public function testCanCreateByObjectAbstractServiceFactory()
+    {
+        $config = [
+            'model' => [
+                'MyModel\A' => [
+                    'datagateway' => 'MatryoshkaTest\Model\Service\TestAsset\FakeDataGateway',
+                    'resultset' => 'Matryoshka\Model\ResultSet\ResultSet',
+                ],
+                'MyModel\O' => [
+                    'datagateway' => 'MatryoshkaTest\Model\Service\TestAsset\FakeDataGateway',
+                    'resultset' => 'Matryoshka\Model\ResultSet\ResultSet',
+                    'type' => 'MatryoshkaTest\Model\Service\TestAsset\MyObservableModel',
+                ],
+            ],
+        ];
+
+        $config = [
+            'object' => [
+                'MyObject\A' => [
+                    'type'        => 'MatryoshkaTest\Model\Service\TestAsset\DomainObject',
+                ],
+            ],
+        ];
+
+
+        $services = new ServiceManager();
+        $services->setService('Config', $config);
+
+        $pluginManager = new ObjectManager();
+        $pluginManager->setServiceLocator($services);
+        $objectA = $pluginManager->get('MyObject\A');
+        $this->assertInstanceOf('MatryoshkaTest\Model\Service\TestAsset\DomainObject', $objectA);
+
+    }
+}

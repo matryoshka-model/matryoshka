@@ -8,10 +8,10 @@
  */
 namespace Matryoshka\Model\Object;
 
+use Matryoshka\Model\Exception;
+use Matryoshka\Model\Object\Service\ObjectAbstractServiceFactory;
 use Zend\ServiceManager\ServiceManager;
 use Zend\ServiceManager\ConfigInterface;
-use Matryoshka\Model\ModelAwareInterface;
-use Matryoshka\Model\Object\Service\ObjectAbstractServiceFactory;
 use Zend\ServiceManager\AbstractPluginManager;
 
 /**
