@@ -8,6 +8,7 @@
  */
 namespace MatryoshkaTest\Model\Service;
 
+use Matryoshka\Model\Exception\RuntimeException;
 use Matryoshka\Model\ResultSet\ArrayObjectResultSet as ResultSet;
 use Matryoshka\Model\ResultSet\HydratingResultSet;
 use Matryoshka\Model\Service\ModelAbstractServiceFactory;
@@ -44,35 +45,41 @@ class ModelAbstractServiceFactoryTest extends \PHPUnit_Framework_TestCase
             'model' => [
                 'MyModel\A' => [
                     'datagateway' => 'MatryoshkaTest\Model\Service\TestAsset\FakeDataGateway',
-                    'resultset'   => 'Matryoshka\Model\ResultSet\ResultSet',
+                    'resultset' => 'Matryoshka\Model\ResultSet\ResultSet',
                 ],
                 'MyModel\B' => [
                     'datagateway' => 'MatryoshkaTest\Model\Service\TestAsset\FakeDataGateway',
-                    'resultset'   => 'Matryoshka\Model\ResultSet\HydratingResultSet',
-                    'object'      => 'ArrayObject',
-                    'hydrator'    => 'Zend\Stdlib\Hydrator\ArraySerializable',
-                    'type'        => 'MatryoshkaTest\Model\Service\TestAsset\MyModel',
+                    'resultset' => 'Matryoshka\Model\ResultSet\HydratingResultSet',
+                    'object' => 'ArrayObject',
+                    'hydrator' => 'Zend\Stdlib\Hydrator\ArraySerializable',
+                    'type' => 'MatryoshkaTest\Model\Service\TestAsset\MyModel',
                 ],
                 'MyModel\O' => [
                     'datagateway' => 'MatryoshkaTest\Model\Service\TestAsset\FakeDataGateway',
-                    'resultset'   => 'Matryoshka\Model\ResultSet\HydratingResultSet',
-                    'object'      => 'ArrayObject',
-                    'hydrator'    => 'Zend\Stdlib\Hydrator\ArraySerializable',
-                    'type'        => 'MatryoshkaTest\Model\Service\TestAsset\MyObservableModel',
+                    'resultset' => 'Matryoshka\Model\ResultSet\HydratingResultSet',
+                    'object' => 'ArrayObject',
+                    'hydrator' => 'Zend\Stdlib\Hydrator\ArraySerializable',
+                    'type' => 'MatryoshkaTest\Model\Service\TestAsset\MyObservableModel',
                 ],
                 'MyModel\InvalidTypeModel' => [
                     'datagateway' => 'MatryoshkaTest\Model\Service\TestAsset\FakeDataGateway',
-                    'resultset'   => 'Matryoshka\Model\ResultSet\ResultSet',
-                    'type'        => '\stdClass',
+                    'resultset' => 'Matryoshka\Model\ResultSet\ResultSet',
+                    'type' => 'stdClass',
+                ],
+                'MyModel\InvalidPaginatorModel' => [
+                    'datagateway' => 'MatryoshkaTest\Model\Service\TestAsset\FakeDataGateway',
+                    'resultset' => 'Matryoshka\Model\ResultSet\ResultSet',
+                    'type' => 'MatryoshkaTest\Model\Service\TestAsset\MyModel',
+                    'paginator_criteria' => '\stdClass'
                 ],
                 'MyModel\Full' => [
                     'datagateway' => 'MatryoshkaTest\Model\Service\TestAsset\FakeDataGateway',
-                    'resultset'   => 'Matryoshka\Model\ResultSet\HydratingResultSet',
-                    'object'      => 'DomainObject',
-                    'hydrator'    => 'Zend\Stdlib\Hydrator\ObjectProperty',
+                    'resultset' => 'Matryoshka\Model\ResultSet\HydratingResultSet',
+                    'object' => 'DomainObject',
+                    'hydrator' => 'Zend\Stdlib\Hydrator\ObjectProperty',
                     'input_filter' => 'Zend\InputFilter\InputFilter',
                     'paginator_criteria' => 'MatryoshkaTest\Model\Service\TestAsset\PaginatorCriteria',
-                    'type'        => 'MatryoshkaTest\Model\Service\TestAsset\MyModel',
+                    'type' => 'MatryoshkaTest\Model\Service\TestAsset\MyModel',
 
                 ],
             ],
@@ -92,6 +99,7 @@ class ModelAbstractServiceFactoryTest extends \PHPUnit_Framework_TestCase
         $sm->setService('Matryoshka\Model\ResultSet\HydratingResultSet', new HydratingResultSet);
         $sm->setService('MatryoshkaTest\Model\Service\TestAsset\PaginatorCriteria', $paginatorCriteria);
         $sm->setService('Zend\Stdlib\Hydrator\ArraySerializable', new ArraySerializable);
+        $sm->setService('stdClass', new \stdClass);
         $sm->setService('ArrayObject', new \ArrayObject);
         $sm->setService('DomainObject', $objectPrototype);
     }
@@ -174,7 +182,6 @@ class ModelAbstractServiceFactoryTest extends \PHPUnit_Framework_TestCase
         $serviceLocator = $this->serviceManager;
 
         //Test with optional managers
-
         $hydrator = new ObjectProperty;
         $hydratorManager = new HydratorPluginManager();
         $hydratorManager->setService('Zend\Stdlib\Hydrator\ObjectProperty', $hydrator);
@@ -221,5 +228,20 @@ class ModelAbstractServiceFactoryTest extends \PHPUnit_Framework_TestCase
         $this->setExpectedException('\Matryoshka\Model\Exception\UnexpectedValueException');
 
         $factory->createServiceWithName($serviceLocator, 'mymodelinvalidtypemodel', 'MyModel\InvalidTypeModel');
+    }
+
+    /**
+     * @depends testCreateService
+     * @expectedException RuntimeException
+     */
+    public function testCreateServiceShouldThrowExceptionOnInvalidManager()
+    {
+        $serviceLocator = $this->serviceManager;
+        $factory = new ModelAbstractServiceFactory();
+        $factory->createServiceWithName(
+            $serviceLocator,
+            'mymodelinvalidpaginatormodel',
+            'MyModel\InvalidPaginatorModel'
+        );
     }
 }
