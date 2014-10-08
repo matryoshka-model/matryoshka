@@ -160,7 +160,7 @@ class ObjectAbstractServiceFactory implements AbstractFactoryInterface
         }
         return $criteria;
     }
-    
+
     /**
      * Retrieve ModelInterface object from config
      *

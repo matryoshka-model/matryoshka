@@ -314,4 +314,4 @@ class AbstractServiceFactoryTraitTest extends \PHPUnit_Framework_TestCase
         $return = $this->getConfig($serviceLocator);
         $this->assertSame($this->config, $return);
     }
-} 
+}

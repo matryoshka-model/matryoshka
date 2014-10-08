@@ -94,4 +94,4 @@ trait AbstractServiceFactoryTrait
         }
         return $obj;
     }
-} 
+}
