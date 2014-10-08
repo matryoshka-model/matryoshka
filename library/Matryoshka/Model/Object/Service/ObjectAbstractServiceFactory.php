@@ -8,6 +8,8 @@
  */
 namespace Matryoshka\Model\Object\Service;
 
+use Matryoshka\Model\Criteria\ActiveRecord\AbstractCriteria;
+use Matryoshka\Model\Criteria\CriteriaInterface;
 use Matryoshka\Model\Exception;
 use Matryoshka\Model\ModelAwareInterface;
 use Matryoshka\Model\ModelInterface;
@@ -128,18 +130,37 @@ class ObjectAbstractServiceFactory implements AbstractFactoryInterface
             && is_string($config['active_record_criteria'])
             && !empty($config['active_record_criteria'])
         ) {
-            if (!$serviceLocator->has($config['active_record_criteria'])) {
-                throw new Exception\InvalidArgumentException(sprintf(
-                    'Config node "%s" not found',
-                    'active_record_criteria'
-                ));
-            }
-            $object->setActiveRecordCriteriaPrototype($serviceLocator->get($config['active_record_criteria']));
+            $object->setActiveRecordCriteriaPrototype($this->getActiveRecordCriteriaByName(
+                $serviceLocator,
+                $config['active_record_criteria']
+            ));
         }
 
         return $object;
     }
 
+    /**
+     * Retrieve PaginableCriteriaInterface object from config
+     *
+     * @param ServiceLocatorInterface $serviceLocator
+     * @param $name
+     * @return AbstractCriteria
+     * @throws Exception\RuntimeException
+     */
+    protected function getActiveRecordCriteriaByName($serviceLocator, $name)
+    {
+        /** @var $criteria CriteriaInterface */
+        $criteria = $serviceLocator->get($name);
+        if (!$criteria instanceof AbstractCriteria) {
+            throw new Exception\RuntimeException(sprintf(
+                'Instance of type %s is invalid; must implement %s',
+                (is_object($criteria) ? get_class($criteria) : gettype($criteria)),
+                'Matryoshka\Model\Criteria\ActiveRecord\AbstractCriteria'
+            ));
+        }
+        return $criteria;
+    }
+    
     /**
      * Retrieve ModelInterface object from config
      *

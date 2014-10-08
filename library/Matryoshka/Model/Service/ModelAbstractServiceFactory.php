@@ -140,7 +140,10 @@ class ModelAbstractServiceFactory implements AbstractFactoryInterface
             && is_string($config['paginator_criteria'])
             && !empty($config['paginator_criteria'])
         ) {
-            $model->setPaginatorCriteria($this->getPaginatorByName($serviceLocator, $config['paginator_criteria']));
+            $model->setPaginatorCriteria($this->getPaginatorCriteriaByName(
+                $serviceLocator,
+                $config['paginator_criteria']
+            ));
         }
 
         //Setup Object Prototype
@@ -178,7 +181,7 @@ class ModelAbstractServiceFactory implements AbstractFactoryInterface
      * @return PaginableCriteriaInterface
      * @throws Exception\RuntimeException
      */
-    protected function getPaginatorByName(ServiceLocatorInterface $serviceLocator, $name)
+    protected function getPaginatorCriteriaByName(ServiceLocatorInterface $serviceLocator, $name)
     {
         /** @var $criteria CriteriaInterface */
         $criteria = $serviceLocator->get($name);
