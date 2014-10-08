@@ -92,8 +92,6 @@ class ModelAbstractServiceFactoryTest extends \PHPUnit_Framework_TestCase
         $sm->setService('Matryoshka\Model\ResultSet\HydratingResultSet', new HydratingResultSet);
         $sm->setService('MatryoshkaTest\Model\Service\TestAsset\PaginatorCriteria', $paginatorCriteria);
         $sm->setService('Zend\Stdlib\Hydrator\ArraySerializable', new ArraySerializable);
-//        $sm->setService('Zend\Stdlib\Hydrator\ObjectProperty', new ObjectProperty);
-//        $sm->setService('Zend\InputFilter\InputFilter', new InputFilter);
         $sm->setService('ArrayObject', new \ArrayObject);
         $sm->setService('DomainObject', $objectPrototype);
     }
@@ -112,9 +110,9 @@ class ModelAbstractServiceFactoryTest extends \PHPUnit_Framework_TestCase
             'MyModel\NonExistingModel'
         ));
         $this->assertTrue($factory->canCreateServiceWithName($serviceLocator, 'mymodela', 'MyModel\A'));
-        $this->assertTrue($factory->canCreateServiceWithName($serviceLocator, 'mymodela', 'MyModel\B'));
-        $this->assertTrue($factory->canCreateServiceWithName($serviceLocator, 'mymodela', 'MyModel\O'));
-        $this->assertTrue($factory->canCreateServiceWithName($serviceLocator, 'mymodela', 'MyModel\Full'));
+        $this->assertTrue($factory->canCreateServiceWithName($serviceLocator, 'mymodelb', 'MyModel\B'));
+        $this->assertTrue($factory->canCreateServiceWithName($serviceLocator, 'mymodelo', 'MyModel\O'));
+        $this->assertTrue($factory->canCreateServiceWithName($serviceLocator, 'mymodelfull', 'MyModel\Full'));
 
         //test without config
         $factory = new ModelAbstractServiceFactory();
