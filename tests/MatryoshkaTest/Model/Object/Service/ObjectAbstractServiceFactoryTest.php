@@ -212,7 +212,11 @@ class ObjectAbstractServiceFactoryTest extends \PHPUnit_Framework_TestCase
         $serviceLocator = $this->serviceManager;
 
         $factory = new ObjectAbstractServiceFactory();
-        $factory->createServiceWithName($serviceLocator, 'myobjectinvalidcriteriattype', 'MyObject\InvalidCriteriaType');
+        $factory->createServiceWithName(
+            $serviceLocator,
+            'myobjectinvalidcriteriattype',
+            'MyObject\InvalidCriteriaType'
+        );
     }
 
     /**
@@ -248,6 +252,9 @@ class ObjectAbstractServiceFactoryTest extends \PHPUnit_Framework_TestCase
         $this->assertSame($serviceLocator->get('Zend\Stdlib\Hydrator\ObjectProperty'), $objectFull->getHydrator());
         $this->assertSame($serviceLocator->get('Zend\InputFilter\InputFilter'), $objectFull->getInputFilter());
         $this->assertSame($serviceLocator->get('TestModel'), $objectFull->getModel());
-        $this->assertSame($serviceLocator->get('MatryoshkaTest\Model\Criteria\ActiveRecord\TestAsset\ConcreteCriteria'), $objectFull->getActiveRecordCriteriaPrototype());
+        $this->assertSame(
+            $serviceLocator->get('MatryoshkaTest\Model\Criteria\ActiveRecord\TestAsset\ConcreteCriteria'),
+            $objectFull->getActiveRecordCriteriaPrototype()
+        );
     }
 }

@@ -9,6 +9,7 @@
 namespace MatryoshkaTest\Model\Service;
 
 use Matryoshka\Model\Exception\RuntimeException;
+use Matryoshka\Model\Object\ObjectManager;
 use Matryoshka\Model\ResultSet\ArrayObjectResultSet as ResultSet;
 use Matryoshka\Model\ResultSet\HydratingResultSet;
 use Matryoshka\Model\Service\ModelAbstractServiceFactory;
@@ -80,7 +81,6 @@ class ModelAbstractServiceFactoryTest extends \PHPUnit_Framework_TestCase
                     'input_filter' => 'Zend\InputFilter\InputFilter',
                     'paginator_criteria' => 'MatryoshkaTest\Model\Service\TestAsset\PaginatorCriteria',
                     'type' => 'MatryoshkaTest\Model\Service\TestAsset\MyModel',
-
                 ],
             ],
         ];
@@ -171,6 +171,16 @@ class ModelAbstractServiceFactoryTest extends \PHPUnit_Framework_TestCase
 
         $modelFull = $serviceLocator->get('MyModel\Full');
         $this->assertInstanceOf('\MatryoshkaTest\Model\Service\TestAsset\MyModel', $modelFull);
+        $this->assertInstanceOf('Zend\Stdlib\Hydrator\ObjectProperty', $modelFull->getHydrator());
+        $this->assertInstanceOf('Zend\InputFilter\InputFilter', $modelFull->getInputFilter());
+        $this->assertInstanceOf(
+            '\MatryoshkaTest\Model\Service\TestAsset\PaginatorCriteria',
+            $modelFull->getPaginatorCriteria()
+        );
+        $this->assertInstanceOf(
+            '\MatryoshkaTest\Model\Service\TestAsset\DomainObject',
+            $modelFull->getObjectPrototype()
+        );
     }
 
     /**
@@ -192,9 +202,15 @@ class ModelAbstractServiceFactoryTest extends \PHPUnit_Framework_TestCase
         $inputFilterManager->setService('Zend\InputFilter\InputFilter', $inputFilter);
         $serviceLocator->setService('InputFilterManager', $inputFilterManager);
 
+        $domainObject = new DomainObject;
+        $objectManager = new ObjectManager();
+        $objectManager->setService('DomainObject', $domainObject);
+        $serviceLocator->setService('Matryoshka\Model\Object\ObjectManager', $objectManager);
+
         $modelFull = $serviceLocator->get('MyModel\Full');
         $this->assertSame($hydrator, $modelFull->getHydrator());
         $this->assertSame($inputFilter, $modelFull->getInputFilter());
+        $this->assertSame($domainObject, $modelFull->getObjectPrototype());
     }
 
     /**
@@ -243,13 +259,5 @@ class ModelAbstractServiceFactoryTest extends \PHPUnit_Framework_TestCase
             'mymodelinvalidpaginatormodel',
             'MyModel\InvalidPaginatorModel'
         );
-    }
-
-    /**
-     * @depends testCreateService
-     */
-    public function testCreateServiceShouldThrowExceptionOnInvalidObject()
-    {
-
     }
 }
