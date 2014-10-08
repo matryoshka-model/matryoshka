@@ -19,4 +19,9 @@ class ActiveRecordObject extends AbstractActiveRecord
         return $this;
     }
 
+    public function getActiveRecordCriteriaPrototype()
+    {
+        return $this->activeRecordCriteriaPrototype;
+    }
+
 }
