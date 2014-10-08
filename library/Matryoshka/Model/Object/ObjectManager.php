@@ -12,11 +12,12 @@ use Zend\ServiceManager\ServiceManager;
 use Zend\ServiceManager\ConfigInterface;
 use Matryoshka\Model\ModelAwareInterface;
 use Matryoshka\Model\Object\Service\ObjectAbstractServiceFactory;
+use Zend\ServiceManager\AbstractPluginManager;
 
 /**
  * Class ObjectManager
  */
-class ObjectManager extends ServiceManager
+class ObjectManager extends AbstractPluginManager
 {
     /**
      * Share by default
@@ -34,6 +35,22 @@ class ObjectManager extends ServiceManager
     {
         parent::__construct($configuration);
         $this->addAbstractFactory(new ObjectAbstractServiceFactory());
+    }
+
+    /**
+     * Validate the plugin
+     * Checks that the object loaded is an object.
+     * @param mixed $plugin
+     * @throws Exception\InvalidPluginException
+     */
+    public function validatePlugin($plugin)
+    {
+        if (!is_object($plugin)) {
+            throw new Exception\InvalidPluginException(sprintf(
+                'Type %s is invalid; must implement be an object',
+                 gettype($plugin)
+            ));
+        }
     }
 
 }

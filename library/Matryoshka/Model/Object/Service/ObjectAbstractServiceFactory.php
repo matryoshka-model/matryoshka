@@ -20,6 +20,7 @@ use Zend\ServiceManager\AbstractFactoryInterface;
 use Zend\ServiceManager\AbstractPluginManager;
 use Zend\ServiceManager\ServiceLocatorInterface;
 use Zend\Stdlib\Hydrator\HydratorAwareInterface;
+use Matryoshka\Model\Object\ObjectManager;
 
 /**
  * Class ObjectAbstractServiceFactory
@@ -50,7 +51,7 @@ class ObjectAbstractServiceFactory implements AbstractFactoryInterface
      */
     public function canCreateServiceWithName(ServiceLocatorInterface $serviceLocator, $name, $requestedName)
     {
-        if ($serviceLocator instanceof AbstractPluginManager) {
+        if ($serviceLocator instanceof AbstractPluginManager && $serviceLocator->getServiceLocator()) {
             $serviceLocator = $serviceLocator->getServiceLocator();
         }
 
@@ -80,7 +81,7 @@ class ObjectAbstractServiceFactory implements AbstractFactoryInterface
      */
     public function createServiceWithName(ServiceLocatorInterface $serviceLocator, $name, $requestedName)
     {
-        if ($serviceLocator instanceof AbstractPluginManager) {
+        if ($serviceLocator instanceof AbstractPluginManager && $serviceLocator->getServiceLocator()) {
             $serviceLocator = $serviceLocator->getServiceLocator();
         }
 
