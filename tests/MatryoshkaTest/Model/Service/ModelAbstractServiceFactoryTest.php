@@ -234,7 +234,7 @@ class ModelAbstractServiceFactoryTest extends \PHPUnit_Framework_TestCase
      * @depends testCreateService
      * @expectedException RuntimeException
      */
-    public function testCreateServiceShouldThrowExceptionOnInvalidManager()
+    public function testCreateServiceShouldThrowExceptionOnInvalidPaginator()
     {
         $serviceLocator = $this->serviceManager;
         $factory = new ModelAbstractServiceFactory();
@@ -243,5 +243,13 @@ class ModelAbstractServiceFactoryTest extends \PHPUnit_Framework_TestCase
             'mymodelinvalidpaginatormodel',
             'MyModel\InvalidPaginatorModel'
         );
+    }
+
+    /**
+     * @depends testCreateService
+     */
+    public function testCreateServiceShouldThrowExceptionOnInvalidObject()
+    {
+
     }
 }

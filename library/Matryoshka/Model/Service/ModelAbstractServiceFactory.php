@@ -13,6 +13,8 @@ use Matryoshka\Model\Criteria\PaginableCriteriaInterface;
 use Matryoshka\Model\Model;
 use Matryoshka\Model\Exception;
 use Matryoshka\Model\ModelAwareInterface;
+use Matryoshka\Model\ResultSet\HydratingResultSet;
+use Matryoshka\Model\ResultSet\ResultSetInterface;
 use Zend\ServiceManager\AbstractFactoryInterface;
 use Zend\ServiceManager\AbstractPluginManager;
 use Zend\ServiceManager\ServiceLocatorInterface;
@@ -94,6 +96,7 @@ class ModelAbstractServiceFactory implements AbstractFactoryInterface
 
         $config = $this->getConfig($serviceLocator)[$requestedName];
         $dataGataway = $serviceLocator->get($config['datagateway']);
+        /** @var $resultSetPrototype HydratingResultSet */
         $resultSetPrototype = $serviceLocator->get($config['resultset']);
 
         //Create a model instance
@@ -151,7 +154,7 @@ class ModelAbstractServiceFactory implements AbstractFactoryInterface
             && is_string($config['object'])
             && !empty($config['object'])
         ) {
-            $resultSetPrototype->setObjectPrototype($serviceLocator->get($config['object']));
+            $resultSetPrototype->setObjectPrototype($this->getObjectByName($serviceLocator, $config['object']));
         }
 
         return $model;
