@@ -55,7 +55,7 @@ class ModelAbstractServiceFactory implements AbstractFactoryInterface
      */
     public function canCreateServiceWithName(ServiceLocatorInterface $serviceLocator, $name, $requestedName)
     {
-        if ($serviceLocator instanceof AbstractPluginManager) {
+        if ($serviceLocator instanceof AbstractPluginManager && $serviceLocator->getServiceLocator()) {
             $serviceLocator = $serviceLocator->getServiceLocator();
         }
 
@@ -90,7 +90,7 @@ class ModelAbstractServiceFactory implements AbstractFactoryInterface
      */
     public function createServiceWithName(ServiceLocatorInterface $serviceLocator, $name, $requestedName)
     {
-        if ($serviceLocator instanceof AbstractPluginManager) {
+        if ($serviceLocator instanceof AbstractPluginManager && $serviceLocator->getServiceLocator()) {
             $serviceLocator = $serviceLocator->getServiceLocator();
         }
 
