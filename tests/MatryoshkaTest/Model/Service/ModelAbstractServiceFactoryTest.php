@@ -9,14 +9,18 @@
 namespace MatryoshkaTest\Model\Service;
 
 use Matryoshka\Model\ResultSet\ArrayObjectResultSet as ResultSet;
+use Matryoshka\Model\ResultSet\HydratingResultSet;
 use Matryoshka\Model\Service\ModelAbstractServiceFactory;
 use MatryoshkaTest\Model\Service\TestAsset\DomainObject;
+use MatryoshkaTest\Model\Service\TestAsset\FakeDataGateway;
 use MatryoshkaTest\Model\Service\TestAsset\PaginatorCriteria;
+use Zend\InputFilter\InputFilter;
+use Zend\InputFilter\InputFilterPluginManager;
 use Zend\Mvc\Service\ServiceManagerConfig;
 use Zend\ServiceManager;
-use Zend\Mvc\Service\HydratorManagerFactory;
+use Zend\Stdlib\Hydrator\ArraySerializable;
 use Zend\Stdlib\Hydrator\HydratorPluginManager;
-use Zend\InputFilter\InputFilterPluginManager;
+use Zend\Stdlib\Hydrator\ObjectProperty;
 
 /**
  * Class ModelAbstractServiceFactoryTest
@@ -66,8 +70,8 @@ class ModelAbstractServiceFactoryTest extends \PHPUnit_Framework_TestCase
                     'resultset'   => 'Matryoshka\Model\ResultSet\HydratingResultSet',
                     'object'      => 'DomainObject',
                     'hydrator'    => 'Zend\Stdlib\Hydrator\ObjectProperty',
-                    'input_filter'=> 'Zend\InputFilter\InputFilter',
-                    'paginator_criteria'=> 'MatryoshkaTest\Model\Service\TestAsset\PaginatorCriteria',
+                    'input_filter' => 'Zend\InputFilter\InputFilter',
+                    'paginator_criteria' => 'MatryoshkaTest\Model\Service\TestAsset\PaginatorCriteria',
                     'type'        => 'MatryoshkaTest\Model\Service\TestAsset\MyModel',
 
                 ],
@@ -83,11 +87,13 @@ class ModelAbstractServiceFactoryTest extends \PHPUnit_Framework_TestCase
         );
 
         $sm->setService('Config', $config);
-        $sm->setService('MatryoshkaTest\Model\Service\TestAsset\FakeDataGateway', new \MatryoshkaTest\Model\Service\TestAsset\FakeDataGateway);
+        $sm->setService('MatryoshkaTest\Model\Service\TestAsset\FakeDataGateway', new FakeDataGateway);
         $sm->setService('Matryoshka\Model\ResultSet\ResultSet', new ResultSet);
-        $sm->setService('Matryoshka\Model\ResultSet\HydratingResultSet', new \Matryoshka\Model\ResultSet\HydratingResultSet);
+        $sm->setService('Matryoshka\Model\ResultSet\HydratingResultSet', new HydratingResultSet);
         $sm->setService('MatryoshkaTest\Model\Service\TestAsset\PaginatorCriteria', $paginatorCriteria);
-        $sm->setService('Zend\Stdlib\Hydrator\ArraySerializable', new \Zend\Stdlib\Hydrator\ArraySerializable);
+        $sm->setService('Zend\Stdlib\Hydrator\ArraySerializable', new ArraySerializable);
+//        $sm->setService('Zend\Stdlib\Hydrator\ObjectProperty', new ObjectProperty);
+//        $sm->setService('Zend\InputFilter\InputFilter', new InputFilter);
         $sm->setService('ArrayObject', new \ArrayObject);
         $sm->setService('DomainObject', $objectPrototype);
     }
@@ -100,7 +106,11 @@ class ModelAbstractServiceFactoryTest extends \PHPUnit_Framework_TestCase
         $factory = new ModelAbstractServiceFactory();
         $serviceLocator = $this->serviceManager;
 
-        $this->assertFalse($factory->canCreateServiceWithName($serviceLocator, 'mymodelnonexistingmodel', 'MyModel\NonExistingModel'));
+        $this->assertFalse($factory->canCreateServiceWithName(
+            $serviceLocator,
+            'mymodelnonexistingmodel',
+            'MyModel\NonExistingModel'
+        ));
         $this->assertTrue($factory->canCreateServiceWithName($serviceLocator, 'mymodela', 'MyModel\A'));
         $this->assertTrue($factory->canCreateServiceWithName($serviceLocator, 'mymodela', 'MyModel\B'));
         $this->assertTrue($factory->canCreateServiceWithName($serviceLocator, 'mymodela', 'MyModel\O'));
@@ -112,13 +122,21 @@ class ModelAbstractServiceFactoryTest extends \PHPUnit_Framework_TestCase
             new ServiceManagerConfig()
         );
 
-        $this->assertFalse($factory->canCreateServiceWithName($serviceLocator, 'mymodelnonexistingmodel', 'MyModel\NonExistingModel'));
+        $this->assertFalse($factory->canCreateServiceWithName(
+            $serviceLocator,
+            'mymodelnonexistingmodel',
+            'MyModel\NonExistingModel'
+        ));
 
-        //test with empty config
+        // Test with empty config
         $factory = new ModelAbstractServiceFactory();
         $serviceLocator->setService('Config', []);
 
-        $this->assertFalse($factory->canCreateServiceWithName($serviceLocator, 'mymodelnonexistingmodel', 'MyModel\NonExistingModel'));
+        $this->assertFalse($factory->canCreateServiceWithName(
+            $serviceLocator,
+            'mymodelnonexistingmodel',
+            'MyModel\NonExistingModel'
+        ));
     }
 
     /**
@@ -138,6 +156,13 @@ class ModelAbstractServiceFactoryTest extends \PHPUnit_Framework_TestCase
         $modelO = $serviceLocator->get('MyModel\O');
         $this->assertInstanceOf('\Matryoshka\Model\ObservableModel', $modelO);
 
+        // Register optional services
+        $hydrator = new ObjectProperty;
+        $serviceLocator->setService('Zend\Stdlib\Hydrator\ObjectProperty', $hydrator);
+
+        $inputFilter = new InputFilter;
+        $serviceLocator->setService('Zend\InputFilter\InputFilter', $inputFilter);
+
         $modelFull = $serviceLocator->get('MyModel\Full');
         $this->assertInstanceOf('\MatryoshkaTest\Model\Service\TestAsset\MyModel', $modelFull);
     }
@@ -152,12 +177,12 @@ class ModelAbstractServiceFactoryTest extends \PHPUnit_Framework_TestCase
 
         //Test with optional managers
 
-        $hydrator = new \Zend\Stdlib\Hydrator\ObjectProperty;
+        $hydrator = new ObjectProperty;
         $hydratorManager = new HydratorPluginManager();
         $hydratorManager->setService('Zend\Stdlib\Hydrator\ObjectProperty', $hydrator);
         $serviceLocator->setService('HydratorManager', $hydratorManager);
 
-        $inputFilter = new \Zend\InputFilter\InputFilter;
+        $inputFilter = new InputFilter;
         $inputFilterManager = new InputFilterPluginManager();
         $inputFilterManager->setService('Zend\InputFilter\InputFilter', $inputFilter);
         $serviceLocator->setService('InputFilterManager', $inputFilterManager);
@@ -176,19 +201,16 @@ class ModelAbstractServiceFactoryTest extends \PHPUnit_Framework_TestCase
         $serviceLocator = $this->serviceManager;
 
         //Test with optional services
-
-        $hydrator = new \Zend\Stdlib\Hydrator\ObjectProperty;
+        $hydrator = new ObjectProperty;
         $serviceLocator->setService('Zend\Stdlib\Hydrator\ObjectProperty', $hydrator);
 
-        $inputFilter = new \Zend\InputFilter\InputFilter;
+        $inputFilter = new InputFilter;
         $serviceLocator->setService('Zend\InputFilter\InputFilter', $inputFilter);
 
         $modelFull = $serviceLocator->get('MyModel\Full');
         $this->assertSame($hydrator, $modelFull->getHydrator());
         $this->assertSame($inputFilter, $modelFull->getInputFilter());
     }
-
-
 
     /**
      * @depends testCreateService
