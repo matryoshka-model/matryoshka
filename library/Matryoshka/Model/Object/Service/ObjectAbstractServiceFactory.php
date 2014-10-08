@@ -12,19 +12,20 @@ use Matryoshka\Model\Exception;
 use Matryoshka\Model\ModelAwareInterface;
 use Matryoshka\Model\ModelInterface;
 use Matryoshka\Model\Object\AbstractActiveRecord;
+use Matryoshka\Model\Service\AbstractServiceTrait;
 use Zend\InputFilter\InputFilterAwareInterface;
-use Zend\InputFilter\InputFilterInterface;
 use Zend\ServiceManager\AbstractFactoryInterface;
 use Zend\ServiceManager\AbstractPluginManager;
 use Zend\ServiceManager\ServiceLocatorInterface;
 use Zend\Stdlib\Hydrator\HydratorAwareInterface;
-use Zend\Stdlib\Hydrator\HydratorInterface;
 
 /**
  * Class ObjectAbstractServiceFactory
  */
 class ObjectAbstractServiceFactory implements AbstractFactoryInterface
 {
+    use AbstractServiceTrait;
+
     /**
      * Config Key
      * @var string
@@ -140,56 +141,6 @@ class ObjectAbstractServiceFactory implements AbstractFactoryInterface
     }
 
     /**
-     * Retrieve HydratorInterface object from config
-     *
-     * @param ServiceLocatorInterface $serviceLocator
-     * @param $name
-     * @return HydratorInterface
-     * @throws Exception\RuntimeException
-     */
-    protected function getHydratorByName(ServiceLocatorInterface $serviceLocator, $name)
-    {
-        if ($serviceLocator->has('HydratorManager')) {
-            $serviceLocator = $serviceLocator->get('HydratorManager');
-        }
-
-        $obj = $serviceLocator->get($name);
-        if (!$obj instanceof HydratorInterface) {
-            throw new Exception\RuntimeException(sprintf(
-                'Instance of type %s is invalid; must implement %s',
-                (is_object($obj) ? get_class($obj) : gettype($obj)),
-                'Zend\Stdlib\Hydrator\HydratorInterface'
-            ));
-        }
-        return $obj;
-    }
-
-    /**
-     * Retrieve InputFilterInterface object from config
-     *
-     * @param ServiceLocatorInterface $serviceLocator
-     * @param $name
-     * @return InputFilterInterface
-     * @throws Exception\RuntimeException
-     */
-    protected function getInputFilterByName(ServiceLocatorInterface $serviceLocator, $name)
-    {
-        if ($serviceLocator->has('InputFilterManager')) {
-            $serviceLocator = $serviceLocator->get('InputFilterManager');
-        }
-
-        $obj = $serviceLocator->get($name);
-        if (!$obj instanceof InputFilterInterface) {
-            throw new Exception\RuntimeException(sprintf(
-                'Instance of type %s is invalid; must implement %s',
-                (is_object($obj) ? get_class($obj) : gettype($obj)),
-                'Zend\InputFilter\InputFilterInterface'
-            ));
-        }
-        return $obj;
-    }
-
-    /**
      * Retrieve ModelInterface object from config
      *
      * @param ServiceLocatorInterface $serviceLocator
@@ -213,34 +164,5 @@ class ObjectAbstractServiceFactory implements AbstractFactoryInterface
             ));
         }
         return $obj;
-    }
-
-    /**
-     * Get model configuration, if any
-     *
-     * @param  ServiceLocatorInterface $serviceLocator
-     * @return array
-     */
-    protected function getConfig(ServiceLocatorInterface $serviceLocator)
-    {
-        if ($this->config !== null) {
-            return $this->config;
-        }
-
-        if (!$serviceLocator->has('Config')) {
-            $this->config = [];
-            return $this->config;
-        }
-
-        $config = $serviceLocator->get('Config');
-        if (!isset($config[$this->configKey])
-            || !is_array($config[$this->configKey])
-        ) {
-            $this->config = [];
-            return $this->config;
-        }
-
-        $this->config = $config[$this->configKey];
-        return $this->config;
     }
 }
