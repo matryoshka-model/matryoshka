@@ -20,9 +20,9 @@ class ClassMethods extends ZendClassMethods
     /**
      * {@inheritdoc}
      */
-    public function __construct()
+    public function __construct($underscoreSeparatedKeys = false)
     {
-        parent::__construct();
+        parent::__construct($underscoreSeparatedKeys);
         // Exclude this methods from the extraction
         $this->filterComposite->addFilter('model', new MethodMatchFilter('getModel'), FilterComposite::CONDITION_AND);
         $this->filterComposite->addFilter('hydrator', new MethodMatchFilter('getHydrator'), FilterComposite::CONDITION_AND);
