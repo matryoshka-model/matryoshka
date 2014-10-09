@@ -6,27 +6,25 @@
  * @copyright   Copyright (c) 2014, Ripa Club
  * @license     http://opensource.org/licenses/BSD-2-Clause Simplified BSD License
  */
-namespace MatryoshkaTest\Model;
+namespace MatryoshkaTest\Model\Object;
 
-use Matryoshka\Model\ModelManager;
-use Matryoshka\Model\ResultSet\ArrayObjectResultSet as ResultSet;
-use MatryoshkaTest\Model\Service\TestAsset\FakeDataGateway;
 use Zend\ServiceManager\ServiceManager;
+use Matryoshka\Model\Object\ObjectManager;
 
 /**
- * Class ModelManagerTest
+ * Class ObjectManagerTest
  */
-class ModelManagerTest extends \PHPUnit_Framework_TestCase
+class ObjectManagerTest extends \PHPUnit_Framework_TestCase
 {
     public function testPluginManagerThrowsExceptionForMissingPluginInterface()
     {
         $this->setExpectedException('Matryoshka\Model\Exception\InvalidPluginException');
-        $pluginManager = new ModelManager();
-        $pluginManager->setInvokableClass('samplePlugin', 'stdClass');
+        $pluginManager = new ObjectManager();
+        $pluginManager->setService('samplePlugin', 'thisIsNotAnObject');
         $plugin = $pluginManager->get('samplePlugin');
     }
 
-    public function testCanCreateByModelAbstractServiceFactory()
+    public function testCanCreateByObjectAbstractServiceFactory()
     {
         $config = [
             'matryoshka-models' => [
@@ -42,17 +40,22 @@ class ModelManagerTest extends \PHPUnit_Framework_TestCase
             ],
         ];
 
+        $config = [
+            'matryoshka-objects' => [
+                'MyObject\A' => [
+                    'type'        => 'MatryoshkaTest\Model\Service\TestAsset\DomainObject',
+                ],
+            ],
+        ];
+
+
         $services = new ServiceManager();
         $services->setService('Config', $config);
-        $services->setService('MatryoshkaTest\Model\Service\TestAsset\FakeDataGateway', new FakeDataGateway);
-        $services->setService('Matryoshka\Model\ResultSet\ResultSet', new ResultSet);
 
-        $pluginManager = new ModelManager();
+        $pluginManager = new ObjectManager();
         $pluginManager->setServiceLocator($services);
-        $modelA = $pluginManager->get('MyModel\A');
-        $this->assertInstanceOf('Matryoshka\Model\Model', $modelA);
+        $objectA = $pluginManager->get('MyObject\A');
+        $this->assertInstanceOf('MatryoshkaTest\Model\Service\TestAsset\DomainObject', $objectA);
 
-        $modelO = $pluginManager->get('MyModel\O');
-        $this->assertInstanceOf('Matryoshka\Model\ObservableModel', $modelO);
     }
 }

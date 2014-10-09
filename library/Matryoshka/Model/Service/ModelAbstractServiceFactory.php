@@ -8,9 +8,11 @@
  */
 namespace Matryoshka\Model\Service;
 
-use Matryoshka\Model\AbstractModel;
+use Matryoshka\Model\Criteria\CriteriaInterface;
+use Matryoshka\Model\Criteria\PaginableCriteriaInterface;
 use Matryoshka\Model\Exception;
-use Matryoshka\Model\ModelAwareInterface;
+use Matryoshka\Model\Model;
+use Matryoshka\Model\ResultSet\HydratingResultSet;
 use Zend\ServiceManager\AbstractFactoryInterface;
 use Zend\ServiceManager\AbstractPluginManager;
 use Zend\ServiceManager\ServiceLocatorInterface;
@@ -21,11 +23,13 @@ use Zend\Stdlib\Hydrator\HydratorAwareInterface;
  */
 class ModelAbstractServiceFactory implements AbstractFactoryInterface
 {
+    use AbstractServiceFactoryTrait;
+
     /**
      * Config Key
      * @var string
      */
-    protected $configKey = 'model';
+    protected $configKey = 'matryoshka-models';
 
     /**
      * Default model class name
@@ -49,7 +53,7 @@ class ModelAbstractServiceFactory implements AbstractFactoryInterface
      */
     public function canCreateServiceWithName(ServiceLocatorInterface $serviceLocator, $name, $requestedName)
     {
-        if ($serviceLocator instanceof AbstractPluginManager) {
+        if ($serviceLocator instanceof AbstractPluginManager && $serviceLocator->getServiceLocator()) {
             $serviceLocator = $serviceLocator->getServiceLocator();
         }
 
@@ -84,12 +88,13 @@ class ModelAbstractServiceFactory implements AbstractFactoryInterface
      */
     public function createServiceWithName(ServiceLocatorInterface $serviceLocator, $name, $requestedName)
     {
-        if ($serviceLocator instanceof AbstractPluginManager) {
+        if ($serviceLocator instanceof AbstractPluginManager && $serviceLocator->getServiceLocator()) {
             $serviceLocator = $serviceLocator->getServiceLocator();
         }
 
         $config = $this->getConfig($serviceLocator)[$requestedName];
         $dataGataway = $serviceLocator->get($config['datagateway']);
+        /** @var $resultSetPrototype HydratingResultSet */
         $resultSetPrototype = $serviceLocator->get($config['resultset']);
 
         //Create a model instance
@@ -106,7 +111,7 @@ class ModelAbstractServiceFactory implements AbstractFactoryInterface
             $class = $config['type'];
         }
 
-        /** @var $model AbstractModel */
+        /** @var $model Model */
         $model =  new $class($dataGataway, $resultSetPrototype);
 
         //Setup Hydrator
@@ -114,8 +119,8 @@ class ModelAbstractServiceFactory implements AbstractFactoryInterface
         if (isset($config['hydrator'])
             && is_string($config['hydrator'])
             && !empty($config['hydrator'])
-            && ($hydrator = $this->getHydratorByName($serviceLocator, $config['hydrator']))
         ) {
+            $hydrator = $this->getHydratorByName($serviceLocator, $config['hydrator']);
             $model->setHydrator($hydrator);
         }
 
@@ -127,90 +132,67 @@ class ModelAbstractServiceFactory implements AbstractFactoryInterface
         if (isset($config['input_filter'])
             && is_string($config['input_filter'])
             && !empty($config['input_filter'])
-            && ($inputFilter = $this->getInputFilterByName($serviceLocator, $config['input_filter']))
         ) {
-            $model->setInputFilter($inputFilter);
+            $model->setInputFilter($this->getInputFilterByName($serviceLocator, $config['input_filter']));
         }
 
         //Setup Paginator
         if (isset($config['paginator_criteria'])
             && is_string($config['paginator_criteria'])
             && !empty($config['paginator_criteria'])
-            && $serviceLocator->has($config['paginator_criteria'])
         ) {
-            $paginatorCriteria = $serviceLocator->get($config['paginator_criteria']);
-            $model->setPaginatorCriteria($paginatorCriteria);
+            $model->setPaginatorCriteria($this->getPaginatorCriteriaByName(
+                $serviceLocator,
+                $config['paginator_criteria']
+            ));
         }
 
         //Setup Object Prototype
         if (isset($config['object'])
             && is_string($config['object'])
             && !empty($config['object'])
-            && $serviceLocator->has($config['object'])
         ) {
-            $object = $serviceLocator->get($config['object']);
-            $resultSetPrototype->setObjectPrototype($object);
-
-            if ($object instanceof ModelAwareInterface) {
-                $object->setModel($model);
-            }
+            $resultSetPrototype->setObjectPrototype($this->getObjectByName($serviceLocator, $config['object']));
         }
 
         return $model;
     }
 
-    protected function getHydratorByName(ServiceLocatorInterface $serviceLocator, $name)
+    /**
+     * Retrieve object from config
+     *
+     * @param ServiceLocatorInterface $serviceLocator
+     * @param $name
+     * @return object
+     */
+    protected function getObjectByName(ServiceLocatorInterface $serviceLocator, $name)
     {
-        if ($serviceLocator->has('HydratorManager')) {
-            $serviceLocator = $serviceLocator->get('HydratorManager');
+        if ($serviceLocator->has('Matryoshka\Model\Object\ObjectManager')) {
+            $serviceLocator = $serviceLocator->get('Matryoshka\Model\Object\ObjectManager');
         }
 
-        if ($serviceLocator->has($name)) {
-            return $serviceLocator->get($name);
-        }
-
-        return null;
-    }
-
-    protected function getInputFilterByName(ServiceLocatorInterface $serviceLocator, $name)
-    {
-        if ($serviceLocator->has('InputFilterManager')) {
-            $serviceLocator = $serviceLocator->get('InputFilterManager');
-        }
-
-        if ($serviceLocator->has($name)) {
-            return $serviceLocator->get($name);
-        }
-
-        return null;
+        return $serviceLocator->get($name);
     }
 
     /**
-     * Get model configuration, if any
+     * Retrieve PaginableCriteriaInterface object from config
      *
-     * @param  ServiceLocatorInterface $serviceLocator
-     * @return array
+     * @param ServiceLocatorInterface $serviceLocator
+     * @param $name
+     * @return PaginableCriteriaInterface
+     * @throws Exception\RuntimeException
      */
-    protected function getConfig(ServiceLocatorInterface $serviceLocator)
+    protected function getPaginatorCriteriaByName(ServiceLocatorInterface $serviceLocator, $name)
     {
-        if ($this->config !== null) {
-            return $this->config;
+        /** @var $criteria CriteriaInterface */
+        $criteria = $serviceLocator->get($name);
+        if (!$criteria instanceof PaginableCriteriaInterface) {
+            throw new Exception\RuntimeException(sprintf(
+                'Instance of type %s is invalid; must implement %s',
+                (is_object($criteria) ? get_class($criteria) : gettype($criteria)),
+                'Matryoshka\Model\Criteria\PaginableCriteriaInterface'
+            ));
         }
-
-        if (!$serviceLocator->has('Config')) {
-            $this->config = [];
-            return $this->config;
-        }
-
-        $config = $serviceLocator->get('Config');
-        if (!isset($config[$this->configKey])
-            || !is_array($config[$this->configKey])
-        ) {
-            $this->config = [];
-            return $this->config;
-        }
-
-        $this->config = $config[$this->configKey];
-        return $this->config;
+        return $criteria;
     }
 }

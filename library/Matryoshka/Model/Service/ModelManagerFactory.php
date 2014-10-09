@@ -6,17 +6,18 @@
  * @copyright   Copyright (c) 2014, Copyright (c) 2014, Ripa Club
  * @license     http://opensource.org/licenses/BSD-2-Clause Simplified BSD License
  */
-namespace Matryoshka\Model\Object\Service;
+namespace Matryoshka\Model\Service;
 
-use Matryoshka\Model\Object\ObjectManager;
+use Matryoshka\Model\ModelManager;
 use Zend\ServiceManager\Config;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
+
 /**
- * Class ObjectManagerFactory
+ * Class ModelManagerFactory
  */
-class ObjectManagerFactory implements FactoryInterface
+class ModelManagerFactory implements FactoryInterface
 {
     /**
      * Create service
@@ -27,10 +28,11 @@ class ObjectManagerFactory implements FactoryInterface
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
         $config = $serviceLocator->get('Config');
-        $objectConfig = [];
-        if (isset($config['matryoshka']) && isset($config['matryoshka']['object_manager'])) {
-            $objectConfig = $config['matryoshka']['object_manager'];
+        $modelConfig = [];
+        if (isset($config['matryoshka']) && isset($config['matryoshka']['model_manager'])) {
+            $modelConfig = $config['matryoshka']['model_manager'];
         }
-        return new ObjectManager(new Config($objectConfig));
+        return new ModelManager(new Config($modelConfig));
     }
+
 }
