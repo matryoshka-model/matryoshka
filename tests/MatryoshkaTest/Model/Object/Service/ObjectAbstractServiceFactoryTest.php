@@ -59,7 +59,6 @@ class ObjectAbstractServiceFactoryTest extends \PHPUnit_Framework_TestCase
                     'type'        => 'MatryoshkaTest\Model\Service\TestAsset\DomainObject',
                     'hydrator'    => 'Zend\Stdlib\Hydrator\ObjectProperty',
                     'input_filter'=> 'Zend\InputFilter\InputFilter',
-                    'model'       => 'TestModel',
                 ],
                 'MyObject\InvalidObjectType' => [
                     'type'        => 'NonExistingClass',
@@ -68,15 +67,10 @@ class ObjectAbstractServiceFactoryTest extends \PHPUnit_Framework_TestCase
                     'type'        => 'MatryoshkaTest\Model\TestAsset\ActiveRecordObject',
                     'active_record_criteria' => 'stdClass',
                 ],
-                'MyObject\InvalidModelType' => [
-                    'type'        => 'MatryoshkaTest\Model\Service\TestAsset\DomainObject',
-                    'model'       => 'stdClass',
-                ],
                 'MyObject\Full' => [
                     'type'        => 'MatryoshkaTest\Model\TestAsset\ActiveRecordObject',
                     'hydrator'    => 'Zend\Stdlib\Hydrator\ObjectProperty',
                     'input_filter'=> 'Zend\InputFilter\InputFilter',
-                    'model'       => 'TestModel',
                     'active_record_criteria' => 'MatryoshkaTest\Model\Criteria\ActiveRecord\TestAsset\ConcreteCriteria',
                 ],
             ],
@@ -162,13 +156,11 @@ class ObjectAbstractServiceFactoryTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf('\MatryoshkaTest\Model\Service\TestAsset\DomainObject', $objectC);
         $this->assertSame($serviceLocator->get('Zend\Stdlib\Hydrator\ObjectProperty'), $objectC->getHydrator());
         $this->assertSame($serviceLocator->get('Zend\InputFilter\InputFilter'), $objectC->getInputFilter());
-        $this->assertSame($serviceLocator->get('TestModel'), $objectC->getModel());
 
         $objectFull = $serviceLocator->get('MyObject\Full');
         $this->assertInstanceOf('\MatryoshkaTest\Model\TestAsset\ActiveRecordObject', $objectFull);
         $this->assertSame($serviceLocator->get('Zend\Stdlib\Hydrator\ObjectProperty'), $objectFull->getHydrator());
         $this->assertSame($serviceLocator->get('Zend\InputFilter\InputFilter'), $objectFull->getInputFilter());
-        $this->assertSame($serviceLocator->get('TestModel'), $objectFull->getModel());
         $this->assertSame(
             $serviceLocator->get('MatryoshkaTest\Model\Criteria\ActiveRecord\TestAsset\ConcreteCriteria'),
             $objectFull->getActiveRecordCriteriaPrototype()
@@ -194,14 +186,9 @@ class ObjectAbstractServiceFactoryTest extends \PHPUnit_Framework_TestCase
         $inputFilterManager->setService('Zend\InputFilter\InputFilter', $inputFilter);
         $serviceLocator->setService('InputFilterManager', $inputFilterManager);
 
-        $modelManager = new ModelManager();
-        $modelManager->setService('TestModel', $this->model);
-        $serviceLocator->setService('Matryoshka\Model\ModelManager', $modelManager);
-
         $objectFull = $serviceLocator->get('MyObject\Full');
         $this->assertSame($hydrator, $objectFull->getHydrator());
         $this->assertSame($inputFilter, $objectFull->getInputFilter());
-        $this->assertSame($this->model, $objectFull->getModel());
     }
 
     /**
@@ -230,16 +217,6 @@ class ObjectAbstractServiceFactoryTest extends \PHPUnit_Framework_TestCase
         $factory->createServiceWithName($serviceLocator, 'myobjectinvalidobjecttype', 'MyObject\InvalidObjectType');
     }
 
-    /**
-     * @expectedException \Matryoshka\Model\Exception\RuntimeException
-     */
-    public function testInvalidModel()
-    {
-        $serviceLocator = $this->serviceManager;
-
-        $factory = new ObjectAbstractServiceFactory();
-        $factory->createServiceWithName($serviceLocator, 'myobjectinvalidmodeltype', 'MyObject\InvalidModelType');
-    }
 
     public function testWithObjectManagerPeeringServiceManager()
     {
@@ -251,7 +228,6 @@ class ObjectAbstractServiceFactoryTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf('\MatryoshkaTest\Model\TestAsset\ActiveRecordObject', $objectFull);
         $this->assertSame($serviceLocator->get('Zend\Stdlib\Hydrator\ObjectProperty'), $objectFull->getHydrator());
         $this->assertSame($serviceLocator->get('Zend\InputFilter\InputFilter'), $objectFull->getInputFilter());
-        $this->assertSame($serviceLocator->get('TestModel'), $objectFull->getModel());
         $this->assertSame(
             $serviceLocator->get('MatryoshkaTest\Model\Criteria\ActiveRecord\TestAsset\ConcreteCriteria'),
             $objectFull->getActiveRecordCriteriaPrototype()

@@ -115,15 +115,6 @@ class ObjectAbstractServiceFactory implements AbstractFactoryInterface
             $object->setInputFilter($this->getInputFilterByName($serviceLocator, $config['input_filter']));
         }
 
-        //Setup Model
-        if ($object instanceof ModelAwareInterface
-            && isset($config['model'])
-            && is_string($config['model'])
-            && !empty($config['model'])
-        ) {
-            $object->setModel($this->getModelByName($serviceLocator, $config['model']));
-        }
-
         //Setup ActiveRecord
         if ($object instanceof AbstractActiveRecord
             && isset($config['active_record_criteria'])
@@ -159,31 +150,5 @@ class ObjectAbstractServiceFactory implements AbstractFactoryInterface
             ));
         }
         return $criteria;
-    }
-
-    /**
-     * Retrieve ModelInterface object from config
-     *
-     * @param ServiceLocatorInterface $serviceLocator
-     * @param $name
-     * @return ModelInterface
-     * @throws Exception\RuntimeException
-     */
-    protected function getModelByName(ServiceLocatorInterface $serviceLocator, $name)
-    {
-        if ($serviceLocator->has('Matryoshka\Model\ModelManager')) {
-            $serviceLocator = $serviceLocator->get('Matryoshka\Model\ModelManager');
-        }
-
-        /** @var $obj ModelInterface */
-        $obj = $serviceLocator->get($name);
-        if (!$obj instanceof ModelInterface) {
-            throw new Exception\RuntimeException(sprintf(
-                'Instance of type %s is invalid; must implement %s',
-                (is_object($obj) ? get_class($obj) : gettype($obj)),
-                'Matryoshka\Model\ModelInterface'
-            ));
-        }
-        return $obj;
     }
 }
