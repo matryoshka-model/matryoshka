@@ -101,6 +101,9 @@ abstract class AbstractModel implements
     {
         $resultSetPrototype = $this->getResultSetPrototype();
         if ($resultSetPrototype && ($objectPrototype = $resultSetPrototype->getObjectPrototype())) {
+            if ($objectPrototype instanceof ModelAwareInterface) {
+                $objectPrototype->setModel($this);
+            }
             return $objectPrototype;
         }
 
@@ -127,6 +130,9 @@ abstract class AbstractModel implements
      */
     public function find(ReadableCriteriaInterface $criteria)
     {
+        // Ensure that object and resultset prototypes have been set
+        $this->getObjectPrototype();
+
         $result = $criteria->apply($this);
         $resultSet = clone $this->getResultSetPrototype();
         $resultSet->initialize($result);
@@ -145,6 +151,9 @@ abstract class AbstractModel implements
      */
     public function save(WritableCriteriaInterface $criteria, $dataOrObject)
     {
+        if ($dataOrObject instanceof ModelAwareInterface) {
+            $dataOrObject->setModel($this);
+        }
 
         $hydrator = $this->getHydrator();
 

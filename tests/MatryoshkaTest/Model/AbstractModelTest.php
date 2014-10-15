@@ -17,6 +17,8 @@ use MatryoshkaTest\Model\TestAsset\InputFilterAwareObject;
 use MatryoshkaTest\Model\TestAsset\ResultSet;
 use MatryoshkaTest\Model\TestAsset\ToArrayObject;
 use Zend\Stdlib\Hydrator\ArraySerializable;
+use MatryoshkaTest\Model\TestAsset\ActiveRecordObject;
+use Matryoshka\Model\ModelAwareInterface;
 
 /**
  * Class AbstractModelTest
@@ -142,13 +144,13 @@ class AbstractModelTest extends \PHPUnit_Framework_TestCase
     {
         $criteria = new MockCriteria();
 
-        $resurlset = $this->model->find($criteria);
+        $resultset = $this->model->find($criteria);
         $this->assertInstanceOf(
             '\Matryoshka\Model\ResultSet\ResultSetInterface',
-            $resurlset,
+            $resultset,
             sprintf(
                 'Class %s not instance of \Matryoshka\Model\ResultSet\ResultSetInterface',
-                get_class($resurlset)
+                get_class($resultset)
             )
         );
     }
@@ -159,15 +161,25 @@ class AbstractModelTest extends \PHPUnit_Framework_TestCase
             'MatryoshkaTest\Model\Mock\Criteria\MockCallable::applyTest'
         );
 
-        $resurlset = $this->model->find($criteria);
+        $resultset = $this->model->find($criteria);
         $this->assertInstanceOf(
             '\Matryoshka\Model\ResultSet\ResultSetInterface',
-            $resurlset,
+            $resultset,
             sprintf(
                 'Class %s not instance of \Matryoshka\Model\ResultSet\ResultSetInterface',
-                get_class($resurlset)
+                get_class($resultset)
             )
         );
+    }
+
+    /**
+     * @expectedException \Matryoshka\Model\Exception\RuntimeException
+     */
+    public function testFindShouldThrowExceptionWhenNoResultsetPrototype()
+    {
+        $model = new ConcreteAbstractModel();
+        $criteria = new MockCriteria();
+        $resultset = $model->find($criteria);
     }
 
     /**
@@ -198,6 +210,10 @@ class AbstractModelTest extends \PHPUnit_Framework_TestCase
         )->will($this->returnValue(true));
 
         $this->assertNull($this->model->save($mockCriteria, $data));
+
+        if ($data instanceof ModelAwareInterface) {
+            $this->assertSame($this->model, $data->getModel());
+        }
     }
 
     /**
@@ -251,6 +267,7 @@ class AbstractModelTest extends \PHPUnit_Framework_TestCase
             [new \ArrayObject(['foo' => 'bar']), ['foo' => 'bar']],
             [new HydratorAwareObject(['foo' => 'bar']), ['foo' => 'bar']],
             [new \ArrayObject(['foo' => 'bar']), ['foo' => 'bar'], new ArraySerializable()],
+            [new ActiveRecordObject(), ['id' => null]]
         ];
     }
 
