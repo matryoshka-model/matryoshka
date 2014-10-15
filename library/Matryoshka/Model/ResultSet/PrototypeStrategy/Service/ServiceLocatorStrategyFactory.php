@@ -20,7 +20,7 @@ class ServiceLocatorStrategyFactory implements FactoryInterface
     /**
      * @var string
      */
-    protected $configKey = 'model_prototype_strategy';
+    protected $configKey = 'matryoshka-resultset-servicelocatorstrategy';
 
     /**
      * Config
@@ -37,7 +37,14 @@ class ServiceLocatorStrategyFactory implements FactoryInterface
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
         $config = $this->getConfig($serviceLocator);
-        $objectServiceLocator = isset($config['service_locator']) ? $serviceLocator->get($config['service_locator']) : $serviceLocator;
+
+        if (isset($config['service_locator'])) {
+            $objectServiceLocator = $serviceLocator->get($config['service_locator']);
+        } else {
+            $objectServiceLocator = $serviceLocator->has('Matryoshka\Model\Object\ObjectManager') ?
+                $serviceLocator->get('Matryoshka\Model\Object\ObjectManager')
+                : $serviceLocator;
+        }
 
         $strategy = new ServiceLocatorStrategy($objectServiceLocator);
 
