@@ -78,6 +78,7 @@ abstract class AbstractActiveRecord extends AbstractObject implements
         }
 
         $criteria = clone $this->activeRecordCriteriaPrototype;
+        $criteria->setId($this->getId());
         $result = $this->getModel()->save($criteria, $this);
         return $result;
     }
