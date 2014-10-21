@@ -18,7 +18,8 @@ class AbstractActiveRecordTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $this->object = new ActiveRecordObject();
-        $this->object->setActiveRecordCriteriaPrototype(new ConcreteCriteria());
+        $this->criteria = new ConcreteCriteria();
+        $this->object->setActiveRecordCriteriaPrototype($this->criteria);
     }
 
     public function testGetSetModel()
@@ -38,19 +39,27 @@ class AbstractActiveRecordTest extends \PHPUnit_Framework_TestCase
 
     public function testSave()
     {
+        $id = 'id';
+        $criteria = clone $this->criteria;
+        $criteria->setId($id);
+
+
         $abstractModelMock  = $this->getMockBuilder('Matryoshka\Model\AbstractModel')
                                     ->disableOriginalConstructor()
                                     ->setMethods(['save'])
                                     ->getMock();
         $result = null;
 
+
         $abstractModelMock->expects($this->atLeastOnce())
                            ->method('save')
-                           ->with($this->isInstanceOf('Matryoshka\Model\Criteria\ActiveRecord\AbstractCriteria'), $this->identicalTo($this->object))
+                           ->with($this->equalTo($criteria), $this->identicalTo($this->object))
                            ->will($this->returnValue($result));
 
         $this->object->setModel($abstractModelMock);
 
+        //Test with ID
+        $this->object->setId($id);
         $this->assertSame($result, $this->object->save());
     }
 
