@@ -22,7 +22,6 @@ class AssertUserForm extends Form
         $this->setAttribute('method', 'post');
 
         $this->addUserFieldset();
-        $this->addSubmit();
     }
 
     /**
@@ -31,20 +30,8 @@ class AssertUserForm extends Form
     public function addUserFieldset()
     {
         $fieldsetUser = new Fieldset\AssertUserFiedlset();
-
+        $fieldsetUser->setUseAsBaseFieldset(true);
         $this->add($fieldsetUser);
-        return $this;
-    }
-
-    /**
-     * @return AssertUserForm
-     */
-    public function addSubmit()
-    {
-        $elementSubmit = new Element\Submit('submit');
-        $elementSubmit->setValue('Invio');
-
-        $this->add($elementSubmit);
         return $this;
     }
 }

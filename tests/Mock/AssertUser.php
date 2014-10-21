@@ -13,14 +13,12 @@ use Zend\InputFilter\InputFilterAwareInterface;
 use Zend\InputFilter\InputFilterAwareTrait;
 use Zend\Stdlib\Hydrator\HydratorAwareInterface;
 use Zend\Stdlib\Hydrator\HydratorAwareTrait;
-use Zend\Stdlib\Hydrator\ClassMethods;
 use Zend\Stdlib\hydrator\HydratorInterface;
+use Matryoshka\Model\Hydrator\ClassMethods;
+use Matryoshka\Model\Object\AbstractObject;
 
-class AssertUser implements HydratorAwareInterface, InputFilterAwareInterface
+class AssertUser extends AbstractObject
 {
-    use HydratorAwareTrait;
-    use InputFilterAwareTrait;
-
     /**
      * @var
      */

@@ -19,6 +19,7 @@ use MatryoshkaTest\Model\TestAsset\ToArrayObject;
 use Zend\Stdlib\Hydrator\ArraySerializable;
 use MatryoshkaTest\Model\TestAsset\ActiveRecordObject;
 use Matryoshka\Model\ModelAwareInterface;
+use Matryoshka\Model\ResultSet\HydratingResultSet;
 
 /**
  * Class AbstractModelTest
@@ -49,11 +50,19 @@ class AbstractModelTest extends \PHPUnit_Framework_TestCase
 
     }
 
+    protected function setResultSetPrototype($value)
+    {
+        $reflection = new \ReflectionClass($this->model);
+        $reflProp = $reflection->getProperty('resultSetPrototype');
+        $reflProp->setAccessible(true);
+        $reflProp->setValue($this->model, $value);
+    }
+
     public function testShouldThrowExceptionWhenNoObjectPrototype()
     {
         $this->resultSet->arrayObjectPrototype = null;
         $this->setExpectedException('\Matryoshka\Model\Exception\RuntimeException');
-        var_dump($this->model->getObjectPrototype());
+        $this->model->getObjectPrototype();
     }
 
     public function testGetHydratorShouldThrowExceptionWhenNoHydratorAndNoObjectPrototype()
@@ -72,9 +81,7 @@ class AbstractModelTest extends \PHPUnit_Framework_TestCase
     public function testShouldThrowExceptionWhenNoInputFilter()
     {
         $model = $this->model;
-        if ($this->model instanceof ConcreteAbstractModel) {
-            $model->setResultSetPrototype(new ResultSet(new \ArrayObject));
-        }
+        $this->setResultSetPrototype(new ResultSet(new \ArrayObject));
 
         $this->setExpectedException('\Matryoshka\Model\Exception\RuntimeException');
 
@@ -129,6 +136,16 @@ class AbstractModelTest extends \PHPUnit_Framework_TestCase
     public function testGetObjectPrototype()
     {
         $this->assertSame($this->resultSet->getObjectPrototype(), $this->model->getObjectPrototype());
+
+        //Test model instance injection
+        $modelAwareObject = new ActiveRecordObject();
+        $resultSet = new HydratingResultSet();
+        $resultSet->setObjectPrototype($modelAwareObject);
+        $this->setResultSetPrototype($resultSet);
+
+        $this->assertSame($modelAwareObject, $this->model->getObjectPrototype());
+        $this->assertSame($this->model, $modelAwareObject->getModel());
+
     }
 
     public function testCreate()
@@ -211,6 +228,7 @@ class AbstractModelTest extends \PHPUnit_Framework_TestCase
 
         $this->assertNull($this->model->save($mockCriteria, $data));
 
+        //Test model instance injection
         if ($data instanceof ModelAwareInterface) {
             $this->assertSame($this->model, $data->getModel());
         }

@@ -37,52 +37,81 @@ class FormTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $this->roleCommunity1 = new AssertRoleCommunity();
-        $this->roleCommunity1->setName('matrilska');
+        $this->roleCommunity1->setName('Matryoshka');
 
         $this->roleCommunity2 = new AssertRoleCommunity();
-        $this->roleCommunity2->setName('matrioska 2');
+        $this->roleCommunity2->setName('Matryoshka 2');
 
         $this->user = new AssertUser();
         $this->user->setFirstName('avisalli');
-        $this->user->setSurname('dmlab');
+        $this->user->setSurname('ripaclub');
         $this->user->setAge(3);
         $this->user->setRoles([ $this->roleCommunity1,  $this->roleCommunity2]);
 
         $this->form = new AssertUserForm();
         $this->form->bind($this->user);
-        $this->form->prepare();
+
 
     }
 
-   public function testUserAttributeSurname()
+   public function testBoundObjectExtraction()
    {
+       //test form is populated with bound object values.
+       $this->form->prepare();
        $this->assertSame($this->form->get('user')->get('surname')->getValue(),  $this->user->getSurname());
+       $this->assertSame($this->form->get('user')->get('firstName')->getValue(),  $this->user->getFirstName());
+       $this->assertSame($this->form->get('user')->get('roles')->get('0')->get('name')->getValue(),  $this->roleCommunity1->getName());
+       $this->assertSame($this->form->get('user')->get('roles')->get('1')->get('name')->getValue(),  $this->roleCommunity2->getName());
    }
 
-    public function testUserAttributeFirstname()
+    public function testBoundObjectValidation()
     {
-        $this->assertSame($this->form->get('user')->get('firstName')->getValue(),  $this->user->getFirstName());
-    }
+        $form = $this->form;
+        $this->assertTrue($form->isValid());
 
-    public function testCollectionAttribute()
-    {
-        $this->assertSame($this->form->get('user')->get('roles')->get('0')->get('name')->getValue(),  $this->roleCommunity1->getName());
-        $this->assertSame($this->form->get('user')->get('roles')->get('1')->get('name')->getValue(),  $this->roleCommunity2->getName());
-    }
+        $form->setData([
+            'user' => [
+                'surname' => 'foo',
+                'firstName' => 'baz',
+                'roles' => [
+                    ['name' => 'role1'],
+                    ['name' => 'role2'],
+                ],
+            ]
+        ]);
+        $this->assertTrue($form->isValid());
 
-    public function testValidationForm()
-    {
-        $user = new AssertUser();
-        $user->setFirstName('avisalli');
-        $user->setSurname('bigolo');
-        $user->setAge(3);
+        $form->setData([
+            'user' => [
+                'surname' => 'baz',
 
-        $form = new AssertUserForm();
-        $form->bind($user);
-
-        // TODO with parameter in setdata
-        $form->setData([]);
-
+            ]
+        ]);
         $this->assertFalse($form->isValid());
+
+    }
+
+    public function testBoundObjectHydratation()
+    {
+        $form = $this->form;
+
+        $form->setData([
+            'user' => [
+                'surname' => 'foo',
+                'firstName' => 'baz',
+                'roles' => [
+                    ['name' => 'role1'],
+                    ['name' => 'role2'],
+                ],
+            ]
+        ]);
+
+        //if form is the object will be bound
+        $this->assertTrue($form->isValid());
+
+        $this->assertSame('foo', $this->user->getSurname());
+        $this->assertSame('baz', $this->user->getFirstName());
+        $this->assertSame('role1', $this->user->getRoles()[0]->getName());
+        $this->assertSame('role2', $this->user->getRoles()[1]->getName());
     }
 }
