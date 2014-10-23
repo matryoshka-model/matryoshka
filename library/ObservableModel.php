@@ -41,7 +41,7 @@ class ObservableModel extends Model implements EventManagerAwareInterface
     {
         $event = $this->getEvent();
         $event->setCriteria($criteria);
-        $results = $this->getEventManager()->trigger(__FUNCTION__ . '.pre', $event);
+        $results = $this->getEventManager()->trigger(ModelEvent::EVENT_FIND_PRE, $event);
 
         if ($results->stopped()) {
             $resultSet = clone $this->getResultSetPrototype();
@@ -52,7 +52,7 @@ class ObservableModel extends Model implements EventManagerAwareInterface
         $return = parent::find($criteria);
         $event->setResultSet($return);
 
-        $this->getEventManager()->trigger(__FUNCTION__ . '.post', $event);
+        $this->getEventManager()->trigger(ModelEvent::EVENT_FIND_POST, $event);
         return $return;
     }
 
@@ -64,7 +64,7 @@ class ObservableModel extends Model implements EventManagerAwareInterface
         $event = $this->getEvent();
         $event->setCriteria($criteria);
         $event->setParam('data', $dataOrObject);
-        $results = $this->getEventManager()->trigger(__FUNCTION__ . '.pre', $event);
+        $results = $this->getEventManager()->trigger(ModelEvent::EVENT_SAVE_PRE, $event);
 
         if ($results->stopped()) {
             return null;
@@ -72,7 +72,7 @@ class ObservableModel extends Model implements EventManagerAwareInterface
 
         $return = parent::save($criteria, $dataOrObject);
 
-        $this->getEventManager()->trigger(__FUNCTION__ . '.post', $event);
+        $this->getEventManager()->trigger(ModelEvent::EVENT_SAVE_POST, $event);
         return $return;
     }
 
@@ -83,7 +83,7 @@ class ObservableModel extends Model implements EventManagerAwareInterface
     {
         $event = $this->getEvent();
         $event->setCriteria($criteria);
-        $results = $this->getEventManager()->trigger(__FUNCTION__ . '.pre', $event);
+        $results = $this->getEventManager()->trigger(ModelEvent::EVENT_DELETE_PRE, $event);
 
         if ($results->stopped()) {
             return null;
@@ -91,7 +91,7 @@ class ObservableModel extends Model implements EventManagerAwareInterface
 
         $return = parent::delete($criteria);
 
-        $this->getEventManager()->trigger(__FUNCTION__ . '.post', $event);
+        $this->getEventManager()->trigger(ModelEvent::EVENT_DELETE_POST, $event);
         return $return;
     }
 }

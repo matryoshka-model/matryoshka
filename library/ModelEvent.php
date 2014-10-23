@@ -18,6 +18,12 @@ use Zend\EventManager\Event;
  */
 class ModelEvent extends Event
 {
+    const EVENT_SAVE_PRE = 'save.pre';
+    const EVENT_SAVE_POST = 'save.post';
+    const EVENT_DELETE_PRE = 'delete.pre';
+    const EVENT_DELETE_POST = 'delete.post';
+    const EVENT_FIND_PRE = 'find.pre';
+    const EVENT_FIND_POST= 'find.post';
     /**
      * @var null|CriteriaInterface
      */
