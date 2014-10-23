@@ -12,9 +12,11 @@ use Matryoshka\Model\Criteria\CriteriaInterface;
 use Matryoshka\Model\Criteria\PaginableCriteriaInterface;
 use Matryoshka\Model\Exception;
 use Matryoshka\Model\Model;
+use Matryoshka\Model\ObservableModel;
 use Matryoshka\Model\ResultSet\HydratingResultSet;
 use Zend\ServiceManager\AbstractFactoryInterface;
 use Zend\ServiceManager\AbstractPluginManager;
+use Zend\ServiceManager\Exception\ServiceNotCreatedException;
 use Zend\ServiceManager\ServiceLocatorInterface;
 use Zend\Stdlib\Hydrator\HydratorAwareInterface;
 
@@ -155,6 +157,17 @@ class ModelAbstractServiceFactory implements AbstractFactoryInterface
             $resultSetPrototype->setObjectPrototype($this->getObjectByName($serviceLocator, $config['object']));
         }
 
+        if (isset($config['listeners'])
+            && is_array($config['listeners'])) {
+
+            if ($model instanceof \Matryoshka\Model\ObservableModel) {
+                $this->setListener($serviceLocator, $config['listeners'], $model);
+            } else {
+                throw new ServiceNotCreatedException(('Instance of model must be a subclass of Matryoshka\Model\ObservableModel'));
+            }
+
+        }
+
         return $model;
     }
 
@@ -194,5 +207,30 @@ class ModelAbstractServiceFactory implements AbstractFactoryInterface
             ));
         }
         return $criteria;
+    }
+
+    /**
+     * @param ServiceLocatorInterface $serviceLocator
+     * @param array $listeners
+     * @param ObservableModel $model
+     * @throws ServiceNotCreatedException
+     */
+    protected function setListener(ServiceLocatorInterface $serviceLocator, array $listeners, ObservableModel $model)
+    {
+        $eventManager = $model->getEventManager();
+        foreach ($listeners as $listener) {
+            if ($serviceLocator->has($listener)
+                && $serviceLocator->get($listener) instanceof \Zend\EventManager\ListenerAggregateInterface
+            ){
+                $eventManager->attach($serviceLocator->get($listener));
+            } else {
+                throw new ServiceNotCreatedException(
+                    sprintf('Listener %s model must be setting in service manager and must be an instance og %s',
+                        $listener,
+                        'Zend\EventManager\ListenerAggregateInterface'
+                    )
+                );
+            }
+        }
     }
 }
