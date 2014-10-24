@@ -48,9 +48,8 @@ class ObjectManager extends AbstractPluginManager
         if (!is_object($plugin)) {
             throw new Exception\InvalidPluginException(sprintf(
                 'Type %s is invalid; must implement be an object',
-                 gettype($plugin)
+                gettype($plugin)
             ));
         }
     }
-
 }

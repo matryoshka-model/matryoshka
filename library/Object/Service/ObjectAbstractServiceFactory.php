@@ -136,14 +136,14 @@ class ObjectAbstractServiceFactory implements AbstractFactoryInterface
      * @param ServiceLocatorInterface $serviceLocator
      * @param $name
      * @return AbstractCriteria
-     * @throws Exception\RuntimeException
+     * @throws Exception\ServiceNotCreatedException
      */
     protected function getActiveRecordCriteriaByName($serviceLocator, $name)
     {
         /** @var $criteria CriteriaInterface */
         $criteria = $serviceLocator->get($name);
         if (!$criteria instanceof AbstractCriteria) {
-            throw new Exception\RuntimeException(sprintf(
+            throw new Exception\ServiceNotCreatedException(sprintf(
                 'Instance of type %s is invalid; must implement %s',
                 (is_object($criteria) ? get_class($criteria) : gettype($criteria)),
                 'Matryoshka\Model\Criteria\ActiveRecord\AbstractCriteria'

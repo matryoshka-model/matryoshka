@@ -192,7 +192,7 @@ class ObjectAbstractServiceFactoryTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException \Matryoshka\Model\Exception\RuntimeException
+     * @expectedException \Matryoshka\Model\Exception\ServiceNotCreatedException
      */
     public function testInvalidActiveRecordCriteria()
     {

@@ -145,12 +145,13 @@ class ModelAbstractServiceFactory implements AbstractFactoryInterface
             $resultSetPrototype->setObjectPrototype($this->getObjectByName($serviceLocator, $config['object']));
         }
 
+        //Setup listeners
         if (isset($config['listeners']) && is_array($config['listeners'])) {
             if ($model instanceof ObservableModel) {
                 /** @var $model ObservableModel */
                 $this->setListeners($serviceLocator, $config['listeners'], $model);
             } else {
-                throw new ServiceNotCreatedException(sprintf(
+                throw new Exception\ServiceNotCreatedException(sprintf(
                     'Instance of model must be a subclass of %s',
                     'Matryoshka\Model\ObservableModel'
                 ));
@@ -182,14 +183,14 @@ class ModelAbstractServiceFactory implements AbstractFactoryInterface
      * @param ServiceLocatorInterface $serviceLocator
      * @param $name
      * @return PaginableCriteriaInterface
-     * @throws Exception\RuntimeException
+     * @throws Exception\ServiceNotCreatedException
      */
     protected function getPaginatorCriteriaByName(ServiceLocatorInterface $serviceLocator, $name)
     {
         /** @var $criteria CriteriaInterface */
         $criteria = $serviceLocator->get($name);
         if (!$criteria instanceof PaginableCriteriaInterface) {
-            throw new Exception\RuntimeException(sprintf(
+            throw new Exception\ServiceNotCreatedException(sprintf(
                 'Instance of type %s is invalid; must implement %s',
                 (is_object($criteria) ? get_class($criteria) : gettype($criteria)),
                 'Matryoshka\Model\Criteria\PaginableCriteriaInterface'
@@ -208,10 +209,9 @@ class ModelAbstractServiceFactory implements AbstractFactoryInterface
     {
         $eventManager = $model->getEventManager();
         foreach ($listeners as $listener) {
-            if ($serviceLocator->has($listener)
-                && $serviceLocator->get($listener) instanceof ListenerAggregateInterface
-            ) {
-                $eventManager->attach($serviceLocator->get($listener));
+            $listenerAggregate = $serviceLocator->get($listener);
+            if ($listenerAggregate instanceof ListenerAggregateInterface) {
+                $eventManager->attach($listenerAggregate);
             } else {
                 throw new Exception\ServiceNotCreatedException(sprintf(
                     'Invalid service "%s" specified in "listeners" model configuration; must be an instance of "%s"',

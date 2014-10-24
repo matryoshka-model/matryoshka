@@ -8,7 +8,6 @@
  */
 namespace MatryoshkaTest\Model\Service;
 
-use Matryoshka\Model\Exception\RuntimeException;
 use Matryoshka\Model\Object\ObjectManager;
 use Matryoshka\Model\ResultSet\ArrayObjectResultSet as ResultSet;
 use Matryoshka\Model\ResultSet\HydratingResultSet;
@@ -72,6 +71,18 @@ class ModelAbstractServiceFactoryTest extends \PHPUnit_Framework_TestCase
                     'resultset' => 'Matryoshka\Model\ResultSet\ResultSet',
                     'type' => 'MatryoshkaTest\Model\Service\TestAsset\MyModel',
                     'paginator_criteria' => '\stdClass'
+                ],
+                'MyModel\InvalidListenerModel' => [
+                    'datagateway' => 'MatryoshkaTest\Model\Service\TestAsset\FakeDataGateway',
+                    'resultset' => 'Matryoshka\Model\ResultSet\ResultSet',
+                    'type' => 'MatryoshkaTest\Model\Service\TestAsset\MyModel',
+                    'listeners' => ['\stdClass']
+                ],
+                'MyModel\InvalidListener' => [
+                    'datagateway' => 'MatryoshkaTest\Model\Service\TestAsset\FakeDataGateway',
+                    'resultset' => 'Matryoshka\Model\ResultSet\ResultSet',
+                    'type' => 'MatryoshkaTest\Model\Service\TestAsset\MyObservableModel',
+                    'listeners' => ['\stdClass']
                 ],
                 'MyModel\Full' => [
                     'datagateway' => 'MatryoshkaTest\Model\Service\TestAsset\FakeDataGateway',
@@ -248,7 +259,7 @@ class ModelAbstractServiceFactoryTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @depends testCreateService
-     * @expectedException RuntimeException
+     * @expectedException \Matryoshka\Model\Exception\ServiceNotCreatedException
      */
     public function testCreateServiceShouldThrowExceptionOnInvalidPaginator()
     {
@@ -259,5 +270,31 @@ class ModelAbstractServiceFactoryTest extends \PHPUnit_Framework_TestCase
             'mymodelinvalidpaginatormodel',
             'MyModel\InvalidPaginatorModel'
         );
+    }
+
+    /**
+     * @depends testCreateService
+     * @expectedException \Matryoshka\Model\Exception\ServiceNotCreatedException
+     */
+    public function testCreateServiceShouldThrowExceptionOnInvalidListenerModel()
+    {
+        $serviceLocator = $this->serviceManager;
+        $factory = new ModelAbstractServiceFactory();
+        $factory->createServiceWithName(
+            $serviceLocator,
+            'mymodelinvalidlistenermodel',
+            'MyModel\InvalidListenerModel'
+        );
+    }
+
+    /**
+     * @depends testCreateService
+     * @expectedException \Matryoshka\Model\Exception\ServiceNotCreatedException
+     */
+    public function testCreateServiceShouldThrowExceptionOnInvalidListener()
+    {
+        $serviceLocator = $this->serviceManager;
+        $factory = new ModelAbstractServiceFactory();
+        $factory->createServiceWithName($serviceLocator, 'mymodelinvalidlistener', 'MyModel\InvalidListener');
     }
 }
