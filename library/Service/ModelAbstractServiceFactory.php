@@ -161,7 +161,7 @@ class ModelAbstractServiceFactory implements AbstractFactoryInterface
             && is_array($config['listeners'])) {
 
             if ($model instanceof \Matryoshka\Model\ObservableModel) {
-                $this->setListener($serviceLocator, $config['listeners'], $model);
+                $this->setListeners($serviceLocator, $config['listeners'], $model);
             } else {
                 throw new ServiceNotCreatedException(('Instance of model must be a subclass of Matryoshka\Model\ObservableModel'));
             }
@@ -215,7 +215,7 @@ class ModelAbstractServiceFactory implements AbstractFactoryInterface
      * @param ObservableModel $model
      * @throws ServiceNotCreatedException
      */
-    protected function setListener(ServiceLocatorInterface $serviceLocator, array $listeners, ObservableModel $model)
+    protected function setListeners(ServiceLocatorInterface $serviceLocator, array $listeners, ObservableModel $model)
     {
         $eventManager = $model->getEventManager();
         foreach ($listeners as $listener) {
@@ -225,7 +225,8 @@ class ModelAbstractServiceFactory implements AbstractFactoryInterface
                 $eventManager->attach($serviceLocator->get($listener));
             } else {
                 throw new ServiceNotCreatedException(
-                    sprintf('Listener %s model must be setting in service manager and must be an instance og %s',
+                    sprintf(
+                        'Invalid service "%s" specified in "listeners" model configuration; must be an instance of "%s"',
                         $listener,
                         'Zend\EventManager\ListenerAggregateInterface'
                     )
