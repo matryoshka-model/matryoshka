@@ -15,6 +15,7 @@ use Matryoshka\Model\Service\ModelAbstractServiceFactory;
 use MatryoshkaTest\Model\Service\TestAsset\DomainObject;
 use MatryoshkaTest\Model\Service\TestAsset\FakeDataGateway;
 use MatryoshkaTest\Model\Service\TestAsset\PaginatorCriteria;
+use Zend\EventManager\ListenerAggregateInterface;
 use Zend\InputFilter\InputFilter;
 use Zend\InputFilter\InputFilterPluginManager;
 use Zend\Mvc\Service\ServiceManagerConfig;
@@ -59,7 +60,17 @@ class ModelAbstractServiceFactoryTest extends \PHPUnit_Framework_TestCase
                     'resultset' => 'Matryoshka\Model\ResultSet\HydratingResultSet',
                     'object' => 'ArrayObject',
                     'hydrator' => 'Zend\Stdlib\Hydrator\ArraySerializable',
+                    'type' => 'MatryoshkaTest\Model\Service\TestAsset\MyObservableModel'
+                ],
+                'MyModel\OL' => [
+                    'datagateway' => 'MatryoshkaTest\Model\Service\TestAsset\FakeDataGateway',
+                    'resultset' => 'Matryoshka\Model\ResultSet\HydratingResultSet',
+                    'object' => 'ArrayObject',
+                    'hydrator' => 'Zend\Stdlib\Hydrator\ArraySerializable',
                     'type' => 'MatryoshkaTest\Model\Service\TestAsset\MyObservableModel',
+                    'listeners' => [
+                        'ListenerAggregateMockedAsset'
+                    ]
                 ],
                 'MyModel\InvalidTypeModel' => [
                     'datagateway' => 'MatryoshkaTest\Model\Service\TestAsset\FakeDataGateway',
@@ -113,6 +124,10 @@ class ModelAbstractServiceFactoryTest extends \PHPUnit_Framework_TestCase
         $sm->setService('stdClass', new \stdClass);
         $sm->setService('ArrayObject', new \ArrayObject);
         $sm->setService('DomainObject', $objectPrototype);
+        $sm->setService(
+            'ListenerAggregateMockedAsset',
+            $this->getMockForAbstractClass('Zend\EventManager\ListenerAggregateInterface', ['attach'])
+        );
     }
 
     /**
@@ -169,6 +184,15 @@ class ModelAbstractServiceFactoryTest extends \PHPUnit_Framework_TestCase
 
         $modelB = $serviceLocator->get('MyModel\B');
         $this->assertInstanceOf('\MatryoshkaTest\Model\Service\TestAsset\MyModel', $modelB);
+
+        $listenerAggregate = $serviceLocator->get('ListenerAggregateMockedAsset');
+        $listenerAggregate->expects($this->atLeastOnce())
+                          ->method('attach')
+                          ->with($this->isInstanceOf('Zend\EventManager\EventManagerInterface'));
+
+        $modelOL = $serviceLocator->get('MyModel\OL');
+        $this->assertInstanceOf('\Matryoshka\Model\ObservableModel', $modelOL);
+        // TODO: test that listener (for a given event that have to be set) has been really registered
 
         $modelO = $serviceLocator->get('MyModel\O');
         $this->assertInstanceOf('\Matryoshka\Model\ObservableModel', $modelO);

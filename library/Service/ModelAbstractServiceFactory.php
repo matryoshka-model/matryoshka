@@ -149,7 +149,7 @@ class ModelAbstractServiceFactory implements AbstractFactoryInterface
         if (isset($config['listeners']) && is_array($config['listeners'])) {
             if ($model instanceof ObservableModel) {
                 /** @var $model ObservableModel */
-                $this->setListeners($serviceLocator, $config['listeners'], $model);
+                $this->injectListeners($serviceLocator, $config['listeners'], $model);
             } else {
                 throw new Exception\ServiceNotCreatedException(sprintf(
                     'Instance of model must be a subclass of %s',
@@ -205,8 +205,11 @@ class ModelAbstractServiceFactory implements AbstractFactoryInterface
      * @param ObservableModel $model
      * @throws Exception\ServiceNotCreatedException
      */
-    protected function setListeners(ServiceLocatorInterface $serviceLocator, array $listeners, ObservableModel $model)
-    {
+    protected function injectListeners(
+        ServiceLocatorInterface $serviceLocator,
+        array $listeners,
+        ObservableModel $model
+    ) {
         $eventManager = $model->getEventManager();
         foreach ($listeners as $listener) {
             $listenerAggregate = $serviceLocator->get($listener);
