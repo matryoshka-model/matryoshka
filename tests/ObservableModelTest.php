@@ -58,9 +58,12 @@ class ObservableModelTest extends ModelTest
         $preEventCalled = false;
         $postEventCallend = false;
 
-        $this->model->getEventManager()->attach('find.pre', function ($e) use (&$preEventCalled) {
+        $listener = $this->model->getEventManager()->attach('find.pre', function ($e) use (&$preEventCalled) {
                 /** @var $e ModelEvent */
                 $e->stopPropagation();
+                $resultSet = clone $e->getTarget()->getResultSetPrototype();
+                $resultSet->initialize([]);
+                return $resultSet;
         });
 
         $mockCriteria = new MockCriteria();
@@ -77,6 +80,19 @@ class ObservableModelTest extends ModelTest
         $this->assertCount(0, $resultset);
         $this->assertTrue($preEventCalled);
         $this->assertFalse($postEventCallend);
+
+
+        //Test exception
+        $this->model->getEventManager()->detach($listener);
+        $this->model->getEventManager()->attach('find.pre', function ($e) use (&$preEventCalled) {
+            /** @var $e ModelEvent */
+            $e->stopPropagation();
+            return 'invalid response';
+        });
+
+        $this->setExpectedException('\Matryoshka\Model\Exception\RuntimeException');
+        $resultset = $this->model->find($mockCriteria);
+
     }
 
     /**
@@ -110,9 +126,10 @@ class ObservableModelTest extends ModelTest
         $preEventCalled = false;
         $postEventCallend = false;
 
-        $this->model->getEventManager()->attach('save.pre', function ($e) use (&$preEventCalled) {
+        $listener = $this->model->getEventManager()->attach('save.pre', function ($e) use (&$preEventCalled) {
                 /** @var $e ModelEvent */
                 $e->stopPropagation();
+                return 1;
         });
 
         $mockCriteria = $this->getMock(
@@ -120,9 +137,20 @@ class ObservableModelTest extends ModelTest
             ['applyWrite']
         );
 
-        $this->assertNull($this->model->save($mockCriteria, $data));
+        $this->assertEquals(1, $this->model->save($mockCriteria, $data));
         $this->assertTrue($preEventCalled);
         $this->assertFalse($postEventCallend);
+
+        //Test exception
+        $this->model->getEventManager()->detach($listener);
+        $this->model->getEventManager()->attach('save.pre', function ($e) use (&$preEventCalled) {
+            /** @var $e ModelEvent */
+            $e->stopPropagation();
+            return 'invalid response';
+        });
+
+        $this->setExpectedException('\Matryoshka\Model\Exception\RuntimeException');
+        $resultset = $this->model->save($mockCriteria, $data);
     }
 
     public function testDelete()
@@ -153,9 +181,10 @@ class ObservableModelTest extends ModelTest
         $preEventCalled = false;
         $postEventCallend = false;
 
-        $this->model->getEventManager()->attach('delete.pre', function ($e) use (&$preEventCalled) {
+        $listener = $this->model->getEventManager()->attach('delete.pre', function ($e) use (&$preEventCalled) {
                 /** @var $e ModelEvent */
                 $e->stopPropagation();
+                return 1;
         });
 
         $mockCriteria = $this->getMock(
@@ -163,8 +192,19 @@ class ObservableModelTest extends ModelTest
             ['applyDelete']
         );
 
-        $this->assertNull($this->model->delete($mockCriteria));
+        $this->assertEquals(1, $this->model->delete($mockCriteria));
         $this->assertTrue($preEventCalled);
         $this->assertFalse($postEventCallend);
+
+        //Test exception
+        $this->model->getEventManager()->detach($listener);
+        $this->model->getEventManager()->attach('delete.pre', function ($e) use (&$preEventCalled) {
+            /** @var $e ModelEvent */
+            $e->stopPropagation();
+            return 'invalid response';
+        });
+
+        $this->setExpectedException('\Matryoshka\Model\Exception\RuntimeException');
+        $resultset = $this->model->delete($mockCriteria);
     }
 }
