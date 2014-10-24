@@ -8,7 +8,6 @@
  */
 namespace Matryoshka\Model\Service;
 
-use Exception\ServiceNotCreatedException;
 use Matryoshka\Model\Criteria\CriteriaInterface;
 use Matryoshka\Model\Criteria\PaginableCriteriaInterface;
 use Matryoshka\Model\Exception;
@@ -102,10 +101,7 @@ class ModelAbstractServiceFactory implements AbstractFactoryInterface
 
         //Create a model instance
         $class = $this->modelClass;
-        if (isset($config['type'])
-            && is_string($config['type'])
-            && !empty($config['type'])
-        ) {
+        if (isset($config['type']) && is_string($config['type']) && !empty($config['type'])) {
 
             if (!is_subclass_of($config['type'], $class)) {
                 throw new Exception\UnexpectedValueException('type must be a subclass of ' . $class);
@@ -119,10 +115,7 @@ class ModelAbstractServiceFactory implements AbstractFactoryInterface
 
         //Setup Hydrator
         $hydrator = null;
-        if (isset($config['hydrator'])
-            && is_string($config['hydrator'])
-            && !empty($config['hydrator'])
-        ) {
+        if (isset($config['hydrator']) && is_string($config['hydrator']) && !empty($config['hydrator'])) {
             $hydrator = $this->getHydratorByName($serviceLocator, $config['hydrator']);
             $model->setHydrator($hydrator);
         }
@@ -132,10 +125,7 @@ class ModelAbstractServiceFactory implements AbstractFactoryInterface
         }
 
         //Setup InputFilter
-        if (isset($config['input_filter'])
-            && is_string($config['input_filter'])
-            && !empty($config['input_filter'])
-        ) {
+        if (isset($config['input_filter']) && is_string($config['input_filter']) && !empty($config['input_filter'])) {
             $model->setInputFilter($this->getInputFilterByName($serviceLocator, $config['input_filter']));
         }
 
@@ -151,10 +141,7 @@ class ModelAbstractServiceFactory implements AbstractFactoryInterface
         }
 
         //Setup Object Prototype
-        if (isset($config['object'])
-            && is_string($config['object'])
-            && !empty($config['object'])
-        ) {
+        if (isset($config['object']) && is_string($config['object']) && !empty($config['object'])) {
             $resultSetPrototype->setObjectPrototype($this->getObjectByName($serviceLocator, $config['object']));
         }
 
@@ -215,7 +202,7 @@ class ModelAbstractServiceFactory implements AbstractFactoryInterface
      * @param ServiceLocatorInterface $serviceLocator
      * @param array $listeners
      * @param ObservableModel $model
-     * @throws ServiceNotCreatedException
+     * @throws Exception\ServiceNotCreatedException
      */
     protected function setListeners(ServiceLocatorInterface $serviceLocator, array $listeners, ObservableModel $model)
     {
@@ -226,7 +213,7 @@ class ModelAbstractServiceFactory implements AbstractFactoryInterface
             ) {
                 $eventManager->attach($serviceLocator->get($listener));
             } else {
-                throw new ServiceNotCreatedException(sprintf(
+                throw new Exception\ServiceNotCreatedException(sprintf(
                     'Invalid service "%s" specified in "listeners" model configuration; must be an instance of "%s"',
                     $listener,
                     'Zend\EventManager\ListenerAggregateInterface'

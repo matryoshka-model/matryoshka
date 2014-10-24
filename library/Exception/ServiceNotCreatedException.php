@@ -6,9 +6,8 @@
  * @copyright   Copyright (c) 2014, Ripa Club
  * @license     http://opensource.org/licenses/BSD-2-Clause Simplified BSD License
  */
-namespace Exception;
+namespace Matryoshka\Model\Exception;
 
-use Matryoshka\Model\Exception\ExceptionInterface;
 use Zend\ServiceManager\Exception\ServiceNotCreatedException as ZendServiceNotCreatedException;
 
 /**
