@@ -18,16 +18,34 @@ class AbstractCriteriaTest extends \PHPUnit_Framework_TestCase
         $this->criteria = new ConcreteCriteria();
     }
 
-    public function testLimit()
+    public function testGetSetLimit()
     {
-        $this->assertInstanceOf('\MatryoshkaTest\Model\Criteria\TestAsset\ConcreteCriteria', $this->criteria->limit(10));
-        $this->assertAttributeEquals(10, 'limit', $this->criteria);
+        $this->assertNull($this->criteria->getLimit()); //Test default
+
+        $limit = 10;
+        $this->assertInstanceOf('\MatryoshkaTest\Model\Criteria\TestAsset\ConcreteCriteria', $this->criteria->setLimit($limit));
+        $this->assertAttributeEquals($limit, 'limit', $this->criteria);
+        $this->assertSame($limit, $this->criteria->getLimit());
+
+        $limit = null;
+        $this->assertInstanceOf('\MatryoshkaTest\Model\Criteria\TestAsset\ConcreteCriteria', $this->criteria->setLimit($limit));
+        $this->assertAttributeEquals($limit, 'limit', $this->criteria);
+        $this->assertSame($limit, $this->criteria->getLimit());
     }
 
-    public function testOffset()
+    public function testGetSetOffset()
     {
-        $this->assertInstanceOf('\MatryoshkaTest\Model\Criteria\TestAsset\ConcreteCriteria', $this->criteria->offset(20));
-        $this->assertAttributeEquals(20, 'offset', $this->criteria);
+        $this->assertNull($this->criteria->getOffset()); //Test default
+
+        $offset = 20;
+        $this->assertInstanceOf('\MatryoshkaTest\Model\Criteria\TestAsset\ConcreteCriteria', $this->criteria->setOffset($offset));
+        $this->assertAttributeEquals($offset, 'offset', $this->criteria);
+        $this->assertSame($offset, $this->criteria->getOffset());
+
+        $offset = null;
+        $this->assertInstanceOf('\MatryoshkaTest\Model\Criteria\TestAsset\ConcreteCriteria', $this->criteria->setOffset($offset));
+        $this->assertAttributeEquals($offset, 'offset', $this->criteria);
+        $this->assertSame($offset, $this->criteria->getOffset());
     }
 
 }

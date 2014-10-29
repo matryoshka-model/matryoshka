@@ -8,7 +8,6 @@
  */
 namespace Matryoshka\Model\Criteria;
 
-use Matryoshka\Model\Exception;
 use Matryoshka\Model\ModelInterface;
 
 /**
@@ -18,40 +17,65 @@ abstract class AbstractCriteria implements ReadableCriteriaInterface
 {
     /**
      * Limit
+     *
      * @var int
      */
     protected $limit;
 
     /**
      * Offset
+     *
      * @var int
      */
     protected $offset;
 
     /**
-     * Limit
-     * @param int $limit
+     * Set limit
+     *
+     * @param int|null $limit
      * @return $this
      */
-    public function limit($limit)
+    public function setLimit($limit)
     {
-        $this->limit = (int)$limit;
+        $this->limit = $limit === null ? null : (int) $limit;
         return $this;
     }
 
     /**
-     * Offset
-     * @param int $offset
+     * Get limit
+     *
+     * @return int|null
+     */
+    public function getLimit()
+    {
+        return $this->limit;
+    }
+
+    /**
+     * Set offset
+     *
+     * @param int|null $offset
      * @return $this
      */
-    public function offset($offset)
+    public function setOffset($offset)
     {
-        $this->offset = (int)$offset;
+        $this->offset = $offset === null ? null : (int) $offset;
         return $this;
+    }
+
+    /**
+     * Get offset
+     *
+     * @return int|null
+     */
+    public function getOffset()
+    {
+        return $this->offset;
     }
 
     /**
      * Apply
+     *
      * @param ModelInterface $model
      * @return mixed
      */
