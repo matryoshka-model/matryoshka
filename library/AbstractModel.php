@@ -146,25 +146,37 @@ abstract class AbstractModel implements
      *
      * @param WritableCriteriaInterface $criteria
      * @param HydratorAwareInterface|object|array $dataOrObject
+     * @throws Exception\InvalidArgumentException
      * @throws Exception\RuntimeException
      * @return null|int
      */
     public function save(WritableCriteriaInterface $criteria, $dataOrObject)
     {
-        if ($dataOrObject instanceof ModelAwareInterface) {
-            $dataOrObject->setModel($this);
-        }
-
+        $isObject = is_object($dataOrObject);
         $hydrator = $this->getHydrator();
 
-        if (!$hydrator && ($dataOrObject instanceof HydratorAwareInterface)) {
-            $hydrator = $dataOrObject->getHydrator();
+        if ($isObject) {
+            $objectPrototype = $this->getObjectPrototype();
+            if (!$dataOrObject instanceof $objectPrototype) {
+                throw new Exception\InvalidArgumentException(sprintf(
+                    '$dataOrObject with type "%s" is not valid for this model, expected an instance of "%s"',
+                    get_class($dataOrObject),
+                    get_class($objectPrototype)
+                ));
+            }
+
+            if ($dataOrObject instanceof ModelAwareInterface) {
+                $dataOrObject->setModel($this);
+            }
+
+            if (!$hydrator && ($dataOrObject instanceof HydratorAwareInterface)) {
+                $hydrator = $dataOrObject->getHydrator();
+            }
         }
 
-        if ($hydrator && is_object($dataOrObject)) {
+        if ($hydrator && $isObject) {
             $data = $hydrator->extract($dataOrObject);
         } else {
-
             if (is_array($dataOrObject)) {
                 $data = $dataOrObject;
             } elseif (method_exists($dataOrObject, 'toArray')) {
@@ -172,11 +184,10 @@ abstract class AbstractModel implements
             } elseif (method_exists($dataOrObject, 'getArrayCopy')) {
                 $data = $dataOrObject->getArrayCopy();
             } else {
-                throw new Exception\RuntimeException(
-                    'dataOrObject with type ' .
-                    gettype($dataOrObject) .
-                    ' cannot be casted to an array'
-                );
+                throw new Exception\InvalidArgumentException(sprintf(
+                    '$dataOrObject with type "%s" cannot be casted to an array',
+                    gettype($dataOrObject)
+                ));
             }
 
             if ($hydrator) {
@@ -187,8 +198,9 @@ abstract class AbstractModel implements
                     );
                 }
                 $data = [];
+                $context = $isObject ? $dataOrObject : (object) $dataOrObject;
                 foreach ($dataOrObject as $key => $value) {
-                    $data[$key] = $hydrator->extractValue($key, $value, $dataOrObject);
+                    $data[$key] = $hydrator->extractValue($key, $value, $context);
                 }
 
             }
@@ -200,7 +212,7 @@ abstract class AbstractModel implements
             $result = null;
         }
 
-        if ($result && $hydrator && is_object($dataOrObject)) {
+        if ($result && $hydrator && $isObject) {
             $hydrator->hydrate($data, $dataOrObject);
         }
 

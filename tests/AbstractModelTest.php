@@ -20,6 +20,7 @@ use Zend\Stdlib\Hydrator\ArraySerializable;
 use MatryoshkaTest\Model\TestAsset\ActiveRecordObject;
 use Matryoshka\Model\ModelAwareInterface;
 use Matryoshka\Model\ResultSet\HydratingResultSet;
+use Zend\Stdlib\Hydrator\HydratorAwareInterface;
 
 /**
  * Class AbstractModelTest
@@ -202,8 +203,15 @@ class AbstractModelTest extends \PHPUnit_Framework_TestCase
     /**
      * @dataProvider saveDataProvider
      */
-    public function testSave($data, $expected, $hydrator = null)
+    public function testSave($data, $expected, $hydrator = null, $objectPrototype = null)
     {
+        if ($objectPrototype) {
+            if ($objectPrototype instanceof HydratorAwareInterface) {
+                $this->setResultSetPrototype(new HydratingResultSet);
+            }
+            $this->model->getResultSetPrototype()->setObjectPrototype($objectPrototype);
+        }
+
         $mockCriteria = $this->getMock(
             '\Matryoshka\Model\Criteria\WritableCriteriaInterface',
             ['applyWrite']
@@ -236,16 +244,23 @@ class AbstractModelTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @dataProvider saveExceptionDataProvider
-     * @expectedException \Matryoshka\Model\Exception\RuntimeException
      */
-    public function testSaveRuntimeException($data, $hydrator = null)
+    public function testSaveException($data, $hydrator = null, $objectPrototype = null, $exceptionName = '\Matryoshka\Model\Exception\InvalidArgumentException')
     {
         $mockCriteria = $this->getMock('\Matryoshka\Model\Criteria\WritableCriteriaInterface');
+
+        if ($objectPrototype) {
+            if ($objectPrototype instanceof HydratorAwareInterface) {
+                $this->setResultSetPrototype(new HydratingResultSet);
+            }
+            $this->model->getResultSetPrototype()->setObjectPrototype($objectPrototype);
+        }
 
         if ($hydrator) {
             $this->model->setHydrator($hydrator);
         }
 
+        $this->setExpectedException($exceptionName);
         $this->model->save($mockCriteria, $data);
     }
 
@@ -281,11 +296,11 @@ class AbstractModelTest extends \PHPUnit_Framework_TestCase
         return [
             [['foo' => 'bar'], ['foo' => 'bar']],
             [['foo' => 'bar'], ['foo' => 'bar'], new ArraySerializable()],
-            [new ToArrayObject(['foo' => 'bar']), ['foo' => 'bar']],
+            [new ToArrayObject(['foo' => 'bar']), ['foo' => 'bar'], null, new ToArrayObject],
             [new \ArrayObject(['foo' => 'bar']), ['foo' => 'bar']],
             [new HydratorAwareObject(['foo' => 'bar']), ['foo' => 'bar']],
             [new \ArrayObject(['foo' => 'bar']), ['foo' => 'bar'], new ArraySerializable()],
-            [new ActiveRecordObject(), ['id' => null]]
+            [new ActiveRecordObject(), ['id' => null], null, new ActiveRecordObject]
         ];
     }
 
@@ -298,8 +313,9 @@ class AbstractModelTest extends \PHPUnit_Framework_TestCase
     public function saveExceptionDataProvider()
     {
         return [
-            ['Yak'],
-            [['Yak'], new HydratorObject()]
+            [new \ArrayObject, null, new ActiveRecordObject], //$dataOrObject is not an instance of ActiveRecordObject
+            ['invalid dataOrObject type'],
+            [['Yak'], new HydratorObject(), null, '\Matryoshka\Model\Exception\RuntimeException']
         ];
     }
 

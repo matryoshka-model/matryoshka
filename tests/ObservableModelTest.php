@@ -98,7 +98,7 @@ class ObservableModelTest extends ModelTest
     /**
      * @dataProvider saveDataProvider
      */
-    public function testSave($data, $expected, $hydrator = null)
+    public function testSave($data, $expected, $hydrator = null, $objectPrototype = null)
     {
         $preEventCalled = false;
         $postEventCallend = false;
@@ -117,7 +117,7 @@ class ObservableModelTest extends ModelTest
                 $this->assertInstanceOf('\Matryoshka\Model\Criteria\WritableCriteriaInterface', $e->getCriteria());
         });
 
-        parent::testSave($data, $expected, $hydrator);
+        parent::testSave($data, $expected, $hydrator, $objectPrototype);
 
         $this->assertTrue($preEventCalled);
         $this->assertTrue($postEventCallend);

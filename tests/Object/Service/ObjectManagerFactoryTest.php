@@ -23,6 +23,9 @@ class ObjectManagerFactoryTest extends \PHPUnit_Framework_TestCase
                 'object_manager' => [
                     'invokables' => [
                         'test' => 'stdClass'
+                    ],
+                    'aliases' => [
+                        'test-alias' => 'test',
                     ]
                 ]
             ]
@@ -42,6 +45,9 @@ class ObjectManagerFactoryTest extends \PHPUnit_Framework_TestCase
 
         $this->assertTrue($objectManager->has('test'));
         $this->assertInstanceOf('stdClass', $objectManager->get('test'));
+
+        $this->assertTrue($objectManager->has('test-alias'));
+        $this->assertInstanceOf('stdClass', $objectManager->get('test-alias'));
 
     }
 }

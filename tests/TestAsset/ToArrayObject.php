@@ -24,4 +24,9 @@ class ToArrayObject
     {
         return $this->data;
     }
+
+    public function exchangeArray(array $data)
+    {
+        $this->data = $data;
+    }
 }
