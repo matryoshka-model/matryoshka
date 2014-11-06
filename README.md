@@ -16,7 +16,7 @@ Matryoshka doesn't provide a persistence layer implementation itself, but it can
 
 Think a criteria as a small piece of code that tell to the datagateway how to perform an operation on your dataset: for example filter some rows. So, each criteria represent a simple task: different kind of criteria interfaces are defined for write, read and delete operations. Also, in concrete criteria classes, the developer can add methods to augment the "query interface" with domain specific logic.
 
-A concrete criteria class acts both as a criterion defining an query interface and also as mediator between model and datagateway [mediators](http://en.wikipedia.org/wiki/Mediator_pattern). Only criteria classes performs operations against the datagateway interface, instead Matryoshka's components do not.
+A concrete criteria class acts both as a criterion defining a query interface and also as [mediator](http://en.wikipedia.org/wiki/Mediator_pattern) between model layer and datagateway. Only criteria classes performs operations against the datagateway interface, instead Matryoshka's components do not.
 
 So Matryoska is unawareness about the datagateway interface, that makes it working with any kind of third-party datagateway implementation.
 
