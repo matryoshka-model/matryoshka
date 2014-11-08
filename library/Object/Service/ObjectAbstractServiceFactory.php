@@ -9,11 +9,8 @@
 namespace Matryoshka\Model\Object\Service;
 
 use Matryoshka\Model\Criteria\ActiveRecord\AbstractCriteria;
-use Matryoshka\Model\Criteria\CriteriaInterface;
 use Matryoshka\Model\Exception;
-use Matryoshka\Model\ModelAwareInterface;
-use Matryoshka\Model\ModelInterface;
-use Matryoshka\Model\Object\AbstractActiveRecord;
+use Matryoshka\Model\Object\ActiveRecord\AbstractActiveRecord;
 use Matryoshka\Model\Service\AbstractServiceFactoryTrait;
 use Zend\InputFilter\InputFilterAwareInterface;
 use Zend\ServiceManager\AbstractFactoryInterface;

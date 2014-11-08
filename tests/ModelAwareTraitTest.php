@@ -36,6 +36,7 @@ class ModelAwareTraitTest extends \PHPUnit_Framework_TestCase
 
     public function testGetModel()
     {
+        $this->assertNull($this->traitObject->getModel());
         $this->traitObject->setModel($this->modelMock);
         $this->assertEquals($this->modelMock, $this->traitObject->getModel());
     }

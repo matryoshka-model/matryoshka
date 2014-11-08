@@ -1,7 +1,6 @@
 <?php
-namespace MatryoshkaTest\Model\Object;
+namespace MatryoshkaTest\Model\Object\ActiveRecord;
 
-use MatryoshkaModelWrapperMongoTest\Object\TestAsset\MongoObject;
 use MatryoshkaTest\Model\TestAsset\ActiveRecordObject;
 use MatryoshkaTest\Model\Criteria\ActiveRecord\TestAsset\ConcreteCriteria;
 

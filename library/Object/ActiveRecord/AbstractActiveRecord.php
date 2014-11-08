@@ -6,7 +6,7 @@
  * @copyright   Copyright (c) 2014, Copyright (c) 2014, Ripa Club
  * @license     http://opensource.org/licenses/BSD-2-Clause Simplified BSD License
  */
-namespace Matryoshka\Model\Object;
+namespace Matryoshka\Model\Object\ActiveRecord;
 
 use Matryoshka\Model\Exception;
 use Matryoshka\Model\ModelAwareInterface;
@@ -14,6 +14,7 @@ use Matryoshka\Model\ModelInterface;
 use Matryoshka\Model\AbstractModel;
 use Matryoshka\Model\Criteria\ActiveRecord\AbstractCriteria;
 use Matryoshka\Model\ModelAwareTrait;
+use Matryoshka\Model\Object\AbstractObject;
 
 /**
  *

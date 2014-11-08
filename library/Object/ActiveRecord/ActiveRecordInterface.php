@@ -6,7 +6,9 @@
  * @copyright   Copyright (c) 2014, Ripa Club
  * @license     http://opensource.org/licenses/BSD-2-Clause Simplified BSD License
  */
-namespace Matryoshka\Model\Object;
+namespace Matryoshka\Model\Object\ActiveRecord;
+
+use Matryoshka\Model\Object\IdentityAwareInterface;
 
 /**
  * Interface ActiveRecordInterface
