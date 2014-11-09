@@ -15,6 +15,7 @@ use Matryoshka\Model\AbstractModel;
 use Matryoshka\Model\Criteria\ActiveRecord\AbstractCriteria;
 use Matryoshka\Model\ModelAwareTrait;
 use Matryoshka\Model\Object\AbstractObject;
+use Matryoshka\Model\Object\InitializableInterface;
 
 /**
  *
@@ -40,10 +41,9 @@ abstract class AbstractActiveRecord extends AbstractObject implements
      */
     public function setActiveRecordCriteriaPrototype(AbstractCriteria $criteria)
     {
-        $this->activeRecordCriteriaPrototype = $criteria;
+        $this->activeRecordCriteriaPrototype = clone $criteria;
         return $this;
     }
-
 
     /**
      * Set Model
@@ -78,7 +78,7 @@ abstract class AbstractActiveRecord extends AbstractObject implements
             throw new Exception\RuntimeException('A Model must be set prior to calling save()');
         }
 
-        $criteria = clone $this->activeRecordCriteriaPrototype;
+        $criteria = $this->activeRecordCriteriaPrototype;
         $criteria->setId($this->getId());
         $result = $this->getModel()->save($criteria, $this);
         return $result;
@@ -104,7 +104,7 @@ abstract class AbstractActiveRecord extends AbstractObject implements
             throw new Exception\RuntimeException('A Model must be set prior to calling delete()');
         }
 
-        $criteria = clone $this->activeRecordCriteriaPrototype;
+        $criteria = $this->activeRecordCriteriaPrototype;
         $criteria->setId($this->getId());
         $result = $this->getModel()->delete($criteria);
         return $result;

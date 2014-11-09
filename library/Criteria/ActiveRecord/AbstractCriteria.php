@@ -39,7 +39,7 @@ abstract class AbstractCriteria implements
     /**
      * Get Id
      * @return mixed
-    */
+     */
     public function getId()
     {
         if (!$this->id) {

@@ -161,10 +161,10 @@ class ObjectAbstractServiceFactoryTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf('\MatryoshkaTest\Model\TestAsset\ActiveRecordObject', $objectFull);
         $this->assertSame($serviceLocator->get('Zend\Stdlib\Hydrator\ObjectProperty'), $objectFull->getHydrator());
         $this->assertSame($serviceLocator->get('Zend\InputFilter\InputFilter'), $objectFull->getInputFilter());
-        $this->assertSame(
+        $this->assertAttributeEquals(
             $serviceLocator->get('MatryoshkaTest\Model\Criteria\ActiveRecord\TestAsset\ConcreteCriteria'),
-            $objectFull->getActiveRecordCriteriaPrototype()
-        );
+            'activeRecordCriteriaPrototype',
+            $objectFull);
     }
 
     /**
@@ -228,9 +228,9 @@ class ObjectAbstractServiceFactoryTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf('\MatryoshkaTest\Model\TestAsset\ActiveRecordObject', $objectFull);
         $this->assertSame($serviceLocator->get('Zend\Stdlib\Hydrator\ObjectProperty'), $objectFull->getHydrator());
         $this->assertSame($serviceLocator->get('Zend\InputFilter\InputFilter'), $objectFull->getInputFilter());
-        $this->assertSame(
+        $this->assertAttributeEquals(
             $serviceLocator->get('MatryoshkaTest\Model\Criteria\ActiveRecord\TestAsset\ConcreteCriteria'),
-            $objectFull->getActiveRecordCriteriaPrototype()
-        );
+            'activeRecordCriteriaPrototype',
+            $objectFull);
     }
 }
