@@ -9,12 +9,12 @@
 namespace Matryoshka\Model\Hydrator\Strategy;
 
 use DateTime;
-use Zend\Stdlib\Hydrator\Strategy\DefaultStrategy;
+use Zend\Stdlib\Hydrator\Strategy\StrategyInterface;
 
 /**
  * Class DateTimeStrategy
  */
-class DateTimeStrategy extends DefaultStrategy
+class DateTimeStrategy implements StrategyInterface
 {
     /**
      * @var string
@@ -38,7 +38,6 @@ class DateTimeStrategy extends DefaultStrategy
     public function hydrate($value)
     {
         if (is_string($value)) {
-
             $value = new DateTime($value);
         }
 
@@ -48,9 +47,9 @@ class DateTimeStrategy extends DefaultStrategy
     public function extract($value)
     {
         if ($value instanceof DateTime) {
-
             $value = $value->format($this->getFormat());
         }
+
         return $value;
     }
 
