@@ -45,7 +45,7 @@ class DateTimeStrategyTest extends \PHPUnit_Framework_TestCase
         $this->assertInternalType('string', $extractedValue);
         $this->assertSame('2014-11-11T11:11:11+0100', $extractedValue);
 
-        $extractedValue = $strategy->hydrate(null);
+        $extractedValue = $strategy->extract(null);
         $this->assertNull($extractedValue);
     }
 }

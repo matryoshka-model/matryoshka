@@ -55,7 +55,6 @@ class SetTypeStrategy implements StrategyInterface
             return null;
         }
         settype($value, $this->extractToType);
-
         return $value;
     }
 

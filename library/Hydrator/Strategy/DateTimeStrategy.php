@@ -19,11 +19,10 @@ class DateTimeStrategy implements StrategyInterface
     /**
      * @var string
      */
-    protected $format;
+    protected $format = DateTime::ISO8601;
 
     public function __construct($format = null)
     {
-        $this->setFormat(DateTime::ISO8601);
         if($format !== null) {
             $this->setFormat($format);
         }
@@ -31,26 +30,30 @@ class DateTimeStrategy implements StrategyInterface
 
     /**
      * {@inheritdoc}
-     *
      * Convert a string value into a DateTime object
-     * @return DateTime
+     *
+     * @return DateTime|null
      */
     public function hydrate($value)
     {
         if (is_string($value)) {
-            $value = new DateTime($value);
+            return DateTime::createFromFormat($this->getFormat(), $value);
         }
-
-        return $value;
+        return null;
     }
 
+    /**
+     * {@inheritdoc}
+     * Convert a DateTime object into a string
+     *
+     * @return string|null
+     */
     public function extract($value)
     {
         if ($value instanceof DateTime) {
-            $value = $value->format($this->getFormat());
+            return $value->format($this->getFormat());
         }
-
-        return $value;
+        return null;
     }
 
     /**
