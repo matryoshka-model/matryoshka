@@ -9,13 +9,14 @@
 namespace Matryoshka\Model\ResultSet;
 
 use Countable;
+use Iterator;
 use Matryoshka\Model\Exception\InvalidArgumentException;
-use Traversable;
+
 
 /**
  * Interface ResultSetInterface
  */
-interface ResultSetInterface extends Traversable, Countable
+interface ResultSetInterface extends Iterator, Countable
 {
 
     /**
