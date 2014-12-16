@@ -14,6 +14,7 @@ use Matryoshka\Model\Criteria\WritableCriteriaInterface;
 use Matryoshka\Model\Exception;
 use Zend\EventManager\EventManagerAwareInterface;
 use Zend\EventManager\EventManagerAwareTrait;
+use Matryoshka\Model\ResultSet\ResultSetInterface;
 
 /**
  * Class ObservableModel
@@ -49,23 +50,24 @@ class ObservableModel extends Model implements EventManagerAwareInterface
 
         if ($results->stopped()) {
             $last = $results->last();
-            $resultSetPrototype = $this->getResultSetPrototype();
-            if (!$last instanceof $resultSetPrototype) {
+            if (!$last instanceof ResultSetInterface) {
                 throw new Exception\RuntimeException(sprintf(
                     '%s expects that last event response is a "%s"; received "%s"',
                     __METHOD__,
-                    get_class($resultSetPrototype),
+                    'Matryoshka\Model\ResultSet\ResultSetInterface',
                     is_object($last) ? get_class($last) : gettype($last)
                 ));
             }
             return $last;
         }
 
-        $return = parent::find($criteria);
-        $event->setResultSet($return);
+        $event->setResultSet(parent::find($criteria));
 
-        $this->getEventManager()->trigger(ModelEvent::EVENT_FIND_POST, $event);
-        return $return;
+        $results = $this->getEventManager()->trigger(ModelEvent::EVENT_FIND_POST, $event);
+
+        // If EVENT_FIND_POST changed the resultSet, make sure
+        // we return this new resultSet
+        return $event->getResultSet();
     }
 
     /**
