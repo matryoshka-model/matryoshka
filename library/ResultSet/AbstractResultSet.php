@@ -16,7 +16,7 @@ use Matryoshka\Model\Exception;
 /**
  * Class AbstractResultSet
  */
-abstract class AbstractResultSet implements Iterator, ResultSetInterface
+abstract class AbstractResultSet implements ResultSetInterface
 {
     /**
      * @var Iterator|IteratorAggregate
@@ -85,7 +85,7 @@ abstract class AbstractResultSet implements Iterator, ResultSetInterface
     /**
      * Iterator: retrieve current key
      *
-     * @return mixed
+     * @return int
      */
     public function key()
     {
@@ -95,7 +95,7 @@ abstract class AbstractResultSet implements Iterator, ResultSetInterface
     /**
      * Iterator: get current item
      *
-     * @return array
+     * @return mixed
      */
     public function current()
     {
@@ -144,6 +144,34 @@ abstract class AbstractResultSet implements Iterator, ResultSetInterface
     }
 
     /**
+     * Cast an item to array
+     *
+     * This method is used by toArray().
+     *
+     * Extended classes can be change the item-to-array
+     * logic by changing the behavior.
+     *
+     * @param mixed $item
+     * @throws Exception\RuntimeException
+     * @return array
+     */
+    protected function itemToArray($item)
+    {
+        if (is_array($item)) {
+           return $item;
+        } elseif (method_exists($item, 'toArray')) {
+           return $item->toArray();
+        } elseif (method_exists($item, 'getArrayCopy')) {
+           return $item->getArrayCopy();
+        }
+
+        throw new Exception\RuntimeException(sprintf(
+            'Items as part of this DataSource, with type "%s" cannot be cast to an array',
+            is_object($item) ? get_class($item) : gettype($item)
+        ));
+    }
+
+    /**
      * Cast result set to array of arrays
      *
      * @return array
@@ -153,17 +181,7 @@ abstract class AbstractResultSet implements Iterator, ResultSetInterface
     {
         $return = [];
         foreach ($this as $item) {
-            if (is_array($item)) {
-                $return[] = $item;
-            } elseif (method_exists($item, 'toArray')) {
-                $return[] = $item->toArray();
-            } elseif (method_exists($item, 'getArrayCopy')) {
-                $return[] = $item->getArrayCopy();
-            } else {
-                throw new Exception\RuntimeException(
-                    'Items as part of this DataSource, with type ' . gettype($item) . ' cannot be cast to an array'
-                );
-            }
+            $return[] = $this->itemToArray($item);
         }
         return $return;
     }

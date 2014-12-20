@@ -11,12 +11,18 @@ namespace MatryoshkaTest\Model\ResultSet;
 /**
  * Class ArrayObjectResultSetTest
  */
-class ArrayObjectResultSetTest extends \PHPUnit_Framework_TestCase
+class ArrayObjectResultSetTest extends AbstractResultSetTest
 {
+
+    public function setUp()
+    {
+        $this->resultSet = $this->getMockForAbstractClass('\Matryoshka\Model\ResultSet\ArrayObjectResultSet');
+    }
+
 
     public function testCurrent()
     {
-        $resultSet = $this->getMockForAbstractClass('\Matryoshka\Model\ResultSet\ArrayObjectResultSet');
+        $resultSet = $this->resultSet;
         $resultSet->initialize(new \ArrayIterator([
             ['id' => 1, 'name' => 'one'],
         ]));
@@ -28,15 +34,8 @@ class ArrayObjectResultSetTest extends \PHPUnit_Framework_TestCase
     public function testSetObjectPrototypeShouldThrowExceptionWhenInvalidType()
     {
         $this->setExpectedException('\Matryoshka\Model\Exception\InvalidArgumentException');
-        $resultSet = $this->getMockForAbstractClass('\Matryoshka\Model\ResultSet\ArrayObjectResultSet');
+        $resultSet = $this->resultSet;
         $resultSet->setObjectPrototype(new \stdClass);
     }
 
-    public function testGetSetObjectPrototype()
-    {
-        $prototype = new \ArrayObject([]);
-        $resultSet = $this->getMockForAbstractClass('\Matryoshka\Model\ResultSet\ArrayObjectResultSet');
-        $this->assertSame($resultSet, $resultSet->setObjectPrototype($prototype));
-        $this->assertSame($prototype, $resultSet->getObjectPrototype());
-    }
 }

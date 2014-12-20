@@ -122,16 +122,11 @@ class HydratingResultSet extends AbstractResultSet implements HydratingResultSet
     }
 
     /**
-     * Cast result set to array of arrays
-     *
-     * @return array
+     * {@inheritdoc}
      */
-    public function toArray()
+    protected function itemToArray($item)
     {
-        $return = [];
-        foreach ($this as $item) {
-            $return[] = $this->getHydrator()->extract($item);
-        }
-        return $return;
+        return $this->getHydrator()->extract($item);
     }
+
 }

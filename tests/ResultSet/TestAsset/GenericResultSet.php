@@ -19,6 +19,8 @@ class GenericResultSet extends AbstractResultSet
 {
     protected $dataSource = ['test'];
 
+    protected $objectPrototype;
+
     /**
      * Set the item object prototype
      *
@@ -28,7 +30,8 @@ class GenericResultSet extends AbstractResultSet
      */
     public function setObjectPrototype($objectPrototype)
     {
-        // TODO: Implement setObjectPrototype() method.
+        $this->objectPrototype = $objectPrototype;
+        return $this;
     }
 
     /**
@@ -38,7 +41,7 @@ class GenericResultSet extends AbstractResultSet
      */
     public function getObjectPrototype()
     {
-        // TODO: Implement getObjectPrototype() method.
+        return $this->objectPrototype;
     }
 
     public function __call($name, $arguments)

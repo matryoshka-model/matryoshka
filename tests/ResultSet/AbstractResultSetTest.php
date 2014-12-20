@@ -10,6 +10,7 @@ namespace MatryoshkaTest\Model\ResultSet;
 
 use MatryoshkaTest\Model\ResultSet\TestAsset\GenericResultSet;
 use MatryoshkaTest\Model\ResultSet\TestAsset\ItemWithToArray;
+use Matryoshka\Model\ResultSet\AbstractResultSet;
 
 /**
  * Class AbstractResultSetTest
@@ -17,9 +18,20 @@ use MatryoshkaTest\Model\ResultSet\TestAsset\ItemWithToArray;
 class AbstractResultSetTest extends \PHPUnit_Framework_TestCase
 {
 
+    /**
+     * @var AbstractResultSet
+     */
+    protected $resultSet;
+
+    public function setUp()
+    {
+        $this->resultSet = $this->getMockForAbstractClass('\Matryoshka\Model\ResultSet\AbstractResultSet');
+    }
+
+
     public function testInitialize()
     {
-        $resultSet = $this->getMockForAbstractClass('\Matryoshka\Model\ResultSet\AbstractResultSet');
+        $resultSet = $this->resultSet;
 
         $data = [
             ['id' => 1, 'name' => 'one'],
@@ -43,7 +55,8 @@ class AbstractResultSetTest extends \PHPUnit_Framework_TestCase
 
     public function testGetDataSource()
     {
-        $resultSet = $this->getMockForAbstractClass('\Matryoshka\Model\ResultSet\AbstractResultSet');
+        $resultSet = $this->resultSet;
+
         $resultSet->initialize(new \ArrayIterator([
             ['id' => 1, 'name' => 'one'],
             ['id' => 2, 'name' => 'two'],
@@ -65,7 +78,8 @@ class AbstractResultSetTest extends \PHPUnit_Framework_TestCase
 
     public function testKey()
     {
-        $resultSet = $this->getMockForAbstractClass('\Matryoshka\Model\ResultSet\AbstractResultSet');
+        $resultSet = $this->resultSet;
+
         $resultSet->initialize(new \ArrayIterator([
             ['id' => 1, 'name' => 'one'],
             ['id' => 2, 'name' => 'two'],
@@ -81,7 +95,8 @@ class AbstractResultSetTest extends \PHPUnit_Framework_TestCase
 
     public function testCurrent()
     {
-        $resultSet = $this->getMockForAbstractClass('\Matryoshka\Model\ResultSet\AbstractResultSet');
+        $resultSet = $this->resultSet;
+
         $resultSet->initialize(new \ArrayIterator([
             ['id' => 1, 'name' => 'one'],
             ['id' => 2, 'name' => 'two'],
@@ -92,7 +107,8 @@ class AbstractResultSetTest extends \PHPUnit_Framework_TestCase
 
     public function testValid()
     {
-        $resultSet = $this->getMockForAbstractClass('\Matryoshka\Model\ResultSet\AbstractResultSet');
+        $resultSet = $this->resultSet;
+
         $resultSet->initialize(new \ArrayIterator([
             ['id' => 1, 'name' => 'one'],
             ['id' => 2, 'name' => 'two'],
@@ -105,7 +121,8 @@ class AbstractResultSetTest extends \PHPUnit_Framework_TestCase
 
     public function testRewind()
     {
-        $resultSet = $this->getMockForAbstractClass('\Matryoshka\Model\ResultSet\AbstractResultSet');
+        $resultSet = $this->resultSet;
+
         $resultSet->initialize(new \ArrayIterator([
             ['id' => 1, 'name' => 'one'],
             ['id' => 2, 'name' => 'two'],
@@ -116,7 +133,8 @@ class AbstractResultSetTest extends \PHPUnit_Framework_TestCase
 
     public function testCount()
     {
-        $resultSet = $this->getMockForAbstractClass('\Matryoshka\Model\ResultSet\AbstractResultSet');
+        $resultSet = $this->resultSet;
+
         $resultSet->initialize(new \ArrayIterator([
             ['id' => 1, 'name' => 'one'],
             ['id' => 2, 'name' => 'two'],
@@ -135,7 +153,8 @@ class AbstractResultSetTest extends \PHPUnit_Framework_TestCase
 
     public function testToArray()
     {
-        $resultSet = $this->getMockForAbstractClass('\Matryoshka\Model\ResultSet\AbstractResultSet');
+        $resultSet = $this->resultSet;
+
         $resultSet->initialize(new \ArrayIterator([
             new \ArrayObject(['id' => 1, 'name' => 'one']), //test cast with getArrayCopy()
             new ItemWithToArray(['id' => 2, 'name' => 'two']), //test cast with toArray()
@@ -158,9 +177,14 @@ class AbstractResultSetTest extends \PHPUnit_Framework_TestCase
 
     public function testCountArray()
     {
-        $resultSet = new GenericResultSet();
+        $resultSet = $this->resultSet;
 
-        $this->assertEquals(1, $resultSet->count());
+        $refl = new \ReflectionClass($resultSet);
+        $reflProperty = $refl->getProperty('dataSource');
+        $reflProperty->setAccessible(true);
+        $reflProperty->setValue($resultSet, ['one', 'two']);
+
+        $this->assertEquals(2, $resultSet->count());
     }
 
     /**
@@ -168,9 +192,22 @@ class AbstractResultSetTest extends \PHPUnit_Framework_TestCase
      */
     public function testCountException()
     {
-        $resultSet = $this->getMockForAbstractClass('\Matryoshka\Model\ResultSet\AbstractResultSet');
+        $resultSet = $this->resultSet;
+        $notCountableIterator = $this->getMockForAbstractClass('\Iterator');
 
-        $this->assertEquals(0, $resultSet->count());
+        $resultSet->initialize($notCountableIterator);
+        $resultSet->count();
+
+    }
+
+    public function testGetSetObjectPrototype()
+    {
+        if (get_class($this) != __CLASS__) { // Do not apply this test to AbstractResultSet class
+            $prototype = new \ArrayObject([]);
+            $resultSet = $this->resultSet;
+            $this->assertSame($resultSet, $resultSet->setObjectPrototype($prototype));
+            $this->assertSame($prototype, $resultSet->getObjectPrototype());
+        }
     }
 
 }

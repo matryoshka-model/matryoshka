@@ -18,6 +18,15 @@ use Zend\Stdlib\Hydrator\ObjectProperty;
  */
 class HydratingResultSetTest extends AbstractResultSetTest
 {
+
+    protected $hydrator;
+
+    public function setUp()
+    {
+        $this->hydrator = new ObjectProperty();
+        $this->resultSet = new HydratingResultSet($this->hydrator);
+    }
+
     public function test__constructor()
     {
         $hydrator = new ObjectProperty();
@@ -38,7 +47,7 @@ class HydratingResultSetTest extends AbstractResultSetTest
 
     public function testCurrent()
     {
-        $resultSet = $this->getMockForAbstractClass('\Matryoshka\Model\ResultSet\HydratingResultSet');
+        $resultSet = $this->resultSet;
         $resultSet->initialize(new \ArrayIterator([
             ['id' => 1, 'name' => 'one'],
         ]));
@@ -51,21 +60,21 @@ class HydratingResultSetTest extends AbstractResultSetTest
     public function testSetObjectPrototypeShouldThrowExceptionWhenInvalidType()
     {
         $this->setExpectedException('\Matryoshka\Model\Exception\InvalidArgumentException');
-        $resultSet = $this->getMockForAbstractClass('\Matryoshka\Model\ResultSet\HydratingResultSet');
+        $resultSet = $this->resultSet;
         $resultSet->setObjectPrototype('not an object');
     }
 
     public function testGetSetObjectPrototype()
     {
         $prototype = new \ArrayObject([]);
-        $resultSet = $this->getMockForAbstractClass('\Matryoshka\Model\ResultSet\HydratingResultSet');
+        $resultSet = $this->resultSet;
         $this->assertSame($resultSet, $resultSet->setObjectPrototype($prototype));
         $this->assertSame($prototype, $resultSet->getObjectPrototype());
     }
 
     public function testToArray()
     {
-        $resultSet = $this->getMockForAbstractClass('\Matryoshka\Model\ResultSet\HydratingResultSet');
+        $resultSet = $this->resultSet;
         $resultSet->initialize(new \ArrayIterator([
             ['id' => 1, 'name' => 'one'],
             ['id' => 2, 'name' => 'two'],
