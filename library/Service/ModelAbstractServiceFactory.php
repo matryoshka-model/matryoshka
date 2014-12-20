@@ -8,17 +8,15 @@
  */
 namespace Matryoshka\Model\Service;
 
-use Matryoshka\Model\Criteria\CriteriaInterface;
 use Matryoshka\Model\Criteria\PaginableCriteriaInterface;
 use Matryoshka\Model\Exception;
-use Matryoshka\Model\Model;
 use Matryoshka\Model\ObservableModel;
-use Matryoshka\Model\ResultSet\HydratingResultSet;
 use Zend\EventManager\ListenerAggregateInterface;
 use Zend\ServiceManager\AbstractFactoryInterface;
 use Zend\ServiceManager\AbstractPluginManager;
 use Zend\ServiceManager\ServiceLocatorInterface;
 use Zend\Stdlib\Hydrator\HydratorAwareInterface;
+use Matryoshka\Model\ResultSet\BufferedResultSet;
 
 /**
  * Class ModelAbstractServiceFactory
@@ -96,21 +94,29 @@ class ModelAbstractServiceFactory implements AbstractFactoryInterface
 
         $config = $this->getConfig($serviceLocator)[$requestedName];
         $dataGataway = $serviceLocator->get($config['datagateway']);
-        /** @var $resultSetPrototype HydratingResultSet */
+        /* @var $resultSetPrototype \Matryoshka\Model\ResultSet\ResultSetInterface */
         $resultSetPrototype = $serviceLocator->get($config['resultset']);
+
+        if (isset($config['buffered_resultset']) && $config['buffered_resultset']) {
+            $resultSetPrototype = new BufferedResultSet($resultSetPrototype);
+        }
 
         //Create a model instance
         $class = $this->modelClass;
         if (isset($config['type']) && is_string($config['type']) && !empty($config['type'])) {
 
             if (!is_subclass_of($config['type'], $class)) {
-                throw new Exception\UnexpectedValueException('type must be a subclass of ' . $class);
+                throw new Exception\UnexpectedValueException(sprintf(
+                    '"type" in model configuration must be a subclass of "%s": "%s" given',
+                    $class,
+                    $config['type']
+                ));
             }
 
             $class = $config['type'];
         }
 
-        /** @var $model Model */
+        /* @var $model \Matryoshka\Model\Model */
         $model =  new $class($dataGataway, $resultSetPrototype);
 
         //Setup Hydrator
@@ -152,7 +158,7 @@ class ModelAbstractServiceFactory implements AbstractFactoryInterface
                 $this->injectListeners($serviceLocator, $config['listeners'], $model);
             } else {
                 throw new Exception\ServiceNotCreatedException(sprintf(
-                    'Instance of model must be a subclass of %s',
+                    'Instance of model must be a subclass of "%s" in order to attach listeners',
                     'Matryoshka\Model\ObservableModel'
                 ));
             }
@@ -191,7 +197,7 @@ class ModelAbstractServiceFactory implements AbstractFactoryInterface
         $criteria = $serviceLocator->get($name);
         if (!$criteria instanceof PaginableCriteriaInterface) {
             throw new Exception\ServiceNotCreatedException(sprintf(
-                'Instance of type %s is invalid; must implement %s',
+                'Instance of type "%s" is invalid; must implement "%s"',
                 (is_object($criteria) ? get_class($criteria) : gettype($criteria)),
                 'Matryoshka\Model\Criteria\PaginableCriteriaInterface'
             ));

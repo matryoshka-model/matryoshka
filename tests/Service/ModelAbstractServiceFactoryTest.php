@@ -103,6 +103,7 @@ class ModelAbstractServiceFactoryTest extends \PHPUnit_Framework_TestCase
                     'input_filter' => 'Zend\InputFilter\InputFilter',
                     'paginator_criteria' => 'MatryoshkaTest\Model\Service\TestAsset\PaginatorCriteria',
                     'type' => 'MatryoshkaTest\Model\Service\TestAsset\MyModel',
+                    'buffered_resultset' => true,
                 ],
             ],
         ];
@@ -215,6 +216,14 @@ class ModelAbstractServiceFactoryTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf(
             '\MatryoshkaTest\Model\Service\TestAsset\DomainObject',
             $modelFull->getObjectPrototype()
+        );
+        $this->assertInstanceOf(
+            '\Matryoshka\Model\ResultSet\BufferedResultSet',
+            $modelFull->getResultSetPrototype()
+        );
+        $this->assertSame(
+            $serviceLocator->get('Matryoshka\Model\ResultSet\HydratingResultSet'),
+            $modelFull->getResultSetPrototype()->getResultSet()
         );
     }
 

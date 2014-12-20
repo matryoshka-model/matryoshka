@@ -15,7 +15,9 @@ use Matryoshka\Model\Exception;
  *
  *
  */
-class BufferedResultSet extends AbstractResultSet implements ResultSetAggregateInterface
+class BufferedResultSet extends AbstractResultSet implements
+    ResultSetAggregateInterface,
+    BufferedResultSetInterface
 {
     /**
      * @var AbstractResultSet
@@ -32,7 +34,7 @@ class BufferedResultSet extends AbstractResultSet implements ResultSetAggregateI
      */
     public function __construct(AbstractResultSet $resultSet)
     {
-        if ($resultSet instanceof BufferedResultSet) {
+        if ($resultSet instanceof BufferedResultSetInterface) {
             throw new Exception\InvalidArgumentException(
                 'ResultSet is already buffered'
             );
@@ -109,7 +111,8 @@ class BufferedResultSet extends AbstractResultSet implements ResultSetAggregateI
     public function next()
     {
         if (!isset($this->buffer[++$this->position])
-            && $this->position != $this->resultSet->key() // FIXME: check
+            && $this->position != $this->resultSet->key() // Avoid calling next() when
+                                                          // a complete iteration was already done
         ) {
             $this->resultSet->next();
         }
@@ -185,6 +188,18 @@ class BufferedResultSet extends AbstractResultSet implements ResultSetAggregateI
     protected function itemToArray($item)
     {
         return $this->resultSet->itemToArray($item);
+    }
+
+    /**
+     * Ensure aggregate resultSet instance will be not shared
+     * when this object is cloned.
+     *
+     * That makes this class working as resultset prototype
+     *
+     */
+    public function __clone()
+    {
+        $this->resultSet = clone $this->resultSet;
     }
 
 }

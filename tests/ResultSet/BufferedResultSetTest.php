@@ -35,6 +35,7 @@ class BufferedResultSetTest extends AbstractResultSetTest
 
         $resultSet = new BufferedResultSet($genericResultSet);
         $this->assertSame($genericResultSet, $resultSet->getResultSet());
+        $this->assertInstanceOf('\Matryoshka\Model\ResultSet\BufferedResultSetInterface', $resultSet);
 
 
         $this->setExpectedException('\Matryoshka\Model\Exception\InvalidArgumentException');
@@ -150,5 +151,25 @@ class BufferedResultSetTest extends AbstractResultSetTest
 
         $this->assertEquals(['id' => 1, 'name' => 'one'], $resultSet->current());
     }
+
+    public function test__clone()
+    {
+        $refl = new \ReflectionClass($this->resultSet);
+        $reflProperty = $refl->getProperty('resultSet');
+        $reflProperty->setAccessible(true);
+
+        $cloned = clone $this->resultSet;
+
+        $this->assertEquals(
+            $reflProperty->getValue($this->resultSet),
+            $reflProperty->getValue($cloned)
+        );
+
+        $this->assertNotSame(
+            $reflProperty->getValue($this->resultSet),
+            $reflProperty->getValue($cloned)
+        );
+    }
+
 
 }
