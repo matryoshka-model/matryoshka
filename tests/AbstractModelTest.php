@@ -8,7 +8,7 @@
  */
 namespace MatryoshkaTest\Model;
 
-use Matryoshka\Model\Criteria\CallableCriteria;
+use Matryoshka\Model\Criteria\CallbackCriteria;
 use MatryoshkaTest\Model\Mock\Criteria\MockCriteria;
 use MatryoshkaTest\Model\TestAsset\ConcreteAbstractModel;
 use MatryoshkaTest\Model\TestAsset\HydratorAwareObject;
@@ -175,7 +175,7 @@ class AbstractModelTest extends \PHPUnit_Framework_TestCase
 
     public function testFindClosureCriteria()
     {
-        $criteria = new CallableCriteria(
+        $criteria = new CallbackCriteria(
             'MatryoshkaTest\Model\Mock\Criteria\MockCallable::applyTest'
         );
 
