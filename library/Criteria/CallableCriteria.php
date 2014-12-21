@@ -8,7 +8,6 @@
  */
 namespace Matryoshka\Model\Criteria;
 
-use Matryoshka\Model\Exception;
 use Matryoshka\Model\ModelInterface;
 
 /**

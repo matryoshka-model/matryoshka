@@ -309,30 +309,6 @@ class ObservableModelTest extends ModelTest
         $this->assertNull($result);
     }
 
-//     public function testDeleteStopPropagation()
-//     {
-//         //Test stop propagation
-//         $preEventCalled = false;
-//         $postEventCallend = false;
-
-//         $listener = $this->model->getEventManager()->attach('delete.pre', function ($e) use (&$preEventCalled) {
-//             /** @var $e ModelEvent */
-//             $e->stopPropagation();
-//             return 1;
-//         });
-
-//             $mockCriteria = $this->getMock(
-//                 '\Matryoshka\Model\Criteria\DeletableCriteriaInterface',
-//                 ['applyDelete']
-//             );
-
-//             $this->assertEquals(1, $this->model->delete($mockCriteria));
-//             $this->assertTrue($preEventCalled);
-//             $this->assertFalse($postEventCallend);
-
-//     }
-
-
 
     public function testDeleteStopPropagation()
     {
