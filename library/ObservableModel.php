@@ -46,27 +46,31 @@ class ObservableModel extends Model implements EventManagerAwareInterface
         $event = $this->getEvent();
         $event->setCriteria($criteria);
 
-        $results = $this->getEventManager()->trigger(ModelEvent::EVENT_FIND_PRE, $event);
+        $results = $this->getEventManager()->trigger(ModelEvent::EVENT_FIND_PRE, $event, function($r) {
+            return $r instanceof ResultSetInterface;
+        });
 
         if ($results->stopped()) {
             $last = $results->last();
-            if (!$last instanceof ResultSetInterface) {
-                throw new Exception\RuntimeException(sprintf(
-                    '%s expects that last event response is a "%s"; received "%s"',
-                    __METHOD__,
-                    'Matryoshka\Model\ResultSet\ResultSetInterface',
-                    is_object($last) ? get_class($last) : gettype($last)
-                ));
+            if ($last instanceof ResultSetInterface) {
+                $event->setResultSet($last);
+                return $last;
             }
-            return $last;
         }
 
         $event->setResultSet(parent::find($criteria));
 
-        $results = $this->getEventManager()->trigger(ModelEvent::EVENT_FIND_POST, $event);
+        $results = $this->getEventManager()->trigger(ModelEvent::EVENT_FIND_POST, $event, function($r) {
+            return $r instanceof ResultSetInterface;
+        });
 
-        // If EVENT_FIND_POST changed the resultSet, make sure
-        // we return this new resultSet
+        if ($results->stopped()) {
+            $last = $results->last();
+            if ($last instanceof ResultSetInterface) {
+                $event->setResultSet($last);
+            }
+        }
+
         return $event->getResultSet();
     }
 
@@ -77,26 +81,34 @@ class ObservableModel extends Model implements EventManagerAwareInterface
     {
         $event = $this->getEvent();
         $event->setCriteria($criteria);
-        $event->setParam('data', $dataOrObject);
+        $event->setData($dataOrObject);
 
-        $results = $this->getEventManager()->trigger(ModelEvent::EVENT_SAVE_PRE, $event);
+        $results = $this->getEventManager()->trigger(ModelEvent::EVENT_SAVE_PRE, $event, function($r) {
+            return is_int($r);
+        });
 
         if ($results->stopped()) {
             $last = $results->last();
-            if (null !== $last && !is_int($last)) {
-                throw new Exception\RuntimeException(sprintf(
-                    '%s expects that last event response is an integer or null; received "%s"',
-                    __METHOD__,
-                    is_object($last) ? get_class($last) : gettype($last)
-                ));
+            if (null === $last || is_int($last)) {
+                $event->setResult($last);
+                return $last;
             }
-            return $last;
         }
 
-        $return = parent::save($criteria, $dataOrObject);
+        $event->setResult(parent::save($event->getCriteria(), $event->getData()));
 
-        $this->getEventManager()->trigger(ModelEvent::EVENT_SAVE_POST, $event);
-        return $return;
+        $results = $this->getEventManager()->trigger(ModelEvent::EVENT_SAVE_POST, $event, function($r) {
+            return is_int($r);
+        });
+
+        if ($results->stopped()) {
+            $last = $results->last();
+            if (null === $last || is_int($last)) {
+                $event->setResult($last);
+            }
+        }
+
+        return $event->getResult();
     }
 
     /**
@@ -107,23 +119,31 @@ class ObservableModel extends Model implements EventManagerAwareInterface
         $event = $this->getEvent();
         $event->setCriteria($criteria);
 
-        $results = $this->getEventManager()->trigger(ModelEvent::EVENT_DELETE_PRE, $event);
+        $results = $this->getEventManager()->trigger(ModelEvent::EVENT_DELETE_PRE, $event, function($r) {
+            return is_int($r);
+        });
 
         if ($results->stopped()) {
             $last = $results->last();
-            if (null !== $last && !is_int($last)) {
-                throw new Exception\RuntimeException(sprintf(
-                    '%s expects that last event response is an integer or null; received "%s"',
-                    __METHOD__,
-                    is_object($last) ? get_class($last) : gettype($last)
-                ));
+            if (null === $last || is_int($last)) {
+                $event->setResult($last);
+                return $last;
             }
-            return $last;
         }
 
-        $return = parent::delete($criteria);
+        $event->setResult(parent::delete($event->getCriteria()));
 
-        $this->getEventManager()->trigger(ModelEvent::EVENT_DELETE_POST, $event);
-        return $return;
+        $results = $this->getEventManager()->trigger(ModelEvent::EVENT_DELETE_POST, $event, function($r) {
+            return is_int($r);
+        });
+
+        if ($results->stopped()) {
+            $last = $results->last();
+            if (null === $last || is_int($last)) {
+                $event->setResult($last);
+            }
+        }
+
+        return $event->getResult();
     }
 }

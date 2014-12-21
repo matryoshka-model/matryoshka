@@ -89,9 +89,11 @@ class ModelEventTest extends \PHPUnit_Framework_TestCase
         $resultSet = new GenericResultSet();
 
         $params = [
-            'criteria' => $criteria,
+            'criteria'  => $criteria,
+            'data'      => [],
+            'result'    => 1,
             'resultSet' => $resultSet,
-            'key' => 'value',
+            'key'       => 'value',
         ];
 
         $this->event->setParams($params);
@@ -100,19 +102,41 @@ class ModelEventTest extends \PHPUnit_Framework_TestCase
         $this->assertSame($params['criteria'], $this->event->getCriteria());
         $this->assertSame($params['criteria'], $this->event->getParam('criteria'));
 
+        $this->assertSame($params['data'], $this->event->getData());
+        $this->assertSame($params['data'], $this->event->getParam('data'));
+
+        $this->assertSame($params['result'], $this->event->getResult());
+        $this->assertSame($params['result'], $this->event->getParam('result'));
+
         $this->assertSame($params['resultSet'], $this->event->getResultSet());
         $this->assertSame($params['resultSet'], $this->event->getParam('resultSet'));
 
         $this->assertEquals($params['key'], $this->event->getParam('key'));
+
     }
 
     public function testParameterPassedThroughObject()
     {
         $obj = new \stdClass();
         $obj->foo = 'bar';
+        $obj->criteria = new ConcreteCriteria();
+        $obj->resultSet = new GenericResultSet();
         $this->event->setParams($obj);
+
         $this->assertObjectHasAttribute('foo', $this->event->getParams());
+
         $this->assertObjectHasAttribute('criteria', $this->event->getParams());
+        $this->assertSame($this->event->getCriteria(), $this->event->getParams()->criteria);
+        $this->assertSame($obj->criteria, $this->event->getParams()->criteria);
+
         $this->assertObjectHasAttribute('resultSet', $this->event->getParams());
+        $this->assertSame($this->event->getResultSet(), $this->event->getParams()->resultSet);
+        $this->assertSame($obj->resultSet, $this->event->getParams()->resultSet);
+
+        $this->assertObjectHasAttribute('data', $this->event->getParams());
+        $this->assertNull($this->event->getParams()->data);
+
+        $this->assertObjectHasAttribute('result', $this->event->getParams());
+        $this->assertNull($this->event->getParams()->result);
     }
 }
