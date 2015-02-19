@@ -10,6 +10,7 @@ namespace Matryoshka\Model\ResultSet\PrototypeStrategy;
 
 use Matryoshka\Model\Exception\ErrorException;
 use Zend\ServiceManager\ServiceLocatorInterface;
+use Matryoshka\Model\ModelAwareInterface;
 
 /**
  * Class ServiceLocatorStrategy
@@ -138,6 +139,12 @@ class ServiceLocatorStrategy implements PrototypeStrategyInterface
 
         if ($this->cloneObject) {
             $object = clone $object;
+        }
+
+        if ($objectPrototype instanceof ModelAwareInterface && $objectPrototype->getModel()
+            && $object instanceof ModelAwareInterface
+        ) {
+            $object->setModel($objectPrototype->getModel());
         }
 
         return $object;
