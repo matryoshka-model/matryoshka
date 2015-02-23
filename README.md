@@ -1,9 +1,11 @@
-# Matryoshka [![Latest Stable Version](https://poser.pugx.org/matryoshka-model/matryoshka/v/stable.png)](https://packagist.org/packages/matryoshka-model/matryoshka)&nbsp;[![Dependency Status](https://www.versioneye.com/user/projects/5432e02184981fb412000144/badge.svg)](https://www.versioneye.com/user/projects/5432e02184981fb412000144)&nbsp;[![Total Downloads](https://poser.pugx.org/matryoshka-model/matryoshka/downloads.svg)](https://packagist.org/packages/matryoshka-model/matryoshka)
+# Matryoshka 
+
+[![Latest Stable Version](http://img.shields.io/packagist/v/matryoshka-model/matryoshka.svg?style=flat-square)](https://packagist.org/packages/matryoshka-model/matryoshka) [![Total Downloads](https://img.shields.io/packagist/dt/matryoshka-model/matryoshka.svg?style=flat-square)](https://packagist.org/packages/matryoshka-model/matryoshka)
 
 | Master  | Develop |
 |:-------------:|:-------------:|
-| [![Build Status](https://secure.travis-ci.org/matryoshka-model/matryoshka.svg?branch=master)](https://travis-ci.org/matryoshka-model/matryoshka)  | [![Build Status](https://secure.travis-ci.org/matryoshka-model/matryoshka.svg?branch=develop)](https://travis-ci.org/matryoshka-model/matryoshka)  |
-| [![Coverage Status](https://coveralls.io/repos/matryoshka-model/matryoshka/badge.png?branch=master)](https://coveralls.io/r/matryoshka-model/matryoshka)  | [![Coverage Status](https://coveralls.io/repos/matryoshka-model/matryoshka/badge.png?branch=develop)](https://coveralls.io/r/matryoshka-model/matryoshka)  |
+| [![Build Status](https://img.shields.io/travis/matryoshka-model/matryoshka/master.svg?style=flat-square)](https://travis-ci.org/matryoshka-model/matryoshka) | [![Build Status](https://img.shields.io/travis/matryoshka-model/matryoshka/develop.svg?style=flat-square)](https://travis-ci.org/matryoshka-model/matryoshka)  |
+| [![Coveralls branch](https://img.shields.io/coveralls/matryoshka-model/matryoshka/master.svg?style=flat-square)](https://coveralls.io/r/matryoshka-model/matryoshka?branch=master) | [![Coveralls branch](https://img.shields.io/coveralls/matryoshka-model/matryoshka/develop.svg?style=flat-square)](https://coveralls.io/r/matryoshka-model/matryoshka?branch=develop) |
 
 Matryoshka is a lightweight framework that provides a standard and easy way to implement a model [service layer](http://martinfowler.com/eaaCatalog/serviceLayer.html). 
 Its layered design aims to provide a strong seperation between the persistence and the rest of your application, whether the datagateway you need to use (i.e. Zend\Db, MongoCollection, an ORM, a REST client or anything else).
@@ -57,7 +59,7 @@ Add the following to your `composer.json` file:
 ```
 "require": {
     "php": ">=5.4",
-    "matryoshka-model/matryoshka": "~0.5.0",
+    "matryoshka-model/matryoshka": "~0.6.0",
 }
 ```
 
