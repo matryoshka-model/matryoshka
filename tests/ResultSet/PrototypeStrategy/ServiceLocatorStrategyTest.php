@@ -11,6 +11,7 @@ namespace MatryoshkaTest\Model\ResultSet\PrototypeStrategy;
 use Matryoshka\Model\ResultSet\PrototypeStrategy\ServiceLocatorStrategy;
 use Zend\Mvc\Service\ServiceManagerConfig;
 use Zend\ServiceManager;
+use MatryoshkaTest\Model\Service\TestAsset\DomainObject;
 
 /**
  * Class ServiceLocatorStrategyTest
@@ -22,11 +23,17 @@ class ServiceLocatorStrategyTest extends \PHPUnit_Framework_TestCase
      */
     protected $serviceManager;
 
+    protected $modelMock;
+
     /**
      * @return void
      */
     public function setUp()
     {
+        $this->modelMock = $this->getMock(
+            '\Matryoshka\Model\ModelInterface'
+        );
+
         $sm = $this->serviceManager = new ServiceManager\ServiceManager(
             new ServiceManagerConfig([''])
         );
@@ -36,12 +43,17 @@ class ServiceLocatorStrategyTest extends \PHPUnit_Framework_TestCase
 
         $sm->setInvokableClass('MyDomainObject', '\MatryoshkaTest\Model\Service\TestAsset\DomainObject');
 
+        $obj = new DomainObject();
+        $obj->setModel($this->modelMock);
+        $sm->setService('MyDomainObjectWithModel', $obj);
+
     }
 
     public function testCreateObject()
     {
         $strategy = new ServiceLocatorStrategy($this->serviceManager);
         $myDomainObject = $this->serviceManager->get('MyDomainObject');
+        $myDomainObjectWithModel = $this->serviceManager->get('MyDomainObjectWithModel');
         $data = ['type' => 'MyDomainObject', 'foo' => 'bar'];
 
         $object = $strategy->createObject($myDomainObject, $data);
@@ -50,18 +62,30 @@ class ServiceLocatorStrategyTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf('\MatryoshkaTest\Model\Service\TestAsset\DomainObject', $object);
         $this->assertEquals($myDomainObject, $object);
         $this->assertNotSame($myDomainObject, $object);
+        $this->assertNull($object->getModel());
 
         $strategy->setCloneObject(true);
         $object = $strategy->createObject($myDomainObject, $data);
         $this->assertInstanceOf('\MatryoshkaTest\Model\Service\TestAsset\DomainObject', $object);
         $this->assertEquals($myDomainObject, $object);
         $this->assertNotSame($myDomainObject, $object);
+        $this->assertNull($object->getModel());
 
         $strategy->setValidateObject(true);
         $object = $strategy->createObject($myDomainObject, $data);
         $this->assertInstanceOf('\MatryoshkaTest\Model\Service\TestAsset\DomainObject', $object);
         $this->assertEquals($myDomainObject, $object);
         $this->assertNotSame($myDomainObject, $object);
+        $this->assertNull($object->getModel());
+
+
+        $strategy->setValidateObject(true);
+        $object = $strategy->createObject($myDomainObjectWithModel, $data);
+        $this->assertInstanceOf('\MatryoshkaTest\Model\Service\TestAsset\DomainObject', $object);
+        $this->assertEquals($myDomainObjectWithModel, $object);
+        $this->assertNotSame($myDomainObjectWithModel, $object);
+        $this->assertSame($object->getModel(), $this->modelMock);
+
 
         $this->setExpectedException('\Matryoshka\Model\Exception\ErrorException');
         $object = $strategy->createObject(new \stdClass(), $data);
