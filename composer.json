@@ -1,6 +1,6 @@
 {
     "name": "matryoshka-model/matryoshka",
-    "description": "Model Service Layer that normalize and standardize your model's interface use",
+    "description": "A lightweight framework that provides a standard and easy way to implement a model service layer",
     "homepage": "https://github.com/matryoshka-model/matryoshka",
     "license": "BSD-2-Clause",
     "require": {
@@ -39,13 +39,10 @@
         }
     ],
     "autoload": {
-        "psr-0": {
-            "Matryoshka": "library/",
-            "MatryoshkaTest": "tests/"
-        },
-        "classmap": [
-            "./"
-        ]
+        "psr-4": {
+        	"Matryoshka\\Model\\": "library/",
+        	"MatryoshkaTest\\Model\\": "tests/"
+        }
     },
     "keywords": [
         "model",
@@ -57,8 +54,8 @@
     ],
     "extra": {
         "branch-alias": {
-            "dev-master": "0.5.x-dev",
-            "dev-develop": "0.6.x-dev"
+            "dev-master": "0.6.x-dev",
+            "dev-develop": "0.7.x-dev"
         }
     },
     "suggest": {
