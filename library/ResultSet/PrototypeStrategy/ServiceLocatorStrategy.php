@@ -11,6 +11,7 @@ namespace Matryoshka\Model\ResultSet\PrototypeStrategy;
 use Matryoshka\Model\Exception\ErrorException;
 use Zend\ServiceManager\ServiceLocatorInterface;
 use Matryoshka\Model\ModelAwareInterface;
+use Matryoshka\Model\Exception\RuntimeException;
 
 /**
  * Class ServiceLocatorStrategy
@@ -131,10 +132,20 @@ class ServiceLocatorStrategy implements PrototypeStrategyInterface
      */
     public function createObject($objectPrototype, array $context = null)
     {
+        if (!isset($context[$this->typeField])) {
+            throw new RuntimeException(sprintf(
+                '"%s" is not present within object data',
+                $this->typeField
+            ));
+        }
+
         $object = $this->serviceLocator->get($context[$this->typeField]);
 
         if ($this->validateObject && !($object instanceof $objectPrototype)) {
-            throw new ErrorException('Object must be an instance of $objectPrototype');
+            throw new ErrorException(sprintf(
+                'Object must be an instance of %s',
+                get_class($objectPrototype)
+            ));
         }
 
         if ($this->cloneObject) {
