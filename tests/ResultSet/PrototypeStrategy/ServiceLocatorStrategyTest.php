@@ -91,6 +91,16 @@ class ServiceLocatorStrategyTest extends \PHPUnit_Framework_TestCase
         $object = $strategy->createObject(new \stdClass(), $data);
     }
 
+    public function testCreateShouldThrowExceptionWhenFieldIsNotPresent()
+    {
+        $strategy = new ServiceLocatorStrategy($this->serviceManager);
+        $myDomainObject = $this->serviceManager->get('MyDomainObject');
+        $data = ['foo' => 'bar'];
+
+        $this->setExpectedException('\Matryoshka\Model\Exception\RuntimeException');
+        $strategy->createObject($myDomainObject, $data);
+    }
+
     public function testGetSetServiceLocator()
     {
         $strategy = new ServiceLocatorStrategy($this->serviceManager);
