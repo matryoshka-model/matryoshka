@@ -66,7 +66,10 @@ class HasOneStrategy implements StrategyInterface, NullableStrategyInterface
             return $objectPrototype->getHydrator()->extract($value);
         }
 
-        throw new Exception\InvalidArgumentException('Invalid value: must be null, an array or an instance of '. get_class($objectPrototype));
+        throw new Exception\InvalidArgumentException(sprintf(
+            'Invalid value: must be null, an array or an instance of "%s"',
+            get_class($objectPrototype)
+        ));
      }
 
     /**
@@ -89,6 +92,9 @@ class HasOneStrategy implements StrategyInterface, NullableStrategyInterface
             return $this->nullable ? null : clone $objectPrototype;
         }
 
-        throw new Exception\InvalidArgumentException('Invalid value: must be null, an array or an instance of '. get_class($objectPrototype));
+        throw new Exception\InvalidArgumentException(sprintf(
+            'Invalid value: must be null, an array or an instance of "%s"',
+            get_class($objectPrototype)
+        ));
     }
 }

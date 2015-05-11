@@ -119,7 +119,10 @@ abstract class AbstractActiveRecord extends AbstractObject implements
      */
     public function __get($name)
     {
-        throw new Exception\InvalidArgumentException('Not a valid field in this object: ' . $name);
+        throw new Exception\InvalidArgumentException(sprintf(
+            '"%s" is not a valid field for this object',
+            $name
+        ));
     }
 
     /**
@@ -132,7 +135,10 @@ abstract class AbstractActiveRecord extends AbstractObject implements
      */
     public function __set($name, $value)
     {
-        throw new Exception\InvalidArgumentException('Not a valid field in this object: ' . $name);
+        throw new Exception\InvalidArgumentException(sprintf(
+            '"%s" is not a valid field for this object',
+            $name
+        ));
     }
 
     /**
@@ -144,6 +150,9 @@ abstract class AbstractActiveRecord extends AbstractObject implements
      */
     public function __unset($name)
     {
-        throw new Exception\InvalidArgumentException('Not a valid field in this object: ' . $name);
+        throw new Exception\InvalidArgumentException(sprintf(
+            '"%s" is not a valid field for this object',
+            $name
+        ));
     }
 }

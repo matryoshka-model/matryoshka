@@ -68,7 +68,10 @@ class HasManyStrategy implements StrategyInterface, NullableStrategyInterface
                 $return[$key] = $this->hasOneStrategy->extract($object);
             }
         } else {
-            throw new Exception\InvalidArgumentException("Value must be an array or Travesable, " . gettype($value) . " given");
+            throw new Exception\InvalidArgumentException(sprintf(
+                'Value must be an array or Travesable, "%s" given',
+                gettype($value)
+            ));
         }
 
         return $return;
@@ -92,7 +95,10 @@ class HasManyStrategy implements StrategyInterface, NullableStrategyInterface
                 $return[$key] = $this->hasOneStrategy->hydrate($data);
             }
         } else {
-            throw new Exception\InvalidArgumentException("Value must be an array or Travesable, " . gettype($value) . " given");
+            throw new Exception\InvalidArgumentException(sprintf(
+                'Value must be an array or Travesable, "%s" given',
+                gettype($value)
+            ));
         }
 
         return $return;

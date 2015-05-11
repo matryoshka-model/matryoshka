@@ -137,7 +137,10 @@ abstract class AbstractResultSet implements ResultSetInterface
             } elseif (is_array($this->dataSource)) {
                 $this->count = count($this->dataSource);
             } else {
-                throw new Exception\RuntimeException('DataSource with type ' . gettype($this->dataSource) . ' cannot be counted');
+                throw new Exception\RuntimeException(sprintf(
+                    'DataSource with type "%s" cannot be counted',
+                    gettype($this->dataSource)
+                ));
             }
         }
         return $this->count;
