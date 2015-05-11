@@ -15,8 +15,10 @@ use Zend\Stdlib\Hydrator\Strategy\StrategyInterface;
  *
  * @author Lorenzo Fontana <fontanalorenzo@me.com>
  */
-class SetTypeStrategy implements StrategyInterface
+class SetTypeStrategy implements StrategyInterface, NullableStrategyInterface
 {
+    use NullableStrategyTrait;
+
     /**
      * Type to extract to
      *
@@ -51,7 +53,7 @@ class SetTypeStrategy implements StrategyInterface
      */
     public function extract($value)
     {
-        if ($value === null) {
+        if ($this->nullable && $value === null) {
             return null;
         }
         settype($value, $this->extractToType);
@@ -66,7 +68,7 @@ class SetTypeStrategy implements StrategyInterface
      */
     public function hydrate($value)
     {
-        if ($value === null) {
+        if ($this->nullable && $value === null) {
             return null;
         }
         settype($value, $this->hydrateToType);

@@ -6,7 +6,7 @@
  * @copyright   Copyright (c) 2014, Ripa Club
  * @license     http://opensource.org/licenses/BSD-2-Clause Simplified BSD License
  */
-namespace MatryoshkaTest\Model;
+namespace MatryoshkaTest\Model\Hydrator\Strategy;
 
 use Matryoshka\Model\Hydrator\Strategy\SetTypeStrategy;
 

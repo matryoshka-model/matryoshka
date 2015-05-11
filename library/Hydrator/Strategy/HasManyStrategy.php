@@ -16,8 +16,10 @@ use Zend\Stdlib\Hydrator\Strategy\StrategyInterface;
 /**
  * Class HasManyStrategy
  */
-class HasManyStrategy implements StrategyInterface
+class HasManyStrategy implements StrategyInterface, NullableStrategyInterface
 {
+    use NullableStrategyTrait;
+
     /**
      * @var HasOneStrategy
      */
@@ -33,10 +35,11 @@ class HasManyStrategy implements StrategyInterface
      *
      * @param $objectPrototype
      */
-    public function __construct(HydratorAwareInterface $objectPrototype, \ArrayAccess $arrayObjectPrototype = null)
+    public function __construct(HydratorAwareInterface $objectPrototype, \ArrayAccess $arrayObjectPrototype = null, $nullable = false)
     {
         $this->hasOneStrategy = new HasOneStrategy($objectPrototype);
         $this->arrayObjectPrototype = $arrayObjectPrototype ? $arrayObjectPrototype : new ArrayObject([], ArrayObject::ARRAY_AS_PROPS);
+        $this->setNullable($nullable);
     }
 
     /**
@@ -55,6 +58,10 @@ class HasManyStrategy implements StrategyInterface
      */
     public function extract($value)
     {
+        if ($this->nullable && $value === null) {
+            return null;
+        }
+
         $return = [];
         if (is_array($value) || $value instanceof \Traversable) {
             foreach ($value as $key => $object) {
@@ -75,6 +82,10 @@ class HasManyStrategy implements StrategyInterface
      */
     public function hydrate($value)
     {
+        if ($this->nullable && $value === null) {
+            return null;
+        }
+
         $return = clone $this->arrayObjectPrototype;
         if (is_array($value) || $value instanceof \Traversable) {
             foreach ($value as $key => $data) {

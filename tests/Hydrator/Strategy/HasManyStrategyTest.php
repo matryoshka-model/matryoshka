@@ -6,7 +6,7 @@
  * @copyright   Copyright (c) 2014, Ripa Club
  * @license     http://opensource.org/licenses/BSD-2-Clause Simplified BSD License
  */
-namespace MatryoshkaTest\Model;
+namespace MatryoshkaTest\Model\Hydrator\Strategy;
 
 use Matryoshka\Model\Hydrator\Strategy\HasManyStrategy;
 
@@ -25,6 +25,7 @@ class HasManyStrategyTest extends \PHPUnit_Framework_TestCase
         $abstractObject = $this->getMockForAbstractClass('\Matryoshka\Model\Object\AbstractObject');
         $strategy = new HasManyStrategy($abstractObject);
 
+        $strategy->setNullable(false);
         $hydratedValue = $strategy->hydrate([$abstractObject]);
         $this->assertInstanceOf('\ArrayObject', $hydratedValue);
         $this->assertCount(1, $hydratedValue);
@@ -33,6 +34,10 @@ class HasManyStrategyTest extends \PHPUnit_Framework_TestCase
         $hydratedValue = $strategy->hydrate([]);
         $this->assertInstanceOf('\ArrayObject', $hydratedValue);
         $this->assertCount(0, $hydratedValue);
+
+        $strategy->setNullable(true);
+        $hydratedValue = $strategy->hydrate(null);
+        $this->assertNull($hydratedValue);
 
         $this->setExpectedException('\Matryoshka\Model\Exception\InvalidArgumentException');
         $strategy->hydrate('wrong value');
@@ -43,6 +48,7 @@ class HasManyStrategyTest extends \PHPUnit_Framework_TestCase
         $abstractObject = $this->getMockForAbstractClass('\Matryoshka\Model\Object\AbstractObject');
         $strategy = new HasManyStrategy($abstractObject);
 
+        $strategy->setNullable(false);
         $extractedValue = $strategy->extract(new \ArrayObject([$abstractObject]));
         $this->assertInternalType('array', $extractedValue);
         $this->assertCount(1, $extractedValue);
@@ -51,6 +57,10 @@ class HasManyStrategyTest extends \PHPUnit_Framework_TestCase
         $extractedValue = $strategy->extract(new \ArrayObject([]));
         $this->assertInternalType('array', $extractedValue);
         $this->assertCount(0, $extractedValue);
+
+        $strategy->setNullable(true);
+        $extractedValue = $strategy->extract(null);
+        $this->assertNull($extractedValue);
 
         $this->setExpectedException('\Matryoshka\Model\Exception\InvalidArgumentException');
         $strategy->extract('wrong value');

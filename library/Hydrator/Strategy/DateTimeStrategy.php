@@ -21,6 +21,9 @@ class DateTimeStrategy implements StrategyInterface
      */
     protected $format = DateTime::ISO8601;
 
+    /**
+     * @param string|null $format
+     */
     public function __construct($format = null)
     {
         if($format !== null) {
@@ -37,7 +40,10 @@ class DateTimeStrategy implements StrategyInterface
     public function hydrate($value)
     {
         if (is_string($value)) {
-            return DateTime::createFromFormat($this->getFormat(), $value);
+            $value = DateTime::createFromFormat($this->getFormat(), $value);
+            if ($value) {
+                return $value;
+            }
         }
         return null;
     }
