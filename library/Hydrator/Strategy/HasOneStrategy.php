@@ -3,7 +3,7 @@
  * Matryoshka
  *
  * @link        https://github.com/matryoshka-model/matryoshka
- * @copyright   Copyright (c) 2014, Ripa Club
+ * @copyright   Copyright (c) 2014-2015, Ripa Club
  * @license     http://opensource.org/licenses/BSD-2-Clause Simplified BSD License
  */
 namespace Matryoshka\Model\Hydrator\Strategy;
@@ -15,8 +15,10 @@ use Zend\Stdlib\Hydrator\Strategy\StrategyInterface;
 /**
  * Class HasOneStrategy
  */
-class HasOneStrategy implements StrategyInterface
+class HasOneStrategy implements StrategyInterface, NullableStrategyInterface
 {
+    use NullableStrategyTrait;
+
     /**
      * @var HydratorAwareInterface
      */
@@ -27,9 +29,10 @@ class HasOneStrategy implements StrategyInterface
      *
      * @param $objectPrototype
      */
-    public function __construct(HydratorAwareInterface $objectPrototype)
+    public function __construct(HydratorAwareInterface $objectPrototype, $nullable = false)
     {
         $this->objectPrototype = $objectPrototype;
+        $this->setNullable($nullable);
     }
 
     /**
@@ -50,7 +53,7 @@ class HasOneStrategy implements StrategyInterface
     public function extract($value)
     {
         if (null === $value) {
-            return [];
+            return $this->nullable ? null : [];
         }
 
         if (is_array($value)) {
@@ -63,7 +66,10 @@ class HasOneStrategy implements StrategyInterface
             return $objectPrototype->getHydrator()->extract($value);
         }
 
-        throw new Exception\InvalidArgumentException('Invalid value: must be null, an array or an instance of '. get_class($objectPrototype));
+        throw new Exception\InvalidArgumentException(sprintf(
+            'Invalid value: must be null, an array or an instance of "%s"',
+            get_class($objectPrototype)
+        ));
      }
 
     /**
@@ -83,9 +89,12 @@ class HasOneStrategy implements StrategyInterface
         } elseif ($value instanceof $objectPrototype) {
             return clone $value;
         } elseif (null === $value) {
-            return clone $objectPrototype;
+            return $this->nullable ? null : clone $objectPrototype;
         }
 
-        throw new Exception\InvalidArgumentException('Invalid value: must be null, an array or an instance of '. get_class($objectPrototype));
+        throw new Exception\InvalidArgumentException(sprintf(
+            'Invalid value: must be null, an array or an instance of "%s"',
+            get_class($objectPrototype)
+        ));
     }
 }

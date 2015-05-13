@@ -3,7 +3,7 @@
  * Matryoshka
  *
  * @link        https://github.com/matryoshka-model/matryoshka
- * @copyright   Copyright (c) 2014, Ripa Club
+ * @copyright   Copyright (c) 2014-2015, Ripa Club
  * @license     http://opensource.org/licenses/BSD-2-Clause Simplified BSD License
  */
 namespace Matryoshka\Model\Hydrator\Strategy;
@@ -21,6 +21,9 @@ class DateTimeStrategy implements StrategyInterface
      */
     protected $format = DateTime::ISO8601;
 
+    /**
+     * @param string|null $format
+     */
     public function __construct($format = null)
     {
         if($format !== null) {
@@ -37,7 +40,10 @@ class DateTimeStrategy implements StrategyInterface
     public function hydrate($value)
     {
         if (is_string($value)) {
-            return DateTime::createFromFormat($this->getFormat(), $value);
+            $value = DateTime::createFromFormat($this->getFormat(), $value);
+            if ($value) {
+                return $value;
+            }
         }
         return null;
     }

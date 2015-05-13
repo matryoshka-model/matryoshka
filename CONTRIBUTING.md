@@ -4,7 +4,7 @@ Contributions to Matryoshka library and its related modules (i.e. wrappers) are 
 
 You make our lives easier by sending us your contributions through github pull requests.
 
-* Coding standard for the project is [PSR-2](https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-2-coding-style-guide.md)
+* Coding standard for the project is [PSR-4](https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-4-autoloader.md)
 
 * Any contribution must provide tests for additional introduced conditions
 

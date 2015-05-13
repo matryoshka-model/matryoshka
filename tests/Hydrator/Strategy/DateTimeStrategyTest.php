@@ -3,10 +3,10 @@
  * Matryoshka
  *
  * @link        https://github.com/matryoshka-model/matryoshka
- * @copyright   Copyright (c) 2014, Ripa Club
+ * @copyright   Copyright (c) 2014-2015, Ripa Club
  * @license     http://opensource.org/licenses/BSD-2-Clause Simplified BSD License
  */
-namespace MatryoshkaTest\Model;
+namespace MatryoshkaTest\Model\Hydrator\Strategy;
 
 use Matryoshka\Model\Hydrator\Strategy\DateTimeStrategy;
 
@@ -32,6 +32,9 @@ class DateTimeStrategyTest extends \PHPUnit_Framework_TestCase
 
         $hydratedValue = $strategy->hydrate('2014-11-11T11:11:11+0100');
         $this->assertInstanceOf('DateTime', $hydratedValue);
+
+        $hydratedValue = $strategy->hydrate('bad value');
+        $this->assertNull($hydratedValue);
 
         $hydratedValue = $strategy->hydrate(null);
         $this->assertNull($hydratedValue);

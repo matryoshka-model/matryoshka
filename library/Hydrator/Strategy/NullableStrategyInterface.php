@@ -6,20 +6,18 @@
  * @copyright   Copyright (c) 2014-2015, Ripa Club
  * @license     http://opensource.org/licenses/BSD-2-Clause Simplified BSD License
  */
-namespace Matryoshka\Model\ResultSet;
+namespace Matryoshka\Model\Hydrator\Strategy;
 
-
-/**
- * Interface ResultSetAggregateInterface
- */
-interface ResultSetAggregateInterface
+interface NullableStrategyInterface
 {
+    /**
+     * @return bool
+     */
+    public function isNullable();
 
     /**
-     * Return the external ResultSet
-     *
-     * @return ResultSetInterface
+     * @param bool $nullable
+     * @return $this
      */
-    public function getResultSet();
-
+    public function setNullable($nullable);
 }

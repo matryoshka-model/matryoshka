@@ -3,7 +3,7 @@
  * Matryoshka
  *
  * @link        https://github.com/matryoshka-model/matryoshka
- * @copyright   Copyright (c) 2014, Copyright (c) 2014, Ripa Club
+ * @copyright   Copyright (c) 2014, Copyright (c) 2014-2015, Ripa Club
  * @license     http://opensource.org/licenses/BSD-2-Clause Simplified BSD License
  */
 namespace Matryoshka\Model\ResultSet;
@@ -137,7 +137,10 @@ abstract class AbstractResultSet implements ResultSetInterface
             } elseif (is_array($this->dataSource)) {
                 $this->count = count($this->dataSource);
             } else {
-                throw new Exception\RuntimeException('DataSource with type ' . gettype($this->dataSource) . ' cannot be counted');
+                throw new Exception\RuntimeException(sprintf(
+                    'DataSource with type "%s" cannot be counted',
+                    gettype($this->dataSource)
+                ));
             }
         }
         return $this->count;
