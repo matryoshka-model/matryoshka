@@ -14,11 +14,11 @@ use Zend\InputFilter\InputFilterAwareTrait;
 use Zend\Stdlib\Hydrator\HydratorAwareInterface;
 use Zend\Stdlib\Hydrator\HydratorAwareTrait;
 use Zend\Stdlib\Hydrator\ObjectProperty;
+use Matryoshka\Model\Hydrator\ClassMethods;
 
 /**
  * Abstract generic class to use as the entity model.
  *
- * Minimum set to correctly use Matryoshka library.
  */
 abstract class AbstractObject implements HydratorAwareInterface, InputFilterAwareInterface
 {
@@ -31,7 +31,7 @@ abstract class AbstractObject implements HydratorAwareInterface, InputFilterAwar
     public function getHydrator()
     {
         if (!$this->hydrator) {
-            $this->hydrator = new ObjectProperty();
+            $this->hydrator = new ClassMethods();
         }
 
         return $this->hydrator;

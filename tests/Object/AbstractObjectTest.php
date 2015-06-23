@@ -9,7 +9,7 @@ class AbstractObjectTest extends \PHPUnit_Framework_TestCase
     public function testGetHydrator()
     {
         $abstractObject = $this->getMockForAbstractClass('\Matryoshka\Model\Object\AbstractObject');
-        $this->assertInstanceOf('\Zend\Stdlib\Hydrator\ObjectProperty', $abstractObject->getHydrator());
+        $this->assertInstanceOf('\Matryoshka\Model\Hydrator\ClassMethods', $abstractObject->getHydrator());
     }
 
     public function testGetInputFilter()
