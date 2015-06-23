@@ -8,49 +8,56 @@
  */
 namespace Matryoshka\Model;
 
+use Zend\Paginator\AdapterAggregateInterface as PaginatorAdapterAggregateInterface;
+use Matryoshka\Model\Criteria\ReadableCriteriaInterface;
 use Matryoshka\Model\ResultSet\ResultSetInterface;
-use Zend\InputFilter\InputFilterInterface;
-use Zend\Stdlib\Hydrator\HydratorInterface;
+use Zend\Stdlib\Hydrator\HydratorAwareInterface;
+use Matryoshka\Model\Criteria\WritableCriteriaInterface;
+use Matryoshka\Model\Criteria\DeletableCriteriaInterface;
+use Matryoshka\Model\Criteria\PaginableCriteriaInterface;
 
 /**
  * Interface ModelInterface
  */
-interface ModelInterface
+interface ModelInterface extends PaginatorAdapterAggregateInterface
 {
-    /**
-     * Retrieve hydrator
-     *
-     * @param void
-     * @return null|HydratorInterface
-     */
-    public function getHydrator();
 
     /**
-     * Retrieve input filter
+     * Create
      *
-     * @return InputFilterInterface
+     * @return object
      */
-    public function getInputFilter();
+    public function create();
 
     /**
-     * Retrive data fateway
+     * Find
      *
-     * @return mixed
-     */
-    public function getDataGateway();
-
-    /**
-     * Retrieve Object prototype
-     *
-     * @return mixed
-     * @throws Exception\RuntimeException
-     */
-    public function getObjectPrototype();
-
-    /**
-     * Retrive ResultSet prototype
-     *
+     * @param ReadableCriteriaInterface $criteria
      * @return ResultSetInterface
      */
-    public function getResultSetPrototype();
+    public function find(ReadableCriteriaInterface $criteria);
+
+    /**
+     * Save
+     *
+     * Inserts or updates data
+     *
+     * @param WritableCriteriaInterface $criteria
+     * @param HydratorAwareInterface|object|array $dataOrObject
+     * @return null|int
+     */
+    public function save(WritableCriteriaInterface $criteria, $dataOrObject);
+
+    /**
+     * Delete
+     *
+     * @param DeletableCriteriaInterface $criteria
+     * @return null|int
+     */
+    public function delete(DeletableCriteriaInterface $criteria);
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getPaginatorAdapter(PaginableCriteriaInterface $criteria = null);
 }

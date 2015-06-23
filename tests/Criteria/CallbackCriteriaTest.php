@@ -47,7 +47,7 @@ class CallbackCriteriaTest extends \PHPUnit_Framework_TestCase
     public function testApply()
     {
         $this->modelMock = $modelMock = $mockCriteria = $this->getMock(
-            '\Matryoshka\Model\ModelInterface'
+            '\Matryoshka\Model\ModelStubInterface'
         );
 
         $this->callbackReturn = ['foo' => 'bar'];

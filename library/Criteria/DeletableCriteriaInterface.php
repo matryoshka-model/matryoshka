@@ -8,7 +8,7 @@
  */
 namespace Matryoshka\Model\Criteria;
 
-use Matryoshka\Model\ModelInterface;
+use Matryoshka\Model\ModelStubInterface;
 
 /**
  * Interface DeletableCriteriaInterface
@@ -16,7 +16,7 @@ use Matryoshka\Model\ModelInterface;
 interface DeletableCriteriaInterface extends CriteriaInterface
 {
     /**
-     * @param ModelInterface $model
+     * @param ModelStubInterface $model
      */
-    public function applyDelete(ModelInterface $model);
+    public function applyDelete(ModelStubInterface $model);
 }

@@ -8,7 +8,7 @@
  */
 namespace Matryoshka\Model\Criteria;
 
-use Matryoshka\Model\ModelInterface;
+use Matryoshka\Model\ModelStubInterface;
 use Zend\Paginator\Adapter\AdapterInterface;
 
 /**
@@ -17,8 +17,8 @@ use Zend\Paginator\Adapter\AdapterInterface;
 interface PaginableCriteriaInterface extends CriteriaInterface
 {
     /**
-     * @param ModelInterface $model
+     * @param ModelStubInterface $model
      * @return AdapterInterface
      */
-    public function getPaginatorAdapter(ModelInterface $model);
+    public function getPaginatorAdapter(ModelStubInterface $model);
 }

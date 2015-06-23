@@ -8,7 +8,7 @@
  */
 namespace Matryoshka\Model\Criteria;
 
-use Matryoshka\Model\ModelInterface;
+use Matryoshka\Model\ModelStubInterface;
 
 /**
  * Class AbstractCriteria
@@ -76,8 +76,8 @@ abstract class AbstractCriteria implements ReadableCriteriaInterface
     /**
      * Apply
      *
-     * @param ModelInterface $model
+     * @param ModelStubInterface $model
      * @return mixed
      */
-    abstract public function apply(ModelInterface $model);
+    abstract public function apply(ModelStubInterface $model);
 }

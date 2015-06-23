@@ -25,10 +25,10 @@ use Zend\Stdlib\Hydrator\HydratorAwareTrait;
  * Class AbstractModel
  */
 abstract class AbstractModel implements
+    ModelStubInterface,
     ModelInterface,
     HydratorAwareInterface,
-    InputFilterAwareInterface,
-    PaginatorAdapterAggregateInterface
+    InputFilterAwareInterface
 {
     use HydratorAwareTrait;
     use InputFilterAwareTrait;
@@ -113,9 +113,7 @@ abstract class AbstractModel implements
     }
 
     /**
-     * Create
-     *
-     * @return object
+     * {@inheritdoc}
      */
     public function create()
     {
@@ -123,10 +121,7 @@ abstract class AbstractModel implements
     }
 
     /**
-     * Find
-     *
-     * @param ReadableCriteriaInterface $criteria
-     * @return ResultSetInterface
+     * {@inheritdoc}
      */
     public function find(ReadableCriteriaInterface $criteria)
     {
@@ -140,9 +135,7 @@ abstract class AbstractModel implements
     }
 
     /**
-     * Save
-     *
-     * Inserts or updates data
+     * {@inheritdoc}
      *
      * @param WritableCriteriaInterface $criteria
      * @param HydratorAwareInterface|object|array $dataOrObject
@@ -220,10 +213,7 @@ abstract class AbstractModel implements
     }
 
     /**
-     * Delete
-     *
-     * @param DeletableCriteriaInterface $criteria
-     * @return null|int
+     * {@inheritdoc}
      */
     public function delete(DeletableCriteriaInterface $criteria)
     {
@@ -264,6 +254,7 @@ abstract class AbstractModel implements
 
     /**
      * {@inheritdoc}
+     *
      * @throws Exception\RuntimeException
      */
     public function getPaginatorAdapter(PaginableCriteriaInterface $criteria = null)

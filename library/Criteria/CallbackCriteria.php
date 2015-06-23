@@ -8,7 +8,7 @@
  */
 namespace Matryoshka\Model\Criteria;
 
-use Matryoshka\Model\ModelInterface;
+use Matryoshka\Model\ModelStubInterface;
 use Matryoshka\Model\Exception;
 
 /**
@@ -33,7 +33,7 @@ class CallbackCriteria extends AbstractCriteria implements ReadableCriteriaInter
     /**
      * {@inheritdoc}
      */
-    public function apply(ModelInterface $model)
+    public function apply(ModelStubInterface $model)
     {
         $callback = $this->callback;
         if ($callback instanceof \Closure) {
