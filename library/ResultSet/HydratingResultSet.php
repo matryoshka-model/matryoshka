@@ -128,5 +128,4 @@ class HydratingResultSet extends AbstractResultSet implements HydratingResultSet
     {
         return $this->getHydrator()->extract($item);
     }
-
 }

@@ -47,5 +47,4 @@ class AbstractCriteriaTest extends \PHPUnit_Framework_TestCase
         $this->assertAttributeEquals($offset, 'offset', $this->criteria);
         $this->assertSame($offset, $this->criteria->getOffset());
     }
-
 }

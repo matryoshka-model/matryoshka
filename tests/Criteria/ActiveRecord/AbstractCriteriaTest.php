@@ -37,7 +37,4 @@ class AbstractCriteriaTest extends \PHPUnit_Framework_TestCase
         );
         $this->assertSame($id, $this->criteria->getId());
     }
-
-
-
 }

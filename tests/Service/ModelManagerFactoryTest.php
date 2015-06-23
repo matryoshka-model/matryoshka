@@ -46,6 +46,5 @@ class ModelManagerFactoryTest extends \PHPUnit_Framework_TestCase
 
         $this->assertTrue($modelManager->has('MatryoshkaTest\Model\TestAsset\InvokableModel'));
         $this->assertInstanceOf('\Matryoshka\Model\ModelInterface', $modelManager->get('MatryoshkaTest\Model\TestAsset\InvokableModel'));
-
     }
 }

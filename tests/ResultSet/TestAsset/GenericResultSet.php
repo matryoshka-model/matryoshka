@@ -48,5 +48,4 @@ class GenericResultSet extends AbstractResultSet
     {
         // TODO: Implement __call() method.
     }
-
 }

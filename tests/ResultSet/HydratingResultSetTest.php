@@ -54,7 +54,6 @@ class HydratingResultSetTest extends AbstractResultSetTest
         $this->assertEquals(new \ArrayObject(['id' => 1, 'name' => 'one']), $resultSet->current());
         $resultSet->next();
         $this->assertNull($resultSet->current());
-
     }
 
     public function testSetObjectPrototypeShouldThrowExceptionWhenInvalidType()

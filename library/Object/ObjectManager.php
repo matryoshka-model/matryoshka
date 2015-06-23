@@ -78,5 +78,4 @@ class ObjectManager extends AbstractPluginManager
     {
         return parent::get($name, $options, $usePeeringServiceManagers);
     }
-
 }

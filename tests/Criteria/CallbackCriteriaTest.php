@@ -62,7 +62,7 @@ class CallbackCriteriaTest extends \PHPUnit_Framework_TestCase
         $scope = null;
         $return = ['return'];
 
-        $criteria = new CallbackCriteria(function() use(&$argv, &$scope, $return) {
+        $criteria = new CallbackCriteria(function () use (&$argv, &$scope,$return) {
             $argv  = func_get_args();
             $scope = $this;
             return $return;
@@ -72,7 +72,5 @@ class CallbackCriteriaTest extends \PHPUnit_Framework_TestCase
         $this->assertSame($return, $criteria->apply($modelMock));
         $this->assertSame($criteria, $scope);
         $this->assertSame([0 => $modelMock], $argv);
-
     }
-
 }

@@ -50,19 +50,17 @@ class FormTest extends \PHPUnit_Framework_TestCase
 
         $this->form = new AssertUserForm();
         $this->form->bind($this->user);
-
-
     }
 
-   public function testBoundObjectExtraction()
-   {
-       //test form is populated with bound object values.
+    public function testBoundObjectExtraction()
+    {
+        //test form is populated with bound object values.
        $this->form->prepare();
-       $this->assertSame($this->form->get('user')->get('surname')->getValue(),  $this->user->getSurname());
-       $this->assertSame($this->form->get('user')->get('firstName')->getValue(),  $this->user->getFirstName());
-       $this->assertSame($this->form->get('user')->get('roles')->get('0')->get('name')->getValue(),  $this->roleCommunity1->getName());
-       $this->assertSame($this->form->get('user')->get('roles')->get('1')->get('name')->getValue(),  $this->roleCommunity2->getName());
-   }
+        $this->assertSame($this->form->get('user')->get('surname')->getValue(),  $this->user->getSurname());
+        $this->assertSame($this->form->get('user')->get('firstName')->getValue(),  $this->user->getFirstName());
+        $this->assertSame($this->form->get('user')->get('roles')->get('0')->get('name')->getValue(),  $this->roleCommunity1->getName());
+        $this->assertSame($this->form->get('user')->get('roles')->get('1')->get('name')->getValue(),  $this->roleCommunity2->getName());
+    }
 
     public function testBoundObjectValidation()
     {
@@ -88,7 +86,6 @@ class FormTest extends \PHPUnit_Framework_TestCase
             ]
         ]);
         $this->assertFalse($form->isValid());
-
     }
 
     public function testBoundObjectHydratation()

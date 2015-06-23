@@ -164,6 +164,4 @@ class ExtrationTraitTest extends \PHPUnit_Framework_TestCase
 
         $reflMethod->invoke($this->extractionTrait, $this->testModel, 'objectName');
     }
-
-
 }

@@ -126,5 +126,4 @@ class AbstractActiveRecordTest extends \PHPUnit_Framework_TestCase
     {
         unset($this->object->invalidProperty);
     }
-
 }

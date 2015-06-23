@@ -12,7 +12,6 @@ use Countable;
 use Iterator;
 use Matryoshka\Model\Exception\InvalidArgumentException;
 
-
 /**
  * Interface ResultSetInterface
  */
@@ -49,5 +48,4 @@ interface ResultSetInterface extends Iterator, Countable
      * @return array
      */
     public function toArray();
-
 }

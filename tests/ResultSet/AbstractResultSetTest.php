@@ -115,7 +115,9 @@ class AbstractResultSetTest extends \PHPUnit_Framework_TestCase
             ['id' => 3, 'name' => 'three'],
         ]));
         $this->assertTrue($resultSet->valid());
-        $resultSet->next(); $resultSet->next(); $resultSet->next();
+        $resultSet->next();
+        $resultSet->next();
+        $resultSet->next();
         $this->assertFalse($resultSet->valid());
     }
 
@@ -170,7 +172,7 @@ class AbstractResultSetTest extends \PHPUnit_Framework_TestCase
         );
 
         $this->setExpectedException('\Matryoshka\Model\Exception\RuntimeException');
-        $resultSet->initialize([1,2,3]); //Not castable items
+        $resultSet->initialize([1, 2, 3]); //Not castable items
         $resultSet->toArray();
     }
 
@@ -197,7 +199,6 @@ class AbstractResultSetTest extends \PHPUnit_Framework_TestCase
 
         $resultSet->initialize($notCountableIterator);
         $resultSet->count();
-
     }
 
     public function testGetSetObjectPrototype()
@@ -209,5 +210,4 @@ class AbstractResultSetTest extends \PHPUnit_Framework_TestCase
             $this->assertSame($prototype, $resultSet->getObjectPrototype());
         }
     }
-
 }

@@ -46,7 +46,6 @@ class ServiceLocatorStrategyTest extends \PHPUnit_Framework_TestCase
         $obj = new DomainObject();
         $obj->setModel($this->modelMock);
         $sm->setService('MyDomainObjectWithModel', $obj);
-
     }
 
     public function testCreateObject()

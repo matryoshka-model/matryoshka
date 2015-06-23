@@ -64,7 +64,6 @@ trait ExtractionTrait
      */
     protected function extractName(ModelStubInterface $model, $name)
     {
-
         if ($model->getObjectPrototype() instanceof HydratorAwareInterface) {
             $objectHydrator = $model->getObjectPrototype()->getHydrator();
             if ($objectHydrator instanceof AbstractHydrator) {

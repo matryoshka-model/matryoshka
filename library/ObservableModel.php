@@ -46,7 +46,7 @@ class ObservableModel extends Model implements EventManagerAwareInterface
         $event = $this->getEvent();
         $event->setCriteria($criteria);
 
-        $results = $this->getEventManager()->trigger(ModelEvent::EVENT_FIND_PRE, $event, function($r) {
+        $results = $this->getEventManager()->trigger(ModelEvent::EVENT_FIND_PRE, $event, function ($r) {
             return $r instanceof ResultSetInterface;
         });
 
@@ -60,7 +60,7 @@ class ObservableModel extends Model implements EventManagerAwareInterface
 
         $event->setResultSet(parent::find($criteria));
 
-        $results = $this->getEventManager()->trigger(ModelEvent::EVENT_FIND_POST, $event, function($r) {
+        $results = $this->getEventManager()->trigger(ModelEvent::EVENT_FIND_POST, $event, function ($r) {
             return $r instanceof ResultSetInterface;
         });
 
@@ -83,7 +83,7 @@ class ObservableModel extends Model implements EventManagerAwareInterface
         $event->setCriteria($criteria);
         $event->setData($dataOrObject);
 
-        $results = $this->getEventManager()->trigger(ModelEvent::EVENT_SAVE_PRE, $event, function($r) {
+        $results = $this->getEventManager()->trigger(ModelEvent::EVENT_SAVE_PRE, $event, function ($r) {
             return is_int($r);
         });
 
@@ -97,7 +97,7 @@ class ObservableModel extends Model implements EventManagerAwareInterface
 
         $event->setResult(parent::save($event->getCriteria(), $event->getData()));
 
-        $results = $this->getEventManager()->trigger(ModelEvent::EVENT_SAVE_POST, $event, function($r) {
+        $results = $this->getEventManager()->trigger(ModelEvent::EVENT_SAVE_POST, $event, function ($r) {
             return is_int($r);
         });
 
@@ -119,7 +119,7 @@ class ObservableModel extends Model implements EventManagerAwareInterface
         $event = $this->getEvent();
         $event->setCriteria($criteria);
 
-        $results = $this->getEventManager()->trigger(ModelEvent::EVENT_DELETE_PRE, $event, function($r) {
+        $results = $this->getEventManager()->trigger(ModelEvent::EVENT_DELETE_PRE, $event, function ($r) {
             return is_int($r);
         });
 
@@ -133,7 +133,7 @@ class ObservableModel extends Model implements EventManagerAwareInterface
 
         $event->setResult(parent::delete($event->getCriteria()));
 
-        $results = $this->getEventManager()->trigger(ModelEvent::EVENT_DELETE_POST, $event, function($r) {
+        $results = $this->getEventManager()->trigger(ModelEvent::EVENT_DELETE_POST, $event, function ($r) {
             return is_int($r);
         });
 

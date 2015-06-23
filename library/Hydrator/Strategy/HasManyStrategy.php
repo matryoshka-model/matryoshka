@@ -75,7 +75,7 @@ class HasManyStrategy implements StrategyInterface, NullableStrategyInterface
         }
 
         return $return;
-     }
+    }
 
     /**
      * Converts the given value so that it can be hydrated by the hydrator.

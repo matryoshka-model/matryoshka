@@ -17,5 +17,4 @@ class AbstractObjectTest extends \PHPUnit_Framework_TestCase
         $abstractObject = $this->getMockForAbstractClass('\Matryoshka\Model\Object\AbstractObject');
         $this->assertInstanceOf('\Zend\InputFilter\InputFilter', $abstractObject->getInputFilter());
     }
-
 }

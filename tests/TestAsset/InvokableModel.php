@@ -13,5 +13,4 @@ use Matryoshka\Model\Model;
 
 class InvokableModel extends AbstractModel
 {
-
 }

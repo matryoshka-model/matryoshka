@@ -47,7 +47,6 @@ class ServiceLocatorStrategyFactoryTest extends \PHPUnit_Framework_TestCase
         );
 
         $sm->setService('Config', $config);
-
     }
 
     public function testCreateService()

@@ -104,7 +104,6 @@ class ModelAbstractServiceFactory implements AbstractFactoryInterface
         //Create a model instance
         $class = $this->modelClass;
         if (isset($config['type']) && is_string($config['type']) && !empty($config['type'])) {
-
             if (!is_subclass_of($config['type'], $class)) {
                 throw new Exception\UnexpectedValueException(sprintf(
                     '"type" in model configuration must be a subclass of "%s": "%s" given',

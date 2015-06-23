@@ -97,7 +97,7 @@ class BufferedResultSet extends AbstractResultSet implements
     protected function ensurePosition()
     {
         if ($this->resultSet->key() != $this->key()) {
-             throw new Exception\RuntimeException(
+            throw new Exception\RuntimeException(
                 'Buffering can not work while the aggregate resultset is being iterated over'
             );
         }
@@ -201,5 +201,4 @@ class BufferedResultSet extends AbstractResultSet implements
     {
         $this->resultSet = clone $this->resultSet;
     }
-
 }

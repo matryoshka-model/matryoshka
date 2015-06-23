@@ -22,5 +22,4 @@ class MockCriteria extends AbstractCriteria
     {
         return [];
     }
-
 }

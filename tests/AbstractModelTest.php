@@ -48,7 +48,6 @@ class AbstractModelTest extends \PHPUnit_Framework_TestCase
 
         $this->model->setDataGateway($this->mockDataGateway)
                     ->setResultSetPrototype($this->resultSet);
-
     }
 
     protected function setResultSetPrototype($value)
@@ -146,7 +145,6 @@ class AbstractModelTest extends \PHPUnit_Framework_TestCase
 
         $this->assertSame($modelAwareObject, $this->model->getObjectPrototype());
         $this->assertSame($this->model, $modelAwareObject->getModel());
-
     }
 
     public function testCreate()

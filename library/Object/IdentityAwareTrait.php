@@ -38,5 +38,4 @@ trait IdentityAwareTrait
     {
         return $this->id;
     }
-
 }

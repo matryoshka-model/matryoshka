@@ -13,7 +13,6 @@ use Zend\ServiceManager\Config;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
-
 /**
  * Class ModelManagerFactory
  */
@@ -34,5 +33,4 @@ class ModelManagerFactory implements FactoryInterface
         }
         return new ModelManager(new Config($modelConfig));
     }
-
 }

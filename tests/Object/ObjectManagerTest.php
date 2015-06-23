@@ -56,6 +56,5 @@ class ObjectManagerTest extends \PHPUnit_Framework_TestCase
         $pluginManager->setServiceLocator($services);
         $objectA = $pluginManager->get('MyObject\A');
         $this->assertInstanceOf('MatryoshkaTest\Model\Service\TestAsset\DomainObject', $objectA);
-
     }
 }

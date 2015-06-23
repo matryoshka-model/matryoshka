@@ -92,7 +92,6 @@ class ObjectAbstractServiceFactoryTest extends \PHPUnit_Framework_TestCase
         $sm->setService('TestModel', $this->model);
         $sm->setService('stdClass', new \stdClass);
         $sm->setService('MatryoshkaTest\Model\Criteria\ActiveRecord\TestAsset\ConcreteCriteria', new ConcreteCriteria);
-
     }
 
     /**

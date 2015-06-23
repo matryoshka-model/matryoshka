@@ -27,5 +27,4 @@ class ConcreteCriteria extends AbstractCriteria
     {
         return false;
     }
-
 }

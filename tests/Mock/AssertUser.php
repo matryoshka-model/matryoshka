@@ -135,7 +135,7 @@ class AssertUser extends AbstractObject
      */
     public function getHydrator()
     {
-        if(!$this->hydrator){
+        if (!$this->hydrator) {
             $this->setHydrator(new ClassMethods(false));
         }
         return $this->hydrator;

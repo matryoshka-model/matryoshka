@@ -161,11 +161,11 @@ abstract class AbstractResultSet implements ResultSetInterface
     protected function itemToArray($item)
     {
         if (is_array($item)) {
-           return $item;
+            return $item;
         } elseif (method_exists($item, 'toArray')) {
-           return $item->toArray();
+            return $item->toArray();
         } elseif (method_exists($item, 'getArrayCopy')) {
-           return $item->getArrayCopy();
+            return $item->getArrayCopy();
         }
 
         throw new Exception\RuntimeException(sprintf(

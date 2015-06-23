@@ -26,7 +26,7 @@ class DateTimeStrategy implements StrategyInterface
      */
     public function __construct($format = null)
     {
-        if($format !== null) {
+        if ($format !== null) {
             $this->setFormat($format);
         }
     }

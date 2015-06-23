@@ -70,7 +70,7 @@ class HasOneStrategy implements StrategyInterface, NullableStrategyInterface
             'Invalid value: must be null, an array or an instance of "%s"',
             get_class($objectPrototype)
         ));
-     }
+    }
 
     /**
      * Converts the given value so that it can be hydrated by the hydrator.

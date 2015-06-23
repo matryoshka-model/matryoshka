@@ -11,6 +11,7 @@ namespace MatryoshkaTest\Model\ResultSet;
 use Matryoshka\Model\ResultSet\BufferedResultSet;
 use MatryoshkaTest\Model\ResultSet\TestAsset\GenericResultSet;
 use Matryoshka\Model\Exception\RuntimeException;
+
 /**
  * Class BufferedResultSetTest
  *
@@ -111,7 +112,6 @@ class BufferedResultSetTest extends AbstractResultSetTest
                 . 'when next() was called on aggregated resultset'
             );
         } catch (RuntimeException $e) {
-
         }
 
         try {
@@ -122,7 +122,6 @@ class BufferedResultSetTest extends AbstractResultSetTest
                 . 'when rewind() was called on aggregated resultset'
             );
         } catch (RuntimeException $e) {
-
         }
     }
 
@@ -170,6 +169,4 @@ class BufferedResultSetTest extends AbstractResultSetTest
             $reflProperty->getValue($cloned)
         );
     }
-
-
 }

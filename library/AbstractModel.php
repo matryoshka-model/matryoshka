@@ -195,7 +195,6 @@ abstract class AbstractModel implements
                 foreach ($dataOrObject as $key => $value) {
                     $data[$key] = $hydrator->extractValue($key, $value, $context);
                 }
-
             }
         }
 

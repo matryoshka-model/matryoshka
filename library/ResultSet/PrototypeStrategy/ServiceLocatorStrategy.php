@@ -160,5 +160,4 @@ class ServiceLocatorStrategy implements PrototypeStrategyInterface
 
         return $object;
     }
-
 }

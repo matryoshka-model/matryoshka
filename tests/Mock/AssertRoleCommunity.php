@@ -68,7 +68,7 @@ class AssertRoleCommunity implements HydratorAwareInterface, InputFilterAwareInt
      */
     public function getHydrator()
     {
-        if(!$this->hydrator){
+        if (!$this->hydrator) {
             $this->setHydrator(new ClassMethods(false));
         }
         return $this->hydrator;
