@@ -10,8 +10,6 @@ namespace Matryoshka\Model\Object\ActiveRecord;
 
 use Matryoshka\Model\Exception;
 use Matryoshka\Model\ModelAwareInterface;
-use Matryoshka\Model\ModelInterface;
-use Matryoshka\Model\AbstractModel;
 use Matryoshka\Model\Criteria\ActiveRecord\AbstractCriteria;
 use Matryoshka\Model\ModelAwareTrait;
 use Matryoshka\Model\Object\AbstractObject;
@@ -42,23 +40,6 @@ abstract class AbstractActiveRecord extends AbstractObject implements
     public function setActiveRecordCriteriaPrototype(AbstractCriteria $criteria)
     {
         $this->activeRecordCriteriaPrototype = clone $criteria;
-        return $this;
-    }
-
-    /**
-     * Set Model
-     *
-     * @param ModelInterface $model
-     * @return $this
-     */
-    public function setModel(ModelInterface $model)
-    {
-        if (!$model instanceof AbstractModel) {
-            throw new Exception\InvalidArgumentException(
-                'AbstractModel required in order to work with ActiveRecord'
-            );
-        }
-        $this->model = $model;
         return $this;
     }
 

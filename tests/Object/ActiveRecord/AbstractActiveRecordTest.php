@@ -21,21 +21,6 @@ class AbstractActiveRecordTest extends \PHPUnit_Framework_TestCase
         $this->object->setActiveRecordCriteriaPrototype($this->criteria);
     }
 
-    public function testGetSetModel()
-    {
-        $abstractModelMock  = $this->getMockForAbstractClass('Matryoshka\Model\AbstractModel');
-
-        $this->assertInstanceOf('\MatryoshkaTest\Model\TestAsset\ActiveRecordObject', $this->object->setModel($abstractModelMock));
-
-        $this->assertSame($abstractModelMock, $this->object->getModel());
-
-        $modelInterfaceMock = $this->getMockForAbstractClass('Matryoshka\Model\ModelInterface');
-        $this->setExpectedException('Matryoshka\Model\Exception\InvalidArgumentException');
-        $this->object->setModel($modelInterfaceMock);
-    }
-
-
-
     public function testSave()
     {
         $id = 'id';
