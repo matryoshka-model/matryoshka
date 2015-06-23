@@ -4,6 +4,7 @@ php:
   - 5.4
   - 5.5
   - 5.6
+  - 7
   - hhvm
 
 branches:
@@ -13,7 +14,7 @@ branches:
 
 install:
   - composer self-update
-  - composer install --dev --prefer-source
+  - composer install --prefer-source
 
 before_script:
   - mkdir -p build/coverage
@@ -27,6 +28,7 @@ after_script:
 matrix:
   fast_finish: true
   allow_failures:
+    - php: 7
     - php: hhvm
 
 notifications:
