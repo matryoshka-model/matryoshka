@@ -11,12 +11,12 @@ namespace Matryoshka\Model\Service;
 use Matryoshka\Model\Criteria\PaginableCriteriaInterface;
 use Matryoshka\Model\Exception;
 use Matryoshka\Model\ObservableModel;
+use Matryoshka\Model\ResultSet\BufferedResultSet;
 use Zend\EventManager\ListenerAggregateInterface;
 use Zend\ServiceManager\AbstractFactoryInterface;
 use Zend\ServiceManager\AbstractPluginManager;
 use Zend\ServiceManager\ServiceLocatorInterface;
 use Zend\Stdlib\Hydrator\HydratorAwareInterface;
-use Matryoshka\Model\ResultSet\BufferedResultSet;
 
 /**
  * Class ModelAbstractServiceFactory
@@ -98,6 +98,7 @@ class ModelAbstractServiceFactory implements AbstractFactoryInterface
         $resultSetPrototype = $serviceLocator->get($config['resultset']);
 
         if (isset($config['buffered_resultset']) && $config['buffered_resultset']) {
+            /* @var $resultSetPrototype \Matryoshka\Model\ResultSet\AbstractResultSet */
             $resultSetPrototype = new BufferedResultSet($resultSetPrototype);
         }
 
@@ -192,7 +193,6 @@ class ModelAbstractServiceFactory implements AbstractFactoryInterface
      */
     protected function getPaginatorCriteriaByName(ServiceLocatorInterface $serviceLocator, $name)
     {
-        /** @var $criteria CriteriaInterface */
         $criteria = $serviceLocator->get($name);
         if (!$criteria instanceof PaginableCriteriaInterface) {
             throw new Exception\ServiceNotCreatedException(sprintf(

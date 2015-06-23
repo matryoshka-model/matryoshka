@@ -13,6 +13,7 @@ use Matryoshka\Model\ModelStubInterface;
 /**
  * Interface ReadableCriteriaInterface
  *
+ * Criterias implementing this interface are able to perform read operations.
  */
 interface ReadableCriteriaInterface extends CriteriaInterface
 {

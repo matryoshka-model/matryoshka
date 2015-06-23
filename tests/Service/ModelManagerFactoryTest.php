@@ -8,10 +8,10 @@
  */
 namespace MatryoshkaTest\Model\Service;
 
+use Matryoshka\Model\ResultSet\HydratingResultSet;
+use MatryoshkaTest\Model\Service\TestAsset\FakeDataGateway;
 use Zend\ServiceManager\Config;
 use Zend\ServiceManager\ServiceManager;
-use MatryoshkaTest\Model\Service\TestAsset\FakeDataGateway;
-use Matryoshka\Model\ResultSet\HydratingResultSet;
 
 /**
  * Class ModelManagerFactoryTest

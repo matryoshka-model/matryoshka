@@ -16,11 +16,9 @@ use Matryoshka\Model\Exception;
 /**
  * Class AbstractCriteria
  *
- * A particular kind of CriteriaInterface in order to work with an ActiveRecord object.
- * This criteria works always with just one object at time. For read and delete operations
- * an id must be set using setId().
- * @todo Define the applyWrite behavior releted to the id presence
- *
+ * A particular kind of CriteriaInterface aimed to work with ActiveRecord objects.
+ * This criteria works with one object at time.
+ * For read and delete operations an id must be set using {@link setId()}.
  */
 abstract class AbstractCriteria implements
     ReadableCriteriaInterface,

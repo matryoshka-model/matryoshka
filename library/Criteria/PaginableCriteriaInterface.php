@@ -13,6 +13,8 @@ use Zend\Paginator\Adapter\AdapterInterface;
 
 /**
  * Interface PaginableCriteriaInterface
+ *
+ * Criterias implementing this interface are able to factory a paginator adapter.
  */
 interface PaginableCriteriaInterface extends CriteriaInterface
 {

@@ -14,6 +14,8 @@ use Zend\ServiceManager\ConfigInterface;
 
 /**
  * Class ModelManager
+ *
+ * A dedicated service locator for your model service classes.
  */
 class ModelManager extends AbstractPluginManager
 {
@@ -75,7 +77,7 @@ class ModelManager extends AbstractPluginManager
      * @param  bool $usePeeringServiceManagers
      * @return mixed
      */
-    public function get($name, $options = array(), $usePeeringServiceManagers = false)
+    public function get($name, $options = [], $usePeeringServiceManagers = false)
     {
         return parent::get($name, $options, $usePeeringServiceManagers);
     }

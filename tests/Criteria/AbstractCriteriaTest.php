@@ -10,6 +10,9 @@ namespace MatryoshkaTest\Model\Criteria;
 
 use MatryoshkaTest\Model\Criteria\TestAsset\ConcreteCriteria;
 
+/**
+ * Class AbstractCriteriaTest
+ */
 class AbstractCriteriaTest extends \PHPUnit_Framework_TestCase
 {
 
@@ -23,12 +26,18 @@ class AbstractCriteriaTest extends \PHPUnit_Framework_TestCase
         $this->assertNull($this->criteria->getLimit()); //Test default
 
         $limit = 10;
-        $this->assertInstanceOf('\MatryoshkaTest\Model\Criteria\TestAsset\ConcreteCriteria', $this->criteria->setLimit($limit));
+        $this->assertInstanceOf(
+            '\MatryoshkaTest\Model\Criteria\TestAsset\ConcreteCriteria',
+            $this->criteria->setLimit($limit)
+        );
         $this->assertAttributeEquals($limit, 'limit', $this->criteria);
         $this->assertSame($limit, $this->criteria->getLimit());
 
         $limit = null;
-        $this->assertInstanceOf('\MatryoshkaTest\Model\Criteria\TestAsset\ConcreteCriteria', $this->criteria->setLimit($limit));
+        $this->assertInstanceOf(
+            '\MatryoshkaTest\Model\Criteria\TestAsset\ConcreteCriteria',
+            $this->criteria->setLimit($limit)
+        );
         $this->assertAttributeEquals($limit, 'limit', $this->criteria);
         $this->assertSame($limit, $this->criteria->getLimit());
     }
@@ -38,12 +47,18 @@ class AbstractCriteriaTest extends \PHPUnit_Framework_TestCase
         $this->assertNull($this->criteria->getOffset()); //Test default
 
         $offset = 20;
-        $this->assertInstanceOf('\MatryoshkaTest\Model\Criteria\TestAsset\ConcreteCriteria', $this->criteria->setOffset($offset));
+        $this->assertInstanceOf(
+            '\MatryoshkaTest\Model\Criteria\TestAsset\ConcreteCriteria',
+            $this->criteria->setOffset($offset)
+        );
         $this->assertAttributeEquals($offset, 'offset', $this->criteria);
         $this->assertSame($offset, $this->criteria->getOffset());
 
         $offset = null;
-        $this->assertInstanceOf('\MatryoshkaTest\Model\Criteria\TestAsset\ConcreteCriteria', $this->criteria->setOffset($offset));
+        $this->assertInstanceOf(
+            '\MatryoshkaTest\Model\Criteria\TestAsset\ConcreteCriteria',
+            $this->criteria->setOffset($offset)
+        );
         $this->assertAttributeEquals($offset, 'offset', $this->criteria);
         $this->assertSame($offset, $this->criteria->getOffset());
     }

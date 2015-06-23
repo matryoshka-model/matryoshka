@@ -12,6 +12,8 @@ use Matryoshka\Model\ModelStubInterface;
 
 /**
  * Interface DeletableCriteriaInterface
+ *
+ * Criterias implementing this interface are able to perform delete operations.
  */
 interface DeletableCriteriaInterface extends CriteriaInterface
 {

@@ -12,6 +12,8 @@ use Matryoshka\Model\ModelStubInterface;
 
 /**
  * Interface WritableCriteriaInterface
+ *
+ * Criterias implementing this interface are able to perform write operations.
  */
 interface WritableCriteriaInterface extends CriteriaInterface
 {

@@ -10,12 +10,13 @@ namespace Matryoshka\Model\Object;
 
 use Matryoshka\Model\Exception;
 use Matryoshka\Model\Object\Service\ObjectAbstractServiceFactory;
-use Zend\ServiceManager\ServiceManager;
-use Zend\ServiceManager\ConfigInterface;
 use Zend\ServiceManager\AbstractPluginManager;
+use Zend\ServiceManager\ConfigInterface;
 
 /**
  * Class ObjectManager
+ *
+ * A dedicated service locator for managing domain model specific objects.
  */
 class ObjectManager extends AbstractPluginManager
 {
@@ -27,8 +28,8 @@ class ObjectManager extends AbstractPluginManager
 
     /**
      * Constructor
-     * Add a default initializer to ensure the plugin is valid after instance
-     * creation.
+     * Add a default initializer to ensure the plugin is valid after instance creation.
+     *
      * @param  null|ConfigInterface $configuration
      */
     public function __construct(ConfigInterface $configuration = null)
@@ -40,6 +41,7 @@ class ObjectManager extends AbstractPluginManager
     /**
      * Validate the plugin
      * Checks that the object loaded is an object.
+     *
      * @param mixed $plugin
      * @throws Exception\InvalidPluginException
      */
@@ -74,7 +76,7 @@ class ObjectManager extends AbstractPluginManager
      * @param  bool $usePeeringServiceManagers
      * @return mixed
      */
-    public function get($name, $options = array(), $usePeeringServiceManagers = false)
+    public function get($name, $options = [], $usePeeringServiceManagers = false)
     {
         return parent::get($name, $options, $usePeeringServiceManagers);
     }

@@ -12,6 +12,9 @@ use Zend\Stdlib\Hydrator\ClassMethods;
 use Zend\Stdlib\Hydrator\HydratorAwareInterface;
 use Zend\Stdlib\Hydrator\HydratorInterface;
 
+/**
+ * Class MockResultsetHydrator
+ */
 class MockResultsetHydrator extends ResultSet implements HydratorAwareInterface
 {
     protected $hydrator = null;

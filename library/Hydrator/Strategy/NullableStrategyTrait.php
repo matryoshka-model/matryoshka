@@ -8,9 +8,11 @@
  */
 namespace Matryoshka\Model\Hydrator\Strategy;
 
+/**
+ * Trait NullableStrategyTrait
+ */
 trait NullableStrategyTrait
 {
-
     /**
      * @var bool
      */

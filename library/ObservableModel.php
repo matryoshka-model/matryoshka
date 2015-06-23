@@ -12,12 +12,14 @@ use Matryoshka\Model\Criteria\DeletableCriteriaInterface;
 use Matryoshka\Model\Criteria\ReadableCriteriaInterface;
 use Matryoshka\Model\Criteria\WritableCriteriaInterface;
 use Matryoshka\Model\Exception;
+use Matryoshka\Model\ResultSet\ResultSetInterface;
 use Zend\EventManager\EventManagerAwareInterface;
 use Zend\EventManager\EventManagerAwareTrait;
-use Matryoshka\Model\ResultSet\ResultSetInterface;
 
 /**
  * Class ObservableModel
+ *
+ * Event-driven extension of the {@link Model} class.
  */
 class ObservableModel extends Model implements EventManagerAwareInterface
 {

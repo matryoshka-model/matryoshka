@@ -8,6 +8,9 @@
  */
 namespace Matryoshka\Model\Hydrator\Strategy;
 
+/**
+ * Interface NullableStrategyInterface
+ */
 interface NullableStrategyInterface
 {
     /**

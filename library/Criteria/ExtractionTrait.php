@@ -8,16 +8,16 @@
  */
 namespace Matryoshka\Model\Criteria;
 
-use Zend\Stdlib\Hydrator\AbstractHydrator;
-use Matryoshka\Model\ModelStubInterface;
-use Zend\Stdlib\Hydrator\HydratorAwareInterface;
 use Matryoshka\Model\Exception;
+use Matryoshka\Model\ModelStubInterface;
+use Zend\Stdlib\Hydrator\AbstractHydrator;
+use Zend\Stdlib\Hydrator\HydratorAwareInterface;
 
 /**
- * ExtractionTrait
+ * Trait ExtractionTrait
  *
- * This trait adds utility methods in order to extract values or names from
- * the object point of view to dataGateway ones
+ * This trait contains utility methods in order to extract values or names from
+ * the object point of view to the datagateway one.
  */
 trait ExtractionTrait
 {
@@ -31,7 +31,7 @@ trait ExtractionTrait
      * @param ModelStubInterface $model
      * @param string $name
      * @param string $value
-     * @param string $extractName
+     * @param bool $extractName
      * @throws Exception\RuntimeException
      */
     protected function extractValue(ModelStubInterface $model, $name, $value, $extractName = true)

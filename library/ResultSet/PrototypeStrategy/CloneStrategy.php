@@ -10,6 +10,8 @@ namespace Matryoshka\Model\ResultSet\PrototypeStrategy;
 
 /**
  * Class CloneStrategy
+ *
+ * Strategy for the creation of objects by cloning their prototype.
  */
 class CloneStrategy implements PrototypeStrategyInterface
 {

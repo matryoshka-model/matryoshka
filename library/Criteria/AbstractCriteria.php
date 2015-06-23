@@ -12,6 +12,8 @@ use Matryoshka\Model\ModelStubInterface;
 
 /**
  * Class AbstractCriteria
+ *
+ * A commodity class providing common method for read operations on collections.
  */
 abstract class AbstractCriteria implements ReadableCriteriaInterface
 {

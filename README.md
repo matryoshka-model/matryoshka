@@ -8,7 +8,7 @@
 | [![Coveralls branch](https://img.shields.io/coveralls/matryoshka-model/matryoshka/master.svg?style=flat-square)](https://coveralls.io/r/matryoshka-model/matryoshka?branch=master) | [![Coveralls branch](https://img.shields.io/coveralls/matryoshka-model/matryoshka/develop.svg?style=flat-square)](https://coveralls.io/r/matryoshka-model/matryoshka?branch=develop) |
 
 Matryoshka is a lightweight framework that provides a standard and easy way to implement a model [service layer](http://martinfowler.com/eaaCatalog/serviceLayer.html).
-Its layered design aims to provide a strong seperation between the persistence and the rest of your application, whether the datagateway you need to use (i.e. Zend\Db, MongoCollection, an ORM, a REST client or anything else).
+Its layered design aims to provide a strong seperation between the persistence and the rest of your application, regardless of the datagateway you need to use (i.e. Zend\Db, MongoCollection, an ORM, a REST client or anything else).
 In order to work with Matryoshka, developers need just to setup services using its comprehensive configuration system and implement very simple [criteria](http://en.wikipedia.org/wiki/Criteria_Pattern) interfaces.
 Furthermore, a set of [wrapper](http://en.wikipedia.org/wiki/Wrapper_library) for common persistence systems are provided as separeted libraries.
 
@@ -59,11 +59,11 @@ Add the following to your `composer.json` file:
 ```
 "require": {
     "php": ">=5.4",
-    "matryoshka-model/matryoshka": "~0.6.2",
+    "matryoshka-model/matryoshka": "~0.7.0",
 }
 ```
 
 ---
 
-[![Analytics](https://ga-beacon.appspot.com/UA-49655829-1/matryoshka-model/matryoshka)](https://github.com/igrigorik/ga-beacon)
+[![Analytics](https://ga-beacon.appspot.com/UA-49657176-2/matryoshka)](https://github.com/igrigorik/ga-beacon)
 

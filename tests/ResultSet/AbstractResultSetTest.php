@@ -8,9 +8,8 @@
  */
 namespace MatryoshkaTest\Model\ResultSet;
 
-use MatryoshkaTest\Model\ResultSet\TestAsset\GenericResultSet;
-use MatryoshkaTest\Model\ResultSet\TestAsset\ItemWithToArray;
 use Matryoshka\Model\ResultSet\AbstractResultSet;
+use MatryoshkaTest\Model\ResultSet\TestAsset\ItemWithToArray;
 
 /**
  * Class AbstractResultSetTest

@@ -8,10 +8,10 @@
  */
 namespace Matryoshka\Model\Service;
 
+use Matryoshka\Model\Exception;
 use Zend\InputFilter\InputFilterInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 use Zend\Stdlib\Hydrator\HydratorInterface;
-use Matryoshka\Model\Exception;
 
 /**
  * Trait AbstractServiceFactoryTrait

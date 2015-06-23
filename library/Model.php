@@ -15,6 +15,8 @@ use Zend\ServiceManager\ServiceLocatorAwareTrait;
 
 /**
  * Class Model
+ *
+ * Default concrete implementation of {@link AbstractModel}.
  */
 class Model extends AbstractModel implements ServiceLocatorAwareInterface
 {

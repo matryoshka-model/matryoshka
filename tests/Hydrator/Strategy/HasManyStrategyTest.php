@@ -10,6 +10,9 @@ namespace MatryoshkaTest\Model\Hydrator\Strategy;
 
 use Matryoshka\Model\Hydrator\Strategy\HasManyStrategy;
 
+/**
+ * Class HasManyStrategyTest
+ */
 class HasManyStrategyTest extends \PHPUnit_Framework_TestCase
 {
 

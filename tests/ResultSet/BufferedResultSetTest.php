@@ -8,9 +8,9 @@
  */
 namespace MatryoshkaTest\Model\ResultSet;
 
+use Matryoshka\Model\Exception\RuntimeException;
 use Matryoshka\Model\ResultSet\BufferedResultSet;
 use MatryoshkaTest\Model\ResultSet\TestAsset\GenericResultSet;
-use Matryoshka\Model\Exception\RuntimeException;
 
 /**
  * Class BufferedResultSetTest

@@ -9,7 +9,10 @@
 namespace MatryoshkaTest\Model;
 
 use Matryoshka\Model\Criteria\CallbackCriteria;
+use Matryoshka\Model\ModelAwareInterface;
+use Matryoshka\Model\ResultSet\HydratingResultSet;
 use MatryoshkaTest\Model\Mock\Criteria\MockCriteria;
+use MatryoshkaTest\Model\TestAsset\ActiveRecordObject;
 use MatryoshkaTest\Model\TestAsset\ConcreteAbstractModel;
 use MatryoshkaTest\Model\TestAsset\HydratorAwareObject;
 use MatryoshkaTest\Model\TestAsset\HydratorObject;
@@ -17,9 +20,6 @@ use MatryoshkaTest\Model\TestAsset\InputFilterAwareObject;
 use MatryoshkaTest\Model\TestAsset\ResultSet;
 use MatryoshkaTest\Model\TestAsset\ToArrayObject;
 use Zend\Stdlib\Hydrator\ArraySerializable;
-use MatryoshkaTest\Model\TestAsset\ActiveRecordObject;
-use Matryoshka\Model\ModelAwareInterface;
-use Matryoshka\Model\ResultSet\HydratingResultSet;
 use Zend\Stdlib\Hydrator\HydratorAwareInterface;
 
 /**

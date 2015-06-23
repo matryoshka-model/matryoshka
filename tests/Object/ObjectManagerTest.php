@@ -8,8 +8,8 @@
  */
 namespace MatryoshkaTest\Model\Object;
 
-use Zend\ServiceManager\ServiceManager;
 use Matryoshka\Model\Object\ObjectManager;
+use Zend\ServiceManager\ServiceManager;
 
 /**
  * Class ObjectManagerTest

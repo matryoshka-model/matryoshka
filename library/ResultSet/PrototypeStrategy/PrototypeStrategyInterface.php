@@ -10,6 +10,8 @@ namespace Matryoshka\Model\ResultSet\PrototypeStrategy;
 
 /**
  * Interface PrototypeStrategyInterface
+ *
+ * Contract for the creation of objects from their prototype.
  */
 interface PrototypeStrategyInterface
 {

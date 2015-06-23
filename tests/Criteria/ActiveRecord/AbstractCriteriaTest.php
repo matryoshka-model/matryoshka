@@ -10,6 +10,9 @@ namespace MatryoshkaTest\Model\Criteria\ActiveRecord;
 
 use MatryoshkaTest\Model\Criteria\ActiveRecord\TestAsset\ConcreteCriteria;
 
+/**
+ * Class AbstractCriteriaTest
+ */
 class AbstractCriteriaTest extends \PHPUnit_Framework_TestCase
 {
 

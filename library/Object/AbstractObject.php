@@ -8,17 +8,17 @@
  */
 namespace Matryoshka\Model\Object;
 
+use Matryoshka\Model\Hydrator\ClassMethods;
 use Zend\InputFilter\InputFilter;
 use Zend\InputFilter\InputFilterAwareInterface;
 use Zend\InputFilter\InputFilterAwareTrait;
 use Zend\Stdlib\Hydrator\HydratorAwareInterface;
 use Zend\Stdlib\Hydrator\HydratorAwareTrait;
-use Zend\Stdlib\Hydrator\ObjectProperty;
-use Matryoshka\Model\Hydrator\ClassMethods;
 
 /**
- * Abstract generic class to use as the entity model.
+ * Class AbstractObject
  *
+ * Abstract generic class to create domain model specific objects.
  */
 abstract class AbstractObject implements HydratorAwareInterface, InputFilterAwareInterface
 {

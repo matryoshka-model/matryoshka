@@ -11,6 +11,9 @@ namespace MatryoshkaTest\Model\Criteria\TestAsset;
 use Matryoshka\Model\Criteria\AbstractCriteria;
 use Matryoshka\Model\ModelStubInterface;
 
+/**
+ * Class ConcreteCriteria
+ */
 class ConcreteCriteria extends AbstractCriteria
 {
     public function apply(ModelStubInterface $model)

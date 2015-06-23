@@ -8,22 +8,21 @@
  */
 namespace Matryoshka\Model\Object\ActiveRecord;
 
+use Matryoshka\Model\Criteria\ActiveRecord\AbstractCriteria;
 use Matryoshka\Model\Exception;
 use Matryoshka\Model\ModelAwareInterface;
-use Matryoshka\Model\Criteria\ActiveRecord\AbstractCriteria;
 use Matryoshka\Model\ModelAwareTrait;
 use Matryoshka\Model\Object\AbstractObject;
-use Matryoshka\Model\Object\InitializableInterface;
 
 /**
+ * Class AbstractActiveRecord
  *
- *
+ * Abstract class aimed to the implementation of the ActiveRecord pattern.
  */
 abstract class AbstractActiveRecord extends AbstractObject implements
     ModelAwareInterface,
     ActiveRecordInterface
 {
-
     use ModelAwareTrait;
 
     /**
@@ -52,11 +51,14 @@ abstract class AbstractActiveRecord extends AbstractObject implements
     public function save()
     {
         if (!$this->activeRecordCriteriaPrototype) {
-            throw new Exception\RuntimeException('An Active Record Criteria Prototype must be set prior to calling save()');
+            throw new Exception\RuntimeException(sprintf(
+                'An Active Record Criteria Prototype must be set prior to calling ',
+                __FUNCTION__
+            ));
         }
 
         if (!$this->getModel()) {
-            throw new Exception\RuntimeException('A Model must be set prior to calling save()');
+            throw new Exception\RuntimeException(sprintf('A Model must be set prior to calling %s', __FUNCTION__));
         }
 
         $criteria = $this->activeRecordCriteriaPrototype;
@@ -74,15 +76,18 @@ abstract class AbstractActiveRecord extends AbstractObject implements
     public function delete()
     {
         if (!$this->getId()) {
-            throw new Exception\RuntimeException('An ID must be set prior to calling delete()');
+            throw new Exception\RuntimeException(sprintf('An ID must be set prior to calling %s', __FUNCTION__));
         }
 
         if (!$this->activeRecordCriteriaPrototype) {
-            throw new Exception\RuntimeException('An Active Record Criteria Prototype must be set prior to calling delete()');
+            throw new Exception\RuntimeException(sprintf(
+                'An Active Record Criteria Prototype must be set prior to calling %s',
+                __FUNCTION__
+            ));
         }
 
         if (!$this->getModel()) {
-            throw new Exception\RuntimeException('A Model must be set prior to calling delete()');
+            throw new Exception\RuntimeException(sprintf('A Model must be set prior to calling %s', __FUNCTION__));
         }
 
         $criteria = $this->activeRecordCriteriaPrototype;

@@ -11,8 +11,8 @@ namespace Matryoshka\Model\Criteria;
 /**
  * Interface CriteriaInterface
  *
- * Criteria is an "user query intefarce" from an API point of view,
- * acting as mediator between model and datagateway.
+ * Criteria is an <b>user query interface</b> from an API point of view,
+ * acting as mediator between the model and the datagateway.
  */
 interface CriteriaInterface
 {

@@ -16,13 +16,14 @@ use Matryoshka\Model\Exception;
 use Matryoshka\Model\ResultSet\ResultSetInterface;
 use Zend\InputFilter\InputFilterAwareInterface;
 use Zend\InputFilter\InputFilterAwareTrait;
-use Zend\Paginator\AdapterAggregateInterface as PaginatorAdapterAggregateInterface;
 use Zend\Stdlib\Hydrator\AbstractHydrator;
 use Zend\Stdlib\Hydrator\HydratorAwareInterface;
 use Zend\Stdlib\Hydrator\HydratorAwareTrait;
 
 /**
  * Class AbstractModel
+ *
+ * Provides implementations for {@link ModelStubInterface} and [@link ModelInterface} contracts.
  */
 abstract class AbstractModel implements
     ModelStubInterface,

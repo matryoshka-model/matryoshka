@@ -19,6 +19,9 @@ use Zend\Stdlib\Hydrator\HydratorInterface;
 
 /**
  * Class HydratingResultSet
+ *
+ * A more flexible AbstractResultSet implementation that allows to choose an appropriate <b>hydration strategy</b>
+ * for getting data into a target object.
  */
 class HydratingResultSet extends AbstractResultSet implements HydratingResultSetInterface
 {

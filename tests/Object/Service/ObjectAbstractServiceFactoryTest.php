@@ -9,6 +9,7 @@
 namespace MatryoshkaTest\Model\Object\Service;
 
 use Matryoshka\Model\Model;
+use Matryoshka\Model\Object\ObjectManager;
 use Matryoshka\Model\Object\Service\ObjectAbstractServiceFactory;
 use Matryoshka\Model\ResultSet\HydratingResultSet;
 use MatryoshkaTest\Model\Criteria\ActiveRecord\TestAsset\ConcreteCriteria;
@@ -20,8 +21,6 @@ use Zend\ServiceManager;
 use Zend\Stdlib\Hydrator\ArraySerializable;
 use Zend\Stdlib\Hydrator\HydratorPluginManager;
 use Zend\Stdlib\Hydrator\ObjectProperty;
-use Matryoshka\Model\ModelManager;
-use Matryoshka\Model\Object\ObjectManager;
 
 /**
  * Class ObjectAbstractServiceFactoryTest

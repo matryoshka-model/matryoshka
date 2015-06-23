@@ -8,16 +8,18 @@
  */
 namespace Matryoshka\Model;
 
-use Zend\Paginator\AdapterAggregateInterface as PaginatorAdapterAggregateInterface;
-use Matryoshka\Model\Criteria\ReadableCriteriaInterface;
-use Matryoshka\Model\ResultSet\ResultSetInterface;
-use Zend\Stdlib\Hydrator\HydratorAwareInterface;
-use Matryoshka\Model\Criteria\WritableCriteriaInterface;
 use Matryoshka\Model\Criteria\DeletableCriteriaInterface;
 use Matryoshka\Model\Criteria\PaginableCriteriaInterface;
+use Matryoshka\Model\Criteria\ReadableCriteriaInterface;
+use Matryoshka\Model\Criteria\WritableCriteriaInterface;
+use Matryoshka\Model\ResultSet\ResultSetInterface;
+use Zend\Paginator\AdapterAggregateInterface as PaginatorAdapterAggregateInterface;
+use Zend\Stdlib\Hydrator\HydratorAwareInterface;
 
 /**
  * Interface ModelInterface
+ *
+ * Contract for model services definining common features such as CRUD and pagination.
  */
 interface ModelInterface extends PaginatorAdapterAggregateInterface
 {

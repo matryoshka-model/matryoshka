@@ -15,6 +15,8 @@ use Zend\EventManager\Event;
 
 /**
  * Class ModelEvent
+ *
+ * Represents the custom event for {@link ObservableModel} class.
  */
 class ModelEvent extends Event
 {

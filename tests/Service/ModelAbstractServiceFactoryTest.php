@@ -15,7 +15,6 @@ use Matryoshka\Model\Service\ModelAbstractServiceFactory;
 use MatryoshkaTest\Model\Service\TestAsset\DomainObject;
 use MatryoshkaTest\Model\Service\TestAsset\FakeDataGateway;
 use MatryoshkaTest\Model\Service\TestAsset\PaginatorCriteria;
-use Zend\EventManager\ListenerAggregateInterface;
 use Zend\InputFilter\InputFilter;
 use Zend\InputFilter\InputFilterPluginManager;
 use Zend\Mvc\Service\ServiceManagerConfig;

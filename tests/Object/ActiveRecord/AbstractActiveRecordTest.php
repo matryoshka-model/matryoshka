@@ -1,8 +1,8 @@
 <?php
 namespace MatryoshkaTest\Model\Object\ActiveRecord;
 
-use MatryoshkaTest\Model\TestAsset\ActiveRecordObject;
 use MatryoshkaTest\Model\Criteria\ActiveRecord\TestAsset\ConcreteCriteria;
+use MatryoshkaTest\Model\TestAsset\ActiveRecordObject;
 
 /**
  * Class AbstractActiveRecordTest

@@ -9,10 +9,9 @@
 namespace MatryoshkaTest\Model\Service\TestAsset;
 
 use Matryoshka\Model\Criteria\PaginableCriteriaInterface;
-use Matryoshka\Model\ModelInterface;
+use Matryoshka\Model\ModelStubInterface;
 use Zend\Paginator\Adapter\AdapterInterface;
 use Zend\Paginator\Adapter\ArrayAdapter;
-use Matryoshka\Model\ModelStubInterface;
 
 /**
  * Class PaginatorCriteria

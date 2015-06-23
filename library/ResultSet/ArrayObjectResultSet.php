@@ -44,7 +44,11 @@ class ArrayObjectResultSet extends AbstractResultSet
             || (!$objectPrototype instanceof ArrayObject && !method_exists($objectPrototype, 'exchangeArray'))
 
         ) {
-            throw new Exception\InvalidArgumentException('Object must be of type ArrayObject, or at least implement exchangeArray');
+            throw new Exception\InvalidArgumentException(sprintf(
+                'Object must be of type %s, or at least implement %s',
+                'ArrayObject',
+                'exchangeArray'
+            ));
         }
         $this->arrayObjectPrototype = $objectPrototype;
         return $this;

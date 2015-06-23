@@ -8,10 +8,13 @@
  */
 namespace MatryoshkaTest\Model;
 
-use MatryoshkaTest\Model\Mock\Form\AssertUserForm;
-use MatryoshkaTest\Model\Mock\AssertUser;
 use MatryoshkaTest\Model\Mock\AssertRoleCommunity;
+use MatryoshkaTest\Model\Mock\AssertUser;
+use MatryoshkaTest\Model\Mock\Form\AssertUserForm;
 
+/**
+ * Class FormTest
+ */
 class FormTest extends \PHPUnit_Framework_TestCase
 {
     /**

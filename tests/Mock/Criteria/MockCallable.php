@@ -8,6 +8,9 @@
  */
 namespace MatryoshkaTest\Model\Mock\Criteria;
 
+/**
+ * Class MockCallable
+ */
 class MockCallable
 {
     public static function applyTest()

@@ -10,6 +10,9 @@ namespace MatryoshkaTest\Model\Hydrator\Strategy;
 
 use Matryoshka\Model\Hydrator\Strategy\SetTypeStrategy;
 
+/**
+ * Class SetTypeStrategyTest
+ */
 class SetTypeStrategyTest extends \PHPUnit_Framework_TestCase
 {
     public function testHydrate()

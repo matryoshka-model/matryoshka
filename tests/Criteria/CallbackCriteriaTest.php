@@ -10,6 +10,9 @@ namespace MatryoshkaTest\Model\Criteria;
 
 use Matryoshka\Model\Criteria\CallbackCriteria;
 
+/**
+ * Class CallbackCriteriaTest
+ */
 class CallbackCriteriaTest extends \PHPUnit_Framework_TestCase
 {
 
@@ -19,11 +22,12 @@ class CallbackCriteriaTest extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->closure = function () {};
+        $this->closure = function () {
+        };
         $this->criteria = new CallbackCriteria($this->closure);
     }
 
-    public function test__constructor()
+    public function testCtor()
     {
         $this->assertInstanceOf('Matryoshka\Model\Criteria\AbstractCriteria', $this->criteria);
         $this->assertInstanceOf('Matryoshka\Model\Criteria\ReadableCriteriaInterface', $this->criteria);

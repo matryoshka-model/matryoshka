@@ -8,12 +8,12 @@
  */
 namespace Matryoshka\Model\ResultSet;
 
-use ArrayIterator;
 use Matryoshka\Model\Exception;
 
 /**
+ * Class BufferedResultSet
  *
- *
+ * A type of AbstractResultSet that allows multiple iterations on the same resultset.
  */
 class BufferedResultSet extends AbstractResultSet implements
     ResultSetAggregateInterface,
@@ -84,7 +84,7 @@ class BufferedResultSet extends AbstractResultSet implements
     /**
      * Get the data source used to create the result set
      *
-     * @return null|Iterator
+     * @return null|\Iterator
      */
     public function getDataSource()
     {
