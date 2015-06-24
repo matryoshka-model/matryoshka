@@ -23,7 +23,7 @@ use Zend\Stdlib\Hydrator\HydratorInterface;
  * To accomplish this goal Matryoshka uses criteria interfaces that developer have to implement.
  * Classes implementing this interface are mainly intended to provide a set of services to criteria implementations.
  */
-interface ModelStubInterface
+interface ModelStubInterface extends ModelPrototypeInterface
 {
     /**
      * Retrieve data gateway
@@ -46,19 +46,4 @@ interface ModelStubInterface
      * @return InputFilterInterface
      */
     public function getInputFilter();
-
-    /**
-     * Retrieve object prototype
-     *
-     * @return mixed
-     * @throws Exception\RuntimeException
-     */
-    public function getObjectPrototype();
-
-    /**
-     * Retrieve ResultSet prototype
-     *
-     * @return ResultSetInterface
-     */
-    public function getResultSetPrototype();
 }

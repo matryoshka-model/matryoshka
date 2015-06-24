@@ -21,7 +21,7 @@ use Zend\Stdlib\Hydrator\HydratorAwareInterface;
  *
  * Contract for model services definining common features such as CRUD and pagination.
  */
-interface ModelInterface extends PaginatorAdapterAggregateInterface
+interface ModelInterface extends ModelPrototypeInterface, PaginatorAdapterAggregateInterface
 {
 
     /**
