@@ -27,7 +27,7 @@ class HydratingResultSetTest extends AbstractResultSetTest
         $this->resultSet = new HydratingResultSet($this->hydrator);
     }
 
-    public function test__constructor()
+    public function testCtor()
     {
         $hydrator = new ObjectProperty();
         $resultSet = new HydratingResultSet($hydrator);

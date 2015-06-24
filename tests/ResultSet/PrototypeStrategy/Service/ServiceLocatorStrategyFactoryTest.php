@@ -1,32 +1,22 @@
 <?php
-/**
- * Matryoshka
- *
- * @link        https://github.com/matryoshka-model/matryoshka
- * @copyright   Copyright (c) 2014-2015, Ripa Club
- * @license     http://opensource.org/licenses/BSD-2-Clause Simplified BSD License
- */
 namespace MatryoshkaTest\Model\ResultSet\PrototypeStrategy\Service;
 
 use Matryoshka\Model\ResultSet\PrototypeStrategy\Service\ServiceLocatorStrategyFactory;
+use MatryoshkaTest\Model\Object\PrototypeStrategy\Service\ServiceLocatorStrategyFactoryTest as ObjectServiceLocatorStrategyFactoryTest;
 use Zend\Mvc\Service\ServiceManagerConfig;
-use Zend\ServiceManager;
+use Zend\ServiceManager\ServiceManager;
 
 /**
  * Class ServiceLocatorStrategyFactoryTest
+ *
+ * NOTE: remove this test when the relative class (already deprecated) will be deleted
  */
-class ServiceLocatorStrategyFactoryTest extends \PHPUnit_Framework_TestCase
+class ServiceLocatorStrategyFactoryTest extends ObjectServiceLocatorStrategyFactoryTest
 {
     /**
-     * @var \Zend\ServiceManager\ServiceManager
+     * {@inheritdoc}
      */
-    protected $serviceManager;
-
-    protected $testConfig =  [
-        'type_field'        => 'foo',
-        'validate_object'   => true,
-        'clone_object'      => false,
-    ];
+    protected $configKey = 'matryoshka-resultset-servicelocatorstrategy';
 
     /**
      * @return void
@@ -34,41 +24,19 @@ class ServiceLocatorStrategyFactoryTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $config = [
-            'matryoshka-resultset-servicelocatorstrategy' => $this->testConfig,
+            $this->configKey => $this->testConfig,
         ];
 
-        $sm = $this->serviceManager = new ServiceManager\ServiceManager(
+        $sm = $this->serviceManager = new ServiceManager(
             new ServiceManagerConfig([
                 'factories' => [
-                    'Matryoshka\Model\ResultSet\PrototypeStrategy\ServiceLocatorStrategy' =>
+                    'Matryoshka\Model\Object\PrototypeStrategy\ServiceLocatorStrategy' =>
                     'Matryoshka\Model\ResultSet\PrototypeStrategy\Service\ServiceLocatorStrategyFactory',
                 ]
             ])
         );
 
         $sm->setService('Config', $config);
-    }
-
-    public function testCreateService()
-    {
-        $serviceLocator = $this->serviceManager;
-
-        $strategy = $serviceLocator->get('Matryoshka\Model\ResultSet\PrototypeStrategy\ServiceLocatorStrategy');
-        $this->assertInstanceOf('\Matryoshka\Model\ResultSet\PrototypeStrategy\ServiceLocatorStrategy', $strategy);
-        $this->assertSame($serviceLocator, $strategy->getServiceLocator());
-    }
-
-    public function testCreateServiceWithSpecificServiceLocator()
-    {
-        $serviceLocator = $this->serviceManager;
-        $serviceLocator->setAllowOverride(true);
-        $serviceLocator->setService('Config', ['matryoshka-resultset-servicelocatorstrategy' => ['service_locator' => 'CustomServiceLocator']]);
-        $customServiceLocator = new \Zend\ServiceManager\ServiceManager();
-        $serviceLocator->setService('CustomServiceLocator', $customServiceLocator);
-
-        $strategy = $serviceLocator->get('Matryoshka\Model\ResultSet\PrototypeStrategy\ServiceLocatorStrategy');
-        $this->assertInstanceOf('\Matryoshka\Model\ResultSet\PrototypeStrategy\ServiceLocatorStrategy', $strategy);
-        $this->assertSame($customServiceLocator, $strategy->getServiceLocator());
     }
 
     public function testGetConfig()
@@ -94,14 +62,14 @@ class ServiceLocatorStrategyFactoryTest extends \PHPUnit_Framework_TestCase
         $getConfigMethod = $reflection->getMethod('getConfig');
         $getConfigMethod->setAccessible(true);
 
-        $this->assertSame([], $getConfigMethod->invoke($factory, new ServiceManager\ServiceManager()));
+        $this->assertSame([], $getConfigMethod->invoke($factory, new ServiceManager()));
 
         //Test without config node
         $factory = new ServiceLocatorStrategyFactory();
         $reflection = new \ReflectionClass($factory);
         $getConfigMethod = $reflection->getMethod('getConfig');
         $getConfigMethod->setAccessible(true);
-        $sm = new ServiceManager\ServiceManager();
+        $sm = new ServiceManager();
         $sm->setService('Config', []);
         $this->assertSame([], $getConfigMethod->invoke($factory, $sm));
     }

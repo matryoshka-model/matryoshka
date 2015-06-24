@@ -8,7 +8,7 @@
  */
 namespace MatryoshkaTest\Model\ResultSet\PrototypeStrategy;
 
-use Matryoshka\Model\ResultSet\PrototypeStrategy\ServiceLocatorStrategy;
+use Matryoshka\Model\Object\PrototypeStrategy\ServiceLocatorStrategy;
 use MatryoshkaTest\Model\Service\TestAsset\DomainObject;
 use Zend\Mvc\Service\ServiceManagerConfig;
 use Zend\ServiceManager;

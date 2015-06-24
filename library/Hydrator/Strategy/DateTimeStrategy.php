@@ -38,6 +38,7 @@ class DateTimeStrategy implements StrategyInterface, NullableStrategyInterface
      * {@inheritdoc}
      * Convert a string value into a DateTime object
      *
+     * @param string|int|null $value
      * @return DateTime|null
      */
     public function hydrate($value)
@@ -46,23 +47,23 @@ class DateTimeStrategy implements StrategyInterface, NullableStrategyInterface
             return null;
         }
 
-        if (is_string($value)) {
+        if (is_string($value) || is_int($value)) {
             if ($dateTime = DateTime::createFromFormat($this->getFormat(), $value)) {
                 return $dateTime;
             }
 
             throw new Exception\InvalidArgumentException(sprintf(
-                'Invalid value: must be a string representing the time according to DateTime::createFromFormat(), "%s" given.',
+                'Invalid format or value: format must be a string representing a valid \DateTime format, "%s" given;' .
+                'value must be a string representing the time according to \DateTime::createFromFormat(), "%s" given.',
+                $this->getFormat(),
                 $value
             ));
         }
 
         throw new Exception\InvalidArgumentException(sprintf(
-            'Invalid value: must be a string representing the time, "%s" given',
+            'Invalid value: must be a string or integer representing the time according to the format, "%s" given',
             is_object($value) ? get_class($value) : gettype($value)
         ));
-
-        return null;
     }
 
     /**
@@ -88,16 +89,20 @@ class DateTimeStrategy implements StrategyInterface, NullableStrategyInterface
     }
 
     /**
+     * Set format
+     *
      * @param string $format
      * @return DateTimeStrategy
      */
     public function setFormat($format)
     {
-        $this->format = $format;
+        $this->format = (string) $format;
         return $this;
     }
 
     /**
+     * Get format
+     *
      * @return string
      */
     public function getFormat()

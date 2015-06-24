@@ -6,7 +6,7 @@
  * @copyright   Copyright (c) 2014-2015, Ripa Club
  * @license     http://opensource.org/licenses/BSD-2-Clause Simplified BSD License
  */
-namespace Matryoshka\Model\ResultSet\PrototypeStrategy;
+namespace Matryoshka\Model\Object\PrototypeStrategy;
 
 /**
  * Class CloneStrategy

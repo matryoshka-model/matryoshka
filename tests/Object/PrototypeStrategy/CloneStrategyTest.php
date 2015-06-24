@@ -6,9 +6,9 @@
  * @copyright   Copyright (c) 2014-2015, Ripa Club
  * @license     http://opensource.org/licenses/BSD-2-Clause Simplified BSD License
  */
-namespace MatryoshkaTest\Model\ResultSet\PrototypeStrategy;
+namespace MatryoshkaTest\Model\Object\PrototypeStrategy;
 
-use Matryoshka\Model\ResultSet\PrototypeStrategy\CloneStrategy;
+use Matryoshka\Model\Object\PrototypeStrategy\CloneStrategy;
 
 /**
  * Class CloneStrategyTest
@@ -18,8 +18,8 @@ class CloneStrategyTest extends \PHPUnit_Framework_TestCase
 
     public function testCreateObject()
     {
-        $strategy = new CloneStrategy();
-        $objectPrototype = new \stdClass();
+        $strategy = new CloneStrategy;
+        $objectPrototype = new \stdClass;
 
         $object = $strategy->createObject($objectPrototype);
 
