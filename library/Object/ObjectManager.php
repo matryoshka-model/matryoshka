@@ -74,7 +74,7 @@ class ObjectManager extends AbstractPluginManager
      * @param  string $name
      * @param  array $options
      * @param  bool $usePeeringServiceManagers
-     * @return mixed
+     * @return object
      */
     public function get($name, $options = [], $usePeeringServiceManagers = false)
     {
