@@ -21,6 +21,19 @@ class AbstractActiveRecordTest extends \PHPUnit_Framework_TestCase
         $this->object->setActiveRecordCriteriaPrototype($this->criteria);
     }
 
+    public function testSetModel()
+    {
+        $this->assertSame($this->object, $this->object->setId('foo'));
+        $this->assertAttributeEquals('foo', 'id', $this->object);
+    }
+
+    public function testGetModel()
+    {
+        $this->assertNull($this->object->getId());
+        $this->object->setId('bar');
+        $this->assertEquals('bar', $this->object->getId());
+    }
+
     public function testSave()
     {
         $id = 'id';

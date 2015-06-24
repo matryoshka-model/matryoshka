@@ -26,9 +26,36 @@ abstract class AbstractActiveRecord extends AbstractObject implements
     use ModelAwareTrait;
 
     /**
+     * @var mixed
+     */
+    protected $id;
+
+    /**
      * @var AbstractCriteria
      */
     protected $activeRecordCriteriaPrototype;
+
+    /**
+     * Set Id
+     *
+     * @param mixed $id
+     * @return $this
+     */
+    public function setId($id)
+    {
+        $this->id = $id;
+        return $this;
+    }
+
+    /**
+     * Get Id
+     *
+     * @return mixed
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
 
     /**
      * Set Active Record Criteria Prototype
