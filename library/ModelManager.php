@@ -75,7 +75,7 @@ class ModelManager extends AbstractPluginManager
      * @param  string $name
      * @param  array $options
      * @param  bool $usePeeringServiceManagers
-     * @return mixed
+     * @return ModelInterface
      */
     public function get($name, $options = [], $usePeeringServiceManagers = false)
     {
