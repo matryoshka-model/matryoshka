@@ -28,12 +28,13 @@ use Zend\Stdlib\Hydrator\HydratorAwareTrait;
 abstract class AbstractModel implements
     ModelStubInterface,
     ModelInterface,
+    DataGatewayAwareInterface,
     HydratorAwareInterface,
     InputFilterAwareInterface
 {
+    use DataGatewayAwareTrait;
     use HydratorAwareTrait;
     use InputFilterAwareTrait;
-    use DataGatewayAwareTrait;
 
     /**
      * @var PaginableCriteriaInterface
