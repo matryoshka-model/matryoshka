@@ -20,6 +20,8 @@ class HasOneStrategyTest extends \PHPUnit_Framework_TestCase
     {
         $abstractObject = $this->getMockForAbstractClass('\Matryoshka\Model\Object\AbstractObject');
         $strategy = new HasOneStrategy($abstractObject, new \ArrayObject());
+        $this->assertInstanceOf('Matryoshka\Model\Hydrator\Strategy\NullableStrategyInterface', $strategy);
+        $this->assertTrue($strategy->isNullable());
     }
 
     public function testGetHydrator()

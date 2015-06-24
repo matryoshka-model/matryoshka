@@ -9,13 +9,16 @@
 namespace Matryoshka\Model\Hydrator\Strategy;
 
 use DateTime;
+use Matryoshka\Model\Exception;
 use Zend\Stdlib\Hydrator\Strategy\StrategyInterface;
 
 /**
  * Class DateTimeStrategy
  */
-class DateTimeStrategy implements StrategyInterface
+class DateTimeStrategy implements StrategyInterface, NullableStrategyInterface
 {
+    use NullableStrategyTrait;
+
     /**
      * @var string
      */
@@ -39,12 +42,26 @@ class DateTimeStrategy implements StrategyInterface
      */
     public function hydrate($value)
     {
-        if (is_string($value)) {
-            $value = DateTime::createFromFormat($this->getFormat(), $value);
-            if ($value) {
-                return $value;
-            }
+        if ($this->nullable && $value === null) {
+            return null;
         }
+
+        if (is_string($value)) {
+            if ($dateTime = DateTime::createFromFormat($this->getFormat(), $value)) {
+                return $dateTime;
+            }
+
+            throw new Exception\InvalidArgumentException(sprintf(
+                'Invalid value: must be a string representing the time according to DateTime::createFromFormat(), "%s" given.',
+                $value
+            ));
+        }
+
+        throw new Exception\InvalidArgumentException(sprintf(
+            'Invalid value: must be a string representing the time, "%s" given',
+            is_object($value) ? get_class($value) : gettype($value)
+        ));
+
         return null;
     }
 
@@ -59,7 +76,15 @@ class DateTimeStrategy implements StrategyInterface
         if ($value instanceof DateTime) {
             return $value->format($this->getFormat());
         }
-        return null;
+
+        if ($this->nullable && $value === null) {
+            return null;
+        }
+
+        throw new Exception\InvalidArgumentException(sprintf(
+            'Invalid value: must be an instance of DateTime, "%s" given.',
+            is_object($value) ? get_class($value) : gettype($value)
+        ));
     }
 
     /**
