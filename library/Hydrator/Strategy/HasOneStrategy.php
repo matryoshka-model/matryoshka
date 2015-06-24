@@ -27,9 +27,10 @@ class HasOneStrategy implements StrategyInterface, NullableStrategyInterface
     /**
      * Ctor
      *
-     * @param $objectPrototype
+     * @param HydratorAwareInterface $objectPrototype
+     * @param bool $nullable
      */
-    public function __construct(HydratorAwareInterface $objectPrototype, $nullable = false)
+    public function __construct(HydratorAwareInterface $objectPrototype, $nullable = true)
     {
         $this->objectPrototype = $objectPrototype;
         $this->setNullable($nullable);

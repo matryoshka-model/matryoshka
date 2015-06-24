@@ -35,13 +35,16 @@ class HasManyStrategy implements StrategyInterface, NullableStrategyInterface
      *
      * @param HydratorAwareInterface $objectPrototype
      * @param \ArrayAccess $arrayObjectPrototype
+     * @param bool $nullable
      */
     public function __construct(
         HydratorAwareInterface $objectPrototype,
-        \ArrayAccess $arrayObjectPrototype = null
+        \ArrayAccess $arrayObjectPrototype = null,
+        $nullable = true
     ) {
         $this->hasOneStrategy = new HasOneStrategy($objectPrototype);
         $this->arrayObjectPrototype = $arrayObjectPrototype ? $arrayObjectPrototype : new ArrayObject([], ArrayObject::ARRAY_AS_PROPS);
+        $this->setNullable($nullable);
     }
 
     /**
