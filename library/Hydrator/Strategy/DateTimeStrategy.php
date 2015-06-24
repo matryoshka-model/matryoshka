@@ -39,7 +39,7 @@ class DateTimeStrategy implements StrategyInterface, NullableStrategyInterface
      * Convert a string value into a DateTime object
      *
      * @param string|int|null $value
-     * @return DateTime|null
+     * @return \DateTime|null
      */
     public function hydrate($value)
     {
@@ -70,6 +70,7 @@ class DateTimeStrategy implements StrategyInterface, NullableStrategyInterface
      * {@inheritdoc}
      * Convert a DateTime object into a string
      *
+     * @param \DateTime|null $value
      * @return string|null
      */
     public function extract($value)

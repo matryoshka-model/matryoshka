@@ -13,7 +13,7 @@ use Matryoshka\Model\ResultSet\ResultSetInterface;
 /**
  * Interface ModelPrototypeInterface
  *
- * Contract that defines prototypes identifying the model concept itself.
+ * Contract that defines the prototypes identifying the model concept itself.
  */
 interface ModelPrototypeInterface
 {
