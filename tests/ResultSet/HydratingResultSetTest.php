@@ -33,6 +33,8 @@ class HydratingResultSetTest extends AbstractResultSetTest
         $resultSet = new HydratingResultSet($hydrator);
         $this->assertSame($hydrator, $resultSet->getHydrator());
 
+        $this->assertInstanceOf('Matryoshka\Model\ResultSet\HydratingResultSetInterface', $resultSet);
+        $this->assertInstanceOf('Matryoshka\Model\Object\PrototypeStrategy\PrototypeStrategyAwareInterface', $resultSet);
 
         $abstractObject = $this->getMockForAbstractClass('\Matryoshka\Model\Object\AbstractObject');
         $resultSet = new HydratingResultSet(null, $abstractObject);

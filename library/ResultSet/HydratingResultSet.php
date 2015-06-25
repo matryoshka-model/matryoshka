@@ -16,6 +16,8 @@ use Zend\Stdlib\Hydrator\ArraySerializable;
 use Zend\Stdlib\Hydrator\HydratorAwareInterface;
 use Zend\Stdlib\Hydrator\HydratorAwareTrait;
 use Zend\Stdlib\Hydrator\HydratorInterface;
+use Matryoshka\Model\Object\PrototypeStrategy\PrototypeStrategyAwareTrait;
+use Matryoshka\Model\Object\PrototypeStrategy\PrototypeStrategyAwareInterface;
 
 /**
  * Class HydratingResultSet
@@ -23,19 +25,15 @@ use Zend\Stdlib\Hydrator\HydratorInterface;
  * A more flexible AbstractResultSet implementation that allows to choose an appropriate <b>hydration strategy</b>
  * for getting data into a target object.
  */
-class HydratingResultSet extends AbstractResultSet implements HydratingResultSetInterface
+class HydratingResultSet extends AbstractResultSet implements HydratingResultSetInterface, PrototypeStrategyAwareInterface
 {
     use HydratorAwareTrait;
+    use PrototypeStrategyAwareTrait;
 
     /**
      * @var object
      */
     protected $objectPrototype = null;
-
-    /**
-     * @var PrototypeStrategyInterface
-     */
-    protected $prototypeStrategy = null;
 
     /**
      * Constructor
@@ -79,31 +77,6 @@ class HydratingResultSet extends AbstractResultSet implements HydratingResultSet
     public function getObjectPrototype()
     {
         return $this->objectPrototype;
-    }
-
-    /**
-     * Set the prototype strategy
-     *
-     * @return HydratingResultSet
-     */
-    public function setPrototypeStrategy(PrototypeStrategyInterface $strategy)
-    {
-        $this->prototypeStrategy = $strategy;
-        return $this;
-    }
-
-    /**
-     * Get prototype strategy
-     *
-     * @return CloneStrategy
-     */
-    public function getPrototypeStrategy()
-    {
-        if (null === $this->prototypeStrategy) {
-            $this->setPrototypeStrategy(new CloneStrategy());
-        }
-
-        return $this->prototypeStrategy;
     }
 
     /**
