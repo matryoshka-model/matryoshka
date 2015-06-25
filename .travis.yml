@@ -10,10 +10,16 @@ branches:
   only:
     - master
     - develop
+    
+cache:
+  directories:
+    - $HOME/.composer/cache
+
+before_install:
+  - travis_retry composer self-update && composer --version
 
 install:
-  - composer self-update
-  - composer install --prefer-source
+  - travis_retry composer install --prefer-dist
 
 before_script:
   - mkdir -p build/coverage
@@ -31,5 +37,4 @@ matrix:
     - php: hhvm
 
 notifications:
-  email:
-    - ripaclub@gmail.com
+  email: false
