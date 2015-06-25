@@ -68,9 +68,10 @@ abstract class AbstractModel implements
             if ($this->getObjectPrototype() instanceof InputFilterAwareInterface) {
                 $this->inputFilter = $this->getObjectPrototype()->getInputFilter();
             } else {
-                throw new Exception\RuntimeException(
-                    'InputFilter must be set or the object prototype must be an instance of InputFilterAwareInterface'
-                );
+                throw new Exception\RuntimeException(sprintf(
+                    'InputFilter must be set or the object prototype must be an instance of "%s"',
+                    InputFilterAwareInterface::class
+                ));
             }
         }
         return $this->inputFilter;

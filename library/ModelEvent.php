@@ -56,7 +56,10 @@ class ModelEvent extends Event
     public function setTarget($target)
     {
         if (!$target instanceof ModelInterface) {
-            throw new Exception\InvalidArgumentException(__CLASS__ . ' works only with ModelInterface targets');
+            throw new Exception\InvalidArgumentException(sprintf(
+                '"%s" works only with ModelInterface targets',
+                __CLASS__
+            ));
         }
         return parent::setTarget($target);
     }

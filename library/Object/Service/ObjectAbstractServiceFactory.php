@@ -142,7 +142,7 @@ class ObjectAbstractServiceFactory implements AbstractFactoryInterface
             throw new Exception\ServiceNotCreatedException(sprintf(
                 'Instance of type %s is invalid; must implement %s',
                 (is_object($criteria) ? get_class($criteria) : gettype($criteria)),
-                'Matryoshka\Model\Criteria\ActiveRecord\AbstractCriteria'
+                AbstractCriteria::class
             ));
         }
         return $criteria;

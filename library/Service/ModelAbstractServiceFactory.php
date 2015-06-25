@@ -165,7 +165,7 @@ class ModelAbstractServiceFactory implements AbstractFactoryInterface
             } else {
                 throw new Exception\ServiceNotCreatedException(sprintf(
                     'Instance of model must be a subclass of "%s" in order to attach listeners',
-                    'Matryoshka\Model\ObservableModel'
+                    ObservableModel::class
                 ));
             }
         }
@@ -193,7 +193,7 @@ class ModelAbstractServiceFactory implements AbstractFactoryInterface
                 throw new Exception\ServiceNotCreatedException(sprintf(
                     'Invalid service "%s" specified in "listeners" model configuration; must be an instance of "%s"',
                     $listener,
-                    'Zend\EventManager\ListenerAggregateInterface'
+                    ListenerAggregateInterface::class
                 ));
             }
         }

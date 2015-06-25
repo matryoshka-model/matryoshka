@@ -49,9 +49,9 @@ class ModelManager extends AbstractPluginManager
     {
         if (!$plugin instanceof ModelInterface) {
             throw new Exception\InvalidPluginException(sprintf(
-                'Model of type %s is invalid; must implement %s\ModelInterface',
+                'Model of type %s is invalid; must implement "%s"',
                 (is_object($plugin) ? get_class($plugin) : gettype($plugin)),
-                __NAMESPACE__
+                ModelInterface::class
             ));
         }
     }

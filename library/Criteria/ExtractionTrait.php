@@ -37,9 +37,10 @@ trait ExtractionTrait
     protected function extractValue(ModelStubInterface $model, $name, $value, $extractName = true)
     {
         if (!$model->getHydrator() instanceof AbstractHydrator) {
-            throw new Exception\RuntimeException(
-                'Hydrator must be an instance of \Zend\Stdlib\Hydrator\AbstractHydrator'
-            );
+            throw new Exception\RuntimeException(sprintf(
+                'Hydrator must be an instance of "%s"',
+                AbstractHydrator::class
+            ));
         }
 
         if ($extractName) {
@@ -69,9 +70,10 @@ trait ExtractionTrait
             if ($objectHydrator instanceof AbstractHydrator) {
                 $name = $objectHydrator->hydrateName($name);
             } else {
-                throw new Exception\RuntimeException(
-                    'Object hydrator must be an instance of \Zend\Stdlib\Hydrator\AbstractHydrator'
-                );
+                throw new Exception\RuntimeException(sprintf(
+                    'Object hydrator must be an instance of "%s"',
+                    AbstractHydrator::class
+                ));
             }
         }
 
@@ -79,9 +81,10 @@ trait ExtractionTrait
         if ($modelHydrator instanceof AbstractHydrator) {
             $name = $modelHydrator->extractName($name);
         } else {
-            throw new Exception\RuntimeException(
-                'Model hydrator must be an instance of \Zend\Stdlib\Hydrator\AbstractHydrator'
-            );
+            throw new Exception\RuntimeException(sprintf(
+                'Model hydrator must be an instance of "%s"',
+                    AbstractHydrator::class
+            ));
         }
 
         return $name;

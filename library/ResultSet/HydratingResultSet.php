@@ -60,9 +60,10 @@ class HydratingResultSet extends AbstractResultSet implements HydratingResultSet
     public function setObjectPrototype($objectPrototype)
     {
         if (!is_object($objectPrototype)) {
-            throw new Exception\InvalidArgumentException(
-                'An object must be set as the object prototype, a ' . gettype($objectPrototype) . ' was provided.'
-            );
+            throw new Exception\InvalidArgumentException(sprintf(
+                'An object must be set as the object prototype, a "%s" was provided.',
+                gettype($objectPrototype)
+            ));
         }
 
         $this->objectPrototype = $objectPrototype;
