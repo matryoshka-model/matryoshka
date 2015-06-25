@@ -18,10 +18,10 @@ use Zend\Stdlib\Hydrator\HydratorInterface;
  * Contract for model stub objects that allow access to persistence related services such as the datagateway,
  * the hydrator and the input filter (used for persistence purposes).
  * Matryoshka doesn't provide a persistence layer implementation itself,
- * but it can work with any third party implementation that acts as datagateway.
- * Regardless of the datagateway you choose, Matryoshka provides to clients the same set of handful API.
+ * but it can work with any third party component that acts as datagateway.
  * To accomplish this goal Matryoshka uses criteria interfaces that developer have to implement.
- * Classes implementing this interface are mainly intended to provide a set of services to criteria implementations.
+ * Classes implementing this interface are mainly intended to provide a set of services consumed by 
+ * the criteria implementations.
  */
 interface ModelStubInterface extends ModelPrototypeInterface
 {
@@ -35,8 +35,7 @@ interface ModelStubInterface extends ModelPrototypeInterface
     /**
      * Retrieve hydrator
      *
-     * @param void
-     * @return null|HydratorInterface
+     * @return HydratorInterface
      */
     public function getHydrator();
 

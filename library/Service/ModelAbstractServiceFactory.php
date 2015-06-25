@@ -151,7 +151,6 @@ class ModelAbstractServiceFactory implements AbstractFactoryInterface
 
         //Setup Prototype strategy
         if (!empty($config['prototype_strategy']) && is_string($config['prototype_strategy'])) {
-            var_dump(get_class($resultSetPrototype));
             if ($resultSetPrototype instanceof PrototypeStrategyAwareInterface) {
                 $resultSetPrototype->setPrototypeStrategy($this->getPrototypeStrategyByName($serviceLocator, $config['prototype_strategy']));
             }
