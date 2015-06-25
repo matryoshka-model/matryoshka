@@ -13,13 +13,15 @@ branches:
     
 cache:
   directories:
-    - $HOME/.composer/cache
+    - ~/.composer/cache
 
 before_install:
+  - mkdir ~/.composer
+  - echo '{ "config": { "github-oauth": { "github.com": "NuUCEFAdIrYSbAvdUa3BA6d5ZIdBieDcE0JTNS0iXJG5KKCNhruOouicUXGKwpJVZwGN6pRgnJxlEqKOpTgkMlLis3dMk2txwFqO5O3xKZb+/EfkKuefj5G5Z96zivnEmdKK/fnq0FAOzZaZRmmXVLJPY1ccKcvEu4xpXhjLctE=" } } }' > ~/.composer/config.json
   - travis_retry composer self-update && composer --version
 
 install:
-  - travis_retry composer install --prefer-dist
+  - travis_retry composer install
 
 before_script:
   - mkdir -p build/coverage
