@@ -19,17 +19,10 @@ use Zend\Stdlib\Hydrator\HydratorAwareInterface;
 /**
  * Interface ModelInterface
  *
- * Contract for model services definining common features such as CRUD and pagination.
+ * Contract for any end user service that manages a collection of related data by using criterias.
  */
 interface ModelInterface extends ModelPrototypeInterface, PaginatorAdapterAggregateInterface
 {
-
-    /**
-     * Create
-     *
-     * @return object
-     */
-    public function create();
 
     /**
      * Find

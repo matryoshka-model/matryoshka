@@ -147,15 +147,6 @@ class AbstractModelTest extends \PHPUnit_Framework_TestCase
         $this->assertSame($this->model, $modelAwareObject->getModel());
     }
 
-    public function testCreate()
-    {
-        $prototype = $this->model->getObjectPrototype();
-        $newObj = $this->model->create();
-
-        $this->assertEquals($prototype, $newObj);
-        $this->assertNotSame($prototype, $newObj);
-    }
-
     public function testFind()
     {
         $criteria = new MockCriteria();

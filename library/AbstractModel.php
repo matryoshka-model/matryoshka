@@ -23,7 +23,7 @@ use Zend\Stdlib\Hydrator\HydratorAwareTrait;
 /**
  * Class AbstractModel
  *
- * Provides implementations for {@link ModelStubInterface} and [@link ModelInterface} contracts.
+ * Provides implementations for {@link ModelStubInterface} and {@link ModelInterface} contracts.
  */
 abstract class AbstractModel implements
     ModelStubInterface,
@@ -112,14 +112,6 @@ abstract class AbstractModel implements
         throw new Exception\RuntimeException(
             'ResultSet must be set and must have an object prototype'
         );
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function create()
-    {
-        return clone $this->getObjectPrototype();
     }
 
     /**

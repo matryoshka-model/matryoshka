@@ -28,7 +28,7 @@ Matryoshka dolls (layers):
     A dedicated service locator for your model service classes (i.e., model)
 
 * **Model**
-    A service class representing a collection of entities that provides common features in a centralized way (e.g., CRUD, resultset, paginating, hydrating, input filtering)
+    An end user service that manages a collection of related data by using criterias (similar to a table gateway or a document collection)
 
 * **Criteria**
     An "user query intefarce" from an API point of view, also acting as mediator between model and datagateway
