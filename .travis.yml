@@ -10,21 +10,10 @@ branches:
   only:
     - master
     - develop
-    
-cache:
-  directories:
-    - $HOME/.composer/cache
-
-before_install:
-  - travis_retry composer self-update && composer --version
-  - mkdir -p $HOME/.composer
-  - composer config -g github-oauth.github.com NuUCEFAdIrYSbAvdUa3BA6d5ZIdBieDcE0JTNS0iXJG5KKCNhruOouicUXGKwpJVZwGN6pRgnJxlEqKOpTgkMlLis3dMk2txwFqO5O3xKZb+/EfkKuefj5G5Z96zivnEmdKK/fnq0FAOzZaZRmmXVLJPY1ccKcvEu4xpXhjLctE=
-
-install:
-  - travis_retry composer install
 
 before_script:
   - mkdir -p build/coverage
+  - sh .travis.install.sh
 
 script:
  - vendor/bin/phpunit
