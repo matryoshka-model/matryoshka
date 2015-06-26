@@ -8,12 +8,12 @@
  */
 namespace Matryoshka\Model\Service;
 
+use Matryoshka\Model\Criteria\PaginableCriteriaInterface;
 use Matryoshka\Model\Exception;
+use Matryoshka\Model\Object\PrototypeStrategy\PrototypeStrategyInterface;
 use Zend\InputFilter\InputFilterInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 use Zend\Stdlib\Hydrator\HydratorInterface;
-use Matryoshka\Model\Object\PrototypeStrategy\PrototypeStrategyInterface;
-use Matryoshka\Model\Criteria\PaginableCriteriaInterface;
 
 /**
  * Trait AbstractServiceFactoryTrait

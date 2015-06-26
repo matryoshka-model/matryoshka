@@ -8,7 +8,6 @@
  */
 namespace Matryoshka\Model;
 
-use Matryoshka\Model\ResultSet\ResultSetInterface;
 use Zend\InputFilter\InputFilterInterface;
 use Zend\Stdlib\Hydrator\HydratorInterface;
 

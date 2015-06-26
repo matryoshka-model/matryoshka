@@ -8,8 +8,8 @@
  */
 namespace Matryoshka\Model\Service;
 
-use Matryoshka\Model\Criteria\PaginableCriteriaInterface;
 use Matryoshka\Model\Exception;
+use Matryoshka\Model\Object\PrototypeStrategy\PrototypeStrategyAwareInterface;
 use Matryoshka\Model\ObservableModel;
 use Matryoshka\Model\ResultSet\BufferedResultSet;
 use Zend\EventManager\ListenerAggregateInterface;
@@ -17,7 +17,6 @@ use Zend\ServiceManager\AbstractFactoryInterface;
 use Zend\ServiceManager\AbstractPluginManager;
 use Zend\ServiceManager\ServiceLocatorInterface;
 use Zend\Stdlib\Hydrator\HydratorAwareInterface;
-use Matryoshka\Model\Object\PrototypeStrategy\PrototypeStrategyAwareInterface;
 
 /**
  * Class ModelAbstractServiceFactory
@@ -152,7 +151,9 @@ class ModelAbstractServiceFactory implements AbstractFactoryInterface
         //Setup Prototype strategy
         if (!empty($config['prototype_strategy']) && is_string($config['prototype_strategy'])) {
             if ($resultSetPrototype instanceof PrototypeStrategyAwareInterface) {
-                $resultSetPrototype->setPrototypeStrategy($this->getPrototypeStrategyByName($serviceLocator, $config['prototype_strategy']));
+                $resultSetPrototype->setPrototypeStrategy(
+                    $this->getPrototypeStrategyByName($serviceLocator, $config['prototype_strategy'])
+                );
             }
         }
 

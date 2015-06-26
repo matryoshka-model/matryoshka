@@ -1,31 +1,32 @@
+sudo: false
 language: php
-
-php:
-  - 5.5
-  - 5.6
-  - 7
-  - hhvm
-
-branches:
-  only:
-    - master
-    - develop
-
-before_script:
-  - mkdir -p build/coverage
-  - sh .travis.install.sh
-
-script:
- - vendor/bin/phpunit
-
-after_script:
- - php vendor/bin/coveralls
-
 matrix:
   fast_finish: true
+  include:
+  - php: 5.5
+  - php: 5.6
+  - php: 7
+  - php: hhvm
   allow_failures:
-    - php: 7
-    - php: hhvm
-
+  - php: 7
+  - php: hhvm
+cache:
+  directories:
+  - "$HOME/.composer/cache"
+before_script:
+- composer self-update
+- composer config --global github-oauth.github.com ${GH_TOKEN}
+- composer install
+script:
+- vendor/bin/phpunit
+after_script:
+- php vendor/bin/coveralls
 notifications:
+  webhooks:
+    urls:
+    - https://webhooks.gitter.im/e/70b21e421c7b6b4d20a8
+    on_success: change
   email: false
+env:
+  global:
+    secure: dO4xHLE0htold4w8jKgZiGIxd4JbB8X3YtrFAuKGD01HixaOKnbxkl9C7zc7z7a0k92S6jLrDdOlO5sMn/8q/KY84d/W9JAoroJE7czSkIh5j+V8C2CTld5xffoJxHKIlU3Th4UQ9yyBMxrXCm+wI5Nz1Iq4c57lpr3rRNgjcaM=

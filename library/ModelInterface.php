@@ -23,7 +23,6 @@ use Zend\Stdlib\Hydrator\HydratorAwareInterface;
  */
 interface ModelInterface extends ModelPrototypeInterface, PaginatorAdapterAggregateInterface
 {
-
     /**
      * Find
      *

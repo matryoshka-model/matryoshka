@@ -10,14 +10,12 @@ namespace Matryoshka\Model\ResultSet;
 
 use ArrayObject;
 use Matryoshka\Model\Exception;
-use Matryoshka\Model\Object\PrototypeStrategy\CloneStrategy;
-use Matryoshka\Model\Object\PrototypeStrategy\PrototypeStrategyInterface;
+use Matryoshka\Model\Object\PrototypeStrategy\PrototypeStrategyAwareInterface;
+use Matryoshka\Model\Object\PrototypeStrategy\PrototypeStrategyAwareTrait;
 use Zend\Stdlib\Hydrator\ArraySerializable;
 use Zend\Stdlib\Hydrator\HydratorAwareInterface;
 use Zend\Stdlib\Hydrator\HydratorAwareTrait;
 use Zend\Stdlib\Hydrator\HydratorInterface;
-use Matryoshka\Model\Object\PrototypeStrategy\PrototypeStrategyAwareTrait;
-use Matryoshka\Model\Object\PrototypeStrategy\PrototypeStrategyAwareInterface;
 
 /**
  * Class HydratingResultSet
@@ -25,7 +23,9 @@ use Matryoshka\Model\Object\PrototypeStrategy\PrototypeStrategyAwareInterface;
  * A more flexible AbstractResultSet implementation that allows to choose an appropriate <b>hydration strategy</b>
  * for getting data into a target object.
  */
-class HydratingResultSet extends AbstractResultSet implements HydratingResultSetInterface, PrototypeStrategyAwareInterface
+class HydratingResultSet extends AbstractResultSet implements
+    HydratingResultSetInterface,
+    PrototypeStrategyAwareInterface
 {
     use HydratorAwareTrait;
     use PrototypeStrategyAwareTrait;
@@ -60,10 +60,12 @@ class HydratingResultSet extends AbstractResultSet implements HydratingResultSet
     public function setObjectPrototype($objectPrototype)
     {
         if (!is_object($objectPrototype)) {
-            throw new Exception\InvalidArgumentException(sprintf(
-                'An object must be set as the object prototype, a "%s" was provided.',
-                gettype($objectPrototype)
-            ));
+            throw new Exception\InvalidArgumentException(
+                sprintf(
+                    'An object must be set as the object prototype, a "%s" was provided.',
+                    gettype($objectPrototype)
+                )
+            );
         }
 
         $this->objectPrototype = $objectPrototype;

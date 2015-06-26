@@ -16,6 +16,7 @@ interface PrototypeStrategyAwareInterface
     /**
      * Set the prototype strategy
      *
+     * @param PrototypeStrategyInterface $strategy
      * @return $this
      */
     public function setPrototypeStrategy(PrototypeStrategyInterface $strategy);

@@ -136,7 +136,6 @@ class ObjectAbstractServiceFactory implements AbstractFactoryInterface
      */
     protected function getActiveRecordCriteriaByName($serviceLocator, $name)
     {
-        /** @var $criteria CriteriaInterface */
         $criteria = $serviceLocator->get($name);
         if (!$criteria instanceof AbstractCriteria) {
             throw new Exception\ServiceNotCreatedException(sprintf(
