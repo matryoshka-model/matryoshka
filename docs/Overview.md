@@ -13,10 +13,10 @@ Matryoshka does not impose you to use a specific kind of domain object nor it re
 
 You may encounter one of the following situations.
 
-### Array like objects
+#### Array like objects
 When you do not need structured objects you can simply use `ArrayObject` as base class for them. In this case, you have to use the [ArrayObjectResultSet](../library/ResultSet/ArrayObjectResultSet.php) class.
 
-### Objects with public properties
+#### Objects with public properties
 If you want to use something like:
 ```php
 class MyDomainObject
@@ -27,7 +27,7 @@ class MyDomainObject
 ```
 you have to use the [HydratingResultSet](../library/ResultSet/HydratingResultSet.php) class with the [ObjectProperty](https://github.com/zendframework/zend-stdlib/blob/master/src/Hydrator/ObjectProperty.php) hydrator.
 
-### Structured objects
+#### Structured objects
 When you want to use full structured objects with setter/getter methods, you have to use the [HydratingResultSet](../library/ResultSet/HydratingResultSet.php) class with the [ClassMethods](../library/Hydrator/ClassMethods.php) hydrator.
 We highly recommend to use this solution, better if in combination with a well defined interface.
 
@@ -40,4 +40,7 @@ Optionally you can add one or more of the following interfaces to your object cl
 
 Furthermore, you can also use the [ObjectManager](../library/Object/ObjectManager.php) to get your object instances. It is a dedicated [service locator](https://github.com/zendframework/zend-servicemanager/blob/master/src/ServiceLocatorInterface.php) that allows you to register and to factory your objects. The default [abstract factory](../library/Object/Service/ObjectAbstractServiceFactory.php) will also inject dependencies of your objects.
 
+## Models
+
+## Criterias
 
