@@ -1,12 +1,8 @@
 # Overview
 
-> Matryoshka is not an ORM.
-
-Matryoshka is a micro framework (< 1000 SLOC) that helps you to build your model layer in a structured way without the need of using the complex ORM systems, avoiding overheads.
-Matryoshka does not provide a persistence layer implementation itself and does not require adapters: you have the full control over the persistence layer by implementing **criterias**.
-In order to simplify your job with common persistence systems, a set of wrappers are already provided as separated repositories. They are just a set of ready-to-use classes.
-Matryoshka uses a few of Zend Framework 2 components but does not require you to use Zend Framework: you are free to use Matryoshka with any framework.
-Last but not least, the Matryoshka design allows you to use just single components or all of them in cooperations. Anyway you can decide how to design your own application model: only you know what your application needs.
+- [Objects](Overview.md#Objects)
+- [Models](Overview.md#Models)
+- [Criterias](Overview.md#Criterias)
 
 ## Objects
 Matryoshka does not impose you to use a specific kind of domain object nor it requires you to have to extend an abstract class provided by the library. Matryoshka let you choose how your object will be.
@@ -74,10 +70,10 @@ This class allow you to attach listeners in order to observe or change the model
 
 It is implemented by composing the [EventManager](http://framework.zend.com/manual/current/en/modules/zend.event-manager.event-manager.html). It defines a set of pre/post events for each actions performed on the model, as defined inside the specialised [ModelEvent](../library/ModelEvent.php) class that represents the event, encapsulates the target context and parameters passed, and provides some behaviour for interacting with the event manager.
 
-The [ObservableModel] can be easily enabled and listeners can be attached by [configuring the model manager](Configuration.md#models).  
+The [ObservableModel](../library/ObservableModel.php) can be easily enabled and listeners can be attached by [configuring the model manager](Configuration.md#models).  
 
 ### Other features
-- Object and resultset prototypes
+- Object and resultset prototypes **[WIP]**
 - HydratorAwareInterface **[WIP]**
 - InputFilterAwareInterface **[WIP]**
 
