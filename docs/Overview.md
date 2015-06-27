@@ -4,7 +4,7 @@
 
 Matryoshka is a micro framework (< 1000 SLOC) that helps you to build your model layer in a structured way without the need of using the complex ORM systems, avoiding overheads.
 Matryoshka does not provide a persistence layer implementation itself and does not require adapters: you have the full control over the persistence layer by implementing **criterias**.
-In order to simplify your job with common persistence systems, a set of wrappers are already provided as separated repositories. They are just a set of ready-to-go classes.
+In order to simplify your job with common persistence systems, a set of wrappers are already provided as separated repositories. They are just a set of ready-to-use classes.
 Matryoshka uses a few of Zend Framework 2 components but does not require you to use Zend Framework: you are free to use Matryoshka with any framework.
 Last but not least, the Matryoshka design allows you to use just single components or all of them in cooperations. Anyway you can decide how to design your own application model: only you know what your application needs.
 
