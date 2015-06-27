@@ -43,16 +43,16 @@ Furthermore, you can also use the [ObjectManager](../library/Object/ObjectManage
 ## Models
 
 ### How it works
-The core of Matryoshka is the model service concept: a class implementing both the [ModelInterface](../library/ModelInterface.php) (the contract for any end user service that manages a collection of related data that provides to clients the same set of handful API) and the [ModelStubInterface](../library/ModelStubInterface.php) (the contract for model stub objects that allow access to persistence related services such as the datagateway).
+The core of Matryoshka is the model service concept: a class implementing both the [ModelInterface](../library/ModelInterface.php) (the contract for any end user service that manages a collection of related data providing the same set of handful API to clients) and the [ModelStubInterface](../library/ModelStubInterface.php) (the contract for model stub objects that allow access to persistence related services such as the datagateway).
 
-So, Matryoshka requires that you implement your concrete [criterias](Criterias) (those strictly related to your application business logic) which act on the layer of persistence through the use of the [ModelStubInterface](../library/ModelStubInterface.php). The model service (that implements  [ModelStubInterface](../library/ModelStubInterface.php)) passes its same instance to the criteria objects when used with them.
+So, Matryoshka requires you implement concrete [criterias](Criterias) (those strictly related to your application business logic) which act on the layer of persistence through the use of the [ModelStubInterface](../library/ModelStubInterface.php). The model service (that implements  [ModelStubInterface](../library/ModelStubInterface.php)) passes its instance to the criteria objects when used with them.
 
 On the other hand, when you use a model service in your application, you can pass [criterias](Criterias) objects to the model service (that implements [ModelInterface](../library/ModelInterface.php)) in order to perform an operation on the data.
 
 ### How to use a model service
-TODO
+**[WIP]**
 
-### Default Model class
+### Default model class
 
 Matryoshka provides a ready-to-use implementation of model service: the [Model](../library/Model.php) class. It can be used just [configuring the model manager](Configuration.md#models). 
 
@@ -61,7 +61,7 @@ Furthermore, you can extend the [Model](../library/Model.php) class adding your 
 ```php
 use Matryoshka\Model\Model;
 
-class YourModel extend Model 
+final class MyModel extend Model 
 {
 }
 ```
@@ -72,15 +72,14 @@ Another way to extend the behaviour of a model service is by using the [Observab
 
 This class allow you to attach listeners in order to observe or change the model behaviour without having to extend the base [Model](../library/Model.php) class.
 
-It is implemented by composing the [EventManager](http://framework.zend.com/manual/current/en/modules/zend.event-manager.event-manager.html) and define a set of pre/post events for each actions performed on the model, as defined inside the specialised [ModelEvent](../library/ModelEvent.php) class that represents the event, encapsulates the target context and parameters passed, and provides some behaviour for interacting with the event manager.
+It is implemented by composing the [EventManager](http://framework.zend.com/manual/current/en/modules/zend.event-manager.event-manager.html). It defines a set of pre/post events for each actions performed on the model, as defined inside the specialised [ModelEvent](../library/ModelEvent.php) class that represents the event, encapsulates the target context and parameters passed, and provides some behaviour for interacting with the event manager.
 
 The [ObservableModel] can be easily enabled and listeners can be attached by [configuring the model manager](Configuration.md#models).  
 
 ### Other features
 - Object and resultset prototypes
-- HydratorAwareInterface TODO
-- InputFilterAwareInterface TODO
-
+- HydratorAwareInterface **[WIP]**
+- InputFilterAwareInterface **[WIP]**
 
 ## Criterias
-TODO
+**[WIP]**
