@@ -92,7 +92,7 @@ This strategy has the following configuration:
 A [model service](Overview.md#models) requires at least a **datagateway**, an **object prototype**, and a **resultset protype**. 
 Datagateway services have to be registered in the `ServiceManager` depending the persistence layer you use. Wrappers provide factories and additional configurations for datagateways.
 
-Model service configuration handled by the default [model abstract factory](../library/Service/ModelAbstractServiceFactory.php):
+Using the [model abstract factory](../library/Service/ModelAbstractServiceFactory.php) (enabled by default) you can register and configure your model services in the [model manager](../library/ModelManager.php):
 
 ```php
 'matryoshka-models' => [
