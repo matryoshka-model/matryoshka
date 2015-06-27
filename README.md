@@ -7,10 +7,20 @@
 | [![Build Status](https://img.shields.io/travis/matryoshka-model/matryoshka/master.svg?style=flat-square)](https://travis-ci.org/matryoshka-model/matryoshka) | [![Build Status](https://img.shields.io/travis/matryoshka-model/matryoshka/develop.svg?style=flat-square)](https://travis-ci.org/matryoshka-model/matryoshka)  |
 | [![Coveralls branch](https://img.shields.io/coveralls/matryoshka-model/matryoshka/master.svg?style=flat-square)](https://coveralls.io/r/matryoshka-model/matryoshka?branch=master) | [![Coveralls branch](https://img.shields.io/coveralls/matryoshka-model/matryoshka/develop.svg?style=flat-square)](https://coveralls.io/r/matryoshka-model/matryoshka?branch=develop) |
 
-Matryoshka is a lightweight framework that provides a standard and easy way to implement a model [service layer](http://martinfowler.com/eaaCatalog/serviceLayer.html).
-Its layered design aims to provide a strong seperation between the persistence and the rest of your application, regardless of the datagateway you need to use (i.e. Zend\Db, MongoCollection, an ORM, a REST client or anything else).
-In order to work with Matryoshka, developers need just to setup services using its comprehensive configuration system and implement very simple [criteria](http://en.wikipedia.org/wiki/Criteria_Pattern) interfaces.
-Furthermore, a set of [wrapper](http://en.wikipedia.org/wiki/Wrapper_library) for common persistence systems are provided as separeted libraries.
+> Matryoshka is not an ORM.
+
+Matryoshka is a micro framework (< 1000 SLOC) that helps you to build your model [service layer](http://martinfowler.com/eaaCatalog/serviceLayer.html) in a structured way without the need of using the complex ORM systems, avoiding overheads.
+Matryoshka does not provide a persistence layer implementation itself and does not require adapters: you have the full control over the persistence layer by implementing [criterias](http://en.wikipedia.org/wiki/Criteria_Pattern).
+Its layered design aims to provide a strong seperation between the persistence and the rest of your application, whether the datagateway you need to use (i.e. Zend\Db, MongoCollection, a REST client or anything else).
+In order to simplify your job with common persistence systems, a set of [wrappers](http://en.wikipedia.org/wiki/Wrapper_library) are already provided as separated repositories. They are just a set of ready-to-use classes.
+Matryoshka uses a few of [Zend Framework 2](http://framework.zend.com/) components but does not require you to use Zend Framework: you are free to use Matryoshka with any framework.
+Last but not least, the Matryoshka design allows you to use just single components or all of them in cooperations. Anyway you can decide how to design your own application model: only you know what your application needs.
+
+[Read more about Matryoshka components](docs/Overview.md)
+
+Available wrappers:
+- [rest-wrapper](https://github.com/matryoshka-model/rest-wrapper)
+- [mongo-wrapper](https://github.com/matryoshka-model/mongo-wrapper)
 
 ## Theory of operation
 
@@ -31,10 +41,12 @@ Matryoshka dolls (layers):
     An end user service that manages a collection of related data by using criterias (similar to a table gateway or a document collection)
 
 * **Criteria**
-    An "user query intefarce" from an API point of view, also acting as mediator between model and datagateway
+    An "user query interface" from an API point of view, also acting as mediator between model and datagateway
+
+Finally, in the empty space of the last doll you can put:
 
 * **Datagateway**
-    Any kind of datagateway, like `Zend\Db\TableGateway` or `\MongoCollection`
+    Any kind of datagateway, like `Zend\Db\TableGateway` or `\MongoCollection` or a REST client
 
 Basic usage example:
 
@@ -62,6 +74,11 @@ Add the following to your `composer.json` file:
     "matryoshka-model/matryoshka": "~0.7.0",
 }
 ```
+
+## Configuration
+
+[Read more about Matryoshka configuration here](docs/Configuration.md)
+
 
 ---
 
