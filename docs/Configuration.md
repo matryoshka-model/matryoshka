@@ -43,7 +43,7 @@ Finally, remember that any additional **service** used by configurations must be
 
 ## Objects
 
-Configurations handled by the default [object abstract factory](../library/Object/Service/ObjectAbstractServiceFactory.php):
+Using the [object abstract factory](../library/Object/Service/ObjectAbstractServiceFactory.php) (enabled by default) you can register and configure your [objects](Overview.md#objects) in the [object manager](../library/Object/ObjectManager.php):
 
 ```php
 'matryoshka-objects' => [ // Object abstract service factory
@@ -89,7 +89,7 @@ This strategy has the following configuration:
 
 
 ## Models
-A model service requires at least a **datagateway**, an **object prototype**, and a **resultset protype**. 
+A [model service](Overview.md#models) requires at least a **datagateway**, an **object prototype**, and a **resultset protype**. 
 Datagateway services have to be registered in the `ServiceManager` depending the persistence layer you use. Wrappers provide factories and additional configurations for datagateways.
 
 Model service configuration handled by the default [model abstract factory](../library/Service/ModelAbstractServiceFactory.php):
@@ -141,7 +141,7 @@ Also you can add any other [manager configuration](http://framework.zend.com/man
 ```
 
 ## Criterias
-There're no special configurations for criteria because you can instantiate criteria classes directly when needed (as we suggest). Just remember that when you use criterias in a configuration you need to register them in the `ServiceManager` as explained above.
+There're no special configurations for [criteria](Overview.md#criterias) because you can instantiate criteria classes directly when needed (as we suggest). Just remember that when you use criterias in a configuration you need to register them in the `ServiceManager` as explained above.
 
 ## Other components
 Generally if a dedicated manager is not available Matryoshka will try to get service instances by using the global `ServiceManager`. 
