@@ -22,6 +22,10 @@ Available wrappers:
 - [rest-wrapper](https://github.com/matryoshka-model/rest-wrapper)
 - [mongo-wrapper](https://github.com/matryoshka-model/mongo-wrapper)
 
+Available integration modules:
+- [zf2-matryoshka-module](https://github.com/matryoshka-model/zf2-matryoshka-module)
+- [zf-apigility-matryoshka](https://github.com/matryoshka-model/zf-apigility-matryoshka)
+
 ## Theory of operation
 
 Matryoshka doesn't provide a persistence layer implementation itself, but it can work with any third party implementation that acts as datagateway. Regardless of the datagateway you choose, Matryoshka provides to clients (i.e. your controller) the same set of handful API. To accomplish this goal Matryoshka uses criteria interfaces that developer have to implement.
@@ -43,7 +47,7 @@ Matryoshka dolls (layers):
 * **Criteria**
     An "user query interface" from an API point of view, also acting as mediator between model and datagateway
 
-Finally, in the empty space of the last doll you can put:
+Finally, in the empty space of the innermost doll you can put:
 
 * **Datagateway**
     Any kind of datagateway, like `Zend\Db\TableGateway` or `\MongoCollection` or a REST client
