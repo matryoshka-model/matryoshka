@@ -46,7 +46,71 @@ So, Matryoshka requires you implement concrete [criterias](Criterias) (those str
 On the other hand, when you use a model service in your application, you can pass [criterias](Criterias) objects to the model service (that implements [ModelInterface](../library/ModelInterface.php)) in order to perform an operation on the data.
 
 ### How to use a model service
-**[WIP]**
+From a consumer point of view, operations that can be performed on a model service are defined by [ModelInterface](../library/ModelInterface.php).
+
+#### Creation
+
+```php
+$newObject = clone $myModel->getObjectPrototype();
+```
+Alternatively, you can create your object using the [ObjectManager](../library/Object/ObjectManager.php).
+
+```php
+$newObject = $objectManager->get('MyObject');
+```
+
+Then, assuming `MyObjectCriteria` is a class that implements [WritableCriteriaInterface.php](../library/Criteria/WritableCriteriaInterface.php) you can save your object:
+
+```php
+$myModel->save(new MyObjectCriteria, $newObject);
+```
+
+#### Reading
+In order to fetch objects you need to use a [Criteria](Overview.md#Criterias). Assuming `MyCollectionCriteria` is a class extending [AbstractCriteria](../library/Criteria/AbstractCriteria.php) that also implements [ReadableCriteriaInterface.php](../library/Criteria/ReadableCriteriaInterface.php).
+
+
+Reading multiple objects:
+
+```php
+$resultSet = $myModel->find((new MyCollectionCriteria)->setOffset(10)->setLimit(10));
+
+foreach($resultSet as $object) {
+    // your $object is here!
+}
+```
+
+
+Reading a single object:
+
+```php
+$object = $myModel->find((new MyCollectionCriteria)->setId(1)->setLimit(1))->current();
+```
+
+##### Pagination
+
+Furthermore if `MyCollectionCriteria` implements [PaginableCriteriaInterface.php](../library/Criteria/PaginableCriteriaInterface.php) you can get a paginator adapter that can be used with [Zend\Paginator](http://framework.zend.com/manual/current/en/modules/zend.paginator.introduction.html):
+
+```php
+$paginatorAdapter = $myModel->getPaginatorAdapter(new MyCollectionCriteria);
+$paginator = new Zend\Paginator\Paginator($paginatorAdapter);
+```
+
+#### Updating
+
+Assuming `$object` is an already fetched object and `MyObjectCriteria` is a class that implements [WritableCriteriaInterface.php](../library/Criteria/WritableCriteriaInterface.php) you can update your object:
+
+```php
+$myModel->save(new MyObjectCriteria, $object);
+```
+
+#### Deleting 
+
+Assuming `MyObjectCriteria` is a class that implements [DeletableCriteriaInterface.php](../library/Criteria/DeletableCriteriaInterface.php) that allows you to delete objects by id:
+
+```php
+$myModel->delete((new MyObjectCriteria)->setId(11));
+```
+
 
 ### Default model class
 
@@ -76,6 +140,10 @@ The [ObservableModel](../library/ObservableModel.php) can be easily enabled and 
 - Object and resultset prototypes **[WIP]**
 - HydratorAwareInterface **[WIP]**
 - InputFilterAwareInterface **[WIP]**
+
+### Classes and interfaces diagram
+![alt text](https://raw.githubusercontent.com/matryoshka-model/matryoshka/develop/docs/assets/images/modelservice-classdiagram.svg)
+
 
 ## Criterias
 **[WIP]**
