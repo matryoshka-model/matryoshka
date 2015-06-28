@@ -21,7 +21,7 @@ Available integration modules:
 - [zf2-matryoshka-module](https://github.com/matryoshka-model/zf2-matryoshka-module)
 - [zf-apigility-matryoshka](https://github.com/matryoshka-model/zf-apigility-matryoshka)
 
-##### Questions/Support
+#### Community
 
 For questions and support please visit the [slack channel](http://matryoshka-slackin.herokuapp.com).
 
