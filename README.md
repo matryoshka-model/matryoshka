@@ -1,11 +1,6 @@
 # Matryoshka
 
-[![Latest Stable Version](http://img.shields.io/packagist/v/matryoshka-model/matryoshka.svg?style=flat-square)](https://packagist.org/packages/matryoshka-model/matryoshka) [![Total Downloads](https://img.shields.io/packagist/dt/matryoshka-model/matryoshka.svg?style=flat-square)](https://packagist.org/packages/matryoshka-model/matryoshka)
-
-| Master  | Develop |
-|:-------------:|:-------------:|
-| [![Build Status](https://img.shields.io/travis/matryoshka-model/matryoshka/master.svg?style=flat-square)](https://travis-ci.org/matryoshka-model/matryoshka) | [![Build Status](https://img.shields.io/travis/matryoshka-model/matryoshka/develop.svg?style=flat-square)](https://travis-ci.org/matryoshka-model/matryoshka)  |
-| [![Coveralls branch](https://img.shields.io/coveralls/matryoshka-model/matryoshka/master.svg?style=flat-square)](https://coveralls.io/r/matryoshka-model/matryoshka?branch=master) | [![Coveralls branch](https://img.shields.io/coveralls/matryoshka-model/matryoshka/develop.svg?style=flat-square)](https://coveralls.io/r/matryoshka-model/matryoshka?branch=develop) |
+[![Latest Stable Version](http://img.shields.io/packagist/v/matryoshka-model/matryoshka.svg?style=flat-square)](https://packagist.org/packages/matryoshka-model/matryoshka) [![Build Status](https://img.shields.io/travis/matryoshka-model/matryoshka/master.svg?style=flat-square)](https://travis-ci.org/matryoshka-model/matryoshka) [![Coveralls branch](https://img.shields.io/coveralls/matryoshka-model/matryoshka/master.svg?style=flat-square)](https://coveralls.io/r/matryoshka-model/matryoshka?branch=master) [![Total Downloads](https://img.shields.io/packagist/dt/matryoshka-model/matryoshka.svg?style=flat-square)](https://packagist.org/packages/matryoshka-model/matryoshka)
 
 > Matryoshka is not an ORM.
 
@@ -86,5 +81,5 @@ Add the following to your `composer.json` file:
 
 ---
 
-[![Analytics](https://ga-beacon.appspot.com/UA-49657176-2/matryoshka)](https://github.com/igrigorik/ga-beacon)
+[![Analytics](https://ga-beacon.appspot.com/UA-49657176-2/matryoshka?flat)](https://github.com/igrigorik/ga-beacon)
 
