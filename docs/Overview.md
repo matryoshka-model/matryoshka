@@ -137,13 +137,42 @@ It is implemented by composing the [EventManager](http://framework.zend.com/manu
 The [ObservableModel](../library/ObservableModel.php) can be easily enabled and listeners can be attached by [configuring the model manager](Configuration.md#models).  
 
 ### Other features
-- Object and resultset prototypes **[WIP]**
-- HydratorAwareInterface **[WIP]**
-- InputFilterAwareInterface **[WIP]**
+
+- Object and resultset prototypes: each model service implements the [ModelPrototypeInterface](../library/ModelPrototypeInterface.php) that defines getter methods for prototypes used by the service.
+
+- [HydratingAwareInterface](https://github.com/zendframework/zend-stdlib/blob/master/src/Hydrator/HydratorAwareInterface.php):  when an hydrator is provided, the model service uses it to hydrate/extract data to/from the object in order to work with the persistence layer. Note that Matryoshka allows you to define different hydrator for models and for objects: model service hydrators will be used for persistence tasks, object hydrators for any other purpose. That give you the ability to define different hydration strategy depending the context.
+
+- [InputFilterAwareInterface](https://github.com/zendframework/zend-inputfilter/blob/master/src/InputFilterAwareInterface.php): allows model services to define its own input filter
 
 ### Classes and interfaces diagram
-![alt text](https://raw.githubusercontent.com/matryoshka-model/matryoshka/develop/docs/assets/images/modelservice-classdiagram.svg)
+![Alt text](https://cdn.rawgit.com/matryoshka-model/matryoshka/develop/docs/assets/images/modelservice-classdiagram.svg)
 
 
 ## Criterias
+
+A criteria is a class implementing at least a [criteria interface](../library/Criteria/) that performs an operation on the dataset through the datagateway. Matryoshka in unaware about the datagateway interface, so the model service just pass datagateway instance to the criteria. This simple mechanism allows you to have direct control and the maximum level of flexibility over the queries performed on the datagateway.
+
+At same time, to facilitate the criterias implementation, Matryoshka provides simple interfaces for each kind of operation that can be performed:
+![Alt text](https://cdn.rawgit.com/matryoshka-model/matryoshka/develop/docs/assets/images/criteria-classdiagram.svg)
+
+Each interfaces require just the implementation of one method that applies the operation to the model. 
+
+> Note that a criteria class can implement more than one criteria interfaces at same time. However we recommend to make criteria as much simple as possible.
+
+### The criteria flow
+
+- The consumer (i.e. a controller) passes a configured criteria object to a model service method (one of those that [ModelInterface](../library/ModelInterface.php) defines, depending the kind of criteria)
+- The model service method executes common tasks (i.e. hydrating/extracting data)
+- The model service method calls the criteria passing a [ModelStubInterface](../library/ModelStubInterface.php) instance (the model service itself because it implements `ModelStubInterface` too)
+- The criteria does its job and returns a result
+- The model service method process the result (i.e. preparing the resultset) and returns it to the consumer
+
+### Implementing criteria
+
+Each [criteria interface](../library/Criteria/) defines an **apply** method that you have to implement.
 **[WIP]**
+
+
+
+
+
