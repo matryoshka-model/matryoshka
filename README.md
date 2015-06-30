@@ -13,11 +13,11 @@ Last but not least, the Matryoshka design allows you to use just single componen
 
 [Read more about Matryoshka components](docs/Overview.md)
 
-Available wrappers:
+#### Wrappers:
 - [rest-wrapper](https://github.com/matryoshka-model/rest-wrapper)
 - [mongo-wrapper](https://github.com/matryoshka-model/mongo-wrapper)
 
-Available integration modules:
+#### Integration modules:
 - [zf2-matryoshka-module](https://github.com/matryoshka-model/zf2-matryoshka-module)
 - [zf-apigility-matryoshka](https://github.com/matryoshka-model/zf-apigility-matryoshka)
 
@@ -73,14 +73,17 @@ Add the following to your `composer.json` file:
 
 ```
 "require": {
-    "php": ">=5.5",
-    "matryoshka-model/matryoshka": "~0.7.0",
+    "matryoshka-model/matryoshka": "~0.7.0"
 }
 ```
 
+## Requirements
+
+- PHP >= 5.5
+
 ## Configuration
 
-[Read more about Matryoshka configuration here](docs/Configuration.md)
+[Read about Matryoshka configuration here](docs/Configuration.md)
 
 
 ---

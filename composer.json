@@ -51,7 +51,9 @@
         "matryoshka",
         "back-end",
         "db",
-        "database"
+        "database",
+        "model-service",
+        "criteria"
     ],
     "extra": {
         "branch-alias": {
