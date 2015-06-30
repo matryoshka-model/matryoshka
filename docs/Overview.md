@@ -1,11 +1,13 @@
 # Overview
 
-- [Objects](Overview.md#Objects)
-- [Models](Overview.md#Models)
-- [Criterias](Overview.md#Criterias)
+- [Objects](Overview.md#objects)
+- [Models](Overview.md#models)
+- [Criterias](Overview.md#criterias)
 
 ## Objects
-Matryoshka does not impose you to use a specific kind of domain object nor it requires you to have to extend an abstract class provided by the library. Matryoshka let you choose how your object will be.
+Matryoshka does not impose you to use a specific kind of domain object nor it requires you to extend an abstract class provided by the library.
+
+**Matryoshka let you choose how your object will be**.
 
 You may encounter one of the following situations.
 
