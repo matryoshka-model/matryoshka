@@ -6,9 +6,9 @@
  * @copyright   Copyright (c) 2014-2015, Ripa Club
  * @license     http://opensource.org/licenses/BSD-2-Clause Simplified BSD License
  */
-namespace Matryoshka\Model\ResultSet\PrototypeStrategy\Service;
+namespace Matryoshka\Model\Object\PrototypeStrategy\Service;
 
-use Matryoshka\Model\ResultSet\PrototypeStrategy\ServiceLocatorStrategy;
+use Matryoshka\Model\Object\PrototypeStrategy\ServiceLocatorStrategy;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
@@ -20,7 +20,7 @@ class ServiceLocatorStrategyFactory implements FactoryInterface
     /**
      * @var string
      */
-    protected $configKey = 'matryoshka-resultset-servicelocatorstrategy';
+    protected $configKey = 'matryoshka-object-servicelocatorstrategy';
 
     /**
      * Config

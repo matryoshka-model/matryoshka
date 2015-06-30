@@ -8,7 +8,6 @@
  */
 namespace Matryoshka\Model\ResultSet;
 
-
 /**
  * Interface ResultSetAggregateInterface
  */
@@ -21,5 +20,4 @@ interface ResultSetAggregateInterface
      * @return ResultSetInterface
      */
     public function getResultSet();
-
 }

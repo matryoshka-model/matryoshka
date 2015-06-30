@@ -15,7 +15,6 @@ use Matryoshka\Model\Object\IdentityAwareInterface;
  */
 interface ActiveRecordInterface extends IdentityAwareInterface
 {
-
     /**
      * Save
      */

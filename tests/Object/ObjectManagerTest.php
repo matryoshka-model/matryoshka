@@ -8,8 +8,8 @@
  */
 namespace MatryoshkaTest\Model\Object;
 
-use Zend\ServiceManager\ServiceManager;
 use Matryoshka\Model\Object\ObjectManager;
+use Zend\ServiceManager\ServiceManager;
 
 /**
  * Class ObjectManagerTest
@@ -56,6 +56,5 @@ class ObjectManagerTest extends \PHPUnit_Framework_TestCase
         $pluginManager->setServiceLocator($services);
         $objectA = $pluginManager->get('MyObject\A');
         $this->assertInstanceOf('MatryoshkaTest\Model\Service\TestAsset\DomainObject', $objectA);
-
     }
 }

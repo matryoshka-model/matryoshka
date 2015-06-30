@@ -8,15 +8,14 @@
  */
 namespace MatryoshkaTest\Model\Mock;
 
-use Zend\InputFilter\InputFilter;
-use Zend\InputFilter\InputFilterAwareInterface;
-use Zend\InputFilter\InputFilterAwareTrait;
-use Zend\Stdlib\Hydrator\HydratorAwareInterface;
-use Zend\Stdlib\Hydrator\HydratorAwareTrait;
-use Zend\Stdlib\hydrator\HydratorInterface;
 use Matryoshka\Model\Hydrator\ClassMethods;
 use Matryoshka\Model\Object\AbstractObject;
+use Zend\InputFilter\InputFilter;
+use Zend\Stdlib\hydrator\HydratorInterface;
 
+/**
+ * Class AssertUser
+ */
 class AssertUser extends AbstractObject
 {
     /**
@@ -135,7 +134,7 @@ class AssertUser extends AbstractObject
      */
     public function getHydrator()
     {
-        if(!$this->hydrator){
+        if (!$this->hydrator) {
             $this->setHydrator(new ClassMethods(false));
         }
         return $this->hydrator;

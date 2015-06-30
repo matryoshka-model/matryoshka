@@ -27,9 +27,10 @@ class HasOneStrategy implements StrategyInterface, NullableStrategyInterface
     /**
      * Ctor
      *
-     * @param $objectPrototype
+     * @param HydratorAwareInterface $objectPrototype
+     * @param bool $nullable
      */
-    public function __construct(HydratorAwareInterface $objectPrototype, $nullable = false)
+    public function __construct(HydratorAwareInterface $objectPrototype, $nullable = true)
     {
         $this->objectPrototype = $objectPrototype;
         $this->setNullable($nullable);
@@ -46,9 +47,8 @@ class HasOneStrategy implements StrategyInterface, NullableStrategyInterface
     /**
      * Converts the given value so that it can be extracted by the hydrator.
      *
-     * @param mixed $value The original value.
-     * @param object $object (optional) The original object for context.
-     * @return mixed Returns the value that should be extracted.
+     * @param object|array|null $value The original value.
+     * @return array|null Returns the value that should be extracted.
      */
     public function extract($value)
     {
@@ -67,17 +67,17 @@ class HasOneStrategy implements StrategyInterface, NullableStrategyInterface
         }
 
         throw new Exception\InvalidArgumentException(sprintf(
-            'Invalid value: must be null, an array or an instance of "%s"',
-            get_class($objectPrototype)
+            'Invalid value: must be null (only if nullable option is enabled), or an array, or an instance of "%s": "%s" given',
+            get_class($objectPrototype),
+            is_object($value) ? get_class($value) : gettype($value)
         ));
-     }
+    }
 
     /**
      * Converts the given value so that it can be hydrated by the hydrator.
      *
-     * @param mixed $value The original value.
-     * @param array $data (optional) The original data for context.
-     * @return mixed Returns the value that should be hydrated.
+     * @param object|array|null $value The original value.
+     * @return object|null Returns the value that should be hydrated.
      */
     public function hydrate($value)
     {
@@ -86,15 +86,20 @@ class HasOneStrategy implements StrategyInterface, NullableStrategyInterface
         if (is_array($value)) {
             $object = clone $objectPrototype;
             return $object->getHydrator()->hydrate($value, $object);
-        } elseif ($value instanceof $objectPrototype) {
-            return clone $value;
-        } elseif (null === $value) {
+        }
+
+        if (null === $value) {
             return $this->nullable ? null : clone $objectPrototype;
         }
 
+        if ($value instanceof $objectPrototype) {
+            return clone $value;
+        }
+
         throw new Exception\InvalidArgumentException(sprintf(
-            'Invalid value: must be null, an array or an instance of "%s"',
-            get_class($objectPrototype)
+            'Invalid value: must be null (only if nullable option is enabled), or an array, or an instance of "%s": "%s" given',
+            get_class($objectPrototype),
+            is_object($value) ? get_class($value) : gettype($value)
         ));
     }
 }

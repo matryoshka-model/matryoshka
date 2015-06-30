@@ -8,16 +8,18 @@
  */
 namespace Matryoshka\Model\Criteria;
 
-use Matryoshka\Model\ModelInterface;
+use Matryoshka\Model\ModelStubInterface;
 
 /**
  * Interface WritableCriteriaInterface
+ *
+ * Criterias implementing this interface are able to perform write operations.
  */
 interface WritableCriteriaInterface extends CriteriaInterface
 {
     /**
-     * @param ModelInterface $model
+     * @param ModelStubInterface $model
      * @param array $data
      */
-    public function applyWrite(ModelInterface $model, array &$data);
+    public function applyWrite(ModelStubInterface $model, array &$data);
 }

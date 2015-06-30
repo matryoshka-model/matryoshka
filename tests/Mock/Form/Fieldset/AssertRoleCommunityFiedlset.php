@@ -9,10 +9,12 @@
 namespace MatryoshkaTest\Model\Mock\Form\Fieldset;
 
 use MatryoshkaTest\Model\Mock\AssertRoleCommunity;
-
 use Zend\Form\Element;
 use Zend\Form\Fieldset;
 
+/**
+ * Class AssertRoleCommunityFiedlset
+ */
 class AssertRoleCommunityFiedlset extends Fieldset
 {
     const NAME = 'roleCommunity';

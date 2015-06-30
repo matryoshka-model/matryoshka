@@ -9,7 +9,10 @@
 namespace MatryoshkaTest\Model;
 
 use Matryoshka\Model\Criteria\CallbackCriteria;
+use Matryoshka\Model\ModelAwareInterface;
+use Matryoshka\Model\ResultSet\HydratingResultSet;
 use MatryoshkaTest\Model\Mock\Criteria\MockCriteria;
+use MatryoshkaTest\Model\TestAsset\ActiveRecordObject;
 use MatryoshkaTest\Model\TestAsset\ConcreteAbstractModel;
 use MatryoshkaTest\Model\TestAsset\HydratorAwareObject;
 use MatryoshkaTest\Model\TestAsset\HydratorObject;
@@ -17,9 +20,6 @@ use MatryoshkaTest\Model\TestAsset\InputFilterAwareObject;
 use MatryoshkaTest\Model\TestAsset\ResultSet;
 use MatryoshkaTest\Model\TestAsset\ToArrayObject;
 use Zend\Stdlib\Hydrator\ArraySerializable;
-use MatryoshkaTest\Model\TestAsset\ActiveRecordObject;
-use Matryoshka\Model\ModelAwareInterface;
-use Matryoshka\Model\ResultSet\HydratingResultSet;
 use Zend\Stdlib\Hydrator\HydratorAwareInterface;
 
 /**
@@ -48,7 +48,6 @@ class AbstractModelTest extends \PHPUnit_Framework_TestCase
 
         $this->model->setDataGateway($this->mockDataGateway)
                     ->setResultSetPrototype($this->resultSet);
-
     }
 
     protected function setResultSetPrototype($value)
@@ -146,16 +145,6 @@ class AbstractModelTest extends \PHPUnit_Framework_TestCase
 
         $this->assertSame($modelAwareObject, $this->model->getObjectPrototype());
         $this->assertSame($this->model, $modelAwareObject->getModel());
-
-    }
-
-    public function testCreate()
-    {
-        $prototype = $this->model->getObjectPrototype();
-        $newObj = $this->model->create();
-
-        $this->assertEquals($prototype, $newObj);
-        $this->assertNotSame($prototype, $newObj);
     }
 
     public function testFind()

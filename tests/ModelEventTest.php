@@ -112,7 +112,6 @@ class ModelEventTest extends \PHPUnit_Framework_TestCase
         $this->assertSame($params['resultSet'], $this->event->getParam('resultSet'));
 
         $this->assertEquals($params['key'], $this->event->getParam('key'));
-
     }
 
     public function testParameterPassedThroughObject()

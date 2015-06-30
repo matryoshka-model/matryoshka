@@ -8,10 +8,10 @@
  */
 namespace MatryoshkaTest\Model\Service;
 
+use Matryoshka\Model\ResultSet\HydratingResultSet;
+use MatryoshkaTest\Model\Service\TestAsset\FakeDataGateway;
 use Zend\ServiceManager\Config;
 use Zend\ServiceManager\ServiceManager;
-use MatryoshkaTest\Model\Service\TestAsset\FakeDataGateway;
-use Matryoshka\Model\ResultSet\HydratingResultSet;
 
 /**
  * Class ModelManagerFactoryTest
@@ -46,6 +46,5 @@ class ModelManagerFactoryTest extends \PHPUnit_Framework_TestCase
 
         $this->assertTrue($modelManager->has('MatryoshkaTest\Model\TestAsset\InvokableModel'));
         $this->assertInstanceOf('\Matryoshka\Model\ModelInterface', $modelManager->get('MatryoshkaTest\Model\TestAsset\InvokableModel'));
-
     }
 }

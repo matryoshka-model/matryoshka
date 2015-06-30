@@ -6,9 +6,9 @@
  * @copyright   Copyright (c) 2014-2015, Ripa Club
  * @license     http://opensource.org/licenses/BSD-2-Clause Simplified BSD License
  */
-namespace MatryoshkaTest\Model\ResultSet\PrototypeStrategy\Service;
+namespace MatryoshkaTest\Model\Object\PrototypeStrategy\Service;
 
-use Matryoshka\Model\ResultSet\PrototypeStrategy\Service\ServiceLocatorStrategyFactory;
+use Matryoshka\Model\Object\PrototypeStrategy\Service\ServiceLocatorStrategyFactory;
 use Zend\Mvc\Service\ServiceManagerConfig;
 use Zend\ServiceManager;
 
@@ -29,33 +29,37 @@ class ServiceLocatorStrategyFactoryTest extends \PHPUnit_Framework_TestCase
     ];
 
     /**
+     * @var string
+     */
+    protected $configKey = 'matryoshka-object-servicelocatorstrategy';
+
+    /**
      * @return void
      */
     public function setUp()
     {
         $config = [
-            'matryoshka-resultset-servicelocatorstrategy' => $this->testConfig,
+            $this->configKey => $this->testConfig,
         ];
 
         $sm = $this->serviceManager = new ServiceManager\ServiceManager(
             new ServiceManagerConfig([
                 'factories' => [
-                    'Matryoshka\Model\ResultSet\PrototypeStrategy\ServiceLocatorStrategy' =>
-                    'Matryoshka\Model\ResultSet\PrototypeStrategy\Service\ServiceLocatorStrategyFactory',
+                    'Matryoshka\Model\Object\PrototypeStrategy\ServiceLocatorStrategy' =>
+                    'Matryoshka\Model\Object\PrototypeStrategy\Service\ServiceLocatorStrategyFactory',
                 ]
             ])
         );
 
         $sm->setService('Config', $config);
-
     }
 
     public function testCreateService()
     {
         $serviceLocator = $this->serviceManager;
 
-        $strategy = $serviceLocator->get('Matryoshka\Model\ResultSet\PrototypeStrategy\ServiceLocatorStrategy');
-        $this->assertInstanceOf('\Matryoshka\Model\ResultSet\PrototypeStrategy\ServiceLocatorStrategy', $strategy);
+        $strategy = $serviceLocator->get('Matryoshka\Model\Object\PrototypeStrategy\ServiceLocatorStrategy');
+        $this->assertInstanceOf('\Matryoshka\Model\Object\PrototypeStrategy\ServiceLocatorStrategy', $strategy);
         $this->assertSame($serviceLocator, $strategy->getServiceLocator());
     }
 
@@ -63,12 +67,15 @@ class ServiceLocatorStrategyFactoryTest extends \PHPUnit_Framework_TestCase
     {
         $serviceLocator = $this->serviceManager;
         $serviceLocator->setAllowOverride(true);
-        $serviceLocator->setService('Config', ['matryoshka-resultset-servicelocatorstrategy' => ['service_locator' => 'CustomServiceLocator']]);
+        $serviceLocator->setService(
+            'Config',
+            [$this->configKey => ['service_locator' => 'CustomServiceLocator']]
+        );
         $customServiceLocator = new \Zend\ServiceManager\ServiceManager();
         $serviceLocator->setService('CustomServiceLocator', $customServiceLocator);
 
-        $strategy = $serviceLocator->get('Matryoshka\Model\ResultSet\PrototypeStrategy\ServiceLocatorStrategy');
-        $this->assertInstanceOf('\Matryoshka\Model\ResultSet\PrototypeStrategy\ServiceLocatorStrategy', $strategy);
+        $strategy = $serviceLocator->get('Matryoshka\Model\Object\PrototypeStrategy\ServiceLocatorStrategy');
+        $this->assertInstanceOf('\Matryoshka\Model\Object\PrototypeStrategy\ServiceLocatorStrategy', $strategy);
         $this->assertSame($customServiceLocator, $strategy->getServiceLocator());
     }
 

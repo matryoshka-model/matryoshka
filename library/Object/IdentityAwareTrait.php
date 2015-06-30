@@ -21,6 +21,7 @@ trait IdentityAwareTrait
 
     /**
      * Set Id
+     *
      * @param mixed $id
      * @return $this
      */
@@ -32,11 +33,11 @@ trait IdentityAwareTrait
 
     /**
      * Get Id
+     *
      * @return mixed
      */
     public function getId()
     {
         return $this->id;
     }
-
 }

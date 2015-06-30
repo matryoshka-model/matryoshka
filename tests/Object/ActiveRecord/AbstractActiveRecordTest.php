@@ -1,8 +1,8 @@
 <?php
 namespace MatryoshkaTest\Model\Object\ActiveRecord;
 
-use MatryoshkaTest\Model\TestAsset\ActiveRecordObject;
 use MatryoshkaTest\Model\Criteria\ActiveRecord\TestAsset\ConcreteCriteria;
+use MatryoshkaTest\Model\TestAsset\ActiveRecordObject;
 
 /**
  * Class AbstractActiveRecordTest
@@ -21,20 +21,18 @@ class AbstractActiveRecordTest extends \PHPUnit_Framework_TestCase
         $this->object->setActiveRecordCriteriaPrototype($this->criteria);
     }
 
-    public function testGetSetModel()
+    public function testSetModel()
     {
-        $abstractModelMock  = $this->getMockForAbstractClass('Matryoshka\Model\AbstractModel');
-
-        $this->assertInstanceOf('\MatryoshkaTest\Model\TestAsset\ActiveRecordObject', $this->object->setModel($abstractModelMock));
-
-        $this->assertSame($abstractModelMock, $this->object->getModel());
-
-        $modelInterfaceMock = $this->getMockForAbstractClass('Matryoshka\Model\ModelInterface');
-        $this->setExpectedException('Matryoshka\Model\Exception\InvalidArgumentException');
-        $this->object->setModel($modelInterfaceMock);
+        $this->assertSame($this->object, $this->object->setId('foo'));
+        $this->assertAttributeEquals('foo', 'id', $this->object);
     }
 
-
+    public function testGetModel()
+    {
+        $this->assertNull($this->object->getId());
+        $this->object->setId('bar');
+        $this->assertEquals('bar', $this->object->getId());
+    }
 
     public function testSave()
     {
@@ -141,5 +139,4 @@ class AbstractActiveRecordTest extends \PHPUnit_Framework_TestCase
     {
         unset($this->object->invalidProperty);
     }
-
 }

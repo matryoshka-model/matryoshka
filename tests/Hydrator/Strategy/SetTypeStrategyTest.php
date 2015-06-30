@@ -10,8 +10,21 @@ namespace MatryoshkaTest\Model\Hydrator\Strategy;
 
 use Matryoshka\Model\Hydrator\Strategy\SetTypeStrategy;
 
+/**
+ * Class SetTypeStrategyTest
+ */
 class SetTypeStrategyTest extends \PHPUnit_Framework_TestCase
 {
+
+    public function testConstructor()
+    {
+        $strategy = new SetTypeStrategy('float', 'array');
+        $this->assertAttributeEquals('float', 'extractToType', $strategy);
+        $this->assertAttributeEquals('array', 'hydrateToType', $strategy);
+        $this->assertInstanceOf('Matryoshka\Model\Hydrator\Strategy\NullableStrategyInterface', $strategy);
+        $this->assertTrue($strategy->isNullable());
+    }
+
     public function testHydrate()
     {
         $strategy = new SetTypeStrategy('int', 'string');

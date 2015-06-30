@@ -8,7 +8,9 @@
  */
 namespace MatryoshkaTest\Model\Hydrator\Strategy;
 
-
+/**
+ * Class NullableStrategyTraitTest
+ */
 class NullableStrategyTraitTest extends \PHPUnit_Framework_TestCase
 {
 
@@ -19,8 +21,6 @@ class NullableStrategyTraitTest extends \PHPUnit_Framework_TestCase
         $this->trait = $this->getObjectForTrait('Matryoshka\Model\Hydrator\Strategy\NullableStrategyTrait');
     }
 
-
-
     public function testIsSetNullable()
     {
         // Default
@@ -30,6 +30,4 @@ class NullableStrategyTraitTest extends \PHPUnit_Framework_TestCase
         $this->assertSame($this->trait, $this->trait->setNullable(true));
         $this->assertTrue($this->trait->isNullable());
     }
-
-
 }

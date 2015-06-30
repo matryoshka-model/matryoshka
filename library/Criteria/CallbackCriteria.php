@@ -8,11 +8,13 @@
  */
 namespace Matryoshka\Model\Criteria;
 
-use Matryoshka\Model\ModelInterface;
 use Matryoshka\Model\Exception;
+use Matryoshka\Model\ModelStubInterface;
 
 /**
  * Class CallbackCriteria
+ *
+ * Allows the creation of a read operation through a closure or a callable.
  */
 class CallbackCriteria extends AbstractCriteria implements ReadableCriteriaInterface
 {
@@ -23,7 +25,7 @@ class CallbackCriteria extends AbstractCriteria implements ReadableCriteriaInter
 
     /**
      * Ctor
-     * @param callable $callable
+     * @param callable $callback
      */
     public function __construct(callable $callback)
     {
@@ -33,7 +35,7 @@ class CallbackCriteria extends AbstractCriteria implements ReadableCriteriaInter
     /**
      * {@inheritdoc}
      */
-    public function apply(ModelInterface $model)
+    public function apply(ModelStubInterface $model)
     {
         $callback = $this->callback;
         if ($callback instanceof \Closure) {

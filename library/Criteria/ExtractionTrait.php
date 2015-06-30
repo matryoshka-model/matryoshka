@@ -8,16 +8,16 @@
  */
 namespace Matryoshka\Model\Criteria;
 
-use Zend\Stdlib\Hydrator\AbstractHydrator;
-use Matryoshka\Model\ModelInterface;
-use Zend\Stdlib\Hydrator\HydratorAwareInterface;
 use Matryoshka\Model\Exception;
+use Matryoshka\Model\ModelStubInterface;
+use Zend\Stdlib\Hydrator\AbstractHydrator;
+use Zend\Stdlib\Hydrator\HydratorAwareInterface;
 
 /**
- * ExtractionTrait
+ * Trait ExtractionTrait
  *
- * This trait adds utility methods in order to extract values or names from
- * the object point of view to dataGateway ones
+ * This trait contains utility methods in order to extract values or names from
+ * the object point of view to the datagateway one.
  */
 trait ExtractionTrait
 {
@@ -28,18 +28,19 @@ trait ExtractionTrait
      * If $extractName is false, $name must be in the datagateway context,
      * otherwise $name will be converted using extractName().
      *
-     * @param ModelInterface $model
+     * @param ModelStubInterface $model
      * @param string $name
      * @param string $value
-     * @param string $extractName
+     * @param bool $extractName
      * @throws Exception\RuntimeException
      */
-    protected function extractValue(ModelInterface $model, $name, $value, $extractName = true)
+    protected function extractValue(ModelStubInterface $model, $name, $value, $extractName = true)
     {
         if (!$model->getHydrator() instanceof AbstractHydrator) {
-            throw new Exception\RuntimeException(
-                'Hydrator must be an instance of \Zend\Stdlib\Hydrator\AbstractHydrator'
-            );
+            throw new Exception\RuntimeException(sprintf(
+                'Hydrator must be an instance of "%s"',
+                AbstractHydrator::class
+            ));
         }
 
         if ($extractName) {
@@ -57,22 +58,22 @@ trait ExtractionTrait
      * Finally, $name will be extracted using the model's hydrator naming
      * strategy.
      *
-     * @param ModelInterface $model
+     * @param ModelStubInterface $model
      * @param string $name
      * @throws Exception\RuntimeException
      * @return string
      */
-    protected function extractName(ModelInterface $model, $name)
+    protected function extractName(ModelStubInterface $model, $name)
     {
-
         if ($model->getObjectPrototype() instanceof HydratorAwareInterface) {
             $objectHydrator = $model->getObjectPrototype()->getHydrator();
             if ($objectHydrator instanceof AbstractHydrator) {
                 $name = $objectHydrator->hydrateName($name);
             } else {
-                throw new Exception\RuntimeException(
-                    'Object hydrator must be an instance of \Zend\Stdlib\Hydrator\AbstractHydrator'
-                );
+                throw new Exception\RuntimeException(sprintf(
+                    'Object hydrator must be an instance of "%s"',
+                    AbstractHydrator::class
+                ));
             }
         }
 
@@ -80,9 +81,10 @@ trait ExtractionTrait
         if ($modelHydrator instanceof AbstractHydrator) {
             $name = $modelHydrator->extractName($name);
         } else {
-            throw new Exception\RuntimeException(
-                'Model hydrator must be an instance of \Zend\Stdlib\Hydrator\AbstractHydrator'
-            );
+            throw new Exception\RuntimeException(sprintf(
+                'Model hydrator must be an instance of "%s"',
+                    AbstractHydrator::class
+            ));
         }
 
         return $name;

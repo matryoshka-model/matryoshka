@@ -37,5 +37,4 @@ class ArrayObjectResultSetTest extends AbstractResultSetTest
         $resultSet = $this->resultSet;
         $resultSet->setObjectPrototype(new \stdClass);
     }
-
 }

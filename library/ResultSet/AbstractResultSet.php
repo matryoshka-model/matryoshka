@@ -3,7 +3,7 @@
  * Matryoshka
  *
  * @link        https://github.com/matryoshka-model/matryoshka
- * @copyright   Copyright (c) 2014, Copyright (c) 2014-2015, Ripa Club
+ * @copyright   Copyright (c) 2014-2015, Ripa Club
  * @license     http://opensource.org/licenses/BSD-2-Clause Simplified BSD License
  */
 namespace Matryoshka\Model\ResultSet;
@@ -55,7 +55,9 @@ abstract class AbstractResultSet implements ResultSetInterface
             $this->dataSource = $dataSource;
             $this->dataSource->rewind();
         } else {
-            throw new Exception\InvalidArgumentException('DataSource provided is not an array, nor does it implement Iterator or IteratorAggregate');
+            throw new Exception\InvalidArgumentException(
+                'DataSource provided is not an array, nor does it implement Iterator or IteratorAggregate'
+            );
         }
 
         return $this;
@@ -161,11 +163,11 @@ abstract class AbstractResultSet implements ResultSetInterface
     protected function itemToArray($item)
     {
         if (is_array($item)) {
-           return $item;
+            return $item;
         } elseif (method_exists($item, 'toArray')) {
-           return $item->toArray();
+            return $item->toArray();
         } elseif (method_exists($item, 'getArrayCopy')) {
-           return $item->getArrayCopy();
+            return $item->getArrayCopy();
         }
 
         throw new Exception\RuntimeException(sprintf(

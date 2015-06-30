@@ -9,9 +9,10 @@
 namespace MatryoshkaTest\Model\TestAsset;
 
 use Matryoshka\Model\AbstractModel;
-use Matryoshka\Model\Model;
 
+/**
+ * Class InvokableModel
+ */
 class InvokableModel extends AbstractModel
 {
-
 }

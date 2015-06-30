@@ -12,8 +12,6 @@ use Zend\Stdlib\Hydrator\Strategy\StrategyInterface;
 
 /**
  * Class SetTypeStrategy
- *
- * @author Lorenzo Fontana <fontanalorenzo@me.com>
  */
 class SetTypeStrategy implements StrategyInterface, NullableStrategyInterface
 {

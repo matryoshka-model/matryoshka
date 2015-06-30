@@ -6,15 +6,18 @@
  * @copyright   Copyright (c) 2014-2015, Ripa Club
  * @license     http://opensource.org/licenses/BSD-2-Clause Simplified BSD License
  */
-namespace Matryoshka\Model\ResultSet\PrototypeStrategy;
+namespace Matryoshka\Model\Object\PrototypeStrategy;
 
 use Matryoshka\Model\Exception\ErrorException;
-use Zend\ServiceManager\ServiceLocatorInterface;
-use Matryoshka\Model\ModelAwareInterface;
 use Matryoshka\Model\Exception\RuntimeException;
+use Matryoshka\Model\ModelAwareInterface;
+use Zend\ServiceManager\ServiceLocatorInterface;
 
 /**
  * Class ServiceLocatorStrategy
+ *
+ * Strategy for the creation of objects using an exteral service locator.
+ * It also allows the creation of different types of similar objects based on context.
  */
 class ServiceLocatorStrategy implements PrototypeStrategyInterface
 {
@@ -44,8 +47,12 @@ class ServiceLocatorStrategy implements PrototypeStrategyInterface
      * @param bool|string $validateObject
      * @param bool|string $cloneObject
      */
-    public function __construct(ServiceLocatorInterface $serviceLocator, $typeField = 'type', $validateObject = true, $cloneObject = false)
-    {
+    public function __construct(
+        ServiceLocatorInterface $serviceLocator,
+        $typeField = 'type',
+        $validateObject = true,
+        $cloneObject = false
+    ) {
         $this->setServiceLocator($serviceLocator);
         $this->setTypeField($typeField);
         $this->setValidateObject($validateObject);
@@ -160,5 +167,4 @@ class ServiceLocatorStrategy implements PrototypeStrategyInterface
 
         return $object;
     }
-
 }

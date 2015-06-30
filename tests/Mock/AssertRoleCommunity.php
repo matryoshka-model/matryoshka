@@ -11,11 +11,14 @@ namespace MatryoshkaTest\Model\Mock;
 use Zend\InputFilter\InputFilter;
 use Zend\InputFilter\InputFilterAwareInterface;
 use Zend\InputFilter\InputFilterAwareTrait;
+use Zend\Stdlib\Hydrator\ClassMethods;
 use Zend\Stdlib\Hydrator\HydratorAwareInterface;
 use Zend\Stdlib\Hydrator\HydratorAwareTrait;
-use Zend\Stdlib\Hydrator\ClassMethods;
 use Zend\Stdlib\hydrator\HydratorInterface;
 
+/**
+ * Class AssertRoleCommunity
+ */
 class AssertRoleCommunity implements HydratorAwareInterface, InputFilterAwareInterface
 {
     use HydratorAwareTrait;
@@ -68,7 +71,7 @@ class AssertRoleCommunity implements HydratorAwareInterface, InputFilterAwareInt
      */
     public function getHydrator()
     {
-        if(!$this->hydrator){
+        if (!$this->hydrator) {
             $this->setHydrator(new ClassMethods(false));
         }
         return $this->hydrator;

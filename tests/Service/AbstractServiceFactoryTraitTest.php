@@ -9,10 +9,7 @@
 namespace MatryoshkaTest\Model\Service;
 
 use Matryoshka\Model\Service\AbstractServiceFactoryTrait;
-use Zend\InputFilter\InputFilterPluginManager;
 use Zend\ServiceManager\ServiceLocatorInterface;
-use Zend\Stdlib\Hydrator\HydratorPluginManager;
-use Zend\Stdlib\Hydrator\ObjectProperty;
 
 /**
  * Class AbstractServiceFactoryTraitTest
@@ -245,6 +242,18 @@ class AbstractServiceFactoryTraitTest extends \PHPUnit_Framework_TestCase
         $this->setExpectedException('\Matryoshka\Model\Exception\RuntimeException');
         $this->getInputFilterByName($serviceLocator, $name);
     }
+
+
+
+
+
+
+
+
+
+
+
+
 
     public function testGetConfigWhenNodeConfigDoesNotExists()
     {

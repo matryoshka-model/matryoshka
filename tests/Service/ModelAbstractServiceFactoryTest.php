@@ -15,7 +15,6 @@ use Matryoshka\Model\Service\ModelAbstractServiceFactory;
 use MatryoshkaTest\Model\Service\TestAsset\DomainObject;
 use MatryoshkaTest\Model\Service\TestAsset\FakeDataGateway;
 use MatryoshkaTest\Model\Service\TestAsset\PaginatorCriteria;
-use Zend\EventManager\ListenerAggregateInterface;
 use Zend\InputFilter\InputFilter;
 use Zend\InputFilter\InputFilterPluginManager;
 use Zend\Mvc\Service\ServiceManagerConfig;
@@ -23,6 +22,7 @@ use Zend\ServiceManager;
 use Zend\Stdlib\Hydrator\ArraySerializable;
 use Zend\Stdlib\Hydrator\HydratorPluginManager;
 use Zend\Stdlib\Hydrator\ObjectProperty;
+use Matryoshka\Model\Object\PrototypeStrategy\CloneStrategy;
 
 /**
  * Class ModelAbstractServiceFactoryTest
@@ -60,7 +60,8 @@ class ModelAbstractServiceFactoryTest extends \PHPUnit_Framework_TestCase
                     'resultset' => 'Matryoshka\Model\ResultSet\HydratingResultSet',
                     'object' => 'ArrayObject',
                     'hydrator' => 'Zend\Stdlib\Hydrator\ArraySerializable',
-                    'type' => 'MatryoshkaTest\Model\Service\TestAsset\MyObservableModel'
+                    'type' => 'MatryoshkaTest\Model\Service\TestAsset\MyObservableModel',
+                    'prototype_strategy' => 'Matryoshka\Model\Object\PrototypeStrategy\CloneStrategy',
                 ],
                 'MyModel\OL' => [
                     'datagateway' => 'MatryoshkaTest\Model\Service\TestAsset\FakeDataGateway',
@@ -95,6 +96,12 @@ class ModelAbstractServiceFactoryTest extends \PHPUnit_Framework_TestCase
                     'type' => 'MatryoshkaTest\Model\Service\TestAsset\MyObservableModel',
                     'listeners' => ['\stdClass']
                 ],
+                'MyModel\InvalidPrototypeStrategy' => [
+                    'datagateway' => 'MatryoshkaTest\Model\Service\TestAsset\FakeDataGateway',
+                    'resultset' => 'Matryoshka\Model\ResultSet\HydratingResultSet',
+                    'type' => 'MatryoshkaTest\Model\Service\TestAsset\MyModel',
+                    'prototype_strategy' => '\stdClass'
+                ],
                 'MyModel\Full' => [
                     'datagateway' => 'MatryoshkaTest\Model\Service\TestAsset\FakeDataGateway',
                     'resultset' => 'Matryoshka\Model\ResultSet\HydratingResultSet',
@@ -118,6 +125,7 @@ class ModelAbstractServiceFactoryTest extends \PHPUnit_Framework_TestCase
 
         $sm->setService('Config', $config);
         $sm->setService('MatryoshkaTest\Model\Service\TestAsset\FakeDataGateway', new FakeDataGateway);
+        $sm->setService('Matryoshka\Model\Object\PrototypeStrategy\CloneStrategy', new CloneStrategy());
         $sm->setService('Matryoshka\Model\ResultSet\ResultSet', new ResultSet);
         $sm->setService('Matryoshka\Model\ResultSet\HydratingResultSet', new HydratingResultSet);
         $sm->setService('MatryoshkaTest\Model\Service\TestAsset\PaginatorCriteria', $paginatorCriteria);
@@ -329,5 +337,20 @@ class ModelAbstractServiceFactoryTest extends \PHPUnit_Framework_TestCase
         $serviceLocator = $this->serviceManager;
         $factory = new ModelAbstractServiceFactory();
         $factory->createServiceWithName($serviceLocator, 'mymodelinvalidlistener', 'MyModel\InvalidListener');
+    }
+
+    /**
+     * @depends testCreateService
+     * @expectedException \Matryoshka\Model\Exception\RuntimeException
+     */
+    public function testCreateServiceShouldThrowExceptionOnInvalidPrototypeStrategy()
+    {
+        $serviceLocator = $this->serviceManager;
+        $factory = new ModelAbstractServiceFactory();
+        $factory->createServiceWithName(
+            $serviceLocator,
+            'mymodelinvalidprototypestrategy',
+            'MyModel\InvalidPrototypeStrategy'
+        );
     }
 }

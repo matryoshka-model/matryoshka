@@ -3,35 +3,59 @@
  * Matryoshka
  *
  * @link        https://github.com/matryoshka-model/matryoshka
- * @copyright   Copyright (c) 2014, Copyright (c) 2014-2015, Ripa Club
+ * @copyright   Copyright (c) 2014-2015, Ripa Club
  * @license     http://opensource.org/licenses/BSD-2-Clause Simplified BSD License
  */
 namespace Matryoshka\Model\Object\ActiveRecord;
 
+use Matryoshka\Model\Criteria\ActiveRecord\AbstractCriteria;
 use Matryoshka\Model\Exception;
 use Matryoshka\Model\ModelAwareInterface;
-use Matryoshka\Model\ModelInterface;
-use Matryoshka\Model\AbstractModel;
-use Matryoshka\Model\Criteria\ActiveRecord\AbstractCriteria;
 use Matryoshka\Model\ModelAwareTrait;
 use Matryoshka\Model\Object\AbstractObject;
-use Matryoshka\Model\Object\InitializableInterface;
 
 /**
+ * Class AbstractActiveRecord
  *
- *
+ * Abstract class aimed to the implementation of the ActiveRecord pattern.
  */
 abstract class AbstractActiveRecord extends AbstractObject implements
     ModelAwareInterface,
     ActiveRecordInterface
 {
-
     use ModelAwareTrait;
+
+    /**
+     * @var mixed
+     */
+    protected $id;
 
     /**
      * @var AbstractCriteria
      */
     protected $activeRecordCriteriaPrototype;
+
+    /**
+     * Set Id
+     *
+     * @param mixed $id
+     * @return $this
+     */
+    public function setId($id)
+    {
+        $this->id = $id;
+        return $this;
+    }
+
+    /**
+     * Get Id
+     *
+     * @return mixed
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
 
     /**
      * Set Active Record Criteria Prototype
@@ -46,23 +70,6 @@ abstract class AbstractActiveRecord extends AbstractObject implements
     }
 
     /**
-     * Set Model
-     *
-     * @param ModelInterface $model
-     * @return $this
-     */
-    public function setModel(ModelInterface $model)
-    {
-        if (!$model instanceof AbstractModel) {
-            throw new Exception\InvalidArgumentException(
-                'AbstractModel required in order to work with ActiveRecord'
-            );
-        }
-        $this->model = $model;
-        return $this;
-    }
-
-    /**
      * Save
      *
      * @return null|int
@@ -71,11 +78,14 @@ abstract class AbstractActiveRecord extends AbstractObject implements
     public function save()
     {
         if (!$this->activeRecordCriteriaPrototype) {
-            throw new Exception\RuntimeException('An Active Record Criteria Prototype must be set prior to calling save()');
+            throw new Exception\RuntimeException(sprintf(
+                'An Active Record Criteria Prototype must be set prior to calling ',
+                __FUNCTION__
+            ));
         }
 
         if (!$this->getModel()) {
-            throw new Exception\RuntimeException('A Model must be set prior to calling save()');
+            throw new Exception\RuntimeException(sprintf('A Model must be set prior to calling %s', __FUNCTION__));
         }
 
         $criteria = $this->activeRecordCriteriaPrototype;
@@ -93,15 +103,18 @@ abstract class AbstractActiveRecord extends AbstractObject implements
     public function delete()
     {
         if (!$this->getId()) {
-            throw new Exception\RuntimeException('An ID must be set prior to calling delete()');
+            throw new Exception\RuntimeException(sprintf('An ID must be set prior to calling %s', __FUNCTION__));
         }
 
         if (!$this->activeRecordCriteriaPrototype) {
-            throw new Exception\RuntimeException('An Active Record Criteria Prototype must be set prior to calling delete()');
+            throw new Exception\RuntimeException(sprintf(
+                'An Active Record Criteria Prototype must be set prior to calling %s',
+                __FUNCTION__
+            ));
         }
 
         if (!$this->getModel()) {
-            throw new Exception\RuntimeException('A Model must be set prior to calling delete()');
+            throw new Exception\RuntimeException(sprintf('A Model must be set prior to calling %s', __FUNCTION__));
         }
 
         $criteria = $this->activeRecordCriteriaPrototype;

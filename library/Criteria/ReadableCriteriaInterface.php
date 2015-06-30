@@ -8,18 +8,19 @@
  */
 namespace Matryoshka\Model\Criteria;
 
-use Matryoshka\Model\ModelInterface;
+use Matryoshka\Model\ModelStubInterface;
 
 /**
  * Interface ReadableCriteriaInterface
  *
+ * Criterias implementing this interface are able to perform read operations.
  */
 interface ReadableCriteriaInterface extends CriteriaInterface
 {
     /**
      * Apply
-     * @param ModelInterface $model
+     * @param ModelStubInterface $model
      * @return mixed
      */
-    public function apply(ModelInterface $model);
+    public function apply(ModelStubInterface $model);
 }

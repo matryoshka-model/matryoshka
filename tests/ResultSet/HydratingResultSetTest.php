@@ -27,12 +27,14 @@ class HydratingResultSetTest extends AbstractResultSetTest
         $this->resultSet = new HydratingResultSet($this->hydrator);
     }
 
-    public function test__constructor()
+    public function testCtor()
     {
         $hydrator = new ObjectProperty();
         $resultSet = new HydratingResultSet($hydrator);
         $this->assertSame($hydrator, $resultSet->getHydrator());
 
+        $this->assertInstanceOf('Matryoshka\Model\ResultSet\HydratingResultSetInterface', $resultSet);
+        $this->assertInstanceOf('Matryoshka\Model\Object\PrototypeStrategy\PrototypeStrategyAwareInterface', $resultSet);
 
         $abstractObject = $this->getMockForAbstractClass('\Matryoshka\Model\Object\AbstractObject');
         $resultSet = new HydratingResultSet(null, $abstractObject);
@@ -54,7 +56,6 @@ class HydratingResultSetTest extends AbstractResultSetTest
         $this->assertEquals(new \ArrayObject(['id' => 1, 'name' => 'one']), $resultSet->current());
         $resultSet->next();
         $this->assertNull($resultSet->current());
-
     }
 
     public function testSetObjectPrototypeShouldThrowExceptionWhenInvalidType()

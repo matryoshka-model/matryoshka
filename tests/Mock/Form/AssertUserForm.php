@@ -11,6 +11,9 @@ namespace MatryoshkaTest\Model\Mock\Form;
 use Zend\Form\Element;
 use Zend\Form\Form;
 
+/**
+ * Class AssertUserForm
+ */
 class AssertUserForm extends Form
 {
     const NAME = 'form_user';

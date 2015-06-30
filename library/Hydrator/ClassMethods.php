@@ -24,8 +24,20 @@ class ClassMethods extends ZendClassMethods
     {
         parent::__construct($underscoreSeparatedKeys);
         // Exclude this methods from the extraction
-        $this->filterComposite->addFilter('model', new MethodMatchFilter('getModel'), FilterComposite::CONDITION_AND);
-        $this->filterComposite->addFilter('hydrator', new MethodMatchFilter('getHydrator'), FilterComposite::CONDITION_AND);
-        $this->filterComposite->addFilter('inputFilter', new MethodMatchFilter('getInputFilter'), FilterComposite::CONDITION_AND);
+        $this->filterComposite->addFilter(
+            'model',
+            new MethodMatchFilter('getModel'),
+            FilterComposite::CONDITION_AND
+        );
+        $this->filterComposite->addFilter(
+            'hydrator',
+            new MethodMatchFilter('getHydrator'),
+            FilterComposite::CONDITION_AND
+        );
+        $this->filterComposite->addFilter(
+            'inputFilter',
+            new MethodMatchFilter('getInputFilter'),
+            FilterComposite::CONDITION_AND
+        );
     }
 }

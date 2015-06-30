@@ -10,6 +10,9 @@ namespace MatryoshkaTest\Model\Criteria;
 
 use Matryoshka\Model\Criteria\CallbackCriteria;
 
+/**
+ * Class CallbackCriteriaTest
+ */
 class CallbackCriteriaTest extends \PHPUnit_Framework_TestCase
 {
 
@@ -19,11 +22,12 @@ class CallbackCriteriaTest extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->closure = function () {};
+        $this->closure = function () {
+        };
         $this->criteria = new CallbackCriteria($this->closure);
     }
 
-    public function test__constructor()
+    public function testCtor()
     {
         $this->assertInstanceOf('Matryoshka\Model\Criteria\AbstractCriteria', $this->criteria);
         $this->assertInstanceOf('Matryoshka\Model\Criteria\ReadableCriteriaInterface', $this->criteria);
@@ -47,7 +51,7 @@ class CallbackCriteriaTest extends \PHPUnit_Framework_TestCase
     public function testApply()
     {
         $this->modelMock = $modelMock = $mockCriteria = $this->getMock(
-            '\Matryoshka\Model\ModelInterface'
+            '\Matryoshka\Model\ModelStubInterface'
         );
 
         $this->callbackReturn = ['foo' => 'bar'];
@@ -62,7 +66,7 @@ class CallbackCriteriaTest extends \PHPUnit_Framework_TestCase
         $scope = null;
         $return = ['return'];
 
-        $criteria = new CallbackCriteria(function() use(&$argv, &$scope, $return) {
+        $criteria = new CallbackCriteria(function () use (&$argv, &$scope,$return) {
             $argv  = func_get_args();
             $scope = $this;
             return $return;
@@ -72,7 +76,5 @@ class CallbackCriteriaTest extends \PHPUnit_Framework_TestCase
         $this->assertSame($return, $criteria->apply($modelMock));
         $this->assertSame($criteria, $scope);
         $this->assertSame([0 => $modelMock], $argv);
-
     }
-
 }

@@ -8,16 +8,16 @@
  */
 namespace MatryoshkaTest\Model\Criteria;
 
-use MatryoshkaTest\Model\TestAsset\ConcreteAbstractModel;
 use Matryoshka\Model\Criteria\ExtractionTrait;
-use Matryoshka\Model\ResultSet\ArrayObjectResultSet;
 use Matryoshka\Model\ResultSet\HydratingResultSet;
-use MatryoshkaTest\Model\TestAsset\HydratorAwareObject;
 use MatryoshkaTest\Model\TestAsset\ActiveRecordObject;
+use MatryoshkaTest\Model\TestAsset\ConcreteAbstractModel;
 
+/**
+ * Class ExtrationTraitTest
+ */
 class ExtrationTraitTest extends \PHPUnit_Framework_TestCase
 {
-
     /**
      * @var ExtractionTrait
      */
@@ -164,6 +164,4 @@ class ExtrationTraitTest extends \PHPUnit_Framework_TestCase
 
         $reflMethod->invoke($this->extractionTrait, $this->testModel, 'objectName');
     }
-
-
 }

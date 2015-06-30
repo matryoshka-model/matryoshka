@@ -9,13 +9,16 @@
 namespace Matryoshka\Model\Hydrator\Strategy;
 
 use DateTime;
+use Matryoshka\Model\Exception;
 use Zend\Stdlib\Hydrator\Strategy\StrategyInterface;
 
 /**
  * Class DateTimeStrategy
  */
-class DateTimeStrategy implements StrategyInterface
+class DateTimeStrategy implements StrategyInterface, NullableStrategyInterface
 {
+    use NullableStrategyTrait;
+
     /**
      * @var string
      */
@@ -26,7 +29,7 @@ class DateTimeStrategy implements StrategyInterface
      */
     public function __construct($format = null)
     {
-        if($format !== null) {
+        if ($format !== null) {
             $this->setFormat($format);
         }
     }
@@ -35,23 +38,39 @@ class DateTimeStrategy implements StrategyInterface
      * {@inheritdoc}
      * Convert a string value into a DateTime object
      *
-     * @return DateTime|null
+     * @param string|int|null $value
+     * @return \DateTime|null
      */
     public function hydrate($value)
     {
-        if (is_string($value)) {
-            $value = DateTime::createFromFormat($this->getFormat(), $value);
-            if ($value) {
-                return $value;
-            }
+        if ($this->nullable && $value === null) {
+            return null;
         }
-        return null;
+
+        if (is_string($value) || is_int($value)) {
+            if ($dateTime = DateTime::createFromFormat($this->getFormat(), $value)) {
+                return $dateTime;
+            }
+
+            throw new Exception\InvalidArgumentException(sprintf(
+                'Invalid format or value: format must be a string representing a valid \DateTime format, "%s" given;' .
+                'value must be a string representing the time according to \DateTime::createFromFormat(), "%s" given.',
+                $this->getFormat(),
+                $value
+            ));
+        }
+
+        throw new Exception\InvalidArgumentException(sprintf(
+            'Invalid value: must be a string or integer representing the time according to the format, "%s" given',
+            is_object($value) ? get_class($value) : gettype($value)
+        ));
     }
 
     /**
      * {@inheritdoc}
      * Convert a DateTime object into a string
      *
+     * @param \DateTime|null $value
      * @return string|null
      */
     public function extract($value)
@@ -59,20 +78,32 @@ class DateTimeStrategy implements StrategyInterface
         if ($value instanceof DateTime) {
             return $value->format($this->getFormat());
         }
-        return null;
+
+        if ($this->nullable && $value === null) {
+            return null;
+        }
+
+        throw new Exception\InvalidArgumentException(sprintf(
+            'Invalid value: must be an instance of DateTime, "%s" given.',
+            is_object($value) ? get_class($value) : gettype($value)
+        ));
     }
 
     /**
+     * Set format
+     *
      * @param string $format
      * @return DateTimeStrategy
      */
     public function setFormat($format)
     {
-        $this->format = $format;
+        $this->format = (string) $format;
         return $this;
     }
 
     /**
+     * Get format
+     *
      * @return string
      */
     public function getFormat()

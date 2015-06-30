@@ -33,10 +33,15 @@ class HasManyStrategy implements StrategyInterface, NullableStrategyInterface
     /**
      * Ctor
      *
-     * @param $objectPrototype
+     * @param HydratorAwareInterface $objectPrototype
+     * @param \ArrayAccess $arrayObjectPrototype
+     * @param bool $nullable
      */
-    public function __construct(HydratorAwareInterface $objectPrototype, \ArrayAccess $arrayObjectPrototype = null, $nullable = false)
-    {
+    public function __construct(
+        HydratorAwareInterface $objectPrototype,
+        \ArrayAccess $arrayObjectPrototype = null,
+        $nullable = true
+    ) {
         $this->hasOneStrategy = new HasOneStrategy($objectPrototype);
         $this->arrayObjectPrototype = $arrayObjectPrototype ? $arrayObjectPrototype : new ArrayObject([], ArrayObject::ARRAY_AS_PROPS);
         $this->setNullable($nullable);
@@ -53,8 +58,8 @@ class HasManyStrategy implements StrategyInterface, NullableStrategyInterface
     /**
      * Converts the given value so that it can be extracted by the hydrator.
      *
-     * @param mixed $value The original value.
-     * @return mixed Returns the value that should be extracted.
+     * @param array|\Traversable|null $value The original value.
+     * @return array|null Returns the value that should be extracted.
      */
     public function extract($value)
     {
@@ -69,19 +74,19 @@ class HasManyStrategy implements StrategyInterface, NullableStrategyInterface
             }
         } else {
             throw new Exception\InvalidArgumentException(sprintf(
-                'Value must be an array or Travesable, "%s" given',
-                gettype($value)
+                'Value must be null (only if nullable option is enabled), or an array, or a Traversable: "%s" given',
+                is_object($value) ? get_class($value) : gettype($value)
             ));
         }
 
         return $return;
-     }
+    }
 
     /**
      * Converts the given value so that it can be hydrated by the hydrator.
      *
-     * @param mixed $value The original value.
-     * @return mixed Returns the value that should be hydrated.
+     * @param array|\Traversable|null $value The original value.
+     * @return \ArrayAccess|null Returns the value that should be hydrated.
      */
     public function hydrate($value)
     {
@@ -96,8 +101,8 @@ class HasManyStrategy implements StrategyInterface, NullableStrategyInterface
             }
         } else {
             throw new Exception\InvalidArgumentException(sprintf(
-                'Value must be an array or Travesable, "%s" given',
-                gettype($value)
+                'Value must be null (only if nullable option is enabled), or an array, or a Traversable: "%s" given',
+                is_object($value) ? get_class($value) : gettype($value)
             ));
         }
 

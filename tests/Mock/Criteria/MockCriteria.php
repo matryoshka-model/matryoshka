@@ -9,14 +9,19 @@
 namespace MatryoshkaTest\Model\Mock\Criteria;
 
 use Matryoshka\Model\Criteria\AbstractCriteria;
-use Matryoshka\Model\ModelInterface;
+use Matryoshka\Model\ModelStubInterface;
 
+/**
+ * Class MockCriteria
+ */
 class MockCriteria extends AbstractCriteria
 {
 
-    public function apply(ModelInterface $model)
+    /**
+     * {@inheritdoc}
+     */
+    public function apply(ModelStubInterface $model)
     {
         return [];
     }
-
 }

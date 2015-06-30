@@ -10,7 +10,7 @@ namespace MatryoshkaTest\Model\ResultSet\TestAsset;
 
 use Matryoshka\Model\ResultSet\AbstractResultSet;
 use Matryoshka\Model\ResultSet\ResultSetInterface;
-use Zend\Db\Exception\InvalidArgumentException;
+use Matryoshka\Model\Exception\InvalidArgumentException;
 
 /**
  * Class GenericResultSet
@@ -48,5 +48,4 @@ class GenericResultSet extends AbstractResultSet
     {
         // TODO: Implement __call() method.
     }
-
 }

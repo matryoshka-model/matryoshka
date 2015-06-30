@@ -9,23 +9,25 @@
 namespace MatryoshkaTest\Model\Criteria\ActiveRecord\TestAsset;
 
 use Matryoshka\Model\Criteria\ActiveRecord\AbstractCriteria;
-use Matryoshka\Model\ModelInterface;
+use Matryoshka\Model\ModelStubInterface;
 
+/**
+ * Class ConcreteCriteria
+ */
 class ConcreteCriteria extends AbstractCriteria
 {
-    public function apply(ModelInterface $model)
+    public function apply(ModelStubInterface $model)
     {
         return [];
     }
 
-    public function applyWrite(ModelInterface $model, array &$data)
+    public function applyWrite(ModelStubInterface $model, array &$data)
     {
         return false;
     }
 
-    public function applyDelete(ModelInterface $model)
+    public function applyDelete(ModelStubInterface $model)
     {
         return false;
     }
-
 }

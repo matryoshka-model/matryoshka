@@ -16,23 +16,25 @@ use Matryoshka\Model\Exception;
 use Matryoshka\Model\ResultSet\ResultSetInterface;
 use Zend\InputFilter\InputFilterAwareInterface;
 use Zend\InputFilter\InputFilterAwareTrait;
-use Zend\Paginator\AdapterAggregateInterface as PaginatorAdapterAggregateInterface;
 use Zend\Stdlib\Hydrator\AbstractHydrator;
 use Zend\Stdlib\Hydrator\HydratorAwareInterface;
 use Zend\Stdlib\Hydrator\HydratorAwareTrait;
 
 /**
  * Class AbstractModel
+ *
+ * Provides implementations for {@link ModelStubInterface} and {@link ModelInterface} contracts.
  */
 abstract class AbstractModel implements
+    ModelStubInterface,
     ModelInterface,
+    DataGatewayAwareInterface,
     HydratorAwareInterface,
-    InputFilterAwareInterface,
-    PaginatorAdapterAggregateInterface
+    InputFilterAwareInterface
 {
+    use DataGatewayAwareTrait;
     use HydratorAwareTrait;
     use InputFilterAwareTrait;
-    use DataGatewayAwareTrait;
 
     /**
      * @var PaginableCriteriaInterface
@@ -66,9 +68,10 @@ abstract class AbstractModel implements
             if ($this->getObjectPrototype() instanceof InputFilterAwareInterface) {
                 $this->inputFilter = $this->getObjectPrototype()->getInputFilter();
             } else {
-                throw new Exception\RuntimeException(
-                    'InputFilter must be set or the object prototype must be an instance of InputFilterAwareInterface'
-                );
+                throw new Exception\RuntimeException(sprintf(
+                    'InputFilter must be set or the object prototype must be an instance of "%s"',
+                    InputFilterAwareInterface::class
+                ));
             }
         }
         return $this->inputFilter;
@@ -113,20 +116,7 @@ abstract class AbstractModel implements
     }
 
     /**
-     * Create
-     *
-     * @return object
-     */
-    public function create()
-    {
-        return clone $this->getObjectPrototype();
-    }
-
-    /**
-     * Find
-     *
-     * @param ReadableCriteriaInterface $criteria
-     * @return ResultSetInterface
+     * {@inheritdoc}
      */
     public function find(ReadableCriteriaInterface $criteria)
     {
@@ -140,9 +130,7 @@ abstract class AbstractModel implements
     }
 
     /**
-     * Save
-     *
-     * Inserts or updates data
+     * {@inheritdoc}
      *
      * @param WritableCriteriaInterface $criteria
      * @param HydratorAwareInterface|object|array $dataOrObject
@@ -202,7 +190,6 @@ abstract class AbstractModel implements
                 foreach ($dataOrObject as $key => $value) {
                     $data[$key] = $hydrator->extractValue($key, $value, $context);
                 }
-
             }
         }
 
@@ -220,10 +207,7 @@ abstract class AbstractModel implements
     }
 
     /**
-     * Delete
-     *
-     * @param DeletableCriteriaInterface $criteria
-     * @return null|int
+     * {@inheritdoc}
      */
     public function delete(DeletableCriteriaInterface $criteria)
     {
@@ -264,6 +248,7 @@ abstract class AbstractModel implements
 
     /**
      * {@inheritdoc}
+     *
      * @throws Exception\RuntimeException
      */
     public function getPaginatorAdapter(PaginableCriteriaInterface $criteria = null)

@@ -10,8 +10,19 @@ namespace MatryoshkaTest\Model\Hydrator\Strategy;
 
 use Matryoshka\Model\Hydrator\Strategy\HasManyStrategy;
 
+/**
+ * Class HasManyStrategyTest
+ */
 class HasManyStrategyTest extends \PHPUnit_Framework_TestCase
 {
+
+    public function testConstructor()
+    {
+        $abstractObject = $this->getMockForAbstractClass('\Matryoshka\Model\Object\AbstractObject');
+        $strategy = new HasManyStrategy($abstractObject);
+        $this->assertInstanceOf('Matryoshka\Model\Hydrator\Strategy\NullableStrategyInterface', $strategy);
+        $this->assertTrue($strategy->isNullable());
+    }
 
     public function testGetHydrator()
     {

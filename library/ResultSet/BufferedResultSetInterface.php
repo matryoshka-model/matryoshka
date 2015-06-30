@@ -8,11 +8,9 @@
  */
 namespace Matryoshka\Model\ResultSet;
 
-
 /**
  * Interface BufferedResultSetInterface
  */
 interface BufferedResultSetInterface extends ResultSetInterface
 {
-
 }

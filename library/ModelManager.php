@@ -14,6 +14,8 @@ use Zend\ServiceManager\ConfigInterface;
 
 /**
  * Class ModelManager
+ *
+ * A dedicated service locator for your model service classes.
  */
 class ModelManager extends AbstractPluginManager
 {
@@ -47,9 +49,9 @@ class ModelManager extends AbstractPluginManager
     {
         if (!$plugin instanceof ModelInterface) {
             throw new Exception\InvalidPluginException(sprintf(
-                'Model of type %s is invalid; must implement %s\ModelInterface',
+                'Model of type %s is invalid; must implement "%s"',
                 (is_object($plugin) ? get_class($plugin) : gettype($plugin)),
-                __NAMESPACE__
+                ModelInterface::class
             ));
         }
     }
@@ -73,9 +75,9 @@ class ModelManager extends AbstractPluginManager
      * @param  string $name
      * @param  array $options
      * @param  bool $usePeeringServiceManagers
-     * @return mixed
+     * @return ModelInterface
      */
-    public function get($name, $options = array(), $usePeeringServiceManagers = false)
+    public function get($name, $options = [], $usePeeringServiceManagers = false)
     {
         return parent::get($name, $options, $usePeeringServiceManagers);
     }

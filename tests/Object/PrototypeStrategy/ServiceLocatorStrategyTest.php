@@ -8,10 +8,10 @@
  */
 namespace MatryoshkaTest\Model\ResultSet\PrototypeStrategy;
 
-use Matryoshka\Model\ResultSet\PrototypeStrategy\ServiceLocatorStrategy;
+use Matryoshka\Model\Object\PrototypeStrategy\ServiceLocatorStrategy;
+use MatryoshkaTest\Model\Service\TestAsset\DomainObject;
 use Zend\Mvc\Service\ServiceManagerConfig;
 use Zend\ServiceManager;
-use MatryoshkaTest\Model\Service\TestAsset\DomainObject;
 
 /**
  * Class ServiceLocatorStrategyTest
@@ -46,7 +46,6 @@ class ServiceLocatorStrategyTest extends \PHPUnit_Framework_TestCase
         $obj = new DomainObject();
         $obj->setModel($this->modelMock);
         $sm->setService('MyDomainObjectWithModel', $obj);
-
     }
 
     public function testCreateObject()

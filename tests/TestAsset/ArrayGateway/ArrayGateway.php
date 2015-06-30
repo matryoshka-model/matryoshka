@@ -9,8 +9,9 @@
 namespace MatryoshkaTest\Model\TestAsset\ArrayGateway;
 
 /**
+ * Class ArrayGateway
+ * 
  * Simple Array datagateway for mock and testing
- *
  */
 class ArrayGateway
 {

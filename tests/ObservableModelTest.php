@@ -80,7 +80,6 @@ class ObservableModelTest extends ModelTest
 
         $this->assertTrue($preEventCalled);
         $this->assertTrue($postEventCalled);
-
     }
 
 
@@ -207,7 +206,6 @@ class ObservableModelTest extends ModelTest
         $this->assertNull($result);
         $this->assertTrue($preEventCalled);
         $this->assertTrue($postEventCalled);
-
     }
 
     public function testSaveStopPropagation()
@@ -252,7 +250,6 @@ class ObservableModelTest extends ModelTest
         $this->assertEquals(20, $this->model->save($mockCriteria, $data));
         $this->assertFalse($preEventCalled);
         $this->assertTrue($postEventCalled);
-
     }
 
 
@@ -347,6 +344,5 @@ class ObservableModelTest extends ModelTest
         $this->assertEquals(2, $this->model->delete($mockCriteria));
         $this->assertFalse($preEventCalled);
         $this->assertTrue($postEventCalled);
-
     }
 }

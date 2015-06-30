@@ -8,8 +8,8 @@
  */
 namespace MatryoshkaTest\Model\Object;
 
-
 use Matryoshka\Model\Object\IdentityAwareInterface;
+
 /**
  * Class IdentityAwareTraitTest
  */

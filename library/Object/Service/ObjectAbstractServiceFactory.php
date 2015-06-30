@@ -31,7 +31,6 @@ class ObjectAbstractServiceFactory implements AbstractFactoryInterface
      */
     protected $configKey = 'matryoshka-objects';
 
-
     /**
      * Config
      * @var array
@@ -137,13 +136,12 @@ class ObjectAbstractServiceFactory implements AbstractFactoryInterface
      */
     protected function getActiveRecordCriteriaByName($serviceLocator, $name)
     {
-        /** @var $criteria CriteriaInterface */
         $criteria = $serviceLocator->get($name);
         if (!$criteria instanceof AbstractCriteria) {
             throw new Exception\ServiceNotCreatedException(sprintf(
                 'Instance of type %s is invalid; must implement %s',
                 (is_object($criteria) ? get_class($criteria) : gettype($criteria)),
-                'Matryoshka\Model\Criteria\ActiveRecord\AbstractCriteria'
+                AbstractCriteria::class
             ));
         }
         return $criteria;

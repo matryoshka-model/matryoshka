@@ -3,22 +3,22 @@
  * Matryoshka
  *
  * @link        https://github.com/matryoshka-model/matryoshka
- * @copyright   Copyright (c) 2014, Copyright (c) 2014-2015, Ripa Club
+ * @copyright   Copyright (c) 2014-2015, Ripa Club
  * @license     http://opensource.org/licenses/BSD-2-Clause Simplified BSD License
  */
 namespace Matryoshka\Model\Object;
 
+use Matryoshka\Model\Hydrator\ClassMethods;
 use Zend\InputFilter\InputFilter;
 use Zend\InputFilter\InputFilterAwareInterface;
 use Zend\InputFilter\InputFilterAwareTrait;
 use Zend\Stdlib\Hydrator\HydratorAwareInterface;
 use Zend\Stdlib\Hydrator\HydratorAwareTrait;
-use Zend\Stdlib\Hydrator\ObjectProperty;
 
 /**
- * Abstract generic class to use as the entity model.
+ * Class AbstractObject
  *
- * Minimum set to correctly use Matryoshka library.
+ * Abstract generic class to create domain model specific objects.
  */
 abstract class AbstractObject implements HydratorAwareInterface, InputFilterAwareInterface
 {
@@ -31,7 +31,7 @@ abstract class AbstractObject implements HydratorAwareInterface, InputFilterAwar
     public function getHydrator()
     {
         if (!$this->hydrator) {
-            $this->hydrator = new ObjectProperty();
+            $this->hydrator = new ClassMethods();
         }
 
         return $this->hydrator;

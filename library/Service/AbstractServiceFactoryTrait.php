@@ -8,10 +8,12 @@
  */
 namespace Matryoshka\Model\Service;
 
+use Matryoshka\Model\Criteria\PaginableCriteriaInterface;
+use Matryoshka\Model\Exception;
+use Matryoshka\Model\Object\PrototypeStrategy\PrototypeStrategyInterface;
 use Zend\InputFilter\InputFilterInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 use Zend\Stdlib\Hydrator\HydratorInterface;
-use Matryoshka\Model\Exception;
 
 /**
  * Trait AbstractServiceFactoryTrait
@@ -46,7 +48,44 @@ trait AbstractServiceFactoryTrait
     }
 
     /**
-     * Retrieve HydratorInterface object from config
+     * Retrieve object from service locator
+     *
+     * @param ServiceLocatorInterface $serviceLocator
+     * @param $name
+     * @return object
+     */
+    protected function getObjectByName(ServiceLocatorInterface $serviceLocator, $name)
+    {
+        if ($serviceLocator->has('Matryoshka\Model\Object\ObjectManager')) {
+            $serviceLocator = $serviceLocator->get('Matryoshka\Model\Object\ObjectManager');
+        }
+
+        return $serviceLocator->get($name);
+    }
+
+    /**
+     * Retrieve PaginableCriteriaInterface object from service locator
+     *
+     * @param ServiceLocatorInterface $serviceLocator
+     * @param $name
+     * @return PaginableCriteriaInterface
+     * @throws Exception\ServiceNotCreatedException
+     */
+    protected function getPaginatorCriteriaByName(ServiceLocatorInterface $serviceLocator, $name)
+    {
+        $criteria = $serviceLocator->get($name);
+        if (!$criteria instanceof PaginableCriteriaInterface) {
+            throw new Exception\ServiceNotCreatedException(sprintf(
+                'Instance of type "%s" is invalid; must implement "%s"',
+                (is_object($criteria) ? get_class($criteria) : gettype($criteria)),
+                PaginableCriteriaInterface::class
+            ));
+        }
+        return $criteria;
+    }
+
+    /**
+     * Retrieve HydratorInterface object from service locator
      *
      * @param ServiceLocatorInterface $serviceLocator
      * @param $name
@@ -64,14 +103,14 @@ trait AbstractServiceFactoryTrait
             throw new Exception\RuntimeException(sprintf(
                 'Instance of type %s is invalid; must implement %s',
                 (is_object($obj) ? get_class($obj) : gettype($obj)),
-                'Zend\Stdlib\Hydrator\HydratorInterface'
+                HydratorInterface::class
             ));
         }
         return $obj;
     }
 
     /**
-     * Retrieve InputFilterInterface object from config
+     * Retrieve InputFilterInterface object from service locator
      *
      * @param ServiceLocatorInterface $serviceLocator
      * @param $name
@@ -89,7 +128,28 @@ trait AbstractServiceFactoryTrait
             throw new Exception\RuntimeException(sprintf(
                 'Instance of type %s is invalid; must implement %s',
                 (is_object($obj) ? get_class($obj) : gettype($obj)),
-                'Zend\InputFilter\InputFilterInterface'
+                InputFilterInterface::class
+            ));
+        }
+        return $obj;
+    }
+
+    /**
+     * Retrieve PrototypeStrategy object from service locator
+     *
+     * @param ServiceLocatorInterface $serviceLocator
+     * @param $name
+     * @return InputFilterInterface
+     * @throws Exception\RuntimeException
+     */
+    protected function getPrototypeStrategyByName(ServiceLocatorInterface $serviceLocator, $name)
+    {
+        $obj = $serviceLocator->get($name);
+        if (!$obj instanceof PrototypeStrategyInterface) {
+            throw new Exception\RuntimeException(sprintf(
+                'Instance of type %s is invalid; must implement %s',
+                (is_object($obj) ? get_class($obj) : gettype($obj)),
+                PrototypeStrategyInterface::class
             ));
         }
         return $obj;
