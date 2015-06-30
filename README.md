@@ -1,4 +1,7 @@
-# Matryoshka
+<img src="./docs/assets/images/matryoshka_logo_hi_res_512.png" width="72px" height="72px"/>
+
+Matryoshka 
+----------
 
 [![Latest Stable Version](http://img.shields.io/packagist/v/matryoshka-model/matryoshka.svg?style=flat-square)](https://packagist.org/packages/matryoshka-model/matryoshka) [![Build Status](https://img.shields.io/travis/matryoshka-model/matryoshka/master.svg?style=flat-square)](https://travis-ci.org/matryoshka-model/matryoshka) [![Coveralls branch](https://img.shields.io/coveralls/matryoshka-model/matryoshka/master.svg?style=flat-square)](https://coveralls.io/r/matryoshka-model/matryoshka?branch=master) [![Total Downloads](https://img.shields.io/packagist/dt/matryoshka-model/matryoshka.svg?style=flat-square)](https://packagist.org/packages/matryoshka-model/matryoshka) [![Matryoshka Model's Slack](http://matryoshka-slackin.herokuapp.com/badge.svg?style=flat-square)](http://matryoshka-slackin.herokuapp.com)
 
