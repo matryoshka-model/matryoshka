@@ -62,7 +62,7 @@ class HydratingResultSet extends AbstractResultSet implements
         if (!is_object($objectPrototype)) {
             throw new Exception\InvalidArgumentException(
                 sprintf(
-                    'An object must be set as the object prototype, a "%s" was provided.',
+                    'Object prototype must be an object, given "%s"',
                     gettype($objectPrototype)
                 )
             );

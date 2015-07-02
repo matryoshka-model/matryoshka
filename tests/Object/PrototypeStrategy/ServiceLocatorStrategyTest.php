@@ -90,6 +90,17 @@ class ServiceLocatorStrategyTest extends \PHPUnit_Framework_TestCase
         $object = $strategy->createObject(new \stdClass(), $data);
     }
 
+    /**
+     * @expectedException \Matryoshka\Model\Exception\InvalidArgumentException
+     */
+    public function testCreateObjectShouldThrowExceptionWhenNonObject()
+    {
+        $strategy = new ServiceLocatorStrategy($this->serviceManager);
+        $objectPrototype = 1; // not an object
+
+        $object = $strategy->createObject($objectPrototype);
+    }
+
     public function testCreateShouldThrowExceptionWhenFieldIsNotPresent()
     {
         $strategy = new ServiceLocatorStrategy($this->serviceManager);
