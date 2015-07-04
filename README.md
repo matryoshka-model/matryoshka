@@ -26,7 +26,7 @@ Last but not least, the Matryoshka design allows you to use just single componen
 
 #### Community
 
-For questions and support please visit the [slack channel](http://matryoshka-slackin.herokuapp.com).
+For questions and support please visit the [slack channel](http://matryoshka.slack.com) (get an invite [here](http://matryoshka-slackin.herokuapp.com)).
 
 ## Theory of operation
 
