@@ -26,4 +26,15 @@ class CloneStrategyTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($objectPrototype, $object);
         $this->assertNotSame($objectPrototype, $object);
     }
+
+    /**
+     * @expectedException \Matryoshka\Model\Exception\InvalidArgumentException
+     */
+    public function testCreateObjectShouldThrowExceptionWhenNonObject()
+    {
+        $strategy = new CloneStrategy;
+        $objectPrototype = 1; // not an object
+
+        $object = $strategy->createObject($objectPrototype);
+    }
 }

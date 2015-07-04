@@ -8,6 +8,8 @@
  */
 namespace Matryoshka\Model\Object\PrototypeStrategy;
 
+use Matryoshka\Model\Exception;
+
 /**
  * Class CloneStrategy
  *
@@ -22,6 +24,12 @@ class CloneStrategy implements PrototypeStrategyInterface
      */
     public function createObject($objectPrototype, array $context = null)
     {
+        if (!is_object($objectPrototype)) {
+            throw new Exception\InvalidArgumentException(sprintf(
+                'Object prototype must be an object, given "%s"',
+                gettype($objectPrototype)
+            ));
+        }
         return clone $objectPrototype;
     }
 }
