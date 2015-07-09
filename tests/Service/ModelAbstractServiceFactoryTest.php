@@ -23,6 +23,8 @@ use Zend\Stdlib\Hydrator\ArraySerializable;
 use Zend\Stdlib\Hydrator\HydratorPluginManager;
 use Zend\Stdlib\Hydrator\ObjectProperty;
 use Matryoshka\Model\Object\PrototypeStrategy\CloneStrategy;
+use MatryoshkaTest\Model\TestAsset\ListenerAggregate;
+use Matryoshka\Model\Listener\ListenerManager;
 
 /**
  * Class ModelAbstractServiceFactoryTest
@@ -263,6 +265,19 @@ class ModelAbstractServiceFactoryTest extends \PHPUnit_Framework_TestCase
         $this->assertSame($hydrator, $modelFull->getHydrator());
         $this->assertSame($inputFilter, $modelFull->getInputFilter());
         $this->assertSame($domainObject, $modelFull->getObjectPrototype());
+
+        $listenerAggregate = $this->getMockForAbstractClass('Zend\EventManager\ListenerAggregateInterface', ['attach']);
+        $listenerAggregate = $serviceLocator->get('ListenerAggregateMockedAsset');
+        $listenerAggregate->expects($this->atLeastOnce())
+                          ->method('attach')
+                          ->with($this->isInstanceOf('Zend\EventManager\EventManagerInterface'));
+
+        $listenerManager = new ListenerManager();
+        $listenerManager->setService('ListenerAggregateMockedAsset', $listenerAggregate);
+        $serviceLocator->setService('Matryoshka\Model\Listener\ListenerManager', $listenerManager);
+
+        /* @var $myModelOL \Matryoshka\Model\ObservableModel */
+        $myModelOL = $serviceLocator->get('MyModel\OL');
     }
 
     /**
