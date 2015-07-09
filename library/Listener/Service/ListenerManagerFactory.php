@@ -27,10 +27,10 @@ class ListenerManagerFactory implements FactoryInterface
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
         $config = $serviceLocator->get('Config');
-        $objectConfig = [];
+        $listenerConfig = [];
         if (isset($config['matryoshka']) && isset($config['matryoshka']['listener_manager'])) {
-            $objectConfig = $config['matryoshka']['listener_manager'];
+            $listenerConfig = $config['matryoshka']['listener_manager'];
         }
-        return new ListenerManager(new Config($objectConfig));
+        return new ListenerManager(new Config($listenerConfig));
     }
 }
