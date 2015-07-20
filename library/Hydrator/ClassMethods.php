@@ -20,7 +20,7 @@ class ClassMethods extends ZendClassMethods
     /**
      * {@inheritdoc}
      */
-    public function __construct($underscoreSeparatedKeys = false)
+    public function __construct($underscoreSeparatedKeys = true)
     {
         parent::__construct($underscoreSeparatedKeys);
         // Exclude this methods from the extraction

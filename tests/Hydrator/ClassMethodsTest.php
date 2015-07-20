@@ -36,7 +36,7 @@ class ClassMethodsTest extends \PHPUnit_Framework_TestCase
 
     public function test__constructor()
     {
-        $this->assertFalse($this->hydrator->getUnderscoreSeparatedKeys());
+        $this->assertTrue($this->hydrator->getUnderscoreSeparatedKeys());
     }
 
     /**
