@@ -187,7 +187,9 @@ abstract class AbstractModel implements
                 $data = [];
                 $context = (object) $dataOrObject;
                 foreach ($dataOrObject as $key => $value) {
-                    $data[$key] = $hydrator->extractValue($key, $value, $context);
+                    $data[
+                        $hydrator->extractName($key, $context)
+                    ] = $hydrator->extractValue($key, $value, $context);
                 }
             } else {
                 $data = $dataOrObject;
