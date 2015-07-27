@@ -27,6 +27,8 @@ notifications:
     - https://webhooks.gitter.im/e/70b21e421c7b6b4d20a8
     on_success: change
   email: false
+  slack:
+    secure: bePU7DyKGU3pt/nQdJYB3lE/4qfZZAZ2lxSQsJGqk409qYT4YTn5iXJKhdBve4AFZ8qvTwZt0d6Od4IWt/ehM5UrFx5EJF/76WpcC1a28tvU5D9uCxYWaU+HJWY1cWSKDVA/ZIu8lgaP0JWYGRsJF6aIPD3iRauxsjqLMRtAPbs=
 env:
   global:
     secure: dO4xHLE0htold4w8jKgZiGIxd4JbB8X3YtrFAuKGD01HixaOKnbxkl9C7zc7z7a0k92S6jLrDdOlO5sMn/8q/KY84d/W9JAoroJE7czSkIh5j+V8C2CTld5xffoJxHKIlU3Th4UQ9yyBMxrXCm+wI5Nz1Iq4c57lpr3rRNgjcaM=
