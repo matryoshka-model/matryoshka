@@ -24,6 +24,12 @@ Last but not least, the Matryoshka design allows you to use just single componen
 - [zf2-matryoshka-module](https://github.com/matryoshka-model/zf2-matryoshka-module)
 - [zf-apigility-matryoshka](https://github.com/matryoshka-model/zf-apigility-matryoshka)
 
+#### Others:
+
+Other addons, plugins, and modules made with Matryoshka.
+
+- [mongo-transactional](https://github.com/matryoshka-model/mongo-transactional)
+
 #### Community
 
 For questions and support please visit the [slack channel](http://matryoshka.slack.com) (get an invite [here](http://matryoshka-slackin.herokuapp.com)).
