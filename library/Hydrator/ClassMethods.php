@@ -26,17 +26,26 @@ class ClassMethods extends ZendClassMethods
         // Exclude this methods from the extraction
         $this->filterComposite->addFilter(
             'model',
-            new MethodMatchFilter('getModel'),
+            new MethodMatchFilter(
+                'getModel',
+                true // exclude method
+            ),
             FilterComposite::CONDITION_AND
         );
         $this->filterComposite->addFilter(
             'hydrator',
-            new MethodMatchFilter('getHydrator'),
+            new MethodMatchFilter(
+                'getHydrator',
+                true // exclude method
+            ),
             FilterComposite::CONDITION_AND
         );
         $this->filterComposite->addFilter(
             'inputFilter',
-            new MethodMatchFilter('getInputFilter'),
+            new MethodMatchFilter(
+                'getInputFilter',
+                true // exclude method
+            ),
             FilterComposite::CONDITION_AND
         );
     }
