@@ -11,13 +11,19 @@ namespace Matryoshka\Model\Hydrator\Strategy;
 use Matryoshka\Model\Exception;
 use Zend\Stdlib\Hydrator\HydratorAwareInterface;
 use Zend\Stdlib\Hydrator\Strategy\StrategyInterface;
+use Matryoshka\Model\Object\PrototypeStrategy\PrototypeStrategyAwareTrait;
+use Matryoshka\Model\Object\PrototypeStrategy\PrototypeStrategyAwareInterface;
 
 /**
  * Class HasOneStrategy
  */
-class HasOneStrategy implements StrategyInterface, NullableStrategyInterface
+class HasOneStrategy implements
+    StrategyInterface,
+    NullableStrategyInterface,
+    PrototypeStrategyAwareInterface
 {
     use NullableStrategyTrait;
+    use PrototypeStrategyAwareTrait;
 
     /**
      * @var HydratorAwareInterface
@@ -84,7 +90,7 @@ class HasOneStrategy implements StrategyInterface, NullableStrategyInterface
         $objectPrototype = $this->getObjectPrototype();
 
         if (is_array($value)) {
-            $object = clone $objectPrototype;
+            $object = $this->getPrototypeStrategy()->createObject($objectPrototype, $value);
             return $object->getHydrator()->hydrate($value, $object);
         }
 
