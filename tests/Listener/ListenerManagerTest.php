@@ -38,5 +38,4 @@ class ListenerManagerTest extends \PHPUnit_Framework_TestCase
         $pluginManager = new ListenerManager();
         $pluginManager->validatePlugin(new ListenerAggregate());
     }
-
 }

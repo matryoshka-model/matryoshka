@@ -43,5 +43,4 @@ class ListenerManager extends AbstractPluginManager
             ));
         }
     }
-
 }

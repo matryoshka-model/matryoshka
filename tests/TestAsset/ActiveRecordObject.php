@@ -8,5 +8,4 @@ use Matryoshka\Model\Object\ActiveRecord\AbstractActiveRecord;
  */
 class ActiveRecordObject extends AbstractActiveRecord
 {
-
 }

@@ -34,7 +34,7 @@ class ClassMethodsTest extends \PHPUnit_Framework_TestCase
         $this->mockObject->expects($this->any())->method('getModel')->will($this->returnValue(null));
     }
 
-    public function test__constructor()
+    public function testCtor()
     {
         $this->assertTrue($this->hydrator->getUnderscoreSeparatedKeys());
     }

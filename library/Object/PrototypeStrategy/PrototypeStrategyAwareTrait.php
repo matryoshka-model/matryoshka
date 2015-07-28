@@ -43,5 +43,4 @@ trait PrototypeStrategyAwareTrait
 
         return $this->prototypeStrategy;
     }
-
 }

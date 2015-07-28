@@ -11,8 +11,5 @@ class ListenerAggregate implements ListenerAggregateInterface
 
     public function attach(EventManagerInterface $events)
     {
-
     }
-
-
 }

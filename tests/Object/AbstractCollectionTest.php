@@ -101,6 +101,4 @@ class AbstractCollectionTest extends \PHPUnit_Framework_TestCase
         $ar = $this->getMockForAbstractClass(AbstractCollection::class, [['foo' => 'bar']]);
         $old    = $ar->exchangeArray('Bacon');
     }
-
-
 }

@@ -84,6 +84,5 @@ class HasOneStrategyTest extends \PHPUnit_Framework_TestCase
 
         $strategy->setPrototypeStrategy($prototypeStrategy);
         $this->assertInstanceOf('\Matryoshka\Model\Object\AbstractObject', $strategy->hydrate([]));
-
     }
 }
