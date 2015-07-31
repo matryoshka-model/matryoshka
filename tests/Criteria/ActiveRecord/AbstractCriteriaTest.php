@@ -31,13 +31,20 @@ class AbstractCriteriaTest extends \PHPUnit_Framework_TestCase
     /**
      * @depends testShouldThrowExceptionWhenNoId
      */
-    public function testGetSetId()
+    public function testGetSetHasId()
     {
+        $this->assertFalse($this->criteria->hasId());
+
         $id = 'foo';
         $this->assertInstanceOf(
             '\MatryoshkaTest\Model\Criteria\ActiveRecord\TestAsset\ConcreteCriteria',
             $this->criteria->setId($id)
         );
         $this->assertSame($id, $this->criteria->getId());
+
+        $this->assertTrue($this->criteria->hasId());
+        $this->criteria->setId(null);
+        $this->assertFalse($this->criteria->hasId());
     }
+
 }
