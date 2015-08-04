@@ -6,52 +6,38 @@
  * @copyright   Copyright (c) 2014-2015, Ripa Club
  * @license     http://opensource.org/licenses/BSD-2-Clause Simplified BSD License
  */
-namespace Matryoshka\Model;
+namespace Matryoshka\Model\Criteria;
 
-use Matryoshka\Model\Service\ModelAbstractServiceFactory;
+use Matryoshka\Model\Exception;
 use Zend\ServiceManager\AbstractPluginManager;
-use Zend\ServiceManager\ConfigInterface;
 
 /**
- * Class ModelManager
+ * Class CriteriaManager
  *
- * A dedicated service locator for your model service classes.
+ * A dedicated service locator for managing criteria instances.
  */
-class ModelManager extends AbstractPluginManager implements ModelLocatorInterface
+class CriteriaManager extends AbstractPluginManager
 {
     /**
      * Share by default
      * @var bool
      */
-    protected $shareByDefault = true;
-
-
-    /**
-     * Constructor
-     * Add a default initializer to ensure the plugin is valid after instance
-     * creation.
-     * @param  null|ConfigInterface $configuration
-     */
-    public function __construct(ConfigInterface $configuration = null)
-    {
-        parent::__construct($configuration);
-        $this->addAbstractFactory(new ModelAbstractServiceFactory());
-    }
-
+    protected $shareByDefault = false;
 
     /**
      * Validate the plugin
-     * Checks that the model loaded is an instance of ModelInterface.
+     * Checks that the object loaded is an object.
+     *
      * @param mixed $plugin
      * @throws Exception\InvalidPluginException
      */
     public function validatePlugin($plugin)
     {
-        if (!$plugin instanceof ModelInterface) {
+        if (!$plugin instanceof CriteriaInterface) {
             throw new Exception\InvalidPluginException(sprintf(
-                'Model of type %s is invalid; must implement "%s"',
-                (is_object($plugin) ? get_class($plugin) : gettype($plugin)),
-                ModelInterface::class
+                'Type "%s" is invalid; must be an instance of "%s"',
+                gettype($plugin),
+                CriteriaInterface::class
             ));
         }
     }
@@ -75,7 +61,7 @@ class ModelManager extends AbstractPluginManager implements ModelLocatorInterfac
      * @param  string $name
      * @param  array $options
      * @param  bool $usePeeringServiceManagers
-     * @return ModelInterface
+     * @return CriteriaInterface
      */
     public function get($name, $options = [], $usePeeringServiceManagers = false)
     {
