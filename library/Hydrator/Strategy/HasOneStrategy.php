@@ -69,7 +69,7 @@ class HasOneStrategy implements
         $objectPrototype = $this->getObjectPrototype();
 
         if ($value instanceof $objectPrototype) {
-            return $objectPrototype->getHydrator()->extract($value);
+            return $value->getHydrator()->extract($value);
         }
 
         throw new Exception\InvalidArgumentException(sprintf(
