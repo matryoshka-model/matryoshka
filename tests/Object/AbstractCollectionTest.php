@@ -97,8 +97,15 @@ class AbstractCollectionTest extends \PHPUnit_Framework_TestCase
     }
     public function testExchangeArrayStringArgumentFail()
     {
+        $data = ['foo' => 'bar'];
         $this->setExpectedException('InvalidArgumentException');
-        $ar = $this->getMockForAbstractClass(AbstractCollection::class, [['foo' => 'bar']]);
-        $old    = $ar->exchangeArray('Bacon');
+        $ar = $this->getMockForAbstractClass(AbstractCollection::class, [$data]);
+        try {
+            $old    = $ar->exchangeArray('Bacon');
+        } catch (\Exception $e) {
+            // Test data did not change
+            $this->assertEquals($data, $ar->getArrayCopy());
+            throw $e;
+        }
     }
 }

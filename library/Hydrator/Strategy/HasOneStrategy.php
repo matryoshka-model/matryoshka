@@ -62,19 +62,17 @@ class HasOneStrategy implements
             return $this->nullable ? null : [];
         }
 
+        if (is_object($value)) {
+            $objectPrototype = $this->getObjectPrototype();
+            return $objectPrototype->getHydrator()->extract($value);
+        }
+                
         if (is_array($value)) {
             return $value;
         }
 
-        $objectPrototype = $this->getObjectPrototype();
-
-        if ($value instanceof $objectPrototype) {
-            return $objectPrototype->getHydrator()->extract($value);
-        }
-
         throw new Exception\InvalidArgumentException(sprintf(
-            'Invalid value: must be null (only if nullable option is enabled), or an array, or an instance of "%s": "%s" given',
-            get_class($objectPrototype),
+            'Invalid value: must be null, or an array, or an object: "%s" given',
             is_object($value) ? get_class($value) : gettype($value)
         ));
     }
