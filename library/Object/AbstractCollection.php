@@ -103,26 +103,18 @@ abstract class AbstractCollection extends ArrayObject implements HydratorAwareIn
      * @return array
      * @throws Exception\InvalidArgumentException
      */
+    /**
+     * {@inheritdoc}
+     */
     public function exchangeArray($data)
     {
-        if (!is_array($data) && !is_object($data)) {
-            throw new Exception\InvalidArgumentException(
-                'Passed variable is not an array or object, using empty array instead'
-            );
+        $oldData = parent::exchangeArray($data);
+        try {
+            $this->validateData($this->storage);
+        } catch (\Exception $e) {
+            $this->storage = $oldData;
+            throw $e;
         }
-
-        if (is_object($data) && ($data instanceof parent || $data instanceof \ArrayObject)) {
-            $data = $data->getArrayCopy();
-        }
-
-        if (!is_array($data)) {
-            $data = (array) $data;
-        }
-
-        $this->validateData($data);
-
-        $storage = $this->storage;
-        $this->storage = $data;
-        return $storage;
+        return $oldData;
     }
 }
