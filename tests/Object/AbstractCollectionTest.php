@@ -95,6 +95,7 @@ class AbstractCollectionTest extends \PHPUnit_Framework_TestCase
         $ar->exchangeArray(new \ArrayIterator(['foo' => 'bar']));
         $this->assertEquals(['foo' => 'bar'], $ar->getArrayCopy());
     }
+    
     public function testExchangeArrayStringArgumentFail()
     {
         $data = ['foo' => 'bar'];
@@ -102,6 +103,22 @@ class AbstractCollectionTest extends \PHPUnit_Framework_TestCase
         $ar = $this->getMockForAbstractClass(AbstractCollection::class, [$data]);
         try {
             $old    = $ar->exchangeArray('Bacon');
+        } catch (\Exception $e) {
+            // Test data did not change
+            $this->assertEquals($data, $ar->getArrayCopy());
+            throw $e;
+        }
+    }
+    
+    public function testExchangeArrayShouldThrownExceptionWhenInvalidData()
+    {
+        $data = ['foo' => 'bar'];
+        $this->setExpectedException('InvalidArgumentException');
+        $ar = $this->getMockForAbstractClass(AbstractCollection::class, [$data]);
+        $ar->expects($this->atLeastOnce())->method('validateValue')->withAnyParameters()->willThrowException(new \InvalidArgumentException);
+        
+        try {
+            $old    = $ar->exchangeArray(['dummy' => 'dummy']);
         } catch (\Exception $e) {
             // Test data did not change
             $this->assertEquals($data, $ar->getArrayCopy());
