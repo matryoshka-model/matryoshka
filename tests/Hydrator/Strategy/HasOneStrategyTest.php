@@ -9,6 +9,7 @@
 namespace MatryoshkaTest\Model\Hydrator\Strategy;
 
 use Matryoshka\Model\Hydrator\Strategy\HasOneStrategy;
+use Matryoshka\Model\Object\PrototypeStrategy\PrototypeStrategyAwareInterface;
 
 /**
  * Class HasOneStrategyTest
@@ -63,5 +64,25 @@ class HasOneStrategyTest extends \PHPUnit_Framework_TestCase
 
         $this->setExpectedException('\Matryoshka\Model\Exception\InvalidArgumentException');
         $strategy->extract('wrong value');
+    }
+
+    public function testPrototypeStrategy()
+    {
+        $abstractObject = $this->getMockForAbstractClass('\Matryoshka\Model\Object\AbstractObject');
+        $strategy = new HasOneStrategy($abstractObject);
+
+        $this->assertInstanceOf('\Matryoshka\Model\Object\PrototypeStrategy\PrototypeStrategyAwareInterface', $strategy);
+
+        $prototypeStrategy = $this->getMockForAbstractClass(
+            '\Matryoshka\Model\Object\PrototypeStrategy\PrototypeStrategyInterface'
+        );
+
+        $prototypeStrategy->expects($this->atLeastOnce())
+            ->method('createObject')
+            ->with($this->equalTo($abstractObject))
+            ->willReturn($abstractObject);
+
+        $strategy->setPrototypeStrategy($prototypeStrategy);
+        $this->assertInstanceOf('\Matryoshka\Model\Object\AbstractObject', $strategy->hydrate([]));
     }
 }

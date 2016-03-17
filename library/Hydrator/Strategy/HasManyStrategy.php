@@ -12,13 +12,19 @@ use ArrayObject;
 use Matryoshka\Model\Exception;
 use Zend\Stdlib\Hydrator\HydratorAwareInterface;
 use Zend\Stdlib\Hydrator\Strategy\StrategyInterface;
+use Matryoshka\Model\Object\PrototypeStrategy\PrototypeStrategyAwareTrait;
+use Matryoshka\Model\Object\PrototypeStrategy\PrototypeStrategyAwareInterface;
 
 /**
  * Class HasManyStrategy
  */
-class HasManyStrategy implements StrategyInterface, NullableStrategyInterface
+class HasManyStrategy implements
+    StrategyInterface,
+    NullableStrategyInterface,
+    PrototypeStrategyAwareInterface
 {
     use NullableStrategyTrait;
+    use PrototypeStrategyAwareTrait;
 
     /**
      * @var HasOneStrategy
@@ -42,7 +48,7 @@ class HasManyStrategy implements StrategyInterface, NullableStrategyInterface
         \ArrayAccess $arrayObjectPrototype = null,
         $nullable = true
     ) {
-        $this->hasOneStrategy = new HasOneStrategy($objectPrototype);
+        $this->hasOneStrategy = new HasOneStrategy($objectPrototype, false);
         $this->arrayObjectPrototype = $arrayObjectPrototype ? $arrayObjectPrototype : new ArrayObject([], ArrayObject::ARRAY_AS_PROPS);
         $this->setNullable($nullable);
     }
@@ -94,6 +100,7 @@ class HasManyStrategy implements StrategyInterface, NullableStrategyInterface
             return null;
         }
 
+        $this->hasOneStrategy->setPrototypeStrategy($this->getPrototypeStrategy());
         $return = clone $this->arrayObjectPrototype;
         if (is_array($value) || $value instanceof \Traversable) {
             foreach ($value as $key => $data) {

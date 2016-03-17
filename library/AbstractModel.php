@@ -16,7 +16,6 @@ use Matryoshka\Model\Exception;
 use Matryoshka\Model\ResultSet\ResultSetInterface;
 use Zend\InputFilter\InputFilterAwareInterface;
 use Zend\InputFilter\InputFilterAwareTrait;
-use Zend\Stdlib\Hydrator\AbstractHydrator;
 use Zend\Stdlib\Hydrator\HydratorAwareInterface;
 use Zend\Stdlib\Hydrator\HydratorAwareTrait;
 
@@ -144,6 +143,8 @@ abstract class AbstractModel implements
         $hydrator = $this->getHydrator();
 
         if ($isObject) {
+
+            // Check if the object is valid for this model
             $objectPrototype = $this->getObjectPrototype();
             if (!$dataOrObject instanceof $objectPrototype) {
                 throw new Exception\InvalidArgumentException(sprintf(
@@ -153,44 +154,52 @@ abstract class AbstractModel implements
                 ));
             }
 
+            // Inject the model
             if ($dataOrObject instanceof ModelAwareInterface) {
                 $dataOrObject->setModel($this);
             }
 
+            // Use the object hydrator as fallback if a model hydrator is not available
             if (!$hydrator && ($dataOrObject instanceof HydratorAwareInterface)) {
                 $hydrator = $dataOrObject->getHydrator();
             }
-        }
 
-        if ($hydrator && $isObject) {
-            $data = $hydrator->extract($dataOrObject);
-        } else {
-            if (is_array($dataOrObject)) {
-                $data = $dataOrObject;
+            // Extract data
+            if ($hydrator) {
+                $data = $hydrator->extract($dataOrObject);
             } elseif (method_exists($dataOrObject, 'toArray')) {
                 $data = $dataOrObject->toArray();
             } elseif (method_exists($dataOrObject, 'getArrayCopy')) {
                 $data = $dataOrObject->getArrayCopy();
-            } else {
-                throw new Exception\InvalidArgumentException(sprintf(
-                    '$dataOrObject with type "%s" cannot be casted to an array',
-                    gettype($dataOrObject)
-                ));
             }
+        } elseif (is_array($dataOrObject)) {
 
+            // If an hydrator was provided, we can still use it
+            // to convert each array member
             if ($hydrator) {
-                if (!$hydrator instanceof AbstractHydrator) {
+                if (!method_exists($hydrator, 'extractName') || !method_exists($hydrator, 'extractValue')) {
                     throw new Exception\RuntimeException(
-                        'Hydrator must be an instance of AbstractHydrator' .
-                        'in order to extract single value with extractValue method'
+                        'Hydrator must have extractName() and extractValue() methods ' .
+                        'in order to extract a single value'
                     );
                 }
                 $data = [];
-                $context = $isObject ? $dataOrObject : (object) $dataOrObject;
+                $context = (object) $dataOrObject;
                 foreach ($dataOrObject as $key => $value) {
-                    $data[$key] = $hydrator->extractValue($key, $value, $context);
+                    $data[
+                        $hydrator->extractName($key, $context)
+                    ] = $hydrator->extractValue($key, $value, $context);
                 }
+            } else {
+                $data = $dataOrObject;
             }
+        }
+
+        if (!isset($data)) {
+            throw new Exception\InvalidArgumentException(sprintf(
+                '$dataOrObject with type "%s" cannot be casted to an array',
+                $isObject ? get_class($dataOrObject) : gettype($dataOrObject)
+            ));
         }
 
         $result = $criteria->applyWrite($this, $data);
@@ -199,6 +208,7 @@ abstract class AbstractModel implements
             $result = null;
         }
 
+        // Make sure data and original data are in sync after save
         if ($result && $hydrator && $isObject) {
             $hydrator->hydrate($data, $dataOrObject);
         }

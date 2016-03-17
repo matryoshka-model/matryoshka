@@ -6,9 +6,9 @@
     "require": {
         "php": ">=5.5",
         "zendframework/zend-inputfilter": "~2.4",
-		"zendframework/zend-stdlib": "~2.4",
-		"zendframework/zend-paginator": "~2.4",
-		"zendframework/zend-servicemanager": "~2.4",
+	"zendframework/zend-stdlib": "~2.4",
+	"zendframework/zend-paginator": "~2.4",
+	"zendframework/zend-servicemanager": "~2.4",
         "zendframework/zend-eventmanager": "~2.4"
     },
     "require-dev": {
@@ -57,13 +57,14 @@
     ],
     "extra": {
         "branch-alias": {
-            "dev-master": "0.7.x-dev",
-            "dev-develop": "0.8.x-dev"
+            "dev-master": "0.8.x-dev",
+            "dev-develop": "0.9.x-dev"
         }
     },
     "suggest": {
         "matryoshka-model/zf2-matryoshka-module": "ZF2 module for matryoshka library",
         "matryoshka-model/mongo-wrapper": "MongoDB matryoshka wrapper",
-        "matryoshka-model/rest-wrapper": "Matryoshka wrapper aimed at creating restful API clients"
+        "matryoshka-model/rest-wrapper": "Matryoshka wrapper aimed at creating restful API clients",
+        "matryoshka-model/mongo-transactional": "Perform transactional operations with MongoDB"
     }
 }

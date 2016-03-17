@@ -11,13 +11,19 @@ namespace Matryoshka\Model\Hydrator\Strategy;
 use Matryoshka\Model\Exception;
 use Zend\Stdlib\Hydrator\HydratorAwareInterface;
 use Zend\Stdlib\Hydrator\Strategy\StrategyInterface;
+use Matryoshka\Model\Object\PrototypeStrategy\PrototypeStrategyAwareTrait;
+use Matryoshka\Model\Object\PrototypeStrategy\PrototypeStrategyAwareInterface;
 
 /**
  * Class HasOneStrategy
  */
-class HasOneStrategy implements StrategyInterface, NullableStrategyInterface
+class HasOneStrategy implements
+    StrategyInterface,
+    NullableStrategyInterface,
+    PrototypeStrategyAwareInterface
 {
     use NullableStrategyTrait;
+    use PrototypeStrategyAwareTrait;
 
     /**
      * @var HydratorAwareInterface
@@ -56,19 +62,17 @@ class HasOneStrategy implements StrategyInterface, NullableStrategyInterface
             return $this->nullable ? null : [];
         }
 
+        if (is_object($value)) {
+            $objectPrototype = $this->getObjectPrototype();
+            return $objectPrototype->getHydrator()->extract($value);
+        }
+                
         if (is_array($value)) {
             return $value;
         }
 
-        $objectPrototype = $this->getObjectPrototype();
-
-        if ($value instanceof $objectPrototype) {
-            return $objectPrototype->getHydrator()->extract($value);
-        }
-
         throw new Exception\InvalidArgumentException(sprintf(
-            'Invalid value: must be null (only if nullable option is enabled), or an array, or an instance of "%s": "%s" given',
-            get_class($objectPrototype),
+            'Invalid value: must be null, or an array, or an object: "%s" given',
             is_object($value) ? get_class($value) : gettype($value)
         ));
     }
@@ -84,7 +88,7 @@ class HasOneStrategy implements StrategyInterface, NullableStrategyInterface
         $objectPrototype = $this->getObjectPrototype();
 
         if (is_array($value)) {
-            $object = clone $objectPrototype;
+            $object = $this->getPrototypeStrategy()->createObject($objectPrototype, $value);
             return $object->getHydrator()->hydrate($value, $object);
         }
 

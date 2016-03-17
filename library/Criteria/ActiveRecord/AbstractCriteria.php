@@ -47,11 +47,21 @@ abstract class AbstractCriteria implements
      */
     public function getId()
     {
-        if (!$this->id) {
+        if (null === $this->id) {
             throw new Exception\RuntimeException(
                 'getId(), apply() and applyDelete() require that an id must be present using a prior call to setId()'
             );
         }
         return $this->id;
+    }
+
+    /**
+     * Check if Id has been set
+     *
+     * @return boolean
+     */
+    public function hasId()
+    {
+        return $this->id !== null;
     }
 }

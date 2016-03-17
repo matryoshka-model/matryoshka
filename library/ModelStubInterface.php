@@ -19,7 +19,7 @@ use Zend\Stdlib\Hydrator\HydratorInterface;
  * Matryoshka doesn't provide a persistence layer implementation itself,
  * but it can work with any third party component that acts as datagateway.
  * To accomplish this goal Matryoshka uses criteria interfaces that developer have to implement.
- * Classes implementing this interface are mainly intended to provide a set of services consumed by 
+ * Classes implementing this interface are mainly intended to provide a set of services consumed by
  * the criteria implementations.
  */
 interface ModelStubInterface extends ModelPrototypeInterface

@@ -185,6 +185,9 @@ class ModelAbstractServiceFactory implements AbstractFactoryInterface
         ObservableModel $model
     ) {
         $eventManager = $model->getEventManager();
+        if ($serviceLocator->has('Matryoshka\Model\Listener\ListenerManager')) {
+            $serviceLocator = $serviceLocator->get('Matryoshka\Model\Listener\ListenerManager');
+        }
         foreach ($listeners as $listener) {
             $listenerAggregate = $serviceLocator->get($listener);
             if ($listenerAggregate instanceof ListenerAggregateInterface) {
