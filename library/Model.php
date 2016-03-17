@@ -9,18 +9,14 @@
 namespace Matryoshka\Model;
 
 use Matryoshka\Model\ResultSet\ResultSetInterface;
-use Zend\ServiceManager\ServiceLocatorAwareInterface;
-use Zend\ServiceManager\ServiceLocatorAwareTrait;
 
 /**
  * Class Model
  *
  * Default concrete implementation of {@link AbstractModel}.
  */
-class Model extends AbstractModel implements ServiceLocatorAwareInterface
+class Model extends AbstractModel
 {
-    use ServiceLocatorAwareTrait;
-
     /**
      * Ctor
      * @param mixed              $dataGateway
