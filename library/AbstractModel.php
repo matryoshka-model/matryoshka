@@ -16,7 +16,6 @@ use Matryoshka\Model\Exception;
 use Matryoshka\Model\ResultSet\ResultSetInterface;
 use Zend\InputFilter\InputFilterAwareInterface;
 use Zend\InputFilter\InputFilterAwareTrait;
-use Zend\Stdlib\Hydrator\AbstractHydrator;
 use Zend\Stdlib\Hydrator\HydratorAwareInterface;
 use Zend\Stdlib\Hydrator\HydratorAwareTrait;
 
@@ -178,10 +177,10 @@ abstract class AbstractModel implements
             // If an hydrator was provided, we can still use it
             // to convert each array member
             if ($hydrator) {
-                if (!$hydrator instanceof AbstractHydrator) {
+                if (!method_exists($hydrator, 'extractName') || !method_exists($hydrator, 'extractValue')) {
                     throw new Exception\RuntimeException(
-                        'Hydrator must be an instance of AbstractHydrator' .
-                        'in order to extract single value with extractValue method'
+                        'Hydrator must have extractName() and extractValue() methods ' .
+                        'in order to extract a single value'
                     );
                 }
                 $data = [];
