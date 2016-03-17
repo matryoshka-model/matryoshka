@@ -82,7 +82,7 @@ Add the following to your `composer.json` file:
 
 ```
 "require": {
-    "matryoshka-model/matryoshka": "~0.7.0"
+    "matryoshka-model/matryoshka": "~0.8.0"
 }
 ```
 
