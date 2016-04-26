@@ -79,7 +79,7 @@ abstract class AbstractActiveRecord extends AbstractObject implements
     {
         if (!$this->activeRecordCriteriaPrototype) {
             throw new Exception\RuntimeException(sprintf(
-                'An Active Record Criteria Prototype must be set prior to calling ',
+                'An Active Record Criteria Prototype must be set prior to calling %s',
                 __FUNCTION__
             ));
         }
