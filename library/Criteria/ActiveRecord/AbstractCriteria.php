@@ -12,6 +12,7 @@ use Matryoshka\Model\Criteria\DeletableCriteriaInterface;
 use Matryoshka\Model\Criteria\ReadableCriteriaInterface;
 use Matryoshka\Model\Criteria\WritableCriteriaInterface;
 use Matryoshka\Model\Exception;
+use Matryoshka\Model\Criteria\IdentityCriteriaInterface;
 
 /**
  * Class AbstractCriteria
@@ -23,7 +24,8 @@ use Matryoshka\Model\Exception;
 abstract class AbstractCriteria implements
     ReadableCriteriaInterface,
     WritableCriteriaInterface,
-    DeletableCriteriaInterface
+    DeletableCriteriaInterface,
+    IdentityCriteriaInterface
 {
     /**
      * @var mixed
