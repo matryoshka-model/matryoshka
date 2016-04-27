@@ -3,7 +3,7 @@
  * Matryoshka
  *
  * @link        https://github.com/matryoshka-model/matryoshka
- * @copyright   Copyright (c) 2014-2015, Ripa Club <ripaclub@gmail.com>
+ * @copyright   Copyright (c) 2014-2016, Ripa Club <ripaclub@gmail.com>
  * @license     http://opensource.org/licenses/BSD-2-Clause Simplified BSD License
  */
 

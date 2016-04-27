@@ -6,22 +6,15 @@
  * @copyright   Copyright (c) 2014-2016, Ripa Club
  * @license     http://opensource.org/licenses/BSD-2-Clause Simplified BSD License
  */
-namespace Matryoshka\Model\Object\ActiveRecord;
+namespace Matryoshka\Model\Criteria;
 
 use Matryoshka\Model\Object\IdentityAwareInterface;
-
 /**
- * Interface ActiveRecordInterface
+ * Interface IdentityCriteriaInterface
+ *
+ * A criteria implementing this interface refers to a single entity indentified 
+ * by the identity field.
  */
-interface ActiveRecordInterface extends IdentityAwareInterface
+interface IdentityCriteriaInterface extends CriteriaInterface, IdentityAwareInterface
 {
-    /**
-     * Save
-     */
-    public function save();
-
-    /**
-     * Delete
-     */
-    public function delete();
 }

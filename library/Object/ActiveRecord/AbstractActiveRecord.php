@@ -3,7 +3,7 @@
  * Matryoshka
  *
  * @link        https://github.com/matryoshka-model/matryoshka
- * @copyright   Copyright (c) 2014-2015, Ripa Club
+ * @copyright   Copyright (c) 2014-2016, Ripa Club
  * @license     http://opensource.org/licenses/BSD-2-Clause Simplified BSD License
  */
 namespace Matryoshka\Model\Object\ActiveRecord;
@@ -79,7 +79,7 @@ abstract class AbstractActiveRecord extends AbstractObject implements
     {
         if (!$this->activeRecordCriteriaPrototype) {
             throw new Exception\RuntimeException(sprintf(
-                'An Active Record Criteria Prototype must be set prior to calling ',
+                'An Active Record Criteria Prototype must be set prior to calling %s',
                 __FUNCTION__
             ));
         }

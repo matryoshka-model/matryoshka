@@ -3,7 +3,7 @@
  * Matryoshka
  *
  * @link        https://github.com/matryoshka-model/matryoshka
- * @copyright   Copyright (c) 2014-2015, Ripa Club
+ * @copyright   Copyright (c) 2014-2016, Ripa Club
  * @license     http://opensource.org/licenses/BSD-2-Clause Simplified BSD License
  */
 namespace Matryoshka\Model\Criteria\ActiveRecord;
@@ -12,6 +12,7 @@ use Matryoshka\Model\Criteria\DeletableCriteriaInterface;
 use Matryoshka\Model\Criteria\ReadableCriteriaInterface;
 use Matryoshka\Model\Criteria\WritableCriteriaInterface;
 use Matryoshka\Model\Exception;
+use Matryoshka\Model\Criteria\IdentityCriteriaInterface;
 
 /**
  * Class AbstractCriteria
@@ -23,7 +24,8 @@ use Matryoshka\Model\Exception;
 abstract class AbstractCriteria implements
     ReadableCriteriaInterface,
     WritableCriteriaInterface,
-    DeletableCriteriaInterface
+    DeletableCriteriaInterface,
+    IdentityCriteriaInterface
 {
     /**
      * @var mixed
