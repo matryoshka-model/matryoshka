@@ -9,7 +9,8 @@ class ListenerAggregate implements ListenerAggregateInterface
 {
     use ListenerAggregateTrait;
 
-    public function attach(EventManagerInterface $events)
+    public function attach(EventManagerInterface $events, $priority = 1)
     {
+        // TODO: Implement attach() method.
     }
 }

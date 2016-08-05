@@ -8,8 +8,9 @@
  */
 namespace Matryoshka\Model\Listener\Service;
 
+use Interop\Container\ContainerInterface;
 use Zend\ServiceManager\Config;
-use Zend\ServiceManager\FactoryInterface;
+use Zend\ServiceManager\Factory\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 use Matryoshka\Model\Listener\ListenerManager;
 
@@ -19,18 +20,19 @@ use Matryoshka\Model\Listener\ListenerManager;
 class ListenerManagerFactory implements FactoryInterface
 {
     /**
-     * Create service
-     *
-     * @param ServiceLocatorInterface $serviceLocator
-     * @return mixed
+     * @param ContainerInterface $container
+     * @param string $requestedName
+     * @param array|null $options
+     * @return ListenerManager
      */
-    public function createService(ServiceLocatorInterface $serviceLocator)
+    public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
     {
-        $config = $serviceLocator->get('Config');
+        $config = $container->get('Config');
         $listenerConfig = [];
         if (isset($config['matryoshka']) && isset($config['matryoshka']['listener_manager'])) {
             $listenerConfig = $config['matryoshka']['listener_manager'];
         }
-        return new ListenerManager(new Config($listenerConfig));
+
+        return new ListenerManager($container, $listenerConfig);
     }
 }

@@ -8,12 +8,13 @@
  */
 namespace Matryoshka\Model\Service;
 
+use Interop\Container\ContainerInterface;
 use Matryoshka\Model\Criteria\PaginableCriteriaInterface;
 use Matryoshka\Model\Exception;
 use Matryoshka\Model\Object\PrototypeStrategy\PrototypeStrategyInterface;
 use Zend\InputFilter\InputFilterInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
-use Zend\Stdlib\Hydrator\HydratorInterface;
+use Zend\Hydrator\HydratorInterface;
 
 /**
  * Trait AbstractServiceFactoryTrait
@@ -21,23 +22,20 @@ use Zend\Stdlib\Hydrator\HydratorInterface;
 trait AbstractServiceFactoryTrait
 {
     /**
-     * Get model configuration, if any
-     *
-     * @param  ServiceLocatorInterface $serviceLocator
+     * @param ContainerInterface $container
      * @return array
      */
-    protected function getConfig(ServiceLocatorInterface $serviceLocator)
+    protected function getConfig(ContainerInterface $container)
     {
         if ($this->config !== null) {
             return $this->config;
         }
 
-        if (!$serviceLocator->has('Config')) {
-            $this->config = [];
-            return $this->config;
+        if (!$container->has('Config')) {
+            return $this->config = [];
         }
 
-        $config = $serviceLocator->get('Config');
+        $config = $container->get('Config');
         if (!isset($config[$this->configKey]) || !is_array($config[$this->configKey])) {
             $this->config = [];
             return $this->config;
@@ -50,28 +48,28 @@ trait AbstractServiceFactoryTrait
     /**
      * Retrieve object from service locator
      *
-     * @param ServiceLocatorInterface $serviceLocator
+     * @param ContainerInterface $serviceLocator
      * @param $name
      * @return object
      */
-    protected function getObjectByName(ServiceLocatorInterface $serviceLocator, $name)
+    protected function getObjectByName(ContainerInterface $container, $name)
     {
-        if ($serviceLocator->has('Matryoshka\Model\Object\ObjectManager')) {
-            $serviceLocator = $serviceLocator->get('Matryoshka\Model\Object\ObjectManager');
+        if ($container->has('Matryoshka\Model\Object\ObjectManager')) {
+            $serviceLocator = $container->get('Matryoshka\Model\Object\ObjectManager');
         }
 
-        return $serviceLocator->get($name);
+        return $container->get($name);
     }
 
     /**
      * Retrieve PaginableCriteriaInterface object from service locator
      *
-     * @param ServiceLocatorInterface $serviceLocator
+     * @param ContainerInterface $serviceLocator
      * @param $name
      * @return PaginableCriteriaInterface
      * @throws Exception\ServiceNotCreatedException
      */
-    protected function getPaginatorCriteriaByName(ServiceLocatorInterface $serviceLocator, $name)
+    protected function getPaginatorCriteriaByName(ContainerInterface $serviceLocator, $name)
     {
         $criteria = $serviceLocator->get($name);
         if (!$criteria instanceof PaginableCriteriaInterface) {
@@ -87,18 +85,18 @@ trait AbstractServiceFactoryTrait
     /**
      * Retrieve HydratorInterface object from service locator
      *
-     * @param ServiceLocatorInterface $serviceLocator
+     * @param ContainerInterface $serviceLocator
      * @param $name
      * @return HydratorInterface
      * @throws Exception\RuntimeException
      */
-    protected function getHydratorByName(ServiceLocatorInterface $serviceLocator, $name)
+    protected function getHydratorByName(ContainerInterface $container, $name)
     {
-        if ($serviceLocator->has('HydratorManager')) {
-            $serviceLocator = $serviceLocator->get('HydratorManager');
+        if ($container->has('HydratorManager')) {
+            $container = $container->get('HydratorManager');
         }
 
-        $obj = $serviceLocator->get($name);
+        $obj = $container->get($name);
         if (!$obj instanceof HydratorInterface) {
             throw new Exception\RuntimeException(sprintf(
                 'Instance of type %s is invalid; must implement %s',
@@ -112,18 +110,18 @@ trait AbstractServiceFactoryTrait
     /**
      * Retrieve InputFilterInterface object from service locator
      *
-     * @param ServiceLocatorInterface $serviceLocator
+     * @param ContainerInterface $container
      * @param $name
      * @return InputFilterInterface
      * @throws Exception\RuntimeException
      */
-    protected function getInputFilterByName(ServiceLocatorInterface $serviceLocator, $name)
+    protected function getInputFilterByName(ContainerInterface $container, $name)
     {
-        if ($serviceLocator->has('InputFilterManager')) {
-            $serviceLocator = $serviceLocator->get('InputFilterManager');
+        if ($container->has('InputFilterManager')) {
+            $container = $container->get('InputFilterManager');
         }
 
-        $obj = $serviceLocator->get($name);
+        $obj = $container->get($name);
         if (!$obj instanceof InputFilterInterface) {
             throw new Exception\RuntimeException(sprintf(
                 'Instance of type %s is invalid; must implement %s',
@@ -137,14 +135,14 @@ trait AbstractServiceFactoryTrait
     /**
      * Retrieve PrototypeStrategy object from service locator
      *
-     * @param ServiceLocatorInterface $serviceLocator
+     * @param ContainerInterface $container
      * @param $name
      * @return InputFilterInterface
      * @throws Exception\RuntimeException
      */
-    protected function getPrototypeStrategyByName(ServiceLocatorInterface $serviceLocator, $name)
+    protected function getPrototypeStrategyByName(ContainerInterface $container, $name)
     {
-        $obj = $serviceLocator->get($name);
+        $obj = $container->get($name);
         if (!$obj instanceof PrototypeStrategyInterface) {
             throw new Exception\RuntimeException(sprintf(
                 'Instance of type %s is invalid; must implement %s',

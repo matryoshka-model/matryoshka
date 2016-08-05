@@ -35,12 +35,12 @@ class ExtrationTraitTest extends \PHPUnit_Framework_TestCase
             'Matryoshka\Model\Criteria\ExtractionTrait'
         );
 
-        $this->modelHydratorMock = $this->getMockBuilder('\Zend\Stdlib\Hydrator\AbstractHydrator')
+        $this->modelHydratorMock = $this->getMockBuilder('\Zend\Hydrator\AbstractHydrator')
             ->disableOriginalConstructor()
             ->setMethods(['extractValue', 'extractName'])
             ->getMockForAbstractClass();
 
-        $this->objectHydratorMock = $this->getMockBuilder('\Zend\Stdlib\Hydrator\AbstractHydrator')
+        $this->objectHydratorMock = $this->getMockBuilder('\Zend\Hydrator\AbstractHydrator')
             ->disableOriginalConstructor()
             ->setMethods(['hydrateName', 'extractName'])
             ->getMockForAbstractClass();
@@ -97,7 +97,7 @@ class ExtrationTraitTest extends \PHPUnit_Framework_TestCase
         $reflMethod = $reflection->getMethod('extractValue');
         $reflMethod->setAccessible(true);
 
-        $hydrator = $this->getMockForAbstractClass('\Zend\Stdlib\Hydrator\HydratorInterface');
+        $hydrator = $this->getMockForAbstractClass('\Zend\Hydrator\HydratorInterface');
         $this->testModel->setHydrator($hydrator); // set a not AbstractHydrator instance
 
         $this->setExpectedException('Matryoshka\Model\Exception\RuntimeException');
@@ -143,7 +143,7 @@ class ExtrationTraitTest extends \PHPUnit_Framework_TestCase
         $reflMethod = $reflection->getMethod('extractName');
         $reflMethod->setAccessible(true);
 
-        $hydrator = $this->getMockForAbstractClass('\Zend\Stdlib\Hydrator\HydratorInterface');
+        $hydrator = $this->getMockForAbstractClass('\Zend\Hydrator\HydratorInterface');
         $this->testModel->getObjectPrototype()->setHydrator($hydrator); // set a not AbstractHydrator instance
 
         $this->setExpectedException('Matryoshka\Model\Exception\RuntimeException');
@@ -157,7 +157,7 @@ class ExtrationTraitTest extends \PHPUnit_Framework_TestCase
         $reflMethod = $reflection->getMethod('extractName');
         $reflMethod->setAccessible(true);
 
-        $hydrator = $this->getMockForAbstractClass('\Zend\Stdlib\Hydrator\HydratorInterface');
+        $hydrator = $this->getMockForAbstractClass('\Zend\Hydrator\HydratorInterface');
         $this->testModel->setHydrator($hydrator); // set a not AbstractHydrator instance
 
         $this->setExpectedException('Matryoshka\Model\Exception\RuntimeException');

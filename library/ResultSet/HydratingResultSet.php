@@ -12,10 +12,10 @@ use ArrayObject;
 use Matryoshka\Model\Exception;
 use Matryoshka\Model\Object\PrototypeStrategy\PrototypeStrategyAwareInterface;
 use Matryoshka\Model\Object\PrototypeStrategy\PrototypeStrategyAwareTrait;
-use Zend\Stdlib\Hydrator\ArraySerializable;
-use Zend\Stdlib\Hydrator\HydratorAwareInterface;
-use Zend\Stdlib\Hydrator\HydratorAwareTrait;
-use Zend\Stdlib\Hydrator\HydratorInterface;
+use Zend\Hydrator\ArraySerializable;
+use Zend\Hydrator\HydratorAwareInterface;
+use Zend\Hydrator\HydratorAwareTrait;
+use Zend\Hydrator\HydratorInterface;
 
 /**
  * Class HydratingResultSet

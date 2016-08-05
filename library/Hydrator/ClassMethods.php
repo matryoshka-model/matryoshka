@@ -8,9 +8,9 @@
  */
 namespace Matryoshka\Model\Hydrator;
 
-use Zend\Stdlib\Hydrator\ClassMethods as ZendClassMethods;
-use Zend\Stdlib\Hydrator\Filter\FilterComposite;
-use Zend\Stdlib\Hydrator\Filter\MethodMatchFilter;
+use Zend\Hydrator\ClassMethods as ZendClassMethods;
+use Zend\Hydrator\Filter\FilterComposite;
+use Zend\Hydrator\Filter\MethodMatchFilter;
 
 /**
  * Class ClassMethods

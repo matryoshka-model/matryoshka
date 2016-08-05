@@ -6,15 +6,15 @@
     "require": {
         "php": ">=5.5",
         "zendframework/zend-inputfilter": "~2.4",
-	"zendframework/zend-stdlib": "~2.4",
-	"zendframework/zend-paginator": "~2.4",
-	"zendframework/zend-servicemanager": "~2.4",
-        "zendframework/zend-eventmanager": "~2.4"
+        "zendframework/zend-stdlib": "~3.0",
+        "zendframework/zend-paginator": "~2.4",
+        "zendframework/zend-servicemanager": "~3.0",
+        "zendframework/zend-eventmanager": "~3.0"
     },
     "require-dev": {
         "phpunit/phpunit": "~4.2",
         "satooshi/php-coveralls": "dev-master",
-        "zendframework/zend-mvc": "~2.4",
+        "zendframework/zend-mvc": "~3.0",
         "zendframework/zend-form": "~2.4"
     },
     "authors": [

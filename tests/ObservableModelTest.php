@@ -12,6 +12,7 @@ use Matryoshka\Model\ModelEvent;
 use Matryoshka\Model\ObservableModel;
 use MatryoshkaTest\Model\Mock\Criteria\MockCriteria;
 use MatryoshkaTest\Model\TestAsset\ResultSet;
+use Zend\EventManager\Event;
 
 /**
  * Class ObservableModelTest
@@ -38,15 +39,15 @@ class ObservableModelTest extends ModelTest
         $this->model->getEventManager()->attach('find.pre', function ($e) use (&$preEventCalled) {
             /** @var $e ModelEvent */
             $preEventCalled = true;
-            $this->assertSame($this->model, $e->getTarget());
-            $this->assertInstanceOf('\Matryoshka\Model\Criteria\ReadableCriteriaInterface', $e->getCriteria());
+            $this->assertSame($this->model, $e->getTarget()->getTarget());
+            $this->assertInstanceOf('\Matryoshka\Model\Criteria\ReadableCriteriaInterface', $e->getTarget()->getCriteria());
         });
 
         $this->model->getEventManager()->attach('find.post', function ($e) use (&$postEventCalled) {
             /** @var $e ModelEvent */
             $postEventCalled = true;
-            $this->assertSame($this->model, $e->getTarget());
-            $this->assertInstanceOf('\Matryoshka\Model\Criteria\ReadableCriteriaInterface', $e->getCriteria());
+            $this->assertSame($this->model, $e->getTarget()->getTarget());
+            $this->assertInstanceOf('\Matryoshka\Model\Criteria\ReadableCriteriaInterface', $e->getTarget()->getCriteria());
         });
 
         parent::testFind();
@@ -92,8 +93,10 @@ class ObservableModelTest extends ModelTest
         $emptyResultSet = clone $this->model->getResultSetPrototype();
 
         $listener = $this->model->getEventManager()->attach('find.pre', function ($e) use (&$preEventCalled, $emptyResultSet) {
-            /** @var $e ModelEvent */
+            /** @var $e Event */
+
             $preEventCalled = true;
+            $e->stopPropagation($preEventCalled);
             return $emptyResultSet;
         });
 
@@ -108,7 +111,9 @@ class ObservableModelTest extends ModelTest
                 get_class($resultset)
             )
         );
+
         $this->assertSame($emptyResultSet, $resultset);
+
         $this->assertTrue($preEventCalled);
         $this->assertFalse($postEventCallend);
 
@@ -120,6 +125,7 @@ class ObservableModelTest extends ModelTest
         $listener = $this->model->getEventManager()->attach('find.post', function ($e) use (&$postEventCallend, $emptyResultSet) {
             /** @var $e ModelEvent */
             $postEventCallend = true;
+            $e->stopPropagation($postEventCallend);
             return $emptyResultSet;
         });
 
@@ -138,6 +144,7 @@ class ObservableModelTest extends ModelTest
         $this->assertSame($emptyResultSet, $resultset);
         $this->assertFalse($preEventCalled);
         $this->assertTrue($postEventCallend);
+
     }
 
 
@@ -150,27 +157,28 @@ class ObservableModelTest extends ModelTest
         $postEventCalled = false;
 
         $this->model->getEventManager()->attach('save.pre', function ($e) use (&$preEventCalled, $data) {
-            /** @var $e ModelEvent */
+            /** @var $e Event */
             $preEventCalled = true;
-            $this->assertSame($this->model, $e->getTarget());
-            $this->assertInstanceOf('\Matryoshka\Model\Criteria\WritableCriteriaInterface', $e->getCriteria());
-            $this->assertSame($data, $e->getData());
-            $this->assertNull($e->getResult());
-            $this->assertNull($e->getResultSet());
+            $this->assertSame($this->model, $e->getTarget()->getTarget());
+            $this->assertInstanceOf('\Matryoshka\Model\Criteria\WritableCriteriaInterface', $e->getTarget()->getCriteria());
+            $this->assertSame($data, $e->getTarget()->getData());
+            $this->assertNull($e->getTarget()->getResult());
+            $this->assertNull($e->getTarget()->getResultSet());
+
         });
 
         $this->model->getEventManager()->attach('save.post', function ($e) use (&$postEventCalled, $data, $expected) {
-            /** @var $e ModelEvent */
+            /* @var $e Event */
             $postEventCalled = true;
-            $this->assertSame($this->model, $e->getTarget());
-            $this->assertInstanceOf('\Matryoshka\Model\Criteria\WritableCriteriaInterface', $e->getCriteria());
-            $this->assertSame($data, $e->getData());
-            $this->assertNull($e->getResultSet());
+            $this->assertSame($this->model, $e->getTarget()->getTarget());
+            $this->assertInstanceOf('\Matryoshka\Model\Criteria\WritableCriteriaInterface', $e->getTarget()->getCriteria());
+            $this->assertSame($data, $e->getTarget()->getData());
+            $this->assertNull($e->getTarget()->getResultSet());
 
-            if (is_int($e->getResult())) {
-                $this->assertSame(1, $e->getResult());
+            if (is_int($e->getTarget()->getResult())) {
+                $this->assertSame(1, $e->getTarget()->getResult());
             } else {
-                $this->assertNull($e->getResult());
+                $this->assertNull($e->getTarget()->getResult());
             }
         });
 
@@ -179,20 +187,21 @@ class ObservableModelTest extends ModelTest
         $this->assertTrue($preEventCalled);
         $this->assertTrue($postEventCalled);
 
+
         //Test invalid result
         $preEventCalled = false;
         $postEventCalled = false;
         $this->model->getEventManager()->clearListeners('save.pre');
         $this->model->getEventManager()->clearListeners('save.post');
         $this->model->getEventManager()->attach('save.pre', function ($e) use (&$preEventCalled) {
-            /** @var $e ModelEvent */
+            /* @var $e Event */
             $preEventCalled = true;
             $e->stopPropagation();
             return 'invalid result';
         });
 
         $this->model->getEventManager()->attach('save.post', function ($e) use (&$postEventCalled) {
-            /** @var $e ModelEvent */
+            /* @var $e Event */
             $postEventCalled = true;
             $e->stopPropagation();
             return 'invalid result';
@@ -217,8 +226,9 @@ class ObservableModelTest extends ModelTest
         $postEventCalled = false;
 
         $listener = $this->model->getEventManager()->attach('save.pre', function ($e) use (&$preEventCalled) {
-            /** @var $e ModelEvent */
+            /** @var $e Event */
             $preEventCalled = true;
+            $e->stopPropagation($preEventCalled);
             return 10;
         });
 
@@ -239,6 +249,7 @@ class ObservableModelTest extends ModelTest
         $listener = $this->model->getEventManager()->attach('save.post', function ($e) use (&$postEventCalled) {
             /** @var $e ModelEvent */
             $postEventCalled = true;
+            $e->stopPropagation($postEventCalled);
             return 20;
         });
 
@@ -261,25 +272,25 @@ class ObservableModelTest extends ModelTest
         $this->model->getEventManager()->attach('delete.pre', function ($e) use (&$preEventCalled) {
                 /** @var $e ModelEvent */
                 $preEventCalled = true;
-                $this->assertSame($this->model, $e->getTarget());
-                $this->assertInstanceOf('\Matryoshka\Model\Criteria\DeletableCriteriaInterface', $e->getCriteria());
-                $this->assertNull($e->getData());
-                $this->assertNull($e->getResult());
-                $this->assertNull($e->getResultSet());
+                    $this->assertSame($this->model, $e->getTarget()->getTarget());
+                $this->assertInstanceOf('\Matryoshka\Model\Criteria\DeletableCriteriaInterface', $e->getTarget()->getCriteria());
+                $this->assertNull($e->getTarget()->getData());
+                $this->assertNull($e->getTarget()->getResult());
+                $this->assertNull($e->getTarget()->getResultSet());
         });
 
         $this->model->getEventManager()->attach('delete.post', function ($e) use (&$postEventCalled) {
                 /** @var $e ModelEvent */
                 $postEventCalled = true;
-                $this->assertSame($this->model, $e->getTarget());
-                $this->assertInstanceOf('\Matryoshka\Model\Criteria\DeletableCriteriaInterface', $e->getCriteria());
-                $this->assertNull($e->getData());
-                $this->assertNull($e->getResultSet());
+                $this->assertSame($this->model, $e->getTarget()->getTarget());
+                $this->assertInstanceOf('\Matryoshka\Model\Criteria\DeletableCriteriaInterface', $e->getTarget()->getCriteria());
+                $this->assertNull($e->getTarget()->getData());
+                $this->assertNull($e->getTarget()->getResultSet());
 
-                if (is_int($e->getResult())) {
-                    $this->assertSame(1, $e->getResult());
+                if (is_int($e->getTarget()->getResult())) {
+                    $this->assertSame(1, $e->getTarget()->getResult());
                 } else {
-                    $this->assertNull($e->getResult());
+                    $this->assertNull($e->getTarget()->getResult());
                 }
         });
 
@@ -317,6 +328,7 @@ class ObservableModelTest extends ModelTest
         $listener = $this->model->getEventManager()->attach('delete.pre', function ($e) use (&$preEventCalled) {
             /** @var $e ModelEvent */
             $preEventCalled = true;
+            $e->stopPropagation($preEventCalled);
             return 1;
         });
 
@@ -335,8 +347,9 @@ class ObservableModelTest extends ModelTest
         $postEventCalled = false;
         $this->model->getEventManager()->clearListeners('delete.pre');
         $listener = $this->model->getEventManager()->attach('delete.post', function ($e) use (&$postEventCalled) {
-            /** @var $e ModelEvent */
+            /** @var $e Event */
             $postEventCalled = true;
+            $e->stopPropagation($postEventCalled);
             return 2;
         });
 

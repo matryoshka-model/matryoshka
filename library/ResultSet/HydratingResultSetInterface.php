@@ -8,7 +8,7 @@
  */
 namespace Matryoshka\Model\ResultSet;
 
-use Zend\Stdlib\Hydrator\HydratorAwareInterface;
+use Zend\Hydrator\HydratorAwareInterface;
 
 /**
  * Interface HydratingResultSetInterface

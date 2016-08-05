@@ -10,8 +10,8 @@ namespace MatryoshkaTest\Model\ResultSet;
 
 use Matryoshka\Model\ResultSet\HydratingResultSet;
 use MatryoshkaTest\Model\TestAsset\HydratorAwareObject;
-use Zend\Stdlib\Hydrator\ClassMethods;
-use Zend\Stdlib\Hydrator\ObjectProperty;
+use Zend\Hydrator\ClassMethods;
+use Zend\Hydrator\ObjectProperty;
 
 /**
  * Class HydratingResultSetTest
@@ -44,7 +44,7 @@ class HydratingResultSetTest extends AbstractResultSetTest
         //Defaults
         $resultSet = new HydratingResultSet();
         $this->assertInstanceOf('\ArrayObject', $resultSet->getObjectPrototype());
-        $this->assertInstanceOf('\Zend\Stdlib\Hydrator\ArraySerializable', $resultSet->getHydrator());
+        $this->assertInstanceOf('\Zend\Hydrator\ArraySerializable', $resultSet->getHydrator());
     }
 
     public function testCurrent()

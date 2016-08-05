@@ -14,7 +14,7 @@ use Matryoshka\Model\Criteria\ReadableCriteriaInterface;
 use Matryoshka\Model\Criteria\WritableCriteriaInterface;
 use Matryoshka\Model\ResultSet\ResultSetInterface;
 use Zend\Paginator\AdapterAggregateInterface as PaginatorAdapterAggregateInterface;
-use Zend\Stdlib\Hydrator\HydratorAwareInterface;
+use Zend\Hydrator\HydratorAwareInterface;
 
 /**
  * Interface ModelInterface

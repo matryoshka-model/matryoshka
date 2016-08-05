@@ -11,10 +11,10 @@ namespace MatryoshkaTest\Model\Mock;
 use Zend\InputFilter\InputFilter;
 use Zend\InputFilter\InputFilterAwareInterface;
 use Zend\InputFilter\InputFilterAwareTrait;
-use Zend\Stdlib\Hydrator\ClassMethods;
-use Zend\Stdlib\Hydrator\HydratorAwareInterface;
-use Zend\Stdlib\Hydrator\HydratorAwareTrait;
-use Zend\Stdlib\hydrator\HydratorInterface;
+use Zend\Hydrator\ClassMethods;
+use Zend\Hydrator\HydratorAwareInterface;
+use Zend\Hydrator\HydratorAwareTrait;
+use Zend\Hydrator\HydratorInterface;
 
 /**
  * Class AssertRoleCommunity

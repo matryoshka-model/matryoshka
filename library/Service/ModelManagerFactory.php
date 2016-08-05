@@ -8,9 +8,10 @@
  */
 namespace Matryoshka\Model\Service;
 
+use Interop\Container\ContainerInterface;
 use Matryoshka\Model\ModelManager;
 use Zend\ServiceManager\Config;
-use Zend\ServiceManager\FactoryInterface;
+use Zend\ServiceManager\Factory\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
 /**
@@ -19,18 +20,18 @@ use Zend\ServiceManager\ServiceLocatorInterface;
 class ModelManagerFactory implements FactoryInterface
 {
     /**
-     * Create service
-     *
-     * @param ServiceLocatorInterface $serviceLocator
-     * @return mixed
+     * {@inheritdoc}
      */
-    public function createService(ServiceLocatorInterface $serviceLocator)
+    public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
     {
-        $config = $serviceLocator->get('Config');
+        $config = $container->get('Config');
         $modelConfig = [];
         if (isset($config['matryoshka']) && isset($config['matryoshka']['model_manager'])) {
             $modelConfig = $config['matryoshka']['model_manager'];
         }
-        return new ModelManager(new Config($modelConfig));
+
+        $modelManager = new ModelManager($container, $modelConfig);
+        $modelManager->addAbstractFactory(new ModelAbstractServiceFactory());
+        return $modelManager;
     }
 }

@@ -25,27 +25,10 @@ class ModelManager extends AbstractPluginManager
      */
     protected $shareByDefault = true;
 
-
     /**
-     * Constructor
-     * Add a default initializer to ensure the plugin is valid after instance
-     * creation.
-     * @param  null|ConfigInterface $configuration
+     * {@inheritdoc}
      */
-    public function __construct(ConfigInterface $configuration = null)
-    {
-        parent::__construct($configuration);
-        $this->addAbstractFactory(new ModelAbstractServiceFactory());
-    }
-
-
-    /**
-     * Validate the plugin
-     * Checks that the model loaded is an instance of ModelInterface.
-     * @param mixed $plugin
-     * @throws Exception\InvalidPluginException
-     */
-    public function validatePlugin($plugin)
+    public function validate($plugin)
     {
         if (!$plugin instanceof ModelInterface) {
             throw new Exception\InvalidPluginException(sprintf(
@@ -54,31 +37,5 @@ class ModelManager extends AbstractPluginManager
                 ModelInterface::class
             ));
         }
-    }
-
-    /**
-     * Override: do not use peering service managers
-     *
-     * @param  string|array $name
-     * @param  bool         $checkAbstractFactories
-     * @param  bool         $usePeeringServiceManagers
-     * @return bool
-     */
-    public function has($name, $checkAbstractFactories = true, $usePeeringServiceManagers = false)
-    {
-        return parent::has($name, $checkAbstractFactories, $usePeeringServiceManagers);
-    }
-
-    /**
-     * Override: do not use peering service managers
-     *
-     * @param  string $name
-     * @param  array $options
-     * @param  bool $usePeeringServiceManagers
-     * @return ModelInterface
-     */
-    public function get($name, $options = [], $usePeeringServiceManagers = false)
-    {
-        return parent::get($name, $options, $usePeeringServiceManagers);
     }
 }

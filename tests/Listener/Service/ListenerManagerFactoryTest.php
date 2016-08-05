@@ -31,12 +31,11 @@ class ListenerManagerFactoryTest extends \PHPUnit_Framework_TestCase
             ]
         ];
 
-        $serviceManager = new ServiceManager(
-            new Config([
+        $serviceManager = new ServiceManager([
                 'factories' => [
                     'ListenerManager' => 'Matryoshka\Model\Listener\Service\ListenerManagerFactory',
                 ]
-            ])
+            ]
         );
         $serviceManager->setService('Config', $config);
 

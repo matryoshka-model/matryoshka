@@ -21,7 +21,7 @@ class ModelManagerTest extends \PHPUnit_Framework_TestCase
     public function testPluginManagerThrowsExceptionForMissingPluginInterface()
     {
         $this->setExpectedException('Matryoshka\Model\Exception\InvalidPluginException');
-        $pluginManager = new ModelManager();
+        $pluginManager = new ModelManager(new ServiceManager());
         $pluginManager->setInvokableClass('samplePlugin', 'stdClass');
         $plugin = $pluginManager->get('samplePlugin');
     }
@@ -29,16 +29,14 @@ class ModelManagerTest extends \PHPUnit_Framework_TestCase
     public function testCanCreateByModelAbstractServiceFactory()
     {
         $config = [
-            'matryoshka-models' => [
-                'MyModel\A' => [
-                    'datagateway' => 'MatryoshkaTest\Model\Service\TestAsset\FakeDataGateway',
-                    'resultset' => 'Matryoshka\Model\ResultSet\ResultSet',
-                ],
-                'MyModel\O' => [
-                    'datagateway' => 'MatryoshkaTest\Model\Service\TestAsset\FakeDataGateway',
-                    'resultset' => 'Matryoshka\Model\ResultSet\ResultSet',
-                    'type' => 'MatryoshkaTest\Model\Service\TestAsset\MyObservableModel',
-                ],
+            'factories' => [
+                'MyModel\A' => function ($model) {
+                    return $this->getMock('Matryoshka\Model\ModelInterface');
+                },
+
+                'MyModel\O' => function ($serviceManager) {
+                    return $this->getMock('Matryoshka\Model\ModelInterface');
+                },
             ],
         ];
 
@@ -47,12 +45,9 @@ class ModelManagerTest extends \PHPUnit_Framework_TestCase
         $services->setService('MatryoshkaTest\Model\Service\TestAsset\FakeDataGateway', new FakeDataGateway);
         $services->setService('Matryoshka\Model\ResultSet\ResultSet', new ResultSet);
 
-        $pluginManager = new ModelManager();
-        $pluginManager->setServiceLocator($services);
+        $pluginManager = new ModelManager($services, $config);
         $modelA = $pluginManager->get('MyModel\A');
-        $this->assertInstanceOf('Matryoshka\Model\Model', $modelA);
 
         $modelO = $pluginManager->get('MyModel\O');
-        $this->assertInstanceOf('Matryoshka\Model\ObservableModel', $modelO);
     }
 }

@@ -8,9 +8,9 @@
  */
 namespace MatryoshkaTest\Model\TestAsset;
 
-use Zend\Stdlib\Hydrator\ArraySerializable;
-use Zend\Stdlib\Hydrator\HydratorAwareInterface;
-use Zend\Stdlib\Hydrator\HydratorAwareTrait;
+use Zend\Hydrator\ArraySerializable;
+use Zend\Hydrator\HydratorAwareInterface;
+use Zend\Hydrator\HydratorAwareTrait;
 
 /**
  * Class HydratorAwareObject

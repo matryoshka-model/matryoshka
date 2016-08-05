@@ -10,7 +10,7 @@ namespace Matryoshka\Model\Criteria;
 
 use Matryoshka\Model\Exception;
 use Matryoshka\Model\ModelStubInterface;
-use Zend\Stdlib\Hydrator\HydratorAwareInterface;
+use Zend\Hydrator\HydratorAwareInterface;
 
 /**
  * Trait ExtractionTrait

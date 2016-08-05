@@ -30,12 +30,11 @@ class ModelManagerFactoryTest extends \PHPUnit_Framework_TestCase
             ]
         ];
 
-        $serviceManager = new ServiceManager(
-            new Config([
+        $serviceManager = new ServiceManager([
                 'factories' => [
                     'ModelManager' => 'Matryoshka\Model\Service\ModelManagerFactory',
                 ]
-            ])
+            ]
         );
         $serviceManager->setService('Config', $config);
         $serviceManager->setService('MatryoshkaTest\Model\Service\TestAsset\FakeDataGateway', new FakeDataGateway);

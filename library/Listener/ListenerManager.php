@@ -21,10 +21,11 @@ use Zend\EventManager\ListenerAggregateInterface;
 class ListenerManager extends AbstractPluginManager
 {
     /**
-     * Share by default
+     * Should the services be shared by default?
+     *
      * @var bool
      */
-    protected $shareByDefault = false;
+    protected $sharedByDefault = false;
 
     /**
      * Validate the plugin
@@ -33,7 +34,7 @@ class ListenerManager extends AbstractPluginManager
      * @param mixed $plugin
      * @throws Exception\InvalidPluginException
      */
-    public function validatePlugin($plugin)
+    public function validate($plugin)
     {
         if (!$plugin instanceof ListenerAggregateInterface) {
             throw new Exception\InvalidPluginException(sprintf(

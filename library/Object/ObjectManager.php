@@ -27,25 +27,9 @@ class ObjectManager extends AbstractPluginManager
     protected $shareByDefault = false;
 
     /**
-     * Constructor
-     * Add a default initializer to ensure the plugin is valid after instance creation.
-     *
-     * @param  null|ConfigInterface $configuration
+     * {@inheritdoc}
      */
-    public function __construct(ConfigInterface $configuration = null)
-    {
-        parent::__construct($configuration);
-        $this->addAbstractFactory(new ObjectAbstractServiceFactory());
-    }
-
-    /**
-     * Validate the plugin
-     * Checks that the object loaded is an object.
-     *
-     * @param mixed $plugin
-     * @throws Exception\InvalidPluginException
-     */
-    public function validatePlugin($plugin)
+    public function validate($plugin)
     {
         if (!is_object($plugin)) {
             throw new Exception\InvalidPluginException(sprintf(
@@ -53,31 +37,5 @@ class ObjectManager extends AbstractPluginManager
                 gettype($plugin)
             ));
         }
-    }
-
-    /**
-     * Override: do not use peering service managers
-     *
-     * @param  string|array $name
-     * @param  bool         $checkAbstractFactories
-     * @param  bool         $usePeeringServiceManagers
-     * @return bool
-     */
-    public function has($name, $checkAbstractFactories = true, $usePeeringServiceManagers = false)
-    {
-        return parent::has($name, $checkAbstractFactories, $usePeeringServiceManagers);
-    }
-
-    /**
-     * Override: do not use peering service managers
-     *
-     * @param  string $name
-     * @param  array $options
-     * @param  bool $usePeeringServiceManagers
-     * @return object
-     */
-    public function get($name, $options = [], $usePeeringServiceManagers = false)
-    {
-        return parent::get($name, $options, $usePeeringServiceManagers);
     }
 }

@@ -42,16 +42,15 @@ class ServiceLocatorStrategyFactoryTest extends \PHPUnit_Framework_TestCase
             $this->configKey => $this->testConfig,
         ];
 
-        $sm = $this->serviceManager = new ServiceManager\ServiceManager(
-            new ServiceManagerConfig([
+        $this->serviceManager = new ServiceManager\ServiceManager([
                 'factories' => [
                     'Matryoshka\Model\Object\PrototypeStrategy\ServiceLocatorStrategy' =>
-                    'Matryoshka\Model\Object\PrototypeStrategy\Service\ServiceLocatorStrategyFactory',
+                        'Matryoshka\Model\Object\PrototypeStrategy\Service\ServiceLocatorStrategyFactory',
                 ]
-            ])
+            ]
         );
 
-        $sm->setService('Config', $config);
+        $this->serviceManager->setService('Config', $config);
     }
 
     public function testCreateService()
@@ -82,10 +81,12 @@ class ServiceLocatorStrategyFactoryTest extends \PHPUnit_Framework_TestCase
     public function testGetConfig()
     {
         $serviceLocator = $this->serviceManager;
-        $factory = new ServiceLocatorStrategyFactory();
-        $strategy = $factory->createService($serviceLocator);
+        $factory =  new ServiceLocatorStrategyFactory();
+        $serviceLocator->setFactory('strategy', $factory);
+        $strategy = $serviceLocator->get('strategy');
 
         $this->assertSame($serviceLocator, $strategy->getServiceLocator());
+
         $this->assertSame($this->testConfig['type_field'], $strategy->getTypeField());
         $this->assertSame($this->testConfig['validate_object'], $strategy->getValidateObject());
         $this->assertSame($this->testConfig['clone_object'], $strategy->getCloneObject());

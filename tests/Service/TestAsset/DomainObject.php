@@ -12,8 +12,8 @@ use Matryoshka\Model\ModelAwareInterface;
 use Matryoshka\Model\ModelAwareTrait;
 use Zend\InputFilter\InputFilterAwareInterface;
 use Zend\InputFilter\InputFilterAwareTrait;
-use Zend\Stdlib\Hydrator\HydratorAwareInterface;
-use Zend\Stdlib\Hydrator\HydratorAwareTrait;
+use Zend\Hydrator\HydratorAwareInterface;
+use Zend\Hydrator\HydratorAwareTrait;
 
 /**
  * Class DomainObject

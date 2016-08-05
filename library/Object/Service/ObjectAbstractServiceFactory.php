@@ -8,15 +8,16 @@
  */
 namespace Matryoshka\Model\Object\Service;
 
+use Interop\Container\ContainerInterface;
 use Matryoshka\Model\Criteria\ActiveRecord\AbstractCriteria;
 use Matryoshka\Model\Exception;
 use Matryoshka\Model\Object\ActiveRecord\AbstractActiveRecord;
 use Matryoshka\Model\Service\AbstractServiceFactoryTrait;
 use Zend\InputFilter\InputFilterAwareInterface;
-use Zend\ServiceManager\AbstractFactoryInterface;
 use Zend\ServiceManager\AbstractPluginManager;
+use Zend\ServiceManager\Factory\AbstractFactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
-use Zend\Stdlib\Hydrator\HydratorAwareInterface;
+use Zend\Hydrator\HydratorAwareInterface;
 
 /**
  * Class ObjectAbstractServiceFactory
@@ -38,19 +39,11 @@ class ObjectAbstractServiceFactory implements AbstractFactoryInterface
     protected $config;
 
     /**
-     * Determine if we can create a service with name
-     * @param ServiceLocatorInterface $serviceLocator
-     * @param string $name
-     * @param string $requestedName
-     * @return boolean
+     * {@inheritdoc}
      */
-    public function canCreateServiceWithName(ServiceLocatorInterface $serviceLocator, $name, $requestedName)
+    public function canCreate(ContainerInterface $container, $requestedName)
     {
-        if ($serviceLocator instanceof AbstractPluginManager && $serviceLocator->getServiceLocator()) {
-            $serviceLocator = $serviceLocator->getServiceLocator();
-        }
-
-        $config = $this->getConfig($serviceLocator);
+        $config = $this->getConfig($container);
         if (empty($config)) {
             return false;
         }
@@ -66,21 +59,11 @@ class ObjectAbstractServiceFactory implements AbstractFactoryInterface
     }
 
     /**
-     * Create service with name
-     *
-     * @param ServiceLocatorInterface $serviceLocator
-     * @param $name
-     * @param $requestedName
-     * @return mixed
-     * @throws Exception\RuntimeException
+     * {@inheritdoc}
      */
-    public function createServiceWithName(ServiceLocatorInterface $serviceLocator, $name, $requestedName)
+    public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
     {
-        if ($serviceLocator instanceof AbstractPluginManager && $serviceLocator->getServiceLocator()) {
-            $serviceLocator = $serviceLocator->getServiceLocator();
-        }
-
-        $config = $this->getConfig($serviceLocator)[$requestedName];
+        $config = $this->getConfig($container)[$requestedName];
 
         //Create an object instance
         $class = $config['type'];
@@ -99,7 +82,7 @@ class ObjectAbstractServiceFactory implements AbstractFactoryInterface
             && is_string($config['hydrator'])
             && !empty($config['hydrator'])
         ) {
-            $object->setHydrator($this->getHydratorByName($serviceLocator, $config['hydrator']));
+            $object->setHydrator($this->getHydratorByName($container, $config['hydrator']));
         }
 
         //Setup InputFilter
@@ -108,7 +91,7 @@ class ObjectAbstractServiceFactory implements AbstractFactoryInterface
             && is_string($config['input_filter'])
             && !empty($config['input_filter'])
         ) {
-            $object->setInputFilter($this->getInputFilterByName($serviceLocator, $config['input_filter']));
+            $object->setInputFilter($this->getInputFilterByName($container, $config['input_filter']));
         }
 
         //Setup ActiveRecord
@@ -118,7 +101,7 @@ class ObjectAbstractServiceFactory implements AbstractFactoryInterface
             && !empty($config['active_record_criteria'])
         ) {
             $object->setActiveRecordCriteriaPrototype($this->getActiveRecordCriteriaByName(
-                $serviceLocator,
+                $container,
                 $config['active_record_criteria']
             ));
         }
@@ -129,14 +112,13 @@ class ObjectAbstractServiceFactory implements AbstractFactoryInterface
     /**
      * Retrieve PaginableCriteriaInterface object from config
      *
-     * @param ServiceLocatorInterface $serviceLocator
+     * @param ContainerInterface $container
      * @param $name
-     * @return AbstractCriteria
-     * @throws Exception\ServiceNotCreatedException
+     * @return mixed
      */
-    protected function getActiveRecordCriteriaByName($serviceLocator, $name)
+    protected function getActiveRecordCriteriaByName(ContainerInterface $container, $name)
     {
-        $criteria = $serviceLocator->get($name);
+        $criteria = $container->get($name);
         if (!$criteria instanceof AbstractCriteria) {
             throw new Exception\ServiceNotCreatedException(sprintf(
                 'Instance of type %s is invalid; must implement %s',

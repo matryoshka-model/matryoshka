@@ -20,7 +20,7 @@ class ListenerManagerTest extends \PHPUnit_Framework_TestCase
     public function testPluginManagerThrowsExceptionForInvalidPluginType()
     {
         $this->setExpectedException('Matryoshka\Model\Exception\InvalidPluginException');
-        $pluginManager = new ListenerManager();
+        $pluginManager = new ListenerManager(new ServiceManager());
         $pluginManager->setService('samplePlugin', 'thisIsNotAnListener');
         $plugin = $pluginManager->get('samplePlugin');
     }
@@ -28,14 +28,14 @@ class ListenerManagerTest extends \PHPUnit_Framework_TestCase
     public function testPluginManagerThrowsExceptionForInvalidPluginInterface()
     {
         $this->setExpectedException('Matryoshka\Model\Exception\InvalidPluginException');
-        $pluginManager = new ListenerManager();
+        $pluginManager = new ListenerManager(new ServiceManager());
         $pluginManager->setService('samplePlugin', new \stdClass());
         $plugin = $pluginManager->get('samplePlugin');
     }
 
     public function testValidatePlugin()
     {
-        $pluginManager = new ListenerManager();
-        $pluginManager->validatePlugin(new ListenerAggregate());
+        $pluginManager = new ListenerManager(new ServiceManager());
+        $pluginManager->validate(new ListenerAggregate());
     }
 }

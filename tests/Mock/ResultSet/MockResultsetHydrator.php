@@ -8,9 +8,9 @@
  */
 namespace MatryoshkaTest\Model\Mock\ResultSet;
 
-use Zend\Stdlib\Hydrator\ClassMethods;
-use Zend\Stdlib\Hydrator\HydratorAwareInterface;
-use Zend\Stdlib\Hydrator\HydratorInterface;
+use Zend\Hydrator\ClassMethods;
+use Zend\Hydrator\HydratorAwareInterface;
+use Zend\Hydrator\HydratorInterface;
 
 /**
  * Class MockResultsetHydrator

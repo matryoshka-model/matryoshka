@@ -9,7 +9,7 @@
 namespace Matryoshka\Model;
 
 use Zend\InputFilter\InputFilterInterface;
-use Zend\Stdlib\Hydrator\HydratorInterface;
+use Zend\Hydrator\HydratorInterface;
 
 /**
  * Interface ModelStubInterface

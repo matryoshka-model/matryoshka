@@ -48,6 +48,7 @@ class ObservableModel extends Model implements EventManagerAwareInterface
         $event = $this->getEvent();
         $event->setCriteria($criteria);
 
+        // Fixme $event become $this anche in event manager prototipe set Model event?
         $results = $this->getEventManager()->trigger(ModelEvent::EVENT_FIND_PRE, $event, function ($r) {
             return $r instanceof ResultSetInterface;
         });
@@ -59,6 +60,7 @@ class ObservableModel extends Model implements EventManagerAwareInterface
                 return $last;
             }
         }
+
 
         $event->setResultSet(parent::find($criteria));
 

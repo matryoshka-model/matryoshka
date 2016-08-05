@@ -10,9 +10,9 @@ namespace Matryoshka\Model\Object;
 
 use Zend\Stdlib\ArrayObject;
 use Matryoshka\Model\Exception;
-use Zend\Stdlib\Hydrator\HydratorAwareInterface;
-use Zend\Stdlib\Hydrator\HydratorAwareTrait;
-use Zend\Stdlib\Hydrator\ArraySerializable;
+use Zend\Hydrator\HydratorAwareInterface;
+use Zend\Hydrator\HydratorAwareTrait;
+use Zend\Hydrator\ArraySerializable;
 
 /**
  * Class AbstractCollection
@@ -40,7 +40,7 @@ abstract class AbstractCollection extends ArrayObject implements HydratorAwareIn
     }
 
     /**
-     * @return \Zend\Stdlib\Hydrator\HydratorInterface
+     * @return \Zend\Hydrator\HydratorInterface
      */
     public function getHydrator()
     {

@@ -8,7 +8,7 @@
  */
 namespace Matryoshka\Model\Hydrator\Strategy;
 
-use Zend\Stdlib\Hydrator\Strategy\StrategyInterface;
+use Zend\Hydrator\Strategy\StrategyInterface;
 
 /**
  * Class SetTypeStrategy

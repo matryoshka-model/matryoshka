@@ -8,7 +8,7 @@
  */
 namespace MatryoshkaTest\Model\TestAsset;
 
-use Zend\Stdlib\Hydrator\HydratorInterface;
+use Zend\Hydrator\HydratorInterface;
 
 /**
  * Class HydratorObject

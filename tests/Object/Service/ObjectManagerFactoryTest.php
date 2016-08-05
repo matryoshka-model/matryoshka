@@ -31,12 +31,11 @@ class ObjectManagerFactoryTest extends \PHPUnit_Framework_TestCase
             ]
         ];
 
-        $serviceManager = new ServiceManager(
-            new Config([
+        $serviceManager = new ServiceManager([
                 'factories' => [
                     'ObjectManager' => 'Matryoshka\Model\Object\Service\ObjectManagerFactory',
                 ]
-            ])
+            ]
         );
         $serviceManager->setService('Config', $config);
 

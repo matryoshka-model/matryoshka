@@ -2,7 +2,7 @@
 namespace MatryoshkaTest\Model\Object;
 
 use Matryoshka\Model\Object\AbstractCollection;
-use Zend\Stdlib\Hydrator\ArraySerializable;
+use Zend\Hydrator\ArraySerializable;
 use Zend\Stdlib\ArrayObject;
 use MatryoshkaTest\Model\TestAsset\ArrayObjectIterator;
 

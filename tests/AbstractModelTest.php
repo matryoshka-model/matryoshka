@@ -19,8 +19,8 @@ use MatryoshkaTest\Model\TestAsset\HydratorObject;
 use MatryoshkaTest\Model\TestAsset\InputFilterAwareObject;
 use MatryoshkaTest\Model\TestAsset\ResultSet;
 use MatryoshkaTest\Model\TestAsset\ToArrayObject;
-use Zend\Stdlib\Hydrator\ArraySerializable;
-use Zend\Stdlib\Hydrator\HydratorAwareInterface;
+use Zend\Hydrator\ArraySerializable;
+use Zend\Hydrator\HydratorAwareInterface;
 
 /**
  * Class AbstractModelTest
@@ -100,7 +100,7 @@ class AbstractModelTest extends \PHPUnit_Framework_TestCase
         $this->assertSame($hydratableObject->getHydrator(), $model->getHydrator());
 
         $this->assertSame($model, $model->setHydrator(new ArraySerializable()));
-        $this->assertInstanceOf('\Zend\Stdlib\Hydrator\HydratorInterface', $model->getHydrator());
+        $this->assertInstanceOf('\Zend\Hydrator\HydratorInterface', $model->getHydrator());
     }
 
     public function testGetSetInputFilter()
@@ -210,10 +210,11 @@ class AbstractModelTest extends \PHPUnit_Framework_TestCase
             $this->model->setHydrator($hydrator);
         }
 
-        $mockCriteria->expects($this->at(0))->method('applyWrite')->with(
-            $this->equalTo($this->model),
-            $this->equalTo($expected)
-        )->will($this->returnValue(1));
+        $mockCriteria->expects($this->at(0))
+            ->method('applyWrite')
+            ->with($this->equalTo($this->model), $this->equalTo($expected))
+            ->will($this->returnValue(1));
+
 
         $this->assertEquals(1, $this->model->save($mockCriteria, $data));
 
@@ -274,7 +275,6 @@ class AbstractModelTest extends \PHPUnit_Framework_TestCase
         $this->assertNull($this->model->delete($mockCriteria));
     }
 
-
     /**
      * Save Data Provider
      *
@@ -290,9 +290,9 @@ class AbstractModelTest extends \PHPUnit_Framework_TestCase
             [new HydratorAwareObject(['foo' => 'bar']), ['foo' => 'bar']],
             [new \ArrayObject(['foo' => 'bar']), ['foo' => 'bar'], new ArraySerializable()],
             [new ActiveRecordObject(), ['id' => null], null, new ActiveRecordObject]
+
         ];
     }
-
 
     /**
      * Save Exception Data Provider

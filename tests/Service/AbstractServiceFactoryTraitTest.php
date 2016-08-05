@@ -30,14 +30,14 @@ class AbstractServiceFactoryTraitTest extends \PHPUnit_Framework_TestCase
         $this->config = null;
         $this->configKey = 'test';
 
-        $this->serviceLocatorMock = $this->getMockBuilder('\Zend\ServiceManager\ServiceLocatorInterface')
+        $this->serviceLocatorMock = $this->getMockBuilder('\Interop\Container\ContainerInterface')
             ->setMethods(['has', 'get'])
             ->getMock();
     }
 
     public function testGetHydratorByNameWithoutHydratorManager()
     {
-        $name = 'Zend\Stdlib\Hydrator\ObjectProperty';
+        $name = 'Zend\Hydrator\ObjectProperty';
         $hydrator = new $name;
 
         $this->serviceLocatorMock->expects($this->at(0))
@@ -81,9 +81,10 @@ class AbstractServiceFactoryTraitTest extends \PHPUnit_Framework_TestCase
 
     public function testGetHydratorByNameWithHydratorManager()
     {
-        $name = 'Zend\Stdlib\Hydrator\ObjectProperty';
+        $name = 'Zend\Hydrator\ObjectProperty';
         $hydrator = new $name;
-        $hydratorManagerMock = $this->getMockBuilder('Zend\Stdlib\Hydrator\HydratorPluginManager')
+        $hydratorManagerMock = $this->getMockBuilder('Zend\Hydrator\HydratorPluginManager')
+            ->disableOriginalConstructor()
             ->setMethods(['get'])
             ->getMock();
 
@@ -113,7 +114,8 @@ class AbstractServiceFactoryTraitTest extends \PHPUnit_Framework_TestCase
     {
         $name = '\stdClass';
         $hydrator = new $name;
-        $hydratorManagerMock = $this->getMockBuilder('Zend\Stdlib\Hydrator\HydratorPluginManager')
+        $hydratorManagerMock = $this->getMockBuilder('Zend\Hydrator\HydratorPluginManager')
+            ->disableOriginalConstructor()
             ->setMethods(['get'])
             ->getMock();
 
@@ -188,6 +190,7 @@ class AbstractServiceFactoryTraitTest extends \PHPUnit_Framework_TestCase
         $name = 'Zend\InputFilter\InputFilter';
         $inputFilter = new $name;
         $inputFilterManagerMock = $this->getMockBuilder('Zend\InputFilter\InputFilterPluginManager')
+            ->disableOriginalConstructor()
             ->setMethods(['get'])
             ->getMock();
 
@@ -218,6 +221,7 @@ class AbstractServiceFactoryTraitTest extends \PHPUnit_Framework_TestCase
         $name = '\stdClass';
         $inputFilter = new $name;
         $inputFilterManagerMock = $this->getMockBuilder('Zend\InputFilter\InputFilterPluginManager')
+            ->disableOriginalConstructor()
             ->setMethods(['get'])
             ->getMock();
 

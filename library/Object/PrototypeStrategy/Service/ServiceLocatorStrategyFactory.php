@@ -8,8 +8,9 @@
  */
 namespace Matryoshka\Model\Object\PrototypeStrategy\Service;
 
+use Interop\Container\ContainerInterface;
 use Matryoshka\Model\Object\PrototypeStrategy\ServiceLocatorStrategy;
-use Zend\ServiceManager\FactoryInterface;
+use Zend\ServiceManager\Factory\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
 /**
@@ -29,21 +30,18 @@ class ServiceLocatorStrategyFactory implements FactoryInterface
     protected $config;
 
     /**
-     * Create service
-     *
-     * @param ServiceLocatorInterface $serviceLocator
-     * @return mixed
+     * {@inheritdoc}
      */
-    public function createService(ServiceLocatorInterface $serviceLocator)
+    public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
     {
-        $config = $this->getConfig($serviceLocator);
+        $config = $this->getConfig($container);
 
         if (isset($config['service_locator'])) {
-            $objectServiceLocator = $serviceLocator->get($config['service_locator']);
+            $objectServiceLocator = $container->get($config['service_locator']);
         } else {
-            $objectServiceLocator = $serviceLocator->has('Matryoshka\Model\Object\ObjectManager') ?
-                $serviceLocator->get('Matryoshka\Model\Object\ObjectManager')
-                : $serviceLocator;
+            $objectServiceLocator = $container->has('Matryoshka\Model\Object\ObjectManager') ?
+                $container->get('Matryoshka\Model\Object\ObjectManager')
+                : $container;
         }
 
         $strategy = new ServiceLocatorStrategy($objectServiceLocator);
@@ -64,23 +62,19 @@ class ServiceLocatorStrategyFactory implements FactoryInterface
     }
 
     /**
-     * Get model configuration, if any
-     *
-     * @param  ServiceLocatorInterface $serviceLocator
-     * @return array
+     * {@inheritdoc}
      */
-    protected function getConfig(ServiceLocatorInterface $serviceLocator)
+    protected function getConfig(ContainerInterface $container)
     {
         if ($this->config !== null) {
             return $this->config;
         }
 
-        if (!$serviceLocator->has('Config')) {
-            $this->config = [];
-            return $this->config;
+        if (!$container->has('Config')) {
+            return $this->config = [];
         }
 
-        $config = $serviceLocator->get('Config');
+        $config = $container->get('Config');
         if (!isset($config[$this->configKey])
             || !is_array($config[$this->configKey])
         ) {

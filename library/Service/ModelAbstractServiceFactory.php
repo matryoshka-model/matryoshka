@@ -8,15 +8,16 @@
  */
 namespace Matryoshka\Model\Service;
 
+use Interop\Container\ContainerInterface;
 use Matryoshka\Model\Exception;
 use Matryoshka\Model\Object\PrototypeStrategy\PrototypeStrategyAwareInterface;
 use Matryoshka\Model\ObservableModel;
 use Matryoshka\Model\ResultSet\BufferedResultSet;
 use Zend\EventManager\ListenerAggregateInterface;
-use Zend\ServiceManager\AbstractFactoryInterface;
 use Zend\ServiceManager\AbstractPluginManager;
+use Zend\ServiceManager\Factory\AbstractFactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
-use Zend\Stdlib\Hydrator\HydratorAwareInterface;
+use Zend\Hydrator\HydratorAwareInterface;
 
 /**
  * Class ModelAbstractServiceFactory
@@ -46,18 +47,14 @@ class ModelAbstractServiceFactory implements AbstractFactoryInterface
 
     /**
      * Determine if we can create a service with name
-     * @param ServiceLocatorInterface $serviceLocator
-     * @param string                  $name
-     * @param string                  $requestedName
-     * @return boolean
+     *
+     * @param ContainerInterface $container
+     * @param string $requestedName
+     * @return bool
      */
-    public function canCreateServiceWithName(ServiceLocatorInterface $serviceLocator, $name, $requestedName)
+    public function canCreate(ContainerInterface $container, $requestedName)
     {
-        if ($serviceLocator instanceof AbstractPluginManager && $serviceLocator->getServiceLocator()) {
-            $serviceLocator = $serviceLocator->getServiceLocator();
-        }
-
-        $config = $this->getConfig($serviceLocator);
+        $config = $this->getConfig($container);
         if (empty($config)) {
             return false;
         }
@@ -69,33 +66,29 @@ class ModelAbstractServiceFactory implements AbstractFactoryInterface
             && isset($config[$requestedName]['datagateway'])
             && is_string($config[$requestedName]['datagateway'])
             && !empty($config[$requestedName]['datagateway'])
-            && $serviceLocator->has($config[$requestedName]['datagateway'])
+            && $container->has($config[$requestedName]['datagateway'])
             && isset($config[$requestedName]['resultset'])
             && is_string($config[$requestedName]['resultset'])
             && !empty($config[$requestedName]['resultset'])
-            && $serviceLocator->has($config[$requestedName]['resultset'])
+            && $container->has($config[$requestedName]['resultset'])
         );
     }
 
 
     /**
      * Create service with name
-     * @param ServiceLocatorInterface $serviceLocator
-     * @param                         $name
-     * @param                         $requestedName
-     * @return mixed
-     * @throws \Matryoshka\Model\Exception\UnexpectedValueException
+     *
+     * @param ContainerInterface $container
+     * @param string $requestedName
+     * @param array|null $options
+     * @return \Matryoshka\Model\Model|ObservableModel
      */
-    public function createServiceWithName(ServiceLocatorInterface $serviceLocator, $name, $requestedName)
+    public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
     {
-        if ($serviceLocator instanceof AbstractPluginManager && $serviceLocator->getServiceLocator()) {
-            $serviceLocator = $serviceLocator->getServiceLocator();
-        }
-
-        $config = $this->getConfig($serviceLocator)[$requestedName];
-        $dataGataway = $serviceLocator->get($config['datagateway']);
+        $config = $this->getConfig($container)[$requestedName];
+        $dataGataway = $container->get($config['datagateway']);
         /* @var $resultSetPrototype \Matryoshka\Model\ResultSet\ResultSetInterface */
-        $resultSetPrototype = $serviceLocator->get($config['resultset']);
+        $resultSetPrototype = $container->get($config['resultset']);
 
         if (isset($config['buffered_resultset']) && $config['buffered_resultset']) {
             /* @var $resultSetPrototype \Matryoshka\Model\ResultSet\AbstractResultSet */
@@ -122,7 +115,7 @@ class ModelAbstractServiceFactory implements AbstractFactoryInterface
         //Setup Hydrator
         $hydrator = null;
         if (!empty($config['hydrator']) && is_string($config['hydrator'])) {
-            $hydrator = $this->getHydratorByName($serviceLocator, $config['hydrator']);
+            $hydrator = $this->getHydratorByName($container, $config['hydrator']);
             $model->setHydrator($hydrator);
         }
 
@@ -132,27 +125,27 @@ class ModelAbstractServiceFactory implements AbstractFactoryInterface
 
         //Setup InputFilter
         if (!empty($config['input_filter']) && is_string($config['input_filter'])) {
-            $model->setInputFilter($this->getInputFilterByName($serviceLocator, $config['input_filter']));
+            $model->setInputFilter($this->getInputFilterByName($container, $config['input_filter']));
         }
 
         //Setup Paginator
         if (!empty($config['paginator_criteria']) && is_string($config['paginator_criteria'])) {
             $model->setPaginatorCriteria($this->getPaginatorCriteriaByName(
-                $serviceLocator,
+                $container,
                 $config['paginator_criteria']
             ));
         }
 
         //Setup Object Prototype
         if (!empty($config['object']) && is_string($config['object'])) {
-            $resultSetPrototype->setObjectPrototype($this->getObjectByName($serviceLocator, $config['object']));
+            $resultSetPrototype->setObjectPrototype($this->getObjectByName($container, $config['object']));
         }
 
         //Setup Prototype strategy
         if (!empty($config['prototype_strategy']) && is_string($config['prototype_strategy'])) {
             if ($resultSetPrototype instanceof PrototypeStrategyAwareInterface) {
                 $resultSetPrototype->setPrototypeStrategy(
-                    $this->getPrototypeStrategyByName($serviceLocator, $config['prototype_strategy'])
+                    $this->getPrototypeStrategyByName($container, $config['prototype_strategy'])
                 );
             }
         }
@@ -161,7 +154,7 @@ class ModelAbstractServiceFactory implements AbstractFactoryInterface
         if (!empty($config['listeners']) && is_array($config['listeners'])) {
             if ($model instanceof ObservableModel) {
                 /** @var $model ObservableModel */
-                $this->injectListeners($serviceLocator, $config['listeners'], $model);
+                $this->injectListeners($container, $config['listeners'], $model);
             } else {
                 throw new Exception\ServiceNotCreatedException(sprintf(
                     'Instance of model must be a subclass of "%s" in order to attach listeners',
@@ -174,24 +167,24 @@ class ModelAbstractServiceFactory implements AbstractFactoryInterface
     }
 
     /**
-     * @param ServiceLocatorInterface $serviceLocator
+     * @param ContainerInterface $container
      * @param array $listeners
      * @param ObservableModel $model
      * @throws Exception\ServiceNotCreatedException
      */
     protected function injectListeners(
-        ServiceLocatorInterface $serviceLocator,
+        ContainerInterface $container,
         array $listeners,
         ObservableModel $model
     ) {
         $eventManager = $model->getEventManager();
-        if ($serviceLocator->has('Matryoshka\Model\Listener\ListenerManager')) {
-            $serviceLocator = $serviceLocator->get('Matryoshka\Model\Listener\ListenerManager');
+        if ($container->has('Matryoshka\Model\Listener\ListenerManager')) {
+            $container = $container->get('Matryoshka\Model\Listener\ListenerManager');
         }
         foreach ($listeners as $listener) {
-            $listenerAggregate = $serviceLocator->get($listener);
+            $listenerAggregate = $container->get($listener);
             if ($listenerAggregate instanceof ListenerAggregateInterface) {
-                $eventManager->attach($listenerAggregate);
+                $listenerAggregate->attach($eventManager);
             } else {
                 throw new Exception\ServiceNotCreatedException(sprintf(
                     'Invalid service "%s" specified in "listeners" model configuration; must be an instance of "%s"',

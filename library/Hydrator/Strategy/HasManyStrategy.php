@@ -10,8 +10,8 @@ namespace Matryoshka\Model\Hydrator\Strategy;
 
 use ArrayObject;
 use Matryoshka\Model\Exception;
-use Zend\Stdlib\Hydrator\HydratorAwareInterface;
-use Zend\Stdlib\Hydrator\Strategy\StrategyInterface;
+use Zend\Hydrator\HydratorAwareInterface;
+use Zend\Hydrator\Strategy\StrategyInterface;
 use Matryoshka\Model\Object\PrototypeStrategy\PrototypeStrategyAwareTrait;
 use Matryoshka\Model\Object\PrototypeStrategy\PrototypeStrategyAwareInterface;
 
