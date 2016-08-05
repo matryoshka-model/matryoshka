@@ -252,10 +252,12 @@ class ModelAbstractServiceFactoryTest extends \PHPUnit_Framework_TestCase
         $domainObject = new DomainObject;
         $objectManager = new ObjectManager($serviceLocator);
         $objectManager->setService('DomainObject', $domainObject);
-        $serviceLocator->setService('Matryoshka\Model\Object\ObjectManager', $objectManager);
+        $serviceLocator->setService(ObjectManager::class, $objectManager);
 
         $modelFull = $serviceLocator->get('MyModel\Full');
         $this->assertSame($hydrator, $modelFull->getHydrator());
+        $this->assertSame($inputFilter, $modelFull->getInputFilter());
+        $this->assertSame($domainObject, $modelFull->getObjectPrototype());
 
         $listenerAggregate = $this->getMockForAbstractClass('Zend\EventManager\ListenerAggregateInterface', ['attach']);
         $listenerAggregate = $serviceLocator->get('ListenerAggregateMockedAsset');

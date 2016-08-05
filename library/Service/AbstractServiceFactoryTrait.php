@@ -48,14 +48,14 @@ trait AbstractServiceFactoryTrait
     /**
      * Retrieve object from service locator
      *
-     * @param ContainerInterface $serviceLocator
+     * @param ContainerInterface $container
      * @param $name
-     * @return object
+     * @return mixed
      */
     protected function getObjectByName(ContainerInterface $container, $name)
     {
         if ($container->has('Matryoshka\Model\Object\ObjectManager')) {
-            $serviceLocator = $container->get('Matryoshka\Model\Object\ObjectManager');
+            $container = $container->get('Matryoshka\Model\Object\ObjectManager');
         }
 
         return $container->get($name);
@@ -64,14 +64,14 @@ trait AbstractServiceFactoryTrait
     /**
      * Retrieve PaginableCriteriaInterface object from service locator
      *
-     * @param ContainerInterface $serviceLocator
+     * @param ContainerInterface $container
      * @param $name
      * @return PaginableCriteriaInterface
      * @throws Exception\ServiceNotCreatedException
      */
-    protected function getPaginatorCriteriaByName(ContainerInterface $serviceLocator, $name)
+    protected function getPaginatorCriteriaByName(ContainerInterface $container, $name)
     {
-        $criteria = $serviceLocator->get($name);
+        $criteria = $container->get($name);
         if (!$criteria instanceof PaginableCriteriaInterface) {
             throw new Exception\ServiceNotCreatedException(sprintf(
                 'Instance of type "%s" is invalid; must implement "%s"',
@@ -85,10 +85,9 @@ trait AbstractServiceFactoryTrait
     /**
      * Retrieve HydratorInterface object from service locator
      *
-     * @param ContainerInterface $serviceLocator
+     * @param ContainerInterface $container
      * @param $name
-     * @return HydratorInterface
-     * @throws Exception\RuntimeException
+     * @return mixed
      */
     protected function getHydratorByName(ContainerInterface $container, $name)
     {

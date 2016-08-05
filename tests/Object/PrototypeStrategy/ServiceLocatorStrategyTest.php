@@ -34,7 +34,12 @@ class ServiceLocatorStrategyTest extends \PHPUnit_Framework_TestCase
         );
 
         $sm = $this->serviceManager = new ServiceManager(
-            ['']
+            [
+                'shared' => [
+                    'MyDomainObject' => false,
+                    'MyDomainObjectWithModel' => false,
+                ]
+            ]
         );
 
         $sm->setAllowOverride(true);
@@ -58,24 +63,29 @@ class ServiceLocatorStrategyTest extends \PHPUnit_Framework_TestCase
         $strategy->setTypeField('type');
         $this->assertInstanceOf('\MatryoshkaTest\Model\Service\TestAsset\DomainObject', $object);
         $this->assertEquals($myDomainObject, $object);
+        $this->assertNotSame($myDomainObject, $object);
         $this->assertNull($object->getModel());
 
         $strategy->setCloneObject(true);
         $object = $strategy->createObject($myDomainObject, $data);
         $this->assertInstanceOf('\MatryoshkaTest\Model\Service\TestAsset\DomainObject', $object);
         $this->assertEquals($myDomainObject, $object);
+        $this->assertNotSame($myDomainObject, $object);
         $this->assertNull($object->getModel());
 
         $strategy->setValidateObject(true);
         $object = $strategy->createObject($myDomainObject, $data);
         $this->assertInstanceOf('\MatryoshkaTest\Model\Service\TestAsset\DomainObject', $object);
         $this->assertEquals($myDomainObject, $object);
+        $this->assertNotSame($myDomainObject, $object);
         $this->assertNull($object->getModel());
+
 
         $strategy->setValidateObject(true);
         $object = $strategy->createObject($myDomainObjectWithModel, $data);
         $this->assertInstanceOf('\MatryoshkaTest\Model\Service\TestAsset\DomainObject', $object);
         $this->assertEquals($myDomainObjectWithModel, $object);
+        $this->assertNotSame($myDomainObjectWithModel, $object);
         $this->assertSame($object->getModel(), $this->modelMock);
 
         $this->setExpectedException('\Matryoshka\Model\Exception\ErrorException');

@@ -21,10 +21,12 @@ use Zend\ServiceManager\ConfigInterface;
 class ObjectManager extends AbstractPluginManager
 {
     /**
-     * Share by default
+     * Whether or not to share by default (v3)
+     *
      * @var bool
      */
-    protected $shareByDefault = false;
+    protected $sharedByDefault = false;
+
 
     /**
      * {@inheritdoc}
